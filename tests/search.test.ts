@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createPlaceSearch } from '../src/features/search/searchIndex'
+import { getSharedPlaceSearch } from '../src/features/search/usePlaceSearch'
 import { CATEGORY_THEME } from '../src/features/themes/themes'
 import type { CategoryId, Place } from '../src/types/place'
 
@@ -64,5 +65,17 @@ describe('regional discovery', () => {
     ])
     expect(search('').map((p) => p.id)).toEqual(['trail-1', 'park-1', 'town-b'])
     expect(search('   ').map((p) => p.id)).toEqual(['trail-1', 'park-1', 'town-b'])
+  })
+})
+
+describe('shared place search', () => {
+  it('returns the same search for the same places array and a new one for a new array', () => {
+    const places = [sample('park-1', 'Hemlock Example Preserve')]
+    const first = getSharedPlaceSearch(places)
+    expect(getSharedPlaceSearch(places)).toBe(first)
+    const next = [...places]
+    const second = getSharedPlaceSearch(next)
+    expect(second).not.toBe(first)
+    expect(getSharedPlaceSearch(next)).toBe(second)
   })
 })

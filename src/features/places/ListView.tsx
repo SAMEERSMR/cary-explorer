@@ -1,18 +1,18 @@
 // Accessible list of places in the active themes: name order, or relevance order while searching.
 import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { createPlaceSearch } from '../search/searchIndex'
+import { usePlaceSearch } from '../search/usePlaceSearch'
 import { categoryLabel, getTheme } from '../themes/themes'
 import { usePlaces } from './usePlaces'
 
 export function ListView() {
-  const { places, status, retry } = usePlaces()
+  const { status, retry } = usePlaces()
   const activeThemes = useAppStore((s) => s.activeThemes)
   const query = useAppStore((s) => s.searchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setSheetState = useAppStore((s) => s.setSheetState)
 
-  const search = useMemo(() => createPlaceSearch(places), [places])
+  const search = usePlaceSearch()
   // Empty query yields name order; otherwise keep the search's relevance order.
   const rows = useMemo(
     () => search(query, { themes: activeThemes }, Infinity),

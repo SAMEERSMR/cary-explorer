@@ -1,10 +1,20 @@
-// Catalogue of the five themes that places are grouped under.
+// Catalogue of the five themes that places are grouped under, each with its map/UI colour.
 import type { ThemeId } from '../../types/place'
 
-export const THEMES: readonly { id: ThemeId; label: string }[] = [
-  { id: 'parks-trails', label: 'Parks & trails' },
-  { id: 'history', label: 'History' },
-  { id: 'birds-wildlife', label: 'Birds & wildlife' },
-  { id: 'water', label: 'Water' },
-  { id: 'art-community', label: 'Art & community' },
+export interface Theme {
+  id: ThemeId
+  label: string
+  color: string
+}
+
+export const THEMES: readonly Theme[] = [
+  { id: 'parks-trails', label: 'Parks & trails', color: '#2e8b4f' },
+  { id: 'history', label: 'History', color: '#a0522d' },
+  { id: 'birds-wildlife', label: 'Birds & wildlife', color: '#d98a00' },
+  { id: 'water', label: 'Water', color: '#1f6fd1' },
+  { id: 'art-community', label: 'Art & community', color: '#9b3fb5' },
 ]
+
+export function getTheme(id: ThemeId): Theme {
+  return THEMES.find((t) => t.id === id) ?? THEMES[0]
+}

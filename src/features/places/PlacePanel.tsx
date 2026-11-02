@@ -1,4 +1,8 @@
-// Placeholder place detail panel, shown until a place is selected.
+// Place panel entry point: side panel on desktop, bottom sheet on mobile.
+import { useIsDesktop } from '../../lib/useIsDesktop'
+import { DesktopPanel } from './DesktopPanel'
+import { MobilePanel } from './MobilePanel'
+
 export function PlacePanel() {
-  return <p className="text-sm text-neutral-500">Select a place</p>
+  return useIsDesktop() ? <DesktopPanel /> : <MobilePanel />
 }

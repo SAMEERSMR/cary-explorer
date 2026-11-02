@@ -1,15 +1,13 @@
 // Search combobox over the full catalog, limited to active themes, with full ARIA combobox keyboard support.
 import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { usePlaces } from '../places/usePlaces'
 import { useIsDesktop } from '../../lib/useIsDesktop'
 import { categoryLabel, getTheme } from '../themes/themes'
-import { createPlaceSearch } from './searchIndex'
+import { usePlaceSearch } from './usePlaceSearch'
 
 const MAX_RESULTS = 8
 
 export function SearchBox() {
-  const { places } = usePlaces()
   const activeThemes = useAppStore((s) => s.activeThemes)
   const query = useAppStore((s) => s.searchQuery)
   const setSearchQuery = useAppStore((s) => s.setSearchQuery)
@@ -22,7 +20,7 @@ export function SearchBox() {
   const baseId = useId()
   const listId = `${baseId}-list`
 
-  const search = useMemo(() => createPlaceSearch(places), [places])
+  const search = usePlaceSearch()
   const results = useMemo(
     () => (query.trim() ? search(query, { themes: activeThemes }, MAX_RESULTS) : []),
     [search, query, activeThemes],

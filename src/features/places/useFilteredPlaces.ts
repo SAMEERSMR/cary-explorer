@@ -10,5 +10,5 @@ export function useFilteredPlaces() {
     () => places.filter((p) => activeThemes.includes(p.theme)),
     [places, activeThemes],
   )
-  return { places: filtered, status, retry }
+  return useMemo(() => ({ places: filtered, status, retry }), [filtered, status, retry])
 }

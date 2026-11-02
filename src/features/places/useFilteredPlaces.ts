@@ -4,11 +4,11 @@ import { useAppStore } from '../../store/useAppStore'
 import { usePlaces } from './usePlaces'
 
 export function useFilteredPlaces() {
-  const { places, status } = usePlaces()
+  const { places, status, retry } = usePlaces()
   const activeThemes = useAppStore((s) => s.activeThemes)
   const filtered = useMemo(
     () => places.filter((p) => activeThemes.includes(p.theme)),
     [places, activeThemes],
   )
-  return { places: filtered, status }
+  return { places: filtered, status, retry }
 }

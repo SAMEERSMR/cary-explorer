@@ -1,15 +1,16 @@
-// Search combobox: filters places in active themes (exact matches first, then fuzzy) with keyboard support.
+// Search combobox over the full catalog, limited to active themes, with full ARIA combobox keyboard support.
 import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { useFilteredPlaces } from '../places/useFilteredPlaces'
+import { usePlaces } from '../places/usePlaces'
 import { useIsDesktop } from '../../lib/useIsDesktop'
-import { getTheme } from '../themes/themes'
-import { buildSearchIndex, searchPlaces } from './searchIndex'
+import { categoryLabel, getTheme } from '../themes/themes'
+import { createPlaceSearch } from './searchIndex'
 
 const MAX_RESULTS = 8
 
 export function SearchBox() {
-  const { places } = useFilteredPlaces()
+  const { places } = usePlaces()
+  const activeThemes = useAppStore((s) => s.activeThemes)
   const query = useAppStore((s) => s.searchQuery)
   const setSearchQuery = useAppStore((s) => s.setSearchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
@@ -21,10 +22,10 @@ export function SearchBox() {
   const baseId = useId()
   const listId = `${baseId}-list`
 
-  const index = useMemo(() => buildSearchIndex(places), [places])
+  const search = useMemo(() => createPlaceSearch(places), [places])
   const results = useMemo(
-    () => searchPlaces(index, places, query).slice(0, MAX_RESULTS),
-    [index, places, query],
+    () => (query.trim() ? search(query, { themes: activeThemes }, MAX_RESULTS) : []),
+    [search, query, activeThemes],
   )
 
   const hasQuery = query.trim() !== ''
@@ -110,7 +111,12 @@ export function SearchBox() {
               className="h-2.5 w-2.5 shrink-0 rounded-full"
               style={{ backgroundColor: getTheme(place.theme).color }}
             />
-            <span className="min-w-0 truncate">{place.name}</span>
+            <span className="min-w-0">
+              <span className="block truncate">{place.name}</span>
+              <span className="block truncate text-xs text-neutral-600">
+                {categoryLabel[place.category]} · {place.municipality}
+              </span>
+            </span>
           </li>
         ))}
       </ul>
@@ -120,7 +126,7 @@ export function SearchBox() {
         </div>
       )}
       <div role="status" className="sr-only">
-        {hasQuery ? `${results.length} results` : ''}
+        {hasQuery ? (results.length === 1 ? '1 result' : `${results.length} results`) : ''}
       </div>
     </div>
   )

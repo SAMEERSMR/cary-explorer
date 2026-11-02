@@ -6,3 +6,19 @@ body,
 #root {
   height: 100%;
 }
+
+/* Fallback focus ring for any control that does not set its own. */
+:focus-visible {
+  outline: 3px solid #165dce;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

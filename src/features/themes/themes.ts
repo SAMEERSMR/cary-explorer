@@ -1,5 +1,5 @@
 // Catalogue of the five themes that places are grouped under, each with its map/UI colour.
-import type { ThemeId } from '../../types/place'
+import type { CategoryId, ThemeId } from '../../types/place'
 
 export interface Theme {
   id: ThemeId
@@ -17,4 +17,26 @@ export const THEMES: readonly Theme[] = [
 
 export function getTheme(id: ThemeId): Theme {
   return THEMES.find((t) => t.id === id) ?? THEMES[0]
+}
+
+export const CATEGORY_THEME: Record<CategoryId, ThemeId> = {
+  park: 'parks-trails',
+  trail: 'parks-trails',
+  history: 'history',
+  wildlife: 'birds-wildlife',
+  water: 'water',
+  art: 'art-community',
+  community: 'art-community',
+  'fire-station': 'art-community',
+}
+
+export const categoryLabel: Record<CategoryId, string> = {
+  park: 'Park',
+  trail: 'Trail',
+  history: 'History',
+  wildlife: 'Wildlife',
+  water: 'Water',
+  art: 'Art',
+  community: 'Community',
+  'fire-station': 'Fire station',
 }

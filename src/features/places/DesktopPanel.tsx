@@ -7,7 +7,7 @@ import { ViewToggle } from './ViewToggle'
 export function DesktopPanel() {
   return (
     <aside
-      aria-label="Place explorer"
+      aria-label="Explore places"
       className="absolute inset-y-0 left-0 z-20 flex w-[380px] flex-col border-r border-neutral-200 bg-white shadow-lg"
     >
       <div className="relative z-10 shrink-0 space-y-3 p-4">

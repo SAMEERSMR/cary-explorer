@@ -1,52 +1,66 @@
-// Loads the places catalogue once (module-level cache) and exposes it with a loading status.
-import { useEffect, useState } from 'react'
-import type { Place } from '../../types/place'
-
-// Swap this URL for the real catalogue when it exists.
-const PLACES_URL = '/data/sample-places.json'
+// Loads the validated places catalogue (module-level cache of the last success) with a loading status.
+import { useCallback, useEffect, useState } from 'react'
+import type { Place, Source } from '../../types/place'
+import { CATALOG_URL, loadCatalog, type Catalog } from './catalog'
 
 type Status = 'loading' | 'ready' | 'error'
 interface PlacesState {
   places: Place[]
+  sources: Source[]
   status: Status
+  error?: string
+}
+export interface PlacesResult extends PlacesState {
+  retry: () => void
 }
 
 const NO_PLACES: Place[] = []
-let loaded: Place[] | null = null
-let request: Promise<Place[]> | null = null
+const NO_SOURCES: Source[] = []
+const LOADING: PlacesState = { places: NO_PLACES, sources: NO_SOURCES, status: 'loading' }
 
-function loadPlaces(): Promise<Place[]> {
-  request ??= fetch(PLACES_URL)
-    .then((res) => {
-      if (!res.ok) throw new Error(`Failed to load places: ${res.status}`)
-      return res.json() as Promise<Place[]>
-    })
-    .then((places) => {
-      loaded = places
-      return places
-    })
-    .catch((err) => {
-      request = null
-      throw err
-    })
-  return request
+// Only a successful load is cached; failures and aborted loads are retried on the next mount.
+let cached: PlacesState | null = null
+const listeners = new Set<(state: PlacesState) => void>()
+
+function remember(catalog: Catalog): PlacesState {
+  cached = { places: catalog.places, sources: catalog.sources, status: 'ready' }
+  // Let every mounted hook (e.g. map and list) recover when any one of them succeeds.
+  listeners.forEach((notify) => notify(cached as PlacesState))
+  return cached
 }
 
-export function usePlaces(): PlacesState {
-  const [state, setState] = useState<PlacesState>(
-    loaded ? { places: loaded, status: 'ready' } : { places: NO_PLACES, status: 'loading' },
-  )
+const isAbort = (err: unknown) => err instanceof DOMException && err.name === 'AbortError'
+
+export function usePlaces(): PlacesResult {
+  const [state, setState] = useState<PlacesState>(cached ?? LOADING)
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
-    if (loaded) return
-    let cancelled = false
-    loadPlaces()
-      .then((places) => !cancelled && setState({ places, status: 'ready' }))
-      .catch(() => !cancelled && setState({ places: NO_PLACES, status: 'error' }))
+    listeners.add(setState)
     return () => {
-      cancelled = true
+      listeners.delete(setState)
     }
   }, [])
 
-  return state
+  useEffect(() => {
+    if (cached) return
+    const controller = new AbortController()
+    loadCatalog(CATALOG_URL, controller.signal)
+      .then((catalog) => {
+        if (!controller.signal.aborted) remember(catalog)
+      })
+      .catch((err: unknown) => {
+        if (controller.signal.aborted || isAbort(err)) return
+        const error = err instanceof Error ? err.message : 'Could not load places.'
+        setState({ places: NO_PLACES, sources: NO_SOURCES, status: 'error', error })
+      })
+    return () => controller.abort()
+  }, [attempt])
+
+  const retry = useCallback(() => {
+    setState(LOADING)
+    setAttempt((n) => n + 1)
+  }, [])
+
+  return { ...state, retry }
 }

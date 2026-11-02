@@ -7,7 +7,12 @@ import { ViewToggle } from './ViewToggle'
 import { useSelectedPlace } from './useSelectedPlace'
 
 const NEXT_STATE: Record<SheetState, SheetState> = { peek: 'half', half: 'full', full: 'peek' }
-const HEIGHT: Record<SheetState, string> = { peek: 'h-24', half: 'h-[50dvh]', full: 'h-[90dvh]' }
+// The peek height adds the bottom safe-area inset so the header row is not squeezed on notched phones.
+const HEIGHT: Record<SheetState, string> = {
+  peek: 'h-[calc(6rem+env(safe-area-inset-bottom))]',
+  half: 'h-[50dvh]',
+  full: 'h-[90dvh]',
+}
 const HANDLE_LABEL: Record<SheetState, string> = {
   peek: 'Expand details to half height',
   half: 'Expand details to full height',
@@ -21,6 +26,8 @@ export function MobilePanel() {
 
   return (
     <>
+      <h1 className="sr-only">Cary Explorer</h1>
+
       {/* The sheet covers this bar when full, so hide it from sight and the tab order. */}
       <div
         className={`absolute inset-x-0 top-0 z-20 space-y-1 p-3 ${sheetState === 'full' ? 'invisible' : ''}`}
@@ -30,8 +37,8 @@ export function MobilePanel() {
       </div>
 
       <section
-        aria-label="Place details"
-        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-2xl bg-white shadow-[0_-4px_16px_rgba(0,0,0,0.15)] transition-[height] duration-300 motion-reduce:transition-none ${HEIGHT[sheetState]}`}
+        aria-label="Explore places"
+        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_16px_rgba(0,0,0,0.15)] transition-[height] duration-300 motion-reduce:transition-none ${HEIGHT[sheetState]}`}
       >
         <button
           type="button"

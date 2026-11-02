@@ -4,9 +4,9 @@ import { PlacePanel } from '../features/places/PlacePanel'
 
 export default function App() {
   return (
-    <div className="relative h-dvh w-screen overflow-hidden">
+    <main className="relative h-dvh w-screen overflow-hidden">
       <MapView />
       <PlacePanel />
-    </div>
+    </main>
   )
 }

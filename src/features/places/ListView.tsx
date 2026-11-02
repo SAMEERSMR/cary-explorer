@@ -1,21 +1,23 @@
-// Accessible list of places in the active themes, sorted by name and filtered by the search query.
+// Accessible list of places in the active themes: name order, or relevance order while searching.
 import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { buildSearchIndex, searchPlaces } from '../search/searchIndex'
-import { getTheme } from '../themes/themes'
-import { useFilteredPlaces } from './useFilteredPlaces'
+import { createPlaceSearch } from '../search/searchIndex'
+import { categoryLabel, getTheme } from '../themes/themes'
+import { usePlaces } from './usePlaces'
 
 export function ListView() {
-  const { places, status } = useFilteredPlaces()
+  const { places, status, retry } = usePlaces()
+  const activeThemes = useAppStore((s) => s.activeThemes)
   const query = useAppStore((s) => s.searchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setSheetState = useAppStore((s) => s.setSheetState)
 
-  const index = useMemo(() => buildSearchIndex(places), [places])
-  const rows = useMemo(() => {
-    const matches = query.trim() ? searchPlaces(index, places, query) : places
-    return [...matches].sort((a, b) => a.name.localeCompare(b.name))
-  }, [index, places, query])
+  const search = useMemo(() => createPlaceSearch(places), [places])
+  // Empty query yields name order; otherwise keep the search's relevance order.
+  const rows = useMemo(
+    () => search(query, { themes: activeThemes }, Infinity),
+    [search, query, activeThemes],
+  )
 
   if (rows.length === 0) {
     const text =
@@ -24,7 +26,20 @@ export function ListView() {
         : status === 'error'
           ? 'Could not load places.'
           : 'No places match your search or selected themes.'
-    return <p className="text-sm text-neutral-600">{text}</p>
+    return (
+      <div className="space-y-2">
+        <p className="text-sm text-neutral-600">{text}</p>
+        {status === 'error' && (
+          <button
+            type="button"
+            onClick={retry}
+            className="min-h-11 rounded-lg border border-neutral-300 px-4 text-sm font-medium hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          >
+            Try again
+          </button>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -47,7 +62,9 @@ export function ListView() {
             />
             <span className="min-w-0 flex-1">
               <span className="block truncate text-sm font-medium">{place.name}</span>
-              {place.town && <span className="block text-xs text-neutral-600">{place.town}</span>}
+              <span className="block truncate text-xs text-neutral-600">
+                {categoryLabel[place.category]} · {place.municipality}
+              </span>
             </span>
           </button>
         </li>

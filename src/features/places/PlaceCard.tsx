@@ -24,6 +24,9 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const isSample = place.sourceIds.includes('sample')
   const location = [place.municipality, place.county].filter(Boolean).join(' · ')
+  // Hide the category label when it repeats the theme chip (e.g. "History" / "History").
+  const categoryName = categoryLabel[place.category]
+  const showCategory = categoryName.toLowerCase() !== theme.label.toLowerCase()
 
   // Move focus to the name whenever a place is selected so keyboard and screen reader users land on the card.
   useEffect(() => {
@@ -66,7 +69,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
           />
           {theme.label}
         </span>
-        <span className="font-medium text-neutral-800">{categoryLabel[place.category]}</span>
+        {showCategory && <span className="font-medium text-neutral-800">{categoryName}</span>}
         {isSample && (
           <span className="rounded-full bg-amber-100 px-2.5 py-1 font-medium text-amber-900">
             Sample data

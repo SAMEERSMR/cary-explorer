@@ -19,6 +19,8 @@ import { usePlaces } from '../places/usePlaces'
 import { getTheme } from '../themes/themes'
 import type { ThemeId } from '../../types/place'
 import { createBasemapLayer } from './basemap'
+import { MapNotes } from './MapNotes'
+import { reportMapInitFailed, reportTileEvent, resetMapStatus } from './mapStatus'
 
 // Cary, NC as [lon, lat]
 const CARY_CENTER: [number, number] = [-78.7811, 35.7915]
@@ -124,16 +126,25 @@ export function MapView() {
         styleFor(feature.get('theme') as ThemeId, feature.getId() === selectedIdRef.current),
     })
 
-    const map = new OLMap({
-      target: container,
-      // Attribution stays uncollapsed so the OSM credit is always visible.
-      controls: defaultControls({ attributionOptions: { collapsible: false } }),
-      layers: [createBasemapLayer(), placesLayer],
-      view: new View({
-        center: fromLonLat(CARY_CENTER),
-        zoom: 12,
-      }),
-    })
+    resetMapStatus()
+    let map: OLMap
+    try {
+      map = new OLMap({
+        target: container,
+        // Attribution stays uncollapsed so the OSM credit is always visible.
+        controls: defaultControls({ attributionOptions: { collapsible: false } }),
+        layers: [createBasemapLayer(reportTileEvent), placesLayer],
+        view: new View({
+          center: fromLonLat(CARY_CENTER),
+          zoom: 12,
+        }),
+      })
+    } catch (err) {
+      // The map is optional: search, list and card keep working without it.
+      console.error('Map failed to initialise', err)
+      reportMapInitFailed()
+      return
+    }
 
     const pickOptions = {
       hitTolerance: HIT_TOLERANCE_PX,
@@ -165,6 +176,7 @@ export function MapView() {
       flownIdRef.current = null
       map.setTarget(undefined)
       map.dispose()
+      resetMapStatus()
     }
   }, [])
 
@@ -208,12 +220,15 @@ export function MapView() {
   }, [selectedPlaceId, allPlaces, isDesktop])
 
   return (
-    <div
-      ref={containerRef}
-      role="region"
-      aria-label="Places map; all places are also available in the list view"
-      tabIndex={0}
-      className="absolute inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600"
-    />
+    <div className="absolute inset-0">
+      <div
+        ref={containerRef}
+        role="region"
+        aria-label="Places map; all places are also available in the list view"
+        tabIndex={0}
+        className="absolute inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600"
+      />
+      <MapNotes />
+    </div>
   )
 }

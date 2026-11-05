@@ -10,7 +10,7 @@ export interface Theme {
 export const THEMES: readonly Theme[] = [
   { id: 'parks-trails', label: 'Parks & trails', color: '#2e8b4f' },
   { id: 'history', label: 'History', color: '#a0522d' },
-  { id: 'birds-wildlife', label: 'Birds & wildlife', color: '#d98a00' },
+  { id: 'birds-wildlife', label: 'Birds & wildlife', color: '#b87000' },
   { id: 'water', label: 'Water', color: '#1f6fd1' },
   { id: 'art-community', label: 'Art & community', color: '#9b3fb5' },
 ]

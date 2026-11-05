@@ -1,8 +1,8 @@
 // Search combobox over the full catalog, limited to active themes, with full ARIA combobox keyboard support.
 import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { useIsDesktop } from '../../lib/useIsDesktop'
 import { categoryLabel, getTheme } from '../themes/themes'
+import { usePlaces } from '../places/usePlaces'
 import { usePlaceSearch } from './usePlaceSearch'
 
 const MAX_RESULTS = 8
@@ -13,7 +13,6 @@ export function SearchBox() {
   const setSearchQuery = useAppStore((s) => s.setSearchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setView = useAppStore((s) => s.setView)
-  const isDesktop = useIsDesktop()
 
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -21,6 +20,7 @@ export function SearchBox() {
   const listId = `${baseId}-list`
 
   const search = usePlaceSearch()
+  const { status, retry } = usePlaces()
   const results = useMemo(
     () => (query.trim() ? search(query, { themes: activeThemes }, MAX_RESULTS) : []),
     [search, query, activeThemes],
@@ -28,6 +28,17 @@ export function SearchBox() {
 
   const hasQuery = query.trim() !== ''
   const expanded = open && results.length > 0
+  const noThemes = activeThemes.length === 0
+  // Why the results area is empty. Loading and failure take priority over "No places found".
+  const emptyMessage =
+    status === 'loading'
+      ? 'Loading places…'
+      : status === 'error'
+        ? "Couldn't load places."
+        : noThemes
+          ? 'No themes selected'
+          : 'No places found'
+  const showEmpty = hasQuery && results.length === 0 && (status === 'error' || open)
   const active = Math.min(activeIndex, results.length - 1)
   const optionId = (i: number) => `${baseId}-opt-${i}`
 
@@ -37,7 +48,7 @@ export function SearchBox() {
     setSelectedPlaceId(place.id)
     setSearchQuery('')
     setOpen(false)
-    if (!isDesktop) setView('map')
+    setView('map')
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -118,13 +129,28 @@ export function SearchBox() {
           </li>
         ))}
       </ul>
-      {open && hasQuery && results.length === 0 && (
+      {showEmpty && (
         <div className="absolute inset-x-0 top-full z-30 mt-1 rounded-lg border border-neutral-200 bg-white px-3 py-3 text-sm text-neutral-600 shadow-lg">
-          No places found
+          <p>{emptyMessage}</p>
+          {status === 'error' && (
+            <button
+              type="button"
+              onClick={retry}
+              className="mt-2 min-h-11 rounded-lg border border-neutral-400 bg-white px-4 text-sm font-medium text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            >
+              Try again
+            </button>
+          )}
         </div>
       )}
       <div role="status" className="sr-only">
-        {hasQuery ? (results.length === 1 ? '1 result' : `${results.length} results`) : ''}
+        {!hasQuery
+          ? ''
+          : results.length === 0
+            ? emptyMessage
+            : results.length === 1
+              ? '1 result'
+              : `${results.length} results`}
       </div>
     </div>
   )

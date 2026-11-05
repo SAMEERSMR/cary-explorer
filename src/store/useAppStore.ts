@@ -39,12 +39,12 @@ export const useAppStore = create<AppState>()((set) => ({
         : [...s.activeThemes, id],
     })),
   setSearchQuery: (query) => set({ searchQuery: query }),
+  // Switching views keeps the selection: the list highlights it and the map shows its card.
   setView: (view) =>
     set((s) => ({
       view,
       // On mobile the list lives in the sheet, so opening it shows it in full.
       sheetState: view === 'list' ? 'full' : s.sheetState === 'full' ? 'half' : s.sheetState,
-      selectedPlaceId: view === 'list' ? null : s.selectedPlaceId,
     })),
   setSheetState: (sheetState) => set({ sheetState }),
 }))

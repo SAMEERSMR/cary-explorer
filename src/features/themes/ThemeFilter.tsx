@@ -23,7 +23,7 @@ export function ThemeFilter() {
             className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 ${
               pressed
                 ? 'border-neutral-900 bg-neutral-900 text-white'
-                : 'border-neutral-300 bg-white text-neutral-700'
+                : 'border-neutral-500 bg-white text-neutral-700'
             }`}
           >
             <span

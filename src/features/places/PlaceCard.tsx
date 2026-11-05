@@ -1,8 +1,15 @@
 // Detail card for one place: name, category and theme, location, description, address, sources and a close button.
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useAppStore } from '../../store/useAppStore'
 import type { Place } from '../../types/place'
 import { categoryLabel, getTheme } from '../themes/themes'
 import { publicUrl } from './catalog'
+import {
+  MAP_SELECTOR,
+  SEARCH_SELECTOR,
+  captureFocusOrigin,
+  chooseFocusTarget,
+} from './focusReturn'
 import { usePlaces } from './usePlaces'
 
 interface PlaceCardProps {
@@ -28,15 +35,36 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const categoryName = categoryLabel[place.category]
   const showCategory = categoryName.toLowerCase() !== theme.label.toLowerCase()
 
+  // Remember what had focus when this place became selected (before the heading takes it).
+  // PanelBody keys the card by place id, so this runs once per selection, before the heading takes focus.
+  const [origin] = useState(captureFocusOrigin)
+
   // Move focus to the name whenever a place is selected so keyboard and screen reader users land on the card.
   useEffect(() => {
     headingRef.current?.focus()
   }, [place.id])
 
   function handleClose() {
+    const { element, rowPlaceId, fromMap } = origin
+    const target = chooseFocusTarget({
+      rememberedConnected: element?.isConnected ?? false,
+      rememberedWasListRow: rowPlaceId !== null,
+      fromMap,
+    })
     onClose()
-    // The card unmounts once the selection clears, so return focus to the search input.
-    document.querySelector<HTMLInputElement>('[role="combobox"]')?.focus()
+    // The card unmounts once the selection clears, so move focus explicitly.
+    if (target === 'remembered') element?.focus()
+    else if (target === 'row' && rowPlaceId !== null) {
+      // The row is not rendered in map view: go back to the list, then focus the row after it renders.
+      useAppStore.getState().setView('list')
+      requestAnimationFrame(() => {
+        const row = document.querySelector<HTMLElement>(
+          `[data-place-id="${CSS.escape(rowPlaceId)}"]`,
+        )
+        ;(row ?? document.querySelector<HTMLElement>(SEARCH_SELECTOR))?.focus()
+      })
+    } else if (target === 'map') document.querySelector<HTMLElement>(MAP_SELECTOR)?.focus()
+    else document.querySelector<HTMLElement>(SEARCH_SELECTOR)?.focus()
   }
 
   return (
@@ -61,7 +89,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-sm">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-2.5 py-1">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-500 px-2.5 py-1">
           <span
             aria-hidden="true"
             className="h-2.5 w-2.5 rounded-full"

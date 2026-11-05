@@ -14,7 +14,7 @@ export function ViewToggle() {
     <div
       role="group"
       aria-label="View"
-      className="inline-flex overflow-hidden rounded-lg border border-neutral-300"
+      className="inline-flex overflow-hidden rounded-lg border border-neutral-500"
     >
       {OPTIONS.map((o) => (
         <button

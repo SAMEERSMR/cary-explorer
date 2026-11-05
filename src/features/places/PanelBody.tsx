@@ -9,7 +9,8 @@ export function PanelBody() {
   const view = useAppStore((s) => s.view)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
 
-  if (selected) return <PlaceCard place={selected} onClose={() => setSelectedPlaceId(null)} />
+  // The list view shows the list even when a place is selected (its row is highlighted); the card shows in map view.
   if (view === 'list') return <ListView />
+  if (selected) return <PlaceCard key={selected.id} place={selected} onClose={() => setSelectedPlaceId(null)} />
   return <p className="text-sm text-neutral-600">Select a place on the map or search</p>
 }

@@ -6,6 +6,8 @@ import { PanelBody } from './PanelBody'
 import { ViewToggle } from './ViewToggle'
 import { useSelectedPlace } from './useSelectedPlace'
 
+// The content wrapper is always in the DOM (hidden at peek) so aria-controls always points at a real element.
+const CONTENT_ID = 'place-sheet-content'
 const NEXT_STATE: Record<SheetState, SheetState> = { peek: 'half', half: 'full', full: 'peek' }
 // The peek height adds the bottom safe-area inset so the header row is not squeezed on notched phones.
 const HEIGHT: Record<SheetState, string> = {
@@ -44,10 +46,11 @@ export function MobilePanel() {
           type="button"
           aria-label={HANDLE_LABEL[sheetState]}
           aria-expanded={sheetState !== 'peek'}
+          aria-controls={CONTENT_ID}
           onClick={() => setSheetState(NEXT_STATE[sheetState])}
           className="flex h-11 w-full shrink-0 items-center justify-center rounded-t-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
         >
-          <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-neutral-400" />
+          <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-neutral-500" />
         </button>
 
         <div className="flex shrink-0 items-center justify-between gap-3 px-4">
@@ -59,11 +62,9 @@ export function MobilePanel() {
           <ViewToggle />
         </div>
 
-        {sheetState !== 'peek' && (
-          <div className="flex-1 overflow-y-auto p-4">
-            <PanelBody />
-          </div>
-        )}
+        <div id={CONTENT_ID} hidden={sheetState === 'peek'} className="flex-1 overflow-y-auto p-4">
+          {sheetState !== 'peek' && <PanelBody />}
+        </div>
       </section>
     </>
   )

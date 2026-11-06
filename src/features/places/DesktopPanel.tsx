@@ -2,6 +2,7 @@
 import { CategoryIcon } from '../themes/CategoryIcon'
 import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
+import { DESKTOP_PANEL_WIDTH } from '../../lib/layout'
 import { PanelBody } from './PanelBody'
 import { ViewToggle } from './ViewToggle'
 
@@ -9,7 +10,8 @@ export function DesktopPanel() {
   return (
     <aside
       aria-label="Explore places"
-      className="absolute inset-y-0 left-0 z-20 flex w-[400px] flex-col border-r border-line bg-panel shadow-lg"
+      className="absolute inset-y-0 left-0 z-20 flex flex-col border-r border-line bg-panel shadow-lg"
+      style={{ width: DESKTOP_PANEL_WIDTH }}
     >
       <div className="relative z-10 flex shrink-0 flex-col gap-5 border-b border-line px-6 pt-6 pb-5">
         <div className="flex items-center gap-3">

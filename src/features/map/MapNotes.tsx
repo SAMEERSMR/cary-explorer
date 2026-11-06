@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
+import { DESKTOP_PANEL_WIDTH } from '../../lib/layout'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import { THEMES } from '../themes/themes'
@@ -104,14 +105,16 @@ export function MapNotes() {
       </Card>
     ) : null
 
-  // Desktop: the visible map is right of the 380px side panel. Mobile: below the search bar and chips (~128px).
-  const position = isDesktop ? 'left-[396px] right-4 top-4' : 'inset-x-4 top-[128px]'
+  // Desktop: the visible map starts 16px right of the side panel. Mobile: below the search bar and chips (~128px).
+  const position = isDesktop ? 'right-4 top-4' : 'inset-x-4 top-[128px]'
+  const desktopOffset = isDesktop ? { left: DESKTOP_PANEL_WIDTH + 16 } : undefined
 
   return (
     <div
       role="status"
       aria-live="polite"
       className={`pointer-events-none absolute z-10 flex flex-col items-center gap-2 ${position}`}
+      style={desktopOffset}
     >
       {mapNote}
       {catalogNote}

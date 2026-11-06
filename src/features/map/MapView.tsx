@@ -17,6 +17,7 @@ import { fromLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
 import type { SheetState } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
+import { DESKTOP_PANEL_WIDTH } from '../../lib/layout'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import type { CategoryId, ThemeId } from '../../types/place'
@@ -53,9 +54,9 @@ function sheetHeightPx(state: SheetState): number {
   }
 }
 
-// Desktop: the side panel covers the left 380px. Mobile: keep clear of the top edge and the bottom sheet.
+// Desktop: the side panel covers the left DESKTOP_PANEL_WIDTH px. Mobile: keep clear of the top edge and the bottom sheet.
 function selectionPadding(isDesktop: boolean, sheetState: SheetState): Padding {
-  if (isDesktop) return [40, 40, 40, 380 + 40]
+  if (isDesktop) return [40, 40, 40, DESKTOP_PANEL_WIDTH + 40]
   return [120, 24, sheetHeightPx(sheetState) + 24, 24]
 }
 

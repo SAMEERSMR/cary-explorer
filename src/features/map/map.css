@@ -40,10 +40,10 @@
   margin: 1px 0 0;
 }
 
-/* Desktop: the side panel covers the left 380px, so keep the scale line clear of it. */
+/* Desktop: the side panel covers the left 400px (DESKTOP_PANEL_WIDTH in src/lib/layout.ts), so keep the scale line clear of it. Keep in sync: 400 + 16. */
 @media (min-width: 768px) {
   .cary-map .ol-scale-line {
-    left: 396px;
+    left: 416px;
   }
 }
 

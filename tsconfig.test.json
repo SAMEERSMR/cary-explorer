@@ -5,6 +5,7 @@
     "module": "esnext",
     "types": ["node"],
     "skipLibCheck": true,
+    "strict": true,
 
     /* Bundler mode, matching the app so src imports resolve the same way */
     "moduleResolution": "bundler",

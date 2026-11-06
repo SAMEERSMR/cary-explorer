@@ -1,6 +1,7 @@
 // Search combobox over the full catalog, limited to active themes, with full ARIA combobox keyboard support.
 import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
+import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel, getTheme } from '../themes/themes'
 import { usePlaces } from '../places/usePlaces'
 import { usePlaceSearch } from './usePlaceSearch'
@@ -74,6 +75,20 @@ export function SearchBox() {
       <label htmlFor={`${baseId}-input`} className="sr-only">
         Search places
       </label>
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-ink-muted"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="M20 20l-3.5-3.5" />
+      </svg>
       <input
         id={`${baseId}-input`}
         type="text"
@@ -83,7 +98,7 @@ export function SearchBox() {
         aria-autocomplete="list"
         aria-activedescendant={expanded ? optionId(active) : undefined}
         autoComplete="off"
-        placeholder="Search places"
+        placeholder="Search parks, trails, creeks…"
         value={query}
         onChange={(e) => {
           setSearchQuery(e.target.value)
@@ -93,14 +108,14 @@ export function SearchBox() {
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         onKeyDown={onKeyDown}
-        className="min-h-11 w-full rounded-lg border border-neutral-300 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        className="h-12 w-full rounded-control border border-edge bg-ground pr-4 pl-11 text-base text-ink placeholder:text-ink-muted focus:border-forest focus:bg-white focus:shadow-[0_0_0_4px_var(--color-pine-glow)] focus:outline-none"
       />
       <ul
         id={listId}
         role="listbox"
         aria-label="Search results"
         hidden={!expanded}
-        className="absolute inset-x-0 top-full z-30 mt-1 max-h-80 overflow-y-auto rounded-lg border border-neutral-200 bg-white shadow-lg"
+        className="absolute inset-x-0 top-full z-30 mt-1.5 max-h-80 overflow-y-auto rounded-card border border-line bg-white p-1.5 shadow-[0_12px_32px_rgba(31,42,36,0.14)]"
       >
         {results.map((place, i) => (
           <li
@@ -111,18 +126,18 @@ export function SearchBox() {
             // Keep focus in the input so the combobox stays active while clicking.
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => select(i)}
-            className={`flex min-h-11 cursor-pointer items-center gap-2 px-3 py-2 text-sm ${
-              i === active ? 'bg-blue-50' : ''
+            className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-control px-3 text-sm ${
+              i === active ? 'bg-forest-tint' : ''
             }`}
           >
-            <span
-              aria-hidden="true"
-              className="h-2.5 w-2.5 shrink-0 rounded-full"
-              style={{ backgroundColor: getTheme(place.theme).color }}
+            <CategoryBadge
+              category={place.category}
+              color={getTheme(place.theme).color}
+              size="sm"
             />
             <span className="min-w-0">
-              <span className="block truncate">{place.name}</span>
-              <span className="block truncate text-xs text-neutral-600">
+              <span className="block truncate text-sm font-medium text-ink">{place.name}</span>
+              <span className="block truncate text-[13px] text-ink-muted">
                 {categoryLabel[place.category]} · {place.municipality}
               </span>
             </span>
@@ -130,13 +145,13 @@ export function SearchBox() {
         ))}
       </ul>
       {showEmpty && (
-        <div className="absolute inset-x-0 top-full z-30 mt-1 rounded-lg border border-neutral-200 bg-white px-3 py-3 text-sm text-neutral-600 shadow-lg">
+        <div className="absolute inset-x-0 top-full z-30 mt-1.5 space-y-2 rounded-card border border-line bg-white px-4 py-3 text-sm text-ink-muted shadow-[0_12px_32px_rgba(31,42,36,0.14)]">
           <p>{emptyMessage}</p>
           {status === 'error' && (
             <button
               type="button"
               onClick={retry}
-              className="mt-2 min-h-11 rounded-lg border border-neutral-400 bg-white px-4 text-sm font-medium text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="min-h-11 rounded-control border border-forest px-4 text-sm font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
             >
               Try again
             </button>

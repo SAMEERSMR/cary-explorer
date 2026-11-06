@@ -1,13 +1,30 @@
 // Status notes laid over the map: loading, catalog error, empty states and map-unavailable.
 // The wrapper never captures pointer events, so only the notes themselves are clickable.
+import { useState } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
-import { MAP_UNAVAILABLE_MESSAGE, useMapStatus } from './mapStatus'
+import { THEMES } from '../themes/themes'
+import { useMapStatus } from './mapStatus'
 
-const noteClass =
-  'pointer-events-auto max-w-sm rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 shadow-md'
+const cardClass =
+  'pointer-events-auto w-full max-w-sm rounded-2xl border border-line bg-white p-6 text-ink shadow-md'
+const titleClass = 'font-display text-[18px] font-semibold leading-snug'
+const bodyClass = 'mt-1 text-sm leading-relaxed text-ink-muted'
+const primaryButton =
+  'inline-flex h-11 items-center justify-center rounded-xl bg-forest px-5 text-sm font-semibold text-white hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link'
+const linkButton = 'inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-semibold text-link hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link'
+
+function Card({ title, body, children }: { title: string; body: string; children?: React.ReactNode }) {
+  return (
+    <div className={cardClass}>
+      <p className={titleClass}>{title}</p>
+      <p className={bodyClass}>{body}</p>
+      {children}
+    </div>
+  )
+}
 
 export function MapNotes() {
   const isDesktop = useIsDesktop()
@@ -15,39 +32,88 @@ export function MapNotes() {
   const { places: visible } = useFilteredPlaces()
   const noThemes = useAppStore((s) => s.activeThemes.length === 0)
   const mapStatus = useMapStatus()
+  const [showDetails, setShowDetails] = useState(false)
 
   let catalogNote: React.ReactNode = null
   if (status === 'error') {
     catalogNote = (
-      <div className={noteClass}>
-        <p>Couldn&apos;t load places{error ? `: ${error}` : '.'}</p>
-        <button
-          type="button"
-          onClick={retry}
-          className="mt-2 min-h-11 rounded-lg border border-neutral-400 bg-white px-4 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-        >
-          Try again
-        </button>
-      </div>
+      <Card
+        title="We couldn't load the places"
+        body="Check your connection, then try again. Anything already loaded stays on the map."
+      >
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <button type="button" onClick={retry} className={primaryButton}>
+            Try again
+          </button>
+          <button
+            type="button"
+            aria-expanded={showDetails}
+            onClick={() => setShowDetails((v) => !v)}
+            className={linkButton}
+          >
+            Details
+          </button>
+        </div>
+        {showDetails && (
+          <p className="mt-3 break-words rounded-xl bg-subtle p-2 font-mono text-xs text-ink-soft">
+            {error || 'No further details were reported.'}
+          </p>
+        )}
+      </Card>
     )
   } else if (status === 'loading') {
-    catalogNote = <p className={noteClass}>Loading places…</p>
+    catalogNote = (
+      <p className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink shadow-md">
+        <span className="cary-spinner" aria-hidden="true" />
+        Loading places…
+      </p>
+    )
   } else if (noThemes) {
-    catalogNote = <p className={noteClass}>No themes selected</p>
+    catalogNote = (
+      <Card title="Nothing to show yet" body="Turn on a theme to see places on the map and in the list.">
+        <button
+          type="button"
+          onClick={() => useAppStore.getState().setActiveThemes(THEMES.map((t) => t.id))}
+          className={`${primaryButton} mt-3`}
+        >
+          Turn on all themes
+        </button>
+      </Card>
+    )
   } else if (visible.length === 0) {
-    catalogNote = <p className={noteClass}>No places to show</p>
+    catalogNote = <p className="pointer-events-auto rounded-2xl border border-line bg-white px-5 py-3 text-sm text-ink shadow-md">No places to show</p>
   }
 
-  // Desktop: clear of the 380px side panel. Mobile: below the search bar and chips (~120px).
+  const mapNote =
+    mapStatus.state === 'unavailable' ? (
+      <Card
+        title="The map isn't available right now"
+        body="You can still search and browse every place in the list."
+      >
+        <button
+          type="button"
+          onClick={() => {
+            const s = useAppStore.getState()
+            s.setView('list')
+            if (!isDesktop) s.setSheetState('full')
+          }}
+          className={`${primaryButton} mt-3`}
+        >
+          Open the list
+        </button>
+      </Card>
+    ) : null
+
+  // Desktop: the visible map is right of the 380px side panel. Mobile: below the search bar and chips (~128px).
   const position = isDesktop ? 'left-[396px] right-4 top-4' : 'inset-x-4 top-[128px]'
 
   return (
     <div
       role="status"
       aria-live="polite"
-      className={`pointer-events-none absolute z-10 flex flex-col items-start gap-2 ${position}`}
+      className={`pointer-events-none absolute z-10 flex flex-col items-center gap-2 ${position}`}
     >
-      {mapStatus.state === 'unavailable' && <p className={noteClass}>{MAP_UNAVAILABLE_MESSAGE}</p>}
+      {mapNote}
       {catalogNote}
     </div>
   )

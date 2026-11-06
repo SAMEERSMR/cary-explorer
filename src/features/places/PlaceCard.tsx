@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import type { Place } from '../../types/place'
+import { CategoryIcon } from '../themes/CategoryIcon'
 import { categoryLabel, getTheme } from '../themes/themes'
 import { publicUrl } from './catalog'
 import {
@@ -30,10 +31,11 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const { sources } = usePlaces()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const isSample = place.sourceIds.includes('sample')
-  const location = [place.municipality, place.county].filter(Boolean).join(' · ')
+  const location = [place.municipality, place.county].filter(Boolean).join(', ')
   // Hide the category label when it repeats the theme chip (e.g. "History" / "History").
   const categoryName = categoryLabel[place.category]
   const showCategory = categoryName.toLowerCase() !== theme.label.toLowerCase()
+  const meta = [showCategory ? categoryName : null, location].filter(Boolean).join(' · ')
 
   // Remember what had focus when this place became selected (before the heading takes it).
   // PanelBody keys the card by place id, so this runs once per selection, before the heading takes focus.
@@ -68,90 +70,132 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   }
 
   return (
-    <article aria-labelledby={`place-${place.id}-name`} className="space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        <h2
-          id={`place-${place.id}-name`}
-          ref={headingRef}
-          tabIndex={-1}
-          className="text-lg leading-snug font-semibold"
-        >
-          {place.name}
-        </h2>
-        <button
-          type="button"
-          aria-label="Close"
-          onClick={handleClose}
-          className="-mt-2 -mr-2 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl text-neutral-700 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2 text-sm">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-500 px-2.5 py-1">
-          <span
-            aria-hidden="true"
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: theme.color }}
-          />
-          {theme.label}
-        </span>
-        {showCategory && <span className="font-medium text-neutral-800">{categoryName}</span>}
-        {isSample && (
-          <span className="rounded-full bg-amber-100 px-2.5 py-1 font-medium text-amber-900">
-            Sample data
-          </span>
-        )}
-      </div>
-
-      {location && <p className="text-sm text-neutral-600">{location}</p>}
-      <p className="text-sm text-neutral-800">
-        {place.description || 'A description has not been added yet.'}
-      </p>
-      <div className="text-sm text-neutral-800">
-        <p>{place.address || 'Visitor address has not been verified.'}</p>
-        {place.stationNumber !== undefined && <p>Station {place.stationNumber}</p>}
-      </div>
-      <p className="text-sm text-neutral-600">
-        Map pin is a representative location; check the source for entrances and access.
-      </p>
-
-      <section
-        aria-labelledby={`place-${place.id}-sources`}
-        className="space-y-2 border-t border-neutral-200 pt-3"
+    <article
+      aria-labelledby={`place-${place.id}-name`}
+      className="overflow-hidden rounded-card border border-line bg-white"
+    >
+      <div
+        aria-hidden="true"
+        className="flex h-[120px] items-center justify-center"
+        style={{ backgroundColor: theme.tint }}
       >
-        <h3 id={`place-${place.id}-sources`} className="text-sm font-semibold">
-          Sources
-        </h3>
-        <ul className="space-y-3 text-sm">
-          {place.sourceIds.map((id) => {
-            const source = sources.find((s) => s.id === id)
-            if (!source) return <li key={id}>{id}</li>
-            return (
-              <li key={id}>
-                {publicUrl(source.url) ? (
-                  <a
-                    href={source.url}
-                    className="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900"
-                  >
-                    {source.name}
-                  </a>
-                ) : (
-                  <span className="font-medium">{source.name}</span>
-                )}
-                {source.retrievedAt && (
-                  <p className="text-neutral-600">
-                    Retrieved{' '}
-                    <time dateTime={source.retrievedAt}>{formatRetrieved(source.retrievedAt)}</time>
-                  </p>
-                )}
-                {source.license && <p className="text-neutral-600">Licence: {source.license}</p>}
-              </li>
-            )
-          })}
-        </ul>
-      </section>
+        <CategoryIcon category={place.category} size={44} color={theme.color} strokeWidth={1.6} />
+      </div>
+
+      <div className="space-y-4 p-5">
+        <div className="flex items-start justify-between gap-3">
+          <h2
+            id={`place-${place.id}-name`}
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-display text-[26px] leading-tight font-semibold text-ink"
+          >
+            {place.name}
+          </h2>
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={handleClose}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-control border border-edge bg-white text-ink hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              viewBox="0 0 24 24"
+              width={18}
+              height={18}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2 text-[13px]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-edge px-3 py-1 font-medium text-ink">
+            <span
+              aria-hidden="true"
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: theme.color }}
+            />
+            {theme.label}
+          </span>
+          {meta && <span className="text-ink-muted">{meta}</span>}
+          {isSample && (
+            <span className="rounded-full bg-sample-bg px-2.5 py-1 text-xs font-semibold text-sample-ink">
+              Sample data
+            </span>
+          )}
+        </div>
+
+        <p className="text-[15px] leading-[1.55] text-ink-soft">
+          {place.description || 'A description has not been added yet.'}
+        </p>
+
+        <section aria-labelledby={`place-${place.id}-visit`} className="space-y-2">
+          <h3
+            id={`place-${place.id}-visit`}
+            className="text-xs font-semibold tracking-wide text-ink-muted uppercase"
+          >
+            Visit
+          </h3>
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-[14px]">
+            <div className="min-w-0">
+              <dt className="text-xs text-ink-muted">Address</dt>
+              <dd className="text-ink">{place.address || 'Not verified yet'}</dd>
+            </div>
+            {place.stationNumber !== undefined && (
+              <div>
+                <dt className="text-xs text-ink-muted">Station</dt>
+                <dd className="text-ink">{place.stationNumber}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+
+        <div className="space-y-4 border-t border-line pt-4 text-[13px] text-ink-muted">
+          <p>Map pin is a representative location; check the source for entrances and access.</p>
+
+          <section aria-labelledby={`place-${place.id}-sources`} className="space-y-2">
+            <h3
+              id={`place-${place.id}-sources`}
+              className="text-xs font-semibold tracking-wide uppercase"
+            >
+              Sources
+            </h3>
+            <ul className="space-y-3">
+              {place.sourceIds.map((id) => {
+                const source = sources.find((s) => s.id === id)
+                if (!source) return <li key={id}>{id}</li>
+                return (
+                  <li key={id}>
+                    {publicUrl(source.url) ? (
+                      <a
+                        href={source.url}
+                        className="font-medium text-link underline underline-offset-2 hover:text-ink"
+                      >
+                        {source.name}
+                      </a>
+                    ) : (
+                      <span className="font-medium text-ink">{source.name}</span>
+                    )}
+                    {source.retrievedAt && (
+                      <p>
+                        Retrieved{' '}
+                        <time dateTime={source.retrievedAt}>{formatRetrieved(source.retrievedAt)}</time>
+                      </p>
+                    )}
+                    {source.license && <p>Licence: {source.license}</p>}
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        </div>
+      </div>
     </article>
   )
 }

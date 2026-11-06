@@ -18,6 +18,19 @@ const C = {
   amber900: '#7b3306',
 }
 
+// Field-guide design tokens (src/index.css @theme).
+const T = {
+  ink: '#1F2A24',
+  inkMuted: '#55615A',
+  link: '#1F5E8C',
+  forest: '#2F6B4F',
+  ground: '#F6F3EC',
+  panel: '#FBFAF6',
+  sampleBg: '#FBEBC4',
+  sampleInk: '#6B4300',
+  edge: '#8A938B',
+}
+
 function luminance(hex: string): number {
   const [r, g, b] = [1, 3, 5]
     .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
@@ -55,6 +68,30 @@ describe('WCAG contrast of panel colours', () => {
   ]
   it.each(ui)('%s is at least 3:1', (_n, fg, bg) => {
     expect(ratio(fg, bg)).toBeGreaterThanOrEqual(3)
+  })
+
+  const tokenText: [string, string, string][] = [
+    ['ink text on white', T.ink, C.white],
+    ['ink text on panel', T.ink, T.panel],
+    ['ink text on ground', T.ink, T.ground],
+    ['ink-muted text on white', T.inkMuted, C.white],
+    ['ink-muted text on panel', T.inkMuted, T.panel],
+    ['ink-muted text on ground', T.inkMuted, T.ground],
+    ['link text on white', T.link, C.white],
+    ['link text on panel', T.link, T.panel],
+    ['link text on ground', T.link, T.ground],
+    ['forest text on white', T.forest, C.white],
+    ['forest text on panel', T.forest, T.panel],
+    ['forest text on ground', T.forest, T.ground],
+    ['white text on forest fill', C.white, T.forest],
+    ['sample-ink on sample-bg', T.sampleInk, T.sampleBg],
+  ]
+  it.each(tokenText)('%s is at least 4.5:1', (_n, fg, bg) => {
+    expect(ratio(fg, bg)).toBeGreaterThanOrEqual(4.5)
+  })
+
+  it('edge token is at least 3:1 on white', () => {
+    expect(ratio(T.edge, C.white)).toBeGreaterThanOrEqual(3)
   })
 
   // Theme colours are used for map pins and colour dots (non-text UI), so each needs 3:1 against white.

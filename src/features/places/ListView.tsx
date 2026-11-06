@@ -2,11 +2,12 @@
 import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { usePlaceSearch } from '../search/usePlaceSearch'
+import { CategoryBadge } from '../themes/CategoryIcon'
 import { THEMES, categoryLabel, getTheme } from '../themes/themes'
 import { usePlaces } from './usePlaces'
 
 const ACTION_BUTTON =
-  'min-h-11 rounded-lg border border-neutral-500 px-4 text-sm font-medium hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600'
+  'min-h-11 rounded-control border border-forest px-4 text-sm font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link'
 
 export function ListView() {
   const { status, retry } = usePlaces()
@@ -39,8 +40,17 @@ export function ListView() {
               ? `No places match “${trimmed}”.`
               : 'No places match the selected themes.'
     return (
-      <div className="space-y-2">
-        <p className="text-sm text-neutral-600">{text}</p>
+      <div className="space-y-3 rounded-card border border-dashed border-placeholder-line p-5">
+        {noThemes ? (
+          <>
+            <p className="font-display text-xl font-semibold text-ink">Nothing to show yet</p>
+            <p className="text-sm leading-relaxed text-ink-muted">
+              Turn on a theme to see places on the map and in the list.
+            </p>
+          </>
+        ) : (
+          <p className="text-sm leading-relaxed text-ink-muted">{text}</p>
+        )}
         {status === 'error' && (
           <button type="button" onClick={retry} className={ACTION_BUTTON}>
             Try again
@@ -60,39 +70,55 @@ export function ListView() {
   }
 
   return (
-    <ul aria-label="Places" className="-mx-2">
-      {rows.map((place) => (
-        <li key={place.id}>
-          <button
-            type="button"
-            onClick={() => {
-              setSelectedPlaceId(place.id)
-              // Show the card: switch to map view (desktop and mobile), and on mobile reveal the map at half height.
-              setView('map')
-              setSheetState('half')
-            }}
-            data-place-id={place.id}
-            aria-current={place.id === selectedPlaceId ? 'true' : undefined}
-            className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-2 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${
-              place.id === selectedPlaceId
-                ? 'bg-blue-50 ring-2 ring-inset ring-blue-700'
-                : 'hover:bg-neutral-100'
-            }`}
-          >
-            <span
-              aria-hidden="true"
-              className="h-3 w-3 shrink-0 rounded-full"
-              style={{ backgroundColor: getTheme(place.theme).color }}
-            />
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium">{place.name}</span>
-              <span className="block truncate text-xs text-neutral-600">
-                {categoryLabel[place.category]} · {place.municipality}
+    <ul aria-label="Places" className="flex flex-col gap-2">
+      {rows.map((place) => {
+        const selected = place.id === selectedPlaceId
+        return (
+          <li key={place.id}>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedPlaceId(place.id)
+                // Show the card: switch to map view (desktop and mobile), and on mobile reveal the map at half height.
+                setView('map')
+                setSheetState('half')
+              }}
+              data-place-id={place.id}
+              aria-current={selected ? 'true' : undefined}
+              className={`flex min-h-[60px] w-full items-center gap-3 rounded-card border-2 px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link ${
+                selected
+                  ? 'border-forest bg-forest-tint'
+                  : 'border-line bg-white hover:border-edge'
+              }`}
+            >
+              <CategoryBadge
+                category={place.category}
+                color={getTheme(place.theme).color}
+                size={36}
+              />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[15px] font-semibold text-ink">{place.name}</span>
+                <span className="block truncate text-[13px] text-ink-muted">
+                  {categoryLabel[place.category]} · {place.municipality}
+                </span>
               </span>
-            </span>
-          </button>
-        </li>
-      ))}
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 shrink-0 text-ink-muted"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </li>
+        )
+      })}
     </ul>
   )
 }

@@ -16,5 +16,6 @@ export function createBasemapLayer(onTile?: (event: 'error' | 'success') => void
     source.on('tileloaderror', () => onTile('error'))
     source.on('tileloadend', () => onTile('success'))
   }
-  return new TileLayer({ source })
+  // `cary-basemap` is muted by a CSS filter in map.css.
+  return new TileLayer({ source, className: 'cary-basemap' })
 }

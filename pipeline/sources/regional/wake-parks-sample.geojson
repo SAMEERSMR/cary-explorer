@@ -1,0 +1,32 @@
+{
+ "type": "FeatureCollection",
+ "retrieved": "2026-11-06",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.580328916846,
+     35.901752409014
+    ]
+   },
+   "properties": {
+    "OBJECTID": 2,
+    "NAME": "Abbotts Creek Park",
+    "ALIAS1": "Abbotts Creek Park",
+    "JURISDICTION": "City of Raleigh",
+    "ADDRESS": "9950 Durant Road, Raleigh, NC",
+    "URL": "https://raleighnc.gov/places/abbotts-creek-park",
+    "PLAYGROUND": "Yes",
+    "RESTROOMS": "Yes",
+    "GREENWAYACCESS": "No",
+    "WALKINGTRAILS": "No",
+    "BIKING": "No",
+    "FORLOCATOR": "Yes",
+    "Lat": null,
+    "Lon": null
+   }
+  }
+ ]
+}

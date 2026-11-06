@@ -20,12 +20,12 @@ const C = {
 
 // Field-guide design tokens (src/index.css @theme).
 const T = {
-  ink: '#1F2A24',
-  inkMuted: '#55615A',
-  link: '#1F5E8C',
-  forest: '#2F6B4F',
-  ground: '#F6F3EC',
-  panel: '#FBFAF6',
+  ink: '#1C2420',
+  inkMuted: '#5B655F',
+  link: '#1F6F5C',
+  forest: '#1F6F5C',
+  ground: '#F7F6F2',
+  panel: '#FFFFFF',
   sampleBg: '#FBEBC4',
   sampleInk: '#6B4300',
   edge: '#8A938B',

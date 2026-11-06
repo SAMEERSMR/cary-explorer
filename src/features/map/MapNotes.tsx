@@ -9,12 +9,12 @@ import { THEMES } from '../themes/themes'
 import { useMapStatus } from './mapStatus'
 
 const cardClass =
-  'pointer-events-auto w-full max-w-sm rounded-card border border-line bg-white p-4 text-ink shadow-md'
+  'pointer-events-auto w-full max-w-sm rounded-2xl border border-line bg-white p-6 text-ink shadow-md'
 const titleClass = 'font-display text-[18px] font-semibold leading-snug'
 const bodyClass = 'mt-1 text-sm leading-relaxed text-ink-muted'
 const primaryButton =
-  'min-h-11 rounded-control bg-forest px-4 text-sm font-semibold text-white hover:bg-ink-soft'
-const linkButton = 'min-h-11 rounded-control px-3 text-sm font-semibold text-link underline underline-offset-2'
+  'inline-flex h-11 items-center justify-center rounded-xl bg-forest px-5 text-sm font-semibold text-white hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link'
+const linkButton = 'inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-semibold text-link hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link'
 
 function Card({ title, body, children }: { title: string; body: string; children?: React.ReactNode }) {
   return (
@@ -55,7 +55,7 @@ export function MapNotes() {
           </button>
         </div>
         {showDetails && (
-          <p className="mt-2 break-words rounded-control bg-subtle p-2 font-mono text-xs text-ink-soft">
+          <p className="mt-3 break-words rounded-xl bg-subtle p-2 font-mono text-xs text-ink-soft">
             {error || 'No further details were reported.'}
           </p>
         )}
@@ -81,7 +81,7 @@ export function MapNotes() {
       </Card>
     )
   } else if (visible.length === 0) {
-    catalogNote = <p className={`${cardClass} text-sm`}>No places to show</p>
+    catalogNote = <p className="pointer-events-auto rounded-2xl border border-line bg-white px-5 py-3 text-sm text-ink shadow-md">No places to show</p>
   }
 
   const mapNote =

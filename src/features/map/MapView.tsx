@@ -22,7 +22,8 @@ import { usePlaces } from '../places/usePlaces'
 import type { CategoryId, ThemeId } from '../../types/place'
 import { createBasemapLayer } from './basemap'
 import { MapNotes } from './MapNotes'
-import { getClusterStyle, getPinStyle } from './pinStyles'
+import { ICON_SIZE } from '../themes/icons'
+import { getClusterStyle, getLabelBorderStyle, getPinStyle } from './pinStyles'
 import { reportMapInitFailed, reportTileEvent, resetMapStatus } from './mapStatus'
 
 // Cary, NC as [lon, lat]
@@ -97,23 +98,23 @@ function flyToPlace(map: OLMap, coords: Coordinate, padding: Padding) {
 }
 
 const zoomButtonClass =
-  'pointer-events-auto flex size-11 items-center justify-center bg-white text-ink hover:bg-subtle'
+  'pointer-events-auto inline-flex size-11 items-center justify-center bg-white text-ink hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-link'
 
 function ZoomButtons({ onZoom }: { onZoom: (delta: number) => void }) {
   return (
     <div
-      className="flex flex-col overflow-hidden rounded-control border border-edge bg-white shadow-md"
+      className="flex flex-col overflow-hidden rounded-xl border border-line bg-white shadow-md"
       role="group"
       aria-label="Zoom"
     >
       <button type="button" aria-label="Zoom in" onClick={() => onZoom(1)} className={zoomButtonClass}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+        <svg width={ICON_SIZE.md} height={ICON_SIZE.md} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
           <path d="M12 5v14M5 12h14" />
         </svg>
       </button>
       <div className="h-px bg-line" aria-hidden="true" />
       <button type="button" aria-label="Zoom out" onClick={() => onZoom(-1)} className={zoomButtonClass}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+        <svg width={ICON_SIZE.md} height={ICON_SIZE.md} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
           <path d="M5 12h14" />
         </svg>
       </button>
@@ -183,13 +184,13 @@ export function MapView() {
     const selectedLayer = new VectorLayer({
       source: selectedSource,
       zIndex: 10,
-      style: (feature: FeatureLike) =>
-        getPinStyle(
-          feature.get('category') as CategoryId,
-          feature.get('theme') as ThemeId,
-          'selected',
-          feature.get('name') as string,
-        ),
+      style: (feature: FeatureLike) => {
+        const name = feature.get('name') as string
+        return [
+          getPinStyle(feature.get('category') as CategoryId, feature.get('theme') as ThemeId, 'selected', name),
+          getLabelBorderStyle(name),
+        ]
+      },
     })
 
     resetMapStatus()

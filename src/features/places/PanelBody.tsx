@@ -13,9 +13,9 @@ export function PanelBody() {
   if (view === 'list') return <ListView />
   if (selected) return <PlaceCard key={selected.id} place={selected} onClose={() => setSelectedPlaceId(null)} />
   return (
-    <div className="rounded-card border border-dashed border-placeholder-line p-5">
+    <div className="rounded-card border border-dashed border-placeholder-line bg-white p-5">
       <p className="font-display text-xl font-semibold text-ink">Pick a place to start</p>
-      <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
+      <p className="mt-1 text-sm leading-relaxed text-ink-muted">
         Tap a pin on the map, search by name, or switch to the list.
       </p>
     </div>

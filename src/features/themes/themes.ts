@@ -10,11 +10,11 @@ export interface Theme {
 }
 
 export const THEMES: readonly Theme[] = [
-  { id: 'parks-trails', label: 'Parks & trails', color: '#3A7D44', tint: '#E4EFDF' },
-  { id: 'history', label: 'History', color: '#9A4A2E', tint: '#F3E4DC' },
-  { id: 'birds-wildlife', label: 'Birds & wildlife', color: '#B87000', tint: '#F7EBD3' },
-  { id: 'water', label: 'Water', color: '#2C6E9E', tint: '#DFEBF4' },
-  { id: 'art-community', label: 'Art & community', color: '#7A4E8C', tint: '#EDE3F1' },
+  { id: 'parks-trails', label: 'Parks & trails', color: '#2F7A4A', tint: '#E7F1EA' },
+  { id: 'history', label: 'History', color: '#A3502E', tint: '#F6E9E3' },
+  { id: 'birds-wildlife', label: 'Birds & wildlife', color: '#B0650F', tint: '#F8EEDF' },
+  { id: 'water', label: 'Water', color: '#2A6CA6', tint: '#E4EEF6' },
+  { id: 'art-community', label: 'Art & community', color: '#85509A', tint: '#F1E8F4' },
 ]
 
 export function getTheme(id: ThemeId): Theme {

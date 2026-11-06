@@ -84,7 +84,7 @@ export function SearchBox() {
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="pointer-events-none absolute top-1/2 left-3.5 h-[18px] w-[18px] -translate-y-1/2 text-ink-muted"
+        className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-ink-muted"
       >
         <circle cx="11" cy="11" r="7" />
         <path d="M20 20l-3.5-3.5" />
@@ -108,7 +108,7 @@ export function SearchBox() {
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         onKeyDown={onKeyDown}
-        className="h-11 min-h-11 w-full rounded-control border border-edge bg-white pr-3.5 pl-11 text-[15px] text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
+        className="h-12 w-full rounded-control border border-edge bg-ground pr-4 pl-11 text-base text-ink placeholder:text-ink-muted focus:border-forest focus:bg-white focus:shadow-[0_0_0_4px_var(--color-pine-glow)] focus:outline-none"
       />
       <ul
         id={listId}
@@ -126,17 +126,17 @@ export function SearchBox() {
             // Keep focus in the input so the combobox stays active while clicking.
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => select(i)}
-            className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-control px-2.5 py-2 text-sm ${
+            className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-control px-3 text-sm ${
               i === active ? 'bg-forest-tint' : ''
             }`}
           >
             <CategoryBadge
               category={place.category}
               color={getTheme(place.theme).color}
-              size={28}
+              size="sm"
             />
             <span className="min-w-0">
-              <span className="block truncate text-[15px] font-semibold text-ink">{place.name}</span>
+              <span className="block truncate text-sm font-medium text-ink">{place.name}</span>
               <span className="block truncate text-[13px] text-ink-muted">
                 {categoryLabel[place.category]} · {place.municipality}
               </span>

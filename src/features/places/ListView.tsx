@@ -70,7 +70,7 @@ export function ListView() {
   }
 
   return (
-    <ul aria-label="Places" className="flex flex-col gap-2">
+    <ul aria-label="Places" className="flex flex-col">
       {rows.map((place) => {
         const selected = place.id === selectedPlaceId
         return (
@@ -85,19 +85,19 @@ export function ListView() {
               }}
               data-place-id={place.id}
               aria-current={selected ? 'true' : undefined}
-              className={`flex min-h-[60px] w-full items-center gap-3 rounded-card border-2 px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link ${
+              className={`grid min-h-16 w-full grid-cols-[28px_1fr_16px] items-center gap-3 border-b border-line px-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-link ${
                 selected
-                  ? 'border-forest bg-forest-tint'
-                  : 'border-line bg-white hover:border-edge'
+                  ? 'bg-forest-tint shadow-[inset_3px_0_0_0_var(--color-forest)]'
+                  : 'bg-white hover:bg-ground'
               }`}
             >
               <CategoryBadge
                 category={place.category}
                 color={getTheme(place.theme).color}
-                size={36}
+                size="sm"
               />
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[15px] font-semibold text-ink">{place.name}</span>
+              <span className="min-w-0">
+                <span className="block truncate text-[15px] font-medium text-ink">{place.name}</span>
                 <span className="block truncate text-[13px] text-ink-muted">
                   {categoryLabel[place.category]} · {place.municipality}
                 </span>
@@ -111,7 +111,7 @@ export function ListView() {
                 strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-4 w-4 shrink-0 text-ink-muted"
+                className={`h-4 w-4 shrink-0 ${selected ? 'text-forest' : 'text-ink-muted'}`}
               >
                 <path d="M9 6l6 6-6 6" />
               </svg>

@@ -47,8 +47,9 @@ export function MobilePanel() {
 
       <section
         aria-label="Explore places"
-        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-sheet bg-panel pb-[env(safe-area-inset-bottom)] text-ink shadow-[0_-6px_24px_rgba(31,42,36,0.18)] transition-[height] duration-300 motion-reduce:transition-none ${HEIGHT[sheetState]}`}
+        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-sheet bg-panel pb-[env(safe-area-inset-bottom)] text-ink shadow-[0_-8px_24px_rgba(28,36,32,0.14)] transition-[height] duration-300 motion-reduce:transition-none ${HEIGHT[sheetState]}`}
       >
+        {/* 44px hit area, centred grab bar. The header sits fully below it (no negative margin). */}
         <button
           type="button"
           aria-label={HANDLE_LABEL[sheetState]}
@@ -57,22 +58,21 @@ export function MobilePanel() {
           onClick={() => setSheetState(NEXT_STATE[sheetState])}
           className="flex h-11 w-full shrink-0 items-center justify-center rounded-t-sheet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
         >
-          <span aria-hidden="true" className="h-[5px] w-11 rounded-[3px] bg-[#6F786F]" />
+          <span aria-hidden="true" className="h-1 w-9 rounded-full bg-[#C9C5BC]" />
         </button>
 
-        <div className="flex shrink-0 items-center justify-between gap-3 px-5">
-          <div className="flex min-w-0 flex-1 items-center gap-3">
-            {selected && <CategoryBadge category={selected.category} size={40} />}
-            <div className="min-w-0">
-              <p className="truncate font-display text-[21px] leading-tight font-semibold text-ink">
-                {selected?.name ?? 'Explore Cary'}
-              </p>
-              <p className="truncate text-[13px] text-ink-muted">
-                {selected
-                  ? categoryLabel[selected.category]
-                  : 'Parks, trails, birds, water and history'}
-              </p>
-            </div>
+        {/* No badge column without a selection, so the title lines up with the px-5 content below. */}
+        <div
+          className={`relative grid shrink-0 items-center gap-3 px-5 pt-0 ${selected ? 'grid-cols-[36px_minmax(0,1fr)_auto]' : 'grid-cols-[minmax(0,1fr)_auto]'}`}
+        >
+          {selected && <CategoryBadge category={selected.category} size="md" />}
+          <div className="min-w-0">
+            <p className="truncate font-display text-[20px] leading-tight font-semibold text-ink">
+              {selected?.name ?? 'Explore Cary'}
+            </p>
+            <p className="truncate text-[13px] text-ink-muted">
+              {selected ? categoryLabel[selected.category] : 'Parks, trails, birds, water and history'}
+            </p>
           </div>
           {/* Compact override of ViewToggle's default sizing, applied from this wrapper only. */}
           <div className="shrink-0 [&_button]:min-h-11 [&_button]:min-w-16 [&_button]:px-3">

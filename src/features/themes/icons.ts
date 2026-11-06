@@ -21,3 +21,11 @@ export const ICON_SVG_ATTRS = {
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
 } as const
+
+/** Icon pixel sizes. sm: inside buttons, chips, rows, inline text; md: map controls and card header actions. */
+export const ICON_SIZE = { sm: 16, md: 20 } as const
+
+/** Round category badge diameters in pixels. */
+export const BADGE_SIZE = { sm: 28, md: 36 } as const
+
+export type IconSize = keyof typeof ICON_SIZE

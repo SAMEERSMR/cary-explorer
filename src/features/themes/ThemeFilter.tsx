@@ -21,17 +21,32 @@ export function ThemeFilter() {
             type="button"
             aria-pressed={pressed}
             onClick={() => toggleTheme(theme.id)}
-            className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-3.5 text-sm font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-1 ${
-              pressed
-                ? 'border-ink bg-ink text-white'
-                : 'border-edge bg-white text-ink'
+            className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-3 text-sm font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-1 ${
+              pressed ? 'text-ink' : 'border-line bg-white text-ink-muted'
             }`}
+            style={pressed ? { backgroundColor: theme.tint, borderColor: theme.color } : undefined}
           >
-            <span
-              aria-hidden="true"
-              className={`h-2.5 w-2.5 rounded-full ${pressed ? 'shadow-[0_0_0_2px_#FFFFFF]' : ''}`}
-              style={{ backgroundColor: theme.color }}
-            />
+            {pressed ? (
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                width={16}
+                height={16}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={theme.color}
+                strokeWidth={2.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="shrink-0"
+              >
+                <path d="M5 12l5 5L20 7" />
+              </svg>
+            ) : (
+              <span aria-hidden="true" className="flex h-4 w-4 shrink-0 items-center justify-center">
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: theme.color }} />
+              </span>
+            )}
             {theme.label}
           </button>
         )

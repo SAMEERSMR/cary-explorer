@@ -2,29 +2,31 @@
 import type { CSSProperties } from 'react'
 import type { CategoryId } from '../../types/place'
 import { CATEGORY_THEME, getTheme } from './themes'
-import { CATEGORY_ICON, ICON_SVG_ATTRS } from './icons'
+import { BADGE_SIZE, CATEGORY_ICON, ICON_SIZE, ICON_SVG_ATTRS, type IconSize } from './icons'
 
 export function CategoryIcon({
   category,
-  size = 18,
+  size = 'sm',
   color = '#FFFFFF',
   strokeWidth = 2,
   className,
 }: {
   category: CategoryId
-  size?: number
+  size?: IconSize | number
   color?: string
   strokeWidth?: number
   className?: string
 }) {
+  const px = typeof size === 'number' ? size : ICON_SIZE[size]
   return (
     <svg
       {...ICON_SVG_ATTRS}
-      width={size}
-      height={size}
+      width={px}
+      height={px}
       stroke={color}
       strokeWidth={strokeWidth}
       className={className}
+      style={{ display: 'block' }}
       aria-hidden="true"
       focusable="false"
     >
@@ -40,18 +42,20 @@ export function CategoryIcon({
 export function CategoryBadge({
   category,
   color,
-  size = 36,
+  size = 'md',
   ring,
 }: {
   category: CategoryId
   color?: string
-  size?: number
+  size?: 'sm' | 'md' | number
   ring?: boolean
 }) {
+  const px = typeof size === 'number' ? size : BADGE_SIZE[size]
+  const iconPx = typeof size === 'number' ? Math.round(size * 0.5) : size === 'sm' ? 14 : 18
   const fill = color ?? getTheme(CATEGORY_THEME[category]).color
   const style: CSSProperties = {
-    width: size,
-    height: size,
+    width: px,
+    height: px,
     borderRadius: '9999px',
     backgroundColor: fill,
     border: '2px solid #FFFFFF',
@@ -64,7 +68,7 @@ export function CategoryBadge({
   }
   return (
     <span style={style} aria-hidden="true">
-      <CategoryIcon category={category} size={Math.round(size * 0.5)} color="#FFFFFF" />
+      <CategoryIcon category={category} size={iconPx} color="#FFFFFF" />
     </span>
   )
 }

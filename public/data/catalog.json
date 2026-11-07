@@ -20,6 +20,20 @@
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
    "license": "CC BY 4.0",
    "retrievedAt": "2026-11-07T17:40:46.521Z"
+  },
+  {
+   "id": "wake-park-entrances",
+   "name": "Wake County",
+   "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Park_Entrances/FeatureServer/0",
+   "license": "CC BY 4.0",
+   "retrievedAt": "2026-11-07T17:40:09.979Z"
+  },
+  {
+   "id": "cary-park-features",
+   "name": "Town of Cary",
+   "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/",
+   "license": "CC0 1.0",
+   "retrievedAt": "2026-11-07T17:40:43.353Z"
   }
  ],
  "places": [

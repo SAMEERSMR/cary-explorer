@@ -14,6 +14,7 @@ import {
 import { CoverageLabel } from '../towns/CoverageLabel'
 import { ConnectedPlaces } from './ConnectedPlaces'
 import { usePlaces } from './usePlaces'
+import { VisitInfo } from './VisitInfo'
 
 interface PlaceCardProps {
   place: Place
@@ -187,56 +188,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
 
         <ConnectedPlaces place={place} />
 
-        <section aria-labelledby={`place-${place.id}-visit`} className="space-y-2">
-          <h3
-            id={`place-${place.id}-visit`}
-            className="text-xs font-semibold tracking-wide text-ink-muted uppercase"
-          >
-            Visit
-          </h3>
-          <dl className="border-t border-line">
-            <div className="grid grid-cols-[16px_96px_1fr] items-center gap-3 border-b border-line py-3">
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                viewBox="0 0 24 24"
-                width={16}
-                height={16}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="shrink-0 text-ink-muted"
-              >
-                <path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z M12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
-              </svg>
-              <dt className="text-[13px] text-ink-muted">Address</dt>
-              <dd className="min-w-0 text-[14px] text-ink">{place.address || 'Not verified yet'}</dd>
-            </div>
-            {place.stationNumber !== undefined && (
-              <div className="grid grid-cols-[16px_96px_1fr] items-center gap-3 border-b border-line py-3">
-                <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                  width={16}
-                  height={16}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="shrink-0 text-ink-muted"
-                >
-                  <path d="M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18" />
-                </svg>
-                <dt className="text-[13px] text-ink-muted">Station</dt>
-                <dd className="min-w-0 text-[14px] text-ink">{place.stationNumber}</dd>
-              </div>
-            )}
-          </dl>
-        </section>
+        <VisitInfo place={place} sources={sources} />
 
         <div className="space-y-2">
           <div className={showOfficialLink ? 'grid grid-cols-2 gap-2' : undefined}>
@@ -310,8 +262,6 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
         </div>
 
         <div className="space-y-4 border-t border-line pt-4 text-[13px] text-ink-muted">
-          <p>Map pin is a representative location; check the source for entrances and access.</p>
-
           <section aria-labelledby={`place-${place.id}-sources`} className="space-y-2">
             <h3
               id={`place-${place.id}-sources`}

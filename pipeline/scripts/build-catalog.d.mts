@@ -47,6 +47,7 @@ export function build(options?: { write?: boolean; outDir?: string }): {
   dedupeSkips: { name: string; caryId: string; distanceM: number }[]
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
   outputs: Record<string, string>
+  details: Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[] }>
   parks: ParkGroup[]
   kept: GreenwayGroup[]
   dropped: GreenwayGroup[]
@@ -62,3 +63,18 @@ export function findCaryTwin(
   pt: Position,
   caryNames: { id: string; centroid: Position; names: Set<string> }[],
 ): { id: string; centroid: Position; names: Set<string> } | undefined
+export const ENTRANCE_NAME_MAX_M: number
+export function joinEntrances(
+  place: { name: string; aliases?: string[]; centroid: Position },
+  ctx: { polygons?: Polygon[] } | undefined,
+  entrances: { geometry?: { coordinates?: Position }; properties?: Record<string, unknown> }[],
+  aliasNames?: string[],
+  otherNames?: Set<string>,
+): { geometry?: { coordinates?: Position }; properties?: Record<string, unknown> }[]
+export function buildDetails(
+  places: { id: string; name: string; aliases?: string[]; centroid: Position }[],
+  visitCtx: Map<string, Record<string, unknown>>,
+  entrances: unknown[],
+  aliasMap: Record<string, string[]>,
+  dates: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string },
+): Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[] }>

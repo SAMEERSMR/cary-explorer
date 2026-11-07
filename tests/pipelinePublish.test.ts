@@ -42,6 +42,14 @@ const feature = (placeId: string) => ({
   geometry: { type: 'Polygon', coordinates: [[[-78.8, 35.8], [-78.79, 35.8], [-78.79, 35.81], [-78.8, 35.8]]] },
 })
 
+const detailFields = () =>
+  [
+    ['address', 'Address'], ['entrances', 'Entrances'], ['parking', 'Parking'], ['restrooms', 'Restrooms'],
+    ['pavedSurface', 'Paved surface'], ['stepsSlope', 'Steps and slope'], ['wheelchair', 'Wheelchair access'],
+    ['hours', 'Hours'], ['water', 'Drinking water'], ['dogPark', 'Dog park'], ['playground', 'Playground'],
+    ['picnicShelter', 'Picnic shelter'], ['walkingTrails', 'Walking trails'], ['phone', 'Phone'],
+  ].map(([key, label]) => ({ key, label, status: 'unknown' }))
+
 function stage(opts: { places?: Json[]; features?: Json[]; sources?: Json[]; rels?: Json[] } = {}) {
   const places = opts.places ?? [place('a'), place('b')]
   write(p('staging', 'catalog.json'), { sources: opts.sources ?? [source('src-a')], places })
@@ -50,6 +58,8 @@ function stage(opts: { places?: Json[]; features?: Json[]; sources?: Json[]; rel
     features: opts.features ?? places.map((x) => feature(x.id)),
   })
   write(p('staging', 'relationships.json'), { relationships: opts.rels ?? [] })
+  rmSync(p('staging', 'places'), { recursive: true, force: true })
+  for (const x of places) write(p('staging', 'places', `${x.id}.json`), { id: x.id, fields: detailFields() })
 }
 
 const run = (extra: Json = {}) =>
@@ -91,6 +101,22 @@ describe('publish gates', () => {
       expect.objectContaining({ id: 'src-a', recordCount: 2, licence: 'CC0 1.0', ok: true }),
     ])
     expect(manifest.generatedFrom).toBe('2026-11-06T12:00:00.000Z')
+  })
+
+  it('copies places/ with the release and blocks when a place has no detail file', () => {
+    stage()
+    expect(run().ok).toBe(true)
+    expect(readdirSync(p('out', 'places')).sort()).toEqual(['a.json', 'b.json'])
+    const v1 = JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8')).version
+    const d = JSON.parse(readFileSync(p('staging', 'places', 'a.json'), 'utf8'))
+    d.fields[3] = { ...d.fields[3], status: 'known', value: 'Yes', sourceId: 'src-a', verifiedAt: '2026-11-01' }
+    write(p('staging', 'places', 'a.json'), d)
+    expect(run().ok).toBe(true)
+    expect(JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8')).version).not.toBe(v1)
+    rmSync(p('staging', 'places', 'b.json'))
+    const blocked = run()
+    expect(blocked.ok).toBe(false)
+    expect(blocked.errors.join()).toContain('places/b.json')
   })
 
   it('curated overrides survive a rebuild and unknown ids only warn', () => {

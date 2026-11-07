@@ -105,3 +105,40 @@ export interface ReleaseManifest {
     ok: boolean
   }[]
 }
+
+/** The 14 visit-information fields, in display order. */
+export const VISIT_FIELD_KEYS = [
+  'address',
+  'entrances',
+  'parking',
+  'restrooms',
+  'pavedSurface',
+  'stepsSlope',
+  'wheelchair',
+  'hours',
+  'water',
+  'dogPark',
+  'playground',
+  'picnicShelter',
+  'walkingTrails',
+  'phone',
+] as const
+
+export type VisitFieldKey = (typeof VISIT_FIELD_KEYS)[number]
+
+/** One visit fact for a place. A `known` field always carries a source and a verification date. */
+export interface VisitField {
+  key: VisitFieldKey
+  label: string
+  status: 'known' | 'unknown'
+  value?: string
+  sourceId?: string
+  /** YYYY-MM-DD */
+  verifiedAt?: string
+}
+
+/** Contents of `/data/places/<id>.json`. */
+export interface PlaceDetails {
+  id: string
+  fields: VisitField[]
+}

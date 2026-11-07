@@ -2,7 +2,7 @@
 // Builds catalog.json, layers/*.geojson and relationships.json from the committed snapshots in
 // pipeline/sources/. Dependency-free, deterministic (stable sort by id).
 // Run: node pipeline/scripts/build-catalog.mjs [--out <dir>]   (default dir: public/data)
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -18,6 +18,7 @@ import {
   splitByCore,
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
+import { buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
 
@@ -307,6 +308,9 @@ export function build({ write = true, outDir = OUT } = {}) {
   const towns = readJson(join(SRC, 'census', 'places', 'data.geojson'))
   const wake = readJson(join(SRC, 'wake', 'parks', 'data.geojson'))
   const wakeMeta = readJson(join(SRC, 'wake', 'parks', 'meta.json'))
+  const entrancesData = readJson(join(SRC, 'wake', 'park-entrances', 'data.geojson'))
+  const entrancesMeta = readJson(join(SRC, 'wake', 'park-entrances', 'meta.json'))
+  const featuresMeta = readJson(join(cary('parks-and-recreation-feature-map'), 'meta.json'))
   const scope = createScope({
     core: readJson(join(SRC, 'boundaries', 'core.geojson')),
     nearby: readJson(join(SRC, 'boundaries', 'nearby-buffer.geojson')),
@@ -332,7 +336,15 @@ export function build({ write = true, outDir = OUT } = {}) {
     .filter((f) => f.properties.parkurl.startsWith('https://www.carync.gov/'))
     .sort((a, b) => a.properties.parkurl.localeCompare(b.properties.parkurl))
 
+  const existingSegments = new Map() // normalized greenway name -> Existing segment properties
+  for (const f of greenData.features) {
+    const key = normalize(f.properties?.name)
+    if (!key || f.properties?.status !== 'Existing') continue
+    if (!existingSegments.has(key)) existingSegments.set(key, [])
+    existingSegments.get(key).push(f.properties)
+  }
   const places = []
+  const visitCtx = new Map() // place id -> inputs for buildVisitFields
   const parkFeatures = []
   const greenFeatures = []
   const relItems = []
@@ -362,6 +374,12 @@ export function build({ write = true, outDir = OUT } = {}) {
       sourceIds: ['cary-parks'],
     }
     places.push(place)
+    visitCtx.set(id, {
+      polygons: p.polygons,
+      caryPoints: pointsData.features
+        .filter((pt) => pt.geometry?.type === 'Point' && p.polygons.some((poly) => pointInPolygon(pt.geometry.coordinates, poly)))
+        .map((pt) => pt.properties),
+    })
     parkFeatures.push({
       type: 'Feature',
       properties: { placeId: id, outsideCore: coverage !== 'core' },
@@ -381,6 +399,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     const c = vertexNearestBboxCentre(verts)
     const miles = fmtNumber(g.miles)
     const county = countyOf(c, counties)
+    visitCtx.set(id, { segments: existingSegments.get(g.key) ?? [] })
     places.push({
       id,
       name: g.name,
@@ -474,6 +493,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     const u = n.f.properties.URL
     if (typeof u === 'string' && u.startsWith('https://')) place.url = u
     places.push(place)
+    visitCtx.set(place.id, { wake: n.f.properties })
     relItems.push({ id: place.id, kind: 'park', points: [place.centroid] })
   }
 
@@ -522,6 +542,31 @@ export function build({ write = true, outDir = OUT } = {}) {
   }
 
   const placeIds = new Set(places.map((p) => p.id))
+  const details = buildDetails(places, visitCtx, entrancesData.features, aliasMap, {
+    wake: verifiedDate(wakeMeta),
+    entrances: verifiedDate(entrancesMeta),
+    caryFeatures: verifiedDate(featuresMeta),
+    greenways: verifiedDate(greenMeta),
+  })
+  const usedSources = new Set(Object.values(details).flatMap((d) => d.fields.map((f) => f.sourceId)))
+  if (usedSources.has('wake-park-entrances')) {
+    sources.push({
+      id: 'wake-park-entrances',
+      name: 'Wake County',
+      url: entrancesMeta.url,
+      license: 'CC BY 4.0',
+      retrievedAt: entrancesMeta.retrievedAt,
+    })
+  }
+  if (usedSources.has('cary-park-features')) {
+    sources.push({
+      id: 'cary-park-features',
+      name: 'Town of Cary',
+      url: featuresMeta.url,
+      license: 'CC0 1.0',
+      retrievedAt: featuresMeta.retrievedAt,
+    })
+  }
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
   const catalog = { sources, places: places.map(orderPlace) }
   const layer = (features, decimals) =>
@@ -536,9 +581,12 @@ export function build({ write = true, outDir = OUT } = {}) {
     'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
     'relationships.json': JSON.stringify(relationships, null, 1) + '\n',
   }
+  for (const [id, d] of Object.entries(details)) outputs[`places/${id}.json`] = JSON.stringify(d) + '\n'
 
   if (write) {
     mkdirSync(join(outDir, 'layers'), { recursive: true })
+    rmSync(join(outDir, 'places'), { recursive: true, force: true })
+    mkdirSync(join(outDir, 'places'), { recursive: true })
     for (const [file, text] of Object.entries(outputs)) writeFileSync(join(outDir, file), text)
     // ids.json is repo state, so only the default build touches it.
     if (outDir === OUT) writeFileSync(idsPath, JSON.stringify(allIds, null, 2) + '\n')
@@ -548,6 +596,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     catalog,
     relationships,
     outputs,
+    details,
     parks,
     kept,
     dropped,
@@ -557,6 +606,44 @@ export function build({ write = true, outDir = OUT } = {}) {
     jurisdictionMismatches,
     ids: allIds,
   }
+}
+
+export const ENTRANCE_NAME_MAX_M = 5000
+
+/**
+ * Join entrances to a place: entrance point inside a Cary park's parcels, or the entrance's park NAME equals the
+ * place name (or an alias) and the point is within 5 km of the place centroid (guards same-named parks elsewhere).
+ */
+export function joinEntrances(place, ctx, entrances, aliasNames = [], otherNames = new Set()) {
+  const names = new Set([place.name, ...(place.aliases ?? []), ...aliasNames].map(normalize).filter(Boolean))
+  return entrances.filter((e) => {
+    const pt = e.geometry?.coordinates
+    if (!pt) return false
+    const en = [e.properties?.NAME, e.properties?.ALIAS1, e.properties?.ALIAS2].map(normalize).filter(Boolean)
+    if (en.some((n) => names.has(n))) return haversineM(place.centroid, pt) <= ENTRANCE_NAME_MAX_M
+    // Inside the parcels but named for a different catalog place (an adjacent park): not this park's entrance.
+    if (en.some((n) => otherNames.has(n))) return false
+    return Boolean(ctx?.polygons?.some((poly) => pointInPolygon(pt, poly)))
+  })
+}
+
+/** { [placeId]: { id, fields } } - one detail record per place. */
+export function buildDetails(places, visitCtx, entrances, aliasMap, dates) {
+  const out = {}
+  const owners = new Map() // normalized name -> ids of the places that carry it
+  for (const place of places) {
+    for (const n of [place.name, ...(place.aliases ?? []), ...(aliasMap[place.id] ?? [])].map(normalize).filter(Boolean)) {
+      if (!owners.has(n)) owners.set(n, new Set())
+      owners.get(n).add(place.id)
+    }
+  }
+  for (const place of places) {
+    const ctx = visitCtx.get(place.id) ?? {}
+    const otherNames = new Set([...owners].filter(([, ids]) => [...ids].some((id) => id !== place.id)).map(([n]) => n))
+    const joined = joinEntrances(place, ctx, entrances, aliasMap[place.id] ?? [], otherNames).map((e) => e.properties ?? {})
+    out[place.id] = { id: place.id, fields: buildVisitFields({ ...ctx, entrances: joined, dates }) }
+  }
+  return out
 }
 
 function orderPlace(p) {
@@ -596,7 +683,15 @@ function main() {
   for (const m of r.jurisdictionMismatches.slice(0, 10)) console.log(`  ${m.name}: ${m.jurisdiction} vs ${m.municipality}`)
   console.log('10 longest dropped greenways:')
   for (const g of dropByMiles) console.log(`  ${g.name} (${g.miles.toFixed(2)} mi)`)
-  for (const [file, text] of Object.entries(r.outputs)) console.log(`${file}: ${Buffer.byteLength(text)} bytes`)
+  let placesBytes = 0
+  for (const [file, text] of Object.entries(r.outputs)) {
+    if (file.startsWith('places/')) placesBytes += Buffer.byteLength(text)
+    else console.log(`${file}: ${Buffer.byteLength(text)} bytes`)
+  }
+  console.log(`places/*.json: ${Object.keys(r.details).length} files, ${placesBytes} bytes`)
+  const knownBy = {}
+  for (const d of Object.values(r.details)) for (const f of d.fields) if (f.status === 'known') knownBy[f.key] = (knownBy[f.key] ?? 0) + 1
+  console.log('visit fields known:', knownBy)
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main()

@@ -208,6 +208,24 @@ Municipality is decided by point-in-polygon of a place's centroid against US Cen
 
 The full Wake County parks layer (`wake-parks`, CC BY 4.0) replaces the earlier sample. Per docs/source-matrix.md section 4, a Wake park whose point is inside Cary's corporate limits is skipped because Cary's CC0 data wins there; every other Wake park becomes a point-only `park` place. The layer's `JURISDICTION` field is shown in the description but does not decide municipality; disagreements with the polygons are reported by the build. Town portions outside Wake County follow source-matrix section 6. Because this raises the `wake-parks` place count from 1 to about 244, the refresh used `PIPELINE_ALLOW_COUNT_CHANGE=wake-parks` once.
 
+## 18. Visit information: known vs unknown
+
+**Context:** Place cards must say what is verified about visiting and say "unknown" otherwise (#41). The brief says never to infer wheelchair access from paving. The sources are inventories: a "No" or an empty value there does not prove an amenity is absent.
+
+**Decision:** Every catalog place gets `public/data/places/<id>.json` with exactly 14 fields in a fixed order: address, entrances, parking, restrooms, pavedSurface, stepsSlope, wheelchair, hours, water, dogPark, playground, picnicShelter, walkingTrails, phone. A field is `known` only when a source affirmatively states it (a "Yes"-like flag, a non-empty address or phone, a recorded surface type). `No`, `N`, empty and null all become `unknown`, so the app never shows "no". A known field carries `sourceId` and `verifiedAt` (the snapshot's `sourceModified` date, else `retrievedAt`). `hours`, `water` and `stepsSlope` have no source yet and are always unknown.
+
+Observed raw values (snapshots of 2026-11-07): Wake parks flags (RESTROOMS, PLAYGROUND, PICNICSHELTER, WALKINGTRAILS, DOGPARK) are `"Yes"`, `"No"` or null; FISHING also has `"Yes Bank fishing only"` (not used). Entrance flags (VEHICLEENTRANCE, PEDESTRIANENTRANCE, GREENWAYENTRANCE, PARKINGLOT, PARKINGSTREET) are `"Yes"`, `"No"` or null. Cary park points (restroom, playground, dogpark, naturetrail) are `"Yes"` or `"No"`. Greenway `surftype` is Asphalt, Concrete, Aggregate, Decking, Limestone, Other or null; `ada` is null for 1,080 of 1,098 segments and `"Y"`, `"Yes"` or `"y"` for 18.
+
+Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus Address2, PHONE); Cary park feature points inside the park's parcels for `cary-park-*` places; Wake park entrances for entrances, parking, and as a fallback for flags, address and phone (an entrance-level flag means "at an entrance", not for the whole park). Entrances join by park name within 5 km of the place, or by falling inside a Cary park's parcels unless they are named for a different catalog place (adjacent parks). A Cary park's address or phone comes from joined entrances only when they agree. Parking is "Parking lot" if any joined entrance has PARKINGLOT yes, else "Street parking" if PARKINGSTREET yes. Trails take `pavedSurface` from existing segments' `surftype` (asphalt and concrete count as paved; unrecorded segments are mentioned, not assumed).
+
+`wheelchair` is known only from an explicit `ada` flag on Cary greenway segments ("Accessible (per Town of Cary greenway data)", or "on some segments" when only some are flagged). It is never derived from a paved surface. Release validation rejects a known `wheelchair` value from any other source, a missing or extra field, a wrong order, a known field without `sourceId` or `verifiedAt`, and any place without a detail file or any detail file without a place. The `places/` files are copied atomically with the release and are part of the manifest version hash. `wake-park-entrances` and `cary-park-features` are added to the catalog's sources because details cite them.
+
+**Reference's position:** The brief asks to separate known paved surface, steps, slope and restroom information from unknown fields and not to infer wheelchair access from paving.
+
+**Consequence:** Most fields are unknown today, wheelchair is known for one trail, and filters on amenities may rely on known fields only. Field-level corrections go through `pipeline/overrides.json` (#13).
+
+**Applies to:** `pipeline/lib/visit.mjs`, `pipeline/scripts/build-catalog.mjs`, `pipeline/lib/validate.mjs`, `pipeline/scripts/publish.mjs`, `public/data/places/`, #41.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

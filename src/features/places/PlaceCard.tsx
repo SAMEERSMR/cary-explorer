@@ -15,6 +15,7 @@ import { CoverageLabel } from '../towns/CoverageLabel'
 import { ConnectedPlaces } from './ConnectedPlaces'
 import { ReleaseLine } from './ReleaseLine'
 import { useRelease } from './release'
+import { hasProposedPart, useGeometryLayers } from '../map/layers'
 import { usePlaces } from './usePlaces'
 import { VisitInfo } from './VisitInfo'
 
@@ -35,6 +36,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const theme = getTheme(place.theme)
   const { sources } = usePlaces()
   const release = useRelease()
+  const proposedPart = hasProposedPart(useGeometryLayers().index.get(place.id))
   const headingRef = useRef<HTMLHeadingElement>(null)
   // Only places whose sources are the placeholder sample source get the "Sample data" badge.
   const isSample = place.sourceIds.includes('sample')
@@ -182,6 +184,9 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
               {meta}
               <CoverageLabel coverage={place.coverage} />
             </p>
+          )}
+          {proposedPart && (
+            <p className="text-[13px] leading-snug text-ink-muted">Dashed sections are proposed and not built yet.</p>
           )}
         </div>
 

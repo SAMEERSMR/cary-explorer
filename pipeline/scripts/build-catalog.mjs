@@ -299,6 +299,28 @@ export function findCaryTwin(name, pt, caryNames) {
   return caryNames.find((c) => c.names.has(wn) && haversineM(c.centroid, pt) <= DEDUPE_M)
 }
 
+/**
+ * Layer features for one greenway place: the existing lines first, then the proposed lines (clipped like the
+ * existing ones), each split into a core part and an outside-core part. Proposed lines never touch place fields.
+ */
+export function greenwayFeatures(placeId, existingLines, proposedLinesRaw, scope) {
+  const proposed = clipToLimit(proposedLinesRaw, scope.crossing, scope.core).lines
+  const out = []
+  for (const [status, segLines] of [['existing', existingLines], ['proposed', proposed]]) {
+    if (!segLines.length) continue
+    const parts = splitByCore(segLines, scope.core)
+    for (const [outsideCore, coordinates] of [[false, parts.inside], [true, parts.outside]]) {
+      if (!coordinates.length) continue
+      out.push({
+        type: 'Feature',
+        properties: { placeId, status, outsideCore },
+        geometry: { type: 'MultiLineString', coordinates },
+      })
+    }
+  }
+  return out
+}
+
 export function build({ write = true, outDir = OUT } = {}) {
   const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
   const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
@@ -342,6 +364,15 @@ export function build({ write = true, outDir = OUT } = {}) {
     if (!key || f.properties?.status !== 'Existing') continue
     if (!existingSegments.has(key)) existingSegments.set(key, [])
     existingSegments.get(key).push(f.properties)
+  }
+  const proposedLines = new Map() // normalized greenway name -> Proposed segment lines (layer only; never feeds place fields)
+  for (const f of greenData.features) {
+    const key = normalize(f.properties?.name)
+    if (!key || f.properties?.status !== 'Proposed') continue
+    const lines = linesOf(f.geometry)
+    if (!lines.length) continue
+    if (!proposedLines.has(key)) proposedLines.set(key, [])
+    proposedLines.get(key).push(...lines)
   }
   const places = []
   const visitCtx = new Map() // place id -> inputs for buildVisitFields
@@ -413,15 +444,7 @@ export function build({ write = true, outDir = OUT } = {}) {
       description: `Town of Cary greenway, about ${miles} ${miles === '1' ? 'mile' : 'miles'} of existing trail (from Cary's greenway dataset).`,
       sourceIds: ['cary-greenways'],
     })
-    const parts = splitByCore(lines, scope.core)
-    for (const [outsideCore, coordinates] of [[false, parts.inside], [true, parts.outside]]) {
-      if (!coordinates.length) continue
-      greenFeatures.push({
-        type: 'Feature',
-        properties: { placeId: id, outsideCore },
-        geometry: { type: 'MultiLineString', coordinates },
-      })
-    }
+    greenFeatures.push(...greenwayFeatures(id, lines, proposedLines.get(g.key) ?? [], scope))
     relItems.push({ id, kind: 'trail', lines })
   }
 

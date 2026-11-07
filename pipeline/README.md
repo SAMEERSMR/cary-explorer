@@ -38,6 +38,7 @@ Publish stops if any gate fails:
 
 - Schema and unique ids.
 - Coordinate ranges and valid geometry.
+- Every greenways layer feature has `status` `"existing"` or `"proposed"`.
 - Source coverage, including samples in Wake, Chatham and Durham.
 - Fetched count matching the service count. A truncated fetch fails the run.
 - Record count changing by more than ±30% against the last release. A large change must be checked and, if real, accepted through the overrides file before it publishes.
@@ -55,6 +56,10 @@ Publish stops if any gate fails:
 3. Prune: artifacts referenced by neither the new nor the previous manifest are deleted, including legacy unhashed files. The previous release stays so open tabs keep working. A prune failure is a warning.
 
 Code that reads published data resolves paths through `pipeline/lib/release.mjs` (`readRelease(dataDir)`), never fixed names. If a source fails, the run reports which source failed and the last good release stays in place.
+
+## Greenways layer status
+
+Every feature in `layers/greenways.<h>.geojson` has `{ placeId, status, outsideCore }`, with `status` either `"existing"` or `"proposed"`. A greenway place gets its existing lines first, then its proposed lines (each split into core and outside-core parts). Proposed segments are included only when their normalized name matches a greenway that already became a place, so proposed-only greenways add no places or features. Place centroid, bbox and visit fields come from existing segments only.
 
 ## Size budgets
 

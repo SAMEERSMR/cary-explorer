@@ -162,17 +162,18 @@ describe('generated catalog', () => {
     expect(places.some((p) => p.sourceIds.includes('sample'))).toBe(false)
   })
 
-  it('links every layer feature to a catalog place, with a core and an outside-core part at most per place', () => {
+  it('links every layer feature to a catalog place, with a core and an outside-core part at most per place and status (trails)', () => {
     const seen = new Map<string, number>()
     for (const f of [...layers.park, ...layers.trail]) {
-      expect(Object.keys(f.properties)).toEqual(['placeId', 'outsideCore'])
+      const isTrail = layers.trail.includes(f)
+      expect(Object.keys(f.properties)).toEqual(isTrail ? ['placeId', 'status', 'outsideCore'] : ['placeId', 'outsideCore'])
       expect(typeof f.properties.outsideCore).toBe('boolean')
       expect(ids.has(f.properties.placeId)).toBe(true)
       seen.set(f.properties.placeId, (seen.get(f.properties.placeId) ?? 0) + 1)
     }
     for (const p of places.filter((x) => x.sourceIds.some((s) => s.startsWith('cary-')))) {
       expect(seen.get(p.id), p.id).toBeGreaterThanOrEqual(1)
-      expect(seen.get(p.id), p.id).toBeLessThanOrEqual(2)
+      expect(seen.get(p.id), p.id).toBeLessThanOrEqual(layers.trail.some((f: any) => f.properties.placeId === p.id) ? 4 : 2)
     }
   })
 

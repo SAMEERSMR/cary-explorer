@@ -6,6 +6,7 @@ import OLMap from 'ol/Map'
 import { ScaleLine, defaults as defaultControls } from 'ol/control'
 import { defaults as defaultInteractions } from 'ol/interaction'
 import { createEmpty, extend as extendExtent } from 'ol/extent'
+import type { Extent } from 'ol/extent'
 import View from 'ol/View'
 import Feature from 'ol/Feature'
 import type { Coordinate } from 'ol/coordinate'
@@ -14,6 +15,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Cluster from 'ol/source/Cluster'
 import type { FeatureLike } from 'ol/Feature'
+import type BaseLayer from 'ol/layer/Base'
 import { fromLonLat, toLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
 import type { SheetState } from '../../store/useAppStore'
@@ -27,6 +29,14 @@ import { createBasemapLayer } from './basemap'
 import { MapNotes } from './MapNotes'
 import { ICON_SIZE } from '../themes/icons'
 import { getClusterStyle, getLabelBorderStyle, getPinStyle } from './pinStyles'
+import { LAYER_Z, AREA_LAYER_MIN_ZOOM, geometryStyleFor } from './geometryStyles'
+import { useGeometryLayers } from './layers'
+import type { GeometryKind, GeometryStatus } from './layers'
+import { pickBest } from './picking'
+import type { PickKind } from './picking'
+import { FRAME_MAX_ZOOM, planFrame, selectedGeometryFeatures, shouldFrame } from './framing'
+import type { FramedState } from './framing'
+import { getTheme } from '../themes/themes'
 import { reportMapInitFailed, reportTileEvent, resetMapStatus } from './mapStatus'
 
 // Cary, NC as [lon, lat]
@@ -102,6 +112,15 @@ function flyToPlace(map: OLMap, coords: Coordinate, padding: Padding) {
   }
 }
 
+// Fit `extent` into the part of the map the panel or sheet leaves visible.
+function fitToExtent(map: OLMap, extent: Extent, padding: Padding) {
+  map.getView().fit(extent, {
+    padding,
+    maxZoom: FRAME_MAX_ZOOM,
+    duration: prefersReducedMotion() ? 0 : SELECT_ANIMATION_MS,
+  })
+}
+
 const zoomButtonClass =
   'pointer-events-auto inline-flex size-11 items-center justify-center bg-white text-ink hover:bg-subtle focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-link'
 
@@ -142,6 +161,14 @@ export function MapView() {
   const clusterLayerRef = useRef<VectorLayer<Cluster> | null>(null)
   const baseSourceRef = useRef<VectorSource | null>(null)
   const selectedLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
+  const lineSourceRef = useRef<VectorSource | null>(null)
+  const areaSourceRef = useRef<VectorSource | null>(null)
+  const selectedGeomSourceRef = useRef<VectorSource | null>(null)
+  // What the camera last did for the selected place, and whether the user has panned or zoomed since.
+  const framedRef = useRef<FramedState | null>(null)
+  const movedRef = useRef(false)
+  // Inputs seen by the last framing pass, to tell what changed.
+  const prevFrameRef = useRef<{ sheetState: SheetState; panelCollapsed: boolean; isDesktop: boolean; index: unknown } | null>(null)
   const hoveredIdRef = useRef<string | null>(null)
   // Latest framing inputs for map event handlers created once in the init effect.
   const framingRef = useRef({ isDesktop: true, sheetState: 'peek' as SheetState })
@@ -153,6 +180,8 @@ export function MapView() {
   const selectedPlaceId = useAppStore((s) => s.selectedPlaceId)
   const sheetState = useAppStore((s) => s.sheetState)
   const isDesktop = useIsDesktop()
+  const panelCollapsed = useAppStore((s) => s.panelCollapsed)
+  const geometry = useGeometryLayers()
   useWindowHeightTick()
 
   useEffect(() => {
@@ -170,6 +199,26 @@ export function MapView() {
       minDistance: CLUSTER_MIN_DISTANCE_PX,
     })
     const selectedSource = new VectorSource()
+    const lineSource = new VectorSource()
+    const areaSource = new VectorSource()
+    const selectedGeomSource = new VectorSource()
+
+    const themeOf = (f: FeatureLike) => getTheme((f.get('theme') as ThemeId | undefined) ?? 'parks-trails').id
+    const geometryStyle = (selected: boolean) => (f: FeatureLike) =>
+      geometryStyleFor(f.get('kind') as GeometryKind, f.get('status') as GeometryStatus, themeOf(f), selected)
+    const areaLayer = new VectorLayer({
+      source: areaSource,
+      zIndex: LAYER_Z.areas,
+      minZoom: AREA_LAYER_MIN_ZOOM,
+      style: geometryStyle(false),
+    })
+    const lineLayer = new VectorLayer({ source: lineSource, zIndex: LAYER_Z.lines, style: geometryStyle(false) })
+    // The selected place's geometry: its own top layer, above lines and points, and never picked.
+    const selectedGeomLayer = new VectorLayer({
+      source: selectedGeomSource,
+      zIndex: LAYER_Z.selectedGeometry,
+      style: geometryStyle(true),
+    })
 
     const pinStyleFor = (f: Feature) => {
       const id = f.getId()
@@ -179,6 +228,7 @@ export function MapView() {
 
     const clusterLayer = new VectorLayer({
       source: clusterSource,
+      zIndex: LAYER_Z.clusters,
       style: (feature: FeatureLike) => {
         const members = (feature.get('features') as Feature[] | undefined) ?? []
         return members.length === 1 ? pinStyleFor(members[0]) : getClusterStyle(members.length)
@@ -188,7 +238,7 @@ export function MapView() {
     // The selected place is drawn here, on top, and kept out of the cluster source.
     const selectedLayer = new VectorLayer({
       source: selectedSource,
-      zIndex: 10,
+      zIndex: LAYER_Z.selectedPin,
       style: (feature: FeatureLike) => {
         const name = feature.get('name') as string
         return [
@@ -214,7 +264,7 @@ export function MapView() {
         // to the card, so a pinch then zoomed the whole page. The app is full-screen and never scrolls, so the
         // map always takes wheel and pinch input under the pointer. Keyboard pan/zoom still need map focus.
         interactions: defaultInteractions({ onFocusOnly: false }),
-        layers: [createBasemapLayer(reportTileEvent), clusterLayer, selectedLayer],
+        layers: [createBasemapLayer(reportTileEvent), areaLayer, lineLayer, clusterLayer, selectedGeomLayer, selectedLayer],
         view: new View({
           center: fromLonLat(CARY_CENTER),
           zoom: 12,
@@ -227,19 +277,45 @@ export function MapView() {
       return
     }
 
+    // Selectable layers only: pins and clusters, lines and areas. Never the basemap or the selected geometry.
+    const kindOf = new Map<BaseLayer, PickKind>([
+      [clusterLayer, 'pin'],
+      [selectedLayer, 'pin'],
+      [lineLayer, 'line'],
+      [areaLayer, 'area'],
+    ])
     const pickOptions = {
       hitTolerance: HIT_TOLERANCE_PX,
-      layerFilter: (l: unknown) => l === clusterLayer || l === selectedLayer,
+      layerFilter: (l: BaseLayer) => kindOf.has(l),
+    }
+    // Every feature under the pixel; pins beat lines, lines beat areas.
+    const pickAt = (pixel: number[]) => {
+      const hits: { kind: PickKind; feature: FeatureLike }[] = []
+      map.forEachFeatureAtPixel(
+        pixel,
+        (feature, layer) => {
+          const kind = layer ? kindOf.get(layer) : undefined
+          if (kind) hits.push({ kind, feature })
+        },
+        pickOptions,
+      )
+      return pickBest(hits)
     }
 
     // singleclick (not click) so a double-click to zoom does not also select.
     map.on('singleclick', (e) => {
-      const hit = map.forEachFeatureAtPixel(e.pixel, (f) => f, pickOptions)
-      if (!hit) return
+      const best = pickAt(e.pixel)
+      if (!best) return
+      const hit = best.feature
+      if (best.kind !== 'pin') {
+        const id = hit.get('placeId') as unknown
+        if (typeof id === 'string') useAppStore.getState().setSelectedPlaceId(id)
+        return
+      }
       const members = hit.get('features') as Feature[] | undefined
       if (!members) {
         // Selected pin (plain feature).
-        const id = hit.getId()
+        const id = (hit as Feature).getId()
         if (typeof id === 'string') useAppStore.getState().setSelectedPlaceId(id)
         return
       }
@@ -253,6 +329,7 @@ export function MapView() {
         const g = m.getGeometry()
         if (g) extendExtent(extent, g.getExtent())
       }
+      movedRef.current = true
       const { isDesktop: desktop, sheetState: sheet } = framingRef.current
       map.getView().fit(extent, {
         padding: selectionPadding(desktop, useAppStore.getState().panelCollapsed, sheet),
@@ -269,10 +346,10 @@ export function MapView() {
 
     map.on('pointermove', (e) => {
       if (e.dragging) return
-      const hit = map.forEachFeatureAtPixel(e.pixel, (f) => f, pickOptions)
+      const best = pickAt(e.pixel)
       const target = map.getTargetElement()
-      if (target) target.style.cursor = hit ? 'pointer' : ''
-      const members = hit?.get('features') as Feature[] | undefined
+      if (target) target.style.cursor = best ? 'pointer' : ''
+      const members = best?.kind === 'pin' ? (best.feature.get('features') as Feature[] | undefined) : undefined
       const id = members?.length === 1 ? members[0].getId() : undefined
       setHovered(typeof id === 'string' ? id : null)
     })
@@ -284,6 +361,14 @@ export function MapView() {
       setHovered(null)
     }
     viewport?.addEventListener('pointerleave', onLeave)
+
+    // The user moving the map (drag, pinch, wheel, keys) stops the one-off refit when layers arrive late.
+    const markMoved = () => {
+      movedRef.current = true
+    }
+    map.on('pointerdrag', markMoved)
+    viewport?.addEventListener('wheel', markMoved, { passive: true })
+    viewport?.addEventListener('keydown', markMoved)
 
     // Report the camera once a move ends (also after animations) so the URL layer can record it.
     map.on('moveend', () => {
@@ -302,15 +387,25 @@ export function MapView() {
     clusterLayerRef.current = clusterLayer
     baseSourceRef.current = baseSource
     selectedLayerRef.current = selectedLayer
+    lineSourceRef.current = lineSource
+    areaSourceRef.current = areaSource
+    selectedGeomSourceRef.current = selectedGeomSource
 
     return () => {
       resizeObserver.disconnect()
       viewport?.removeEventListener('pointerleave', onLeave)
+      viewport?.removeEventListener('wheel', markMoved)
+      viewport?.removeEventListener('keydown', markMoved)
       mapRef.current = null
       clusterLayerRef.current = null
       baseSourceRef.current = null
       selectedLayerRef.current = null
+      lineSourceRef.current = null
+      areaSourceRef.current = null
+      selectedGeomSourceRef.current = null
       flownIdRef.current = null
+      framedRef.current = null
+      prevFrameRef.current = null
       hoveredIdRef.current = null
       map.setTarget(undefined)
       map.dispose()
@@ -341,26 +436,75 @@ export function MapView() {
     if (selected) selectedSource.addFeature(toFeature(selected))
   }, [visiblePlaces, allPlaces, selectedPlaceId])
 
-  // Fly to the selected place only when the selection changes, not on data or layout updates.
+  // Trail lines and park areas for the places that pass the theme and town filters (the same set as the pins).
+  // Only the layer sources change here; the map is not recreated. The selected place's geometry goes on its own top layer.
   useEffect(() => {
-    if (selectedPlaceId === flownIdRef.current) return
+    const lineSource = lineSourceRef.current
+    const areaSource = areaSourceRef.current
+    const selectedSource = selectedGeomSourceRef.current
+    if (!lineSource || !areaSource || !selectedSource) return
+    const themeById = new Map<string, ThemeId>()
+    for (const p of visiblePlaces) themeById.set(p.id, p.theme)
+    const withTheme = (features: typeof geometry.lines) =>
+      features.filter((f) => {
+        const theme = themeById.get(f.get('placeId') as string)
+        if (theme) f.set('theme', theme, true)
+        return theme !== undefined
+      })
+    lineSource.clear()
+    areaSource.clear()
+    lineSource.addFeatures(withTheme(geometry.lines))
+    areaSource.addFeatures(withTheme(geometry.areas))
+    selectedSource.clear()
+    const selected = allPlaces.find((p) => p.id === selectedPlaceId)
+    // Clones, so the same Feature is never held by two sources (the base layers keep the originals).
+    selectedSource.addFeatures(selected ? selectedGeometryFeatures(geometry.index.get(selected.id), selected.theme) : [])
+  }, [visiblePlaces, allPlaces, selectedPlaceId, geometry.lines, geometry.areas, geometry.index])
+
+  // Frame the selected place: on a new selection, when the sheet or panel changes, and once when layers arrive late.
+  useEffect(() => {
+    const prev = prevFrameRef.current
+    prevFrameRef.current = { sheetState, panelCollapsed, isDesktop, index: geometry.index }
     if (selectedPlaceId === null) {
       flownIdRef.current = null
+      framedRef.current = null
       return
     }
     const map = mapRef.current
     const place = allPlaces.find((p) => p.id === selectedPlaceId)
-    // A selection restored from the URL keeps the camera the URL carries instead of flying to the place.
-    if (map && place && useAppStore.getState().selectionOrigin === 'url') {
-      flownIdRef.current = selectedPlaceId
-      return
-    }
     // Places may not have loaded yet. Leave the id unflown so this runs again when they arrive.
     if (!map || !place) return
-    flownIdRef.current = selectedPlaceId
-    const padding = selectionPadding(isDesktop, useAppStore.getState().panelCollapsed, useAppStore.getState().sheetState)
-    flyToPlace(map, fromLonLat(place.centroid), padding)
-  }, [selectedPlaceId, allPlaces, isDesktop])
+
+    const features = geometry.index.get(place.id)
+    const frame = () => {
+      const padding = selectionPadding(isDesktop, panelCollapsed, sheetState)
+      const plan = planFrame(place, features)
+      if (plan.kind === 'centroid') flyToPlace(map, fromLonLat(place.centroid), padding)
+      else fitToExtent(map, plan.extent, padding)
+      framedRef.current = { placeId: place.id, kind: plan.kind, moved: false }
+      movedRef.current = false
+    }
+    const origin = useAppStore.getState().selectionOrigin
+    const lastFrame = framedRef.current?.placeId === place.id ? framedRef.current : null
+    const framed = lastFrame ? { ...lastFrame, moved: movedRef.current } : null
+
+    if (selectedPlaceId !== flownIdRef.current) {
+      flownIdRef.current = selectedPlaceId
+      // A selection restored from a shared link that also has a camera keeps that camera.
+      if (!shouldFrame('selection', { origin, framed: null, hasGeometry: false })) {
+        framedRef.current = { placeId: place.id, kind: 'shared', moved: false }
+        movedRef.current = false
+        return
+      }
+      frame()
+      return
+    }
+    const layoutChanged =
+      prev !== null && (prev.sheetState !== sheetState || prev.panelCollapsed !== panelCollapsed || prev.isDesktop !== isDesktop)
+    const geometryArrived = prev !== null && prev.index !== geometry.index
+    if (layoutChanged && shouldFrame('layout', { origin, framed, hasGeometry: features !== undefined })) frame()
+    else if (geometryArrived && shouldFrame('geometry', { origin, framed, hasGeometry: features !== undefined })) frame()
+  }, [selectedPlaceId, allPlaces, isDesktop, sheetState, panelCollapsed, geometry.index])
 
   // Apply camera requests (from the URL) once each, by sequence number, without animation.
   const cameraRequest = useAppStore((s) => s.cameraRequest)
@@ -395,6 +539,7 @@ export function MapView() {
   const zoomBy = (delta: number) => {
     const view = mapRef.current?.getView()
     if (!view) return
+    movedRef.current = true
     const zoom = view.getZoom() ?? 12
     const target = zoom + delta
     if (prefersReducedMotion()) view.setZoom(target)
@@ -403,7 +548,6 @@ export function MapView() {
 
   const inset = bottomInsetPx(isDesktop, sheetState)
   const hideZoom = !isDesktop && sheetState === 'full'
-  const panelCollapsed = useAppStore((s) => s.panelCollapsed)
 
   return (
     <div

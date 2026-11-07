@@ -189,6 +189,18 @@ describe('publish gates', () => {
     expect(res.ok).toBe(true)
   })
 
+  it('requires every greenways feature to have status existing or proposed', () => {
+    const trail = place('t', { category: 'trail', sourceIds: ['cary-greenways'] })
+    const catalog = { sources: [source('cary-greenways')], places: [trail] }
+    const gf = (status?: string) => ({ ...feature('t'), properties: { placeId: 't', ...(status ? { status } : {}) } })
+    const run = (...fs: Json[]) =>
+      validateRelease({ catalog, layers: { greenways: { type: 'FeatureCollection', features: fs } } })
+    expect(run(gf('existing'), gf('proposed')).errors).toEqual([])
+    expect(run(gf()).errors.join()).toContain('status must be')
+    expect(run(gf('Existing')).errors.join()).toContain('status must be')
+    expect(run().errors.join()).toContain('has no layer feature')
+  })
+
   it('leaves the output dir untouched on failure', () => {
     stage()
     expect(run().ok).toBe(true)

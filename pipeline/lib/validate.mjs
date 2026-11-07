@@ -1,5 +1,7 @@
+import { validateDetail } from './visit.mjs'
+
 // Release gates. validateRelease({ catalog, layers, relationships, previousManifest, lastRun, env, allowStale })
-//   layers: { [name]: FeatureCollection }; returns { ok, errors[], warnings[] }.
+//   layers: { [name]: FeatureCollection }; details: { [placeId]: parsed places/<id>.json } (null skips the check); returns { ok, errors[], warnings[] }.
 export const BOUNDS = { lonMin: -80.0, lonMax: -77.8, latMin: 35.0, latMax: 36.6 }
 export const COUNT_CHANGE_LIMIT = 0.3
 const REQUIRED_COUNTY = 'Wake'
@@ -33,6 +35,7 @@ export function validateRelease({
   catalog,
   layers = {},
   relationships = { relationships: [] },
+  details = null,
   previousManifest = null,
   lastRun = null,
   env = process.env,
@@ -87,6 +90,16 @@ export function validateRelease({
   for (const [i, r] of (relationships?.relationships ?? []).entries()) {
     for (const end of ['from', 'to']) {
       if (!ids.has(r[end])) errors.push(`relationship ${i}: ${end} "${r[end]}" not in catalog`)
+    }
+  }
+
+  // Visit-info detail files: exactly one per catalog place, 14 fields in order, evidence on every known field
+  if (details) {
+    const sourceIds = new Set(sources.map((s) => s.id))
+    for (const id of ids) if (!details[id]) errors.push(`place "${id}" has no places/${id}.json detail file`)
+    for (const [id, d] of Object.entries(details)) {
+      if (!ids.has(id)) errors.push(`places/${id}.json: id "${id}" is not in the catalog`)
+      else errors.push(...validateDetail(d, id, sourceIds))
     }
   }
 

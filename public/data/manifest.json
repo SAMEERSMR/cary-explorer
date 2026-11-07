@@ -1,5 +1,5 @@
 {
- "version": "77afdc8a961ec746",
+ "version": "4188bdab5a4741a2",
  "generatedFrom": "2026-11-07T17:40:46.521Z",
  "sources": [
   {
@@ -12,12 +12,30 @@
    "ok": true
   },
   {
+   "id": "cary-park-features",
+   "recordCount": 0,
+   "retrievedAt": "2026-11-07T17:40:43.353Z",
+   "licence": "CC0 1.0",
+   "licenceStatus": "declared",
+   "lastSuccess": "2026-11-07T17:40:43.353Z",
+   "ok": true
+  },
+  {
    "id": "cary-parks",
    "recordCount": 74,
    "retrievedAt": "2026-11-07T17:40:39.429Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:39.429Z",
+   "ok": true
+  },
+  {
+   "id": "wake-park-entrances",
+   "recordCount": 0,
+   "retrievedAt": "2026-11-07T17:40:09.979Z",
+   "licence": "CC BY 4.0",
+   "licenceStatus": "declared",
+   "lastSuccess": "2026-11-07T17:40:09.979Z",
    "ok": true
   },
   {

@@ -49,6 +49,10 @@ Publish stops if any gate fails:
 
 `data:build` writes to `pipeline/.staging/`. `data:publish` replaces the files in `public/data/` in one step. If a source fails, the run reports which source failed and the last good release stays in place.
 
+## Place detail files
+
+`data:build` also writes `places/<id>.json` for every catalog place: `{ id, fields }` with the 14 visit fields in a fixed order (address, entrances, parking, restrooms, paved surface, steps and slope, wheelchair access, hours, drinking water, dog park, playground, picnic shelter, walking trails, phone). A field is `known` (with `value`, `sourceId` and `verifiedAt`) only when a source states it; "No", empty and null are `unknown`, and wheelchair access is known only from an explicit accessibility flag, never from paving. `data:publish` fails if a place lacks a file, a file lacks a key or evidence, and copies `places/` with the rest of the release. See decision 18.
+
 ## Manifest
 
 `public/data/manifest.json` records the release version, what it was built from, and for each source: record count, `retrievedAt`, licence, licence status, last successful refresh and `ok`. The browser can show source health from it.

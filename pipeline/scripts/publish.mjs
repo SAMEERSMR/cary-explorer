@@ -32,6 +32,8 @@ export function publish({
   }
 
   let catalogText, catalog, layers = {}, layerTexts = {}, relText, relationships
+  const details = {}
+  const detailTexts = {}
   try {
     catalogText = readFileSync(join(stagingDir, 'catalog.json'), 'utf8')
     catalog = JSON.parse(catalogText)
@@ -42,6 +44,14 @@ export function publish({
         layers[f.replace(/\.geojson$/, '')] = JSON.parse(layerTexts[f])
       }
     }
+    const placesDir = join(stagingDir, 'places')
+    if (existsSync(placesDir)) {
+      for (const f of readdirSync(placesDir).filter((n) => n.endsWith('.json')).sort()) {
+        const id = f.replace(/\.json$/, '')
+        detailTexts[id] = readFileSync(join(placesDir, f), 'utf8')
+        details[id] = JSON.parse(detailTexts[id])
+      }
+    } else warnings.push('staging has no places/ directory; every place will fail the detail-file gate')
     if (existsSync(join(stagingDir, 'relationships.json'))) {
       relText = readFileSync(join(stagingDir, 'relationships.json'), 'utf8')
       relationships = JSON.parse(relText)
@@ -85,7 +95,7 @@ export function publish({
     }
   } else warnings.push('no .last-run.json; source failure gate skipped')
 
-  const result = validateRelease({ catalog, layers, relationships, previousManifest, lastRun, env, allowStale })
+  const result = validateRelease({ catalog, layers, relationships, details, previousManifest, lastRun, env, allowStale })
   errors.push(...result.errors)
   warnings.push(...result.warnings)
   if (errors.length) return fail()
@@ -95,6 +105,7 @@ export function publish({
   hash.update(catalogText)
   for (const name of Object.keys(layerTexts).sort()) hash.update(`\0${name}\0${layerTexts[name]}`)
   hash.update(`\0relationships\0${relText}`)
+  for (const id of Object.keys(detailTexts).sort()) hash.update(`\0place\0${id}\0${detailTexts[id]}`)
   const failed = new Map((lastRun?.sources ?? []).filter((s) => !s.ok).map((s) => [s.id, s]))
   const prevById = new Map((previousManifest?.sources ?? []).map((s) => [s.id, s]))
   const counts = countBySource(catalog)
@@ -125,6 +136,8 @@ export function publish({
     writeFileSync(join(next, 'catalog.json'), catalogText)
     for (const [name, text] of Object.entries(layerTexts)) writeFileSync(join(next, 'layers', name), text)
     writeFileSync(join(next, 'relationships.json'), relText)
+    mkdirSync(join(next, 'places'), { recursive: true })
+    for (const [id, text] of Object.entries(detailTexts)) writeFileSync(join(next, 'places', `${id}.json`), text)
     writeFileSync(join(next, 'manifest.json'), serialize(manifest))
     mkdirSync(dirname(outDir), { recursive: true })
     const hadOld = existsSync(outDir)

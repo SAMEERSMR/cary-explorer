@@ -20,7 +20,7 @@ import { fromLonLat, toLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
 import type { SheetState } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
-import { desktopSelectionPadding } from '../../lib/layout'
+import { desktopSelectionPadding, sheetHeightPx } from '../../lib/layout'
 import { reportCamera } from '../../lib/cameraBus'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
@@ -44,7 +44,6 @@ const CARY_CENTER: [number, number] = [-78.7811, 35.7915]
 const MIN_SELECTED_ZOOM = 14
 const SELECT_ANIMATION_MS = 400
 const HIT_TOLERANCE_PX = 8
-const PEEK_SHEET_PX = 112
 const CLUSTER_DISTANCE_PX = 44
 const CLUSTER_MIN_DISTANCE_PX = 16
 const CLUSTER_MAX_ZOOM = 16
@@ -55,18 +54,6 @@ const TOWN_FIT_MAX_ZOOM = 15
 
 // Same order as OpenLayers padding: [top, right, bottom, left], in pixels.
 type Padding = [number, number, number, number]
-
-// Mobile bottom sheet height for each snap state (peek 112px, half ~50%, full ~90% of the window).
-function sheetHeightPx(state: SheetState): number {
-  switch (state) {
-    case 'peek':
-      return PEEK_SHEET_PX
-    case 'half':
-      return window.innerHeight * 0.5
-    case 'full':
-      return window.innerHeight * 0.9
-  }
-}
 
 // Desktop: the side panel covers the left DESKTOP_PANEL_WIDTH px. Mobile: keep clear of the top edge and the bottom sheet.
 function selectionPadding(isDesktop: boolean, panelCollapsed: boolean, sheetState: SheetState = 'peek'): Padding {

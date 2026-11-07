@@ -1,4 +1,5 @@
 // Mobile (below md) layout: search and theme chips floating over the map, plus a three-state bottom sheet.
+import { useRef, type PointerEvent as ReactPointerEvent } from 'react'
 import { CreditsButton } from '../about/CreditsButton'
 import { useAppStore, type SheetState } from '../../store/useAppStore'
 import { CategoryBadge } from '../themes/CategoryIcon'
@@ -7,8 +8,10 @@ import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
 import { TownFilter } from '../towns/TownFilter'
 import { townNote } from '../towns/coverage'
+import { sheetHeightPx } from '../../lib/layout'
 import { PanelBody } from './PanelBody'
 import { ViewToggle } from './ViewToggle'
+import { TAP_THRESHOLD_PX, clampSheetHeight, pickSnap, snapAnimationMs, velocityFromSamples, type PointerSample } from './sheetDrag'
 import { useSelectedPlace } from './useSelectedPlace'
 
 // The content wrapper is always in the DOM (hidden at peek) so aria-controls always points at a real element.
@@ -31,6 +34,75 @@ export function MobilePanel() {
   const setSheetState = useAppStore((s) => s.setSheetState)
   const selected = useSelectedPlace()
   const note = townNote(useAppStore((s) => s.town))
+  const sectionRef = useRef<HTMLElement>(null)
+  const drag = useRef<{ id: number; startY: number; startHeight: number; startState: SheetState; inset: number; samples: PointerSample[]; moved: boolean } | null>(null)
+  const suppressClick = useRef(false)
+  const cleanupTimer = useRef<number | undefined>(undefined)
+
+  // Hand the height back to the CSS classes once the snap has finished.
+  const release = (target: SheetState, inset: number) => {
+    const el = sectionRef.current
+    if (!el) return
+    window.clearTimeout(cleanupTimer.current)
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.style.transition = reduced ? 'none' : ''
+    el.style.height = `${sheetHeightPx(target) + (target === 'peek' ? inset : 0)}px`
+    cleanupTimer.current = window.setTimeout(() => {
+      el.style.height = ''
+      el.style.transition = ''
+    }, snapAnimationMs(reduced) + 50)
+  }
+
+  const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const el = sectionRef.current
+    if (!el || (e.pointerType === 'mouse' && e.button !== 0)) return
+    window.clearTimeout(cleanupTimer.current)
+    const startHeight = el.getBoundingClientRect().height
+    const inset = parseFloat(getComputedStyle(el).paddingBottom) || 0
+    drag.current = { id: e.pointerId, startY: e.clientY, startHeight, startState: sheetState, inset, samples: [{ y: e.clientY, t: e.timeStamp }], moved: false }
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  const onPointerMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const d = drag.current
+    const el = sectionRef.current
+    if (!d || !el || d.id !== e.pointerId) return
+    const delta = d.startY - e.clientY
+    if (!d.moved && Math.abs(delta) < TAP_THRESHOLD_PX) return
+    d.moved = true
+    d.samples.push({ y: e.clientY, t: e.timeStamp })
+    if (d.samples.length > 8) d.samples.shift()
+    // Written straight to the DOM so a drag causes no React re-renders.
+    el.style.transition = 'none'
+    el.style.height = `${clampSheetHeight(d.startHeight + delta, window.innerHeight, d.inset)}px`
+  }
+
+  const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const d = drag.current
+    const el = sectionRef.current
+    if (!d || !el || d.id !== e.pointerId) return
+    drag.current = null
+    if (!d.moved) return
+    suppressClick.current = true
+    window.setTimeout(() => (suppressClick.current = false), 0)
+    const target = pickSnap({
+      startState: d.startState,
+      startHeight: d.startHeight,
+      currentHeight: el.getBoundingClientRect().height,
+      velocityPxPerMs: velocityFromSamples(d.samples),
+      windowHeight: window.innerHeight,
+    })
+    const next = target ?? d.startState
+    release(next, d.inset)
+    if (next !== sheetState) setSheetState(next)
+  }
+
+  const onPointerCancel = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const d = drag.current
+    if (!d || d.id !== e.pointerId) return
+    drag.current = null
+    release(d.startState, d.inset)
+  }
 
   return (
     <>
@@ -53,8 +125,9 @@ export function MobilePanel() {
       </div>
 
       <section
+        ref={sectionRef}
         aria-label="Explore places"
-        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-sheet bg-panel pb-[env(safe-area-inset-bottom)] text-ink shadow-[0_-8px_24px_rgba(28,36,32,0.14)] transition-[height] duration-300 motion-reduce:transition-none ${HEIGHT[sheetState]}`}
+        className={`absolute inset-x-0 bottom-0 z-30 flex flex-col rounded-t-sheet bg-panel pb-[env(safe-area-inset-bottom)] text-ink shadow-[0_-8px_24px_rgba(28,36,32,0.14)] transition-[height] duration-200 ease-out motion-reduce:transition-none ${HEIGHT[sheetState]}`}
       >
         {/* 44px hit area, centred grab bar. The header sits fully below it (no negative margin). */}
         <button
@@ -62,8 +135,15 @@ export function MobilePanel() {
           aria-label={HANDLE_LABEL[sheetState]}
           aria-expanded={sheetState !== 'peek'}
           aria-controls={CONTENT_ID}
-          onClick={() => setSheetState(NEXT_STATE[sheetState])}
-          className="flex h-11 w-full shrink-0 items-center justify-center rounded-t-sheet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
+          onClick={() => {
+            if (suppressClick.current) return
+            setSheetState(NEXT_STATE[sheetState])
+          }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+          className="touch-none flex h-11 w-full shrink-0 items-center justify-center rounded-t-sheet focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
         >
           <span aria-hidden="true" className="h-1 w-9 rounded-full bg-[#C9C5BC]" />
         </button>

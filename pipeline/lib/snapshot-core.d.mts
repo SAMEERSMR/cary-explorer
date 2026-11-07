@@ -9,6 +9,7 @@ export interface Source {
   attribution: string
   cadence: 'weekly' | 'monthly'
   fields: string[]
+  where?: string
   dir: string
   enabled: boolean
 }

@@ -65,3 +65,38 @@ describe('desktop panel collapse', () => {
     expect(useAppStore.getState().panelCollapsed).toBe(true)
   })
 })
+
+describe('town filter state', () => {
+  it('defaults to all towns and setTown sets and clears it', () => {
+    useAppStore.setState({ town: null })
+    useAppStore.getState().setTown('apex')
+    expect(useAppStore.getState().town).toBe('apex')
+    useAppStore.getState().setTown(null)
+    expect(useAppStore.getState().town).toBeNull()
+  })
+  it('keeps the selection when the town changes', () => {
+    useAppStore.getState().setSelectedPlaceId('p1')
+    useAppStore.getState().setTown('garner')
+    expect(useAppStore.getState().selectedPlaceId).toBe('p1')
+  })
+  it('applyUrlState sets and resets the town', () => {
+    useAppStore.getState().applyUrlState({ town: 'wendell', selectedPlaceId: null, origin: 'url' })
+    expect(useAppStore.getState().town).toBe('wendell')
+    useAppStore.getState().applyUrlState({ selectedPlaceId: null, origin: 'url' })
+    expect(useAppStore.getState().town).toBeNull()
+  })
+})
+
+describe('town fit request', () => {
+  it('bumps only when a town is chosen', () => {
+    useAppStore.setState({ town: null, fitRequest: null })
+    useAppStore.getState().setTown('apex')
+    expect(useAppStore.getState().fitRequest?.seq).toBe(1)
+    useAppStore.getState().setTown(null)
+    expect(useAppStore.getState().fitRequest?.seq).toBe(1)
+    useAppStore.getState().setTown('knightdale')
+    expect(useAppStore.getState().fitRequest?.seq).toBe(2)
+    useAppStore.getState().applyUrlState({ town: 'wendell', selectedPlaceId: null, origin: 'url' })
+    expect(useAppStore.getState().fitRequest?.seq).toBe(2)
+  })
+})

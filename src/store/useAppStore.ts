@@ -11,10 +11,14 @@ export interface CameraRequest {
   zoom: number
   seq: number
 }
+export interface FitRequest {
+  seq: number
+}
 export interface UrlApply {
   themes?: ThemeId[]
   view?: ViewMode
   searchQuery?: string
+  town?: string | null
   selectedPlaceId: string | null
   missingPlaceId?: string | null
   origin: SelectionOrigin
@@ -25,6 +29,8 @@ interface AppState {
   selectedPlaceId: string | null
   activeThemes: ThemeId[]
   searchQuery: string
+  // Town slug (see features/towns/coverage.ts); null = all towns.
+  town: string | null
   view: ViewMode
   sheetState: SheetState
   // Desktop side panel hidden. Transient UI state: deliberately not part of the shareable URL state.
@@ -35,6 +41,9 @@ interface AppState {
   missingPlaceId: string | null
   // One-shot camera move for the map (applied by `seq`, no animation).
   cameraRequest: CameraRequest | null
+  // One-shot request to fit the map to the filtered places of the chosen town (applied by `seq`).
+  fitRequest: FitRequest | null
+  requestFit: () => void
   requestCamera: (center: [number, number], zoom: number) => void
   dismissMissingPlace: () => void
   applyUrlState: (apply: UrlApply) => void
@@ -42,6 +51,7 @@ interface AppState {
   setActiveThemes: (themes: ThemeId[]) => void
   toggleTheme: (id: ThemeId) => void
   setSearchQuery: (query: string) => void
+  setTown: (town: string | null) => void
   setView: (view: ViewMode) => void
   setSheetState: (state: SheetState) => void
   setPanelCollapsed: (collapsed: boolean) => void
@@ -52,12 +62,15 @@ export const useAppStore = create<AppState>()((set) => ({
   selectedPlaceId: null,
   activeThemes: THEMES.map((t) => t.id),
   searchQuery: '',
+  town: null,
   view: 'map',
   sheetState: 'peek',
   panelCollapsed: false,
   selectionOrigin: 'user',
   missingPlaceId: null,
   cameraRequest: null,
+  fitRequest: null,
+  requestFit: () => set((s) => ({ fitRequest: { seq: (s.fitRequest?.seq ?? 0) + 1 } })),
   requestCamera: (center, zoom) =>
     set((s) => ({ cameraRequest: { center, zoom, seq: (s.cameraRequest?.seq ?? 0) + 1 } })),
   dismissMissingPlace: () => set({ missingPlaceId: null }),
@@ -67,6 +80,7 @@ export const useAppStore = create<AppState>()((set) => ({
       return {
         activeThemes: a.themes ?? THEMES.map((t) => t.id),
         searchQuery: a.searchQuery ?? '',
+        town: a.town ?? null,
         view,
         selectedPlaceId: a.selectedPlaceId,
         missingPlaceId: a.missingPlaceId ?? null,
@@ -100,6 +114,10 @@ export const useAppStore = create<AppState>()((set) => ({
         : [...s.activeThemes, id],
     })),
   setSearchQuery: (query) => set({ searchQuery: query }),
+  // Like themes, changing the town never clears the selection: the card stays even if the place is filtered out.
+  // Choosing a town (not "all towns") also asks the map to fit its places.
+  setTown: (town) =>
+    set((s) => ({ town, fitRequest: town ? { seq: (s.fitRequest?.seq ?? 0) + 1 } : s.fitRequest })),
   // Switching views keeps the selection: the list highlights it and the map shows its card.
   setView: (view) =>
     set((s) => ({

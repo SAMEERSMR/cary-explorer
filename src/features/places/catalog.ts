@@ -72,7 +72,7 @@ function parsePlace(
   }
   const category = item.category as CategoryId
   if (!nonEmpty(item.municipality)) return fail('municipality must be a non-empty string')
-  if (item.county !== undefined && !nonEmpty(item.county)) {
+  if (!nonEmpty(item.county)) {
     return fail('county must be a non-empty string')
   }
   if (typeof item.description !== 'string') return fail('description must be a string')
@@ -132,7 +132,7 @@ function parsePlace(
     category,
     theme: CATEGORY_THEME[category],
     municipality: item.municipality,
-    county: item.county as string | undefined,
+    county: item.county,
     centroid: [c[0], c[1]],
     bbox: b === undefined ? undefined : [b[0], b[1], b[2], b[3]],
     description: item.description,

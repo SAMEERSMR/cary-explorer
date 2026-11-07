@@ -1,32 +1,32 @@
 {
- "version": "b097eaea677dea56",
- "generatedFrom": "2026-11-07T17:40:02.887Z",
+ "version": "c76080dac26098c1",
+ "generatedFrom": "2026-11-07T17:40:46.521Z",
  "sources": [
   {
    "id": "cary-greenways",
    "recordCount": 46,
-   "retrievedAt": "2026-11-07T17:40:02.887Z",
+   "retrievedAt": "2026-11-07T17:40:42.606Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:02.887Z",
+   "lastSuccess": "2026-11-07T17:40:42.606Z",
    "ok": true
   },
   {
    "id": "cary-parks",
    "recordCount": 74,
-   "retrievedAt": "2026-11-07T17:40:00.091Z",
+   "retrievedAt": "2026-11-07T17:40:39.429Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:00.091Z",
+   "lastSuccess": "2026-11-07T17:40:39.429Z",
    "ok": true
   },
   {
    "id": "wake-parks",
-   "recordCount": 1,
-   "retrievedAt": "2026-11-06",
+   "recordCount": 244,
+   "retrievedAt": "2026-11-07T17:40:46.521Z",
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-06",
+   "lastSuccess": "2026-11-07T17:40:46.521Z",
    "ok": true
   }
  ]

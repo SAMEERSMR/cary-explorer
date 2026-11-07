@@ -5,21 +5,21 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:00.091Z"
+   "retrievedAt": "2026-11-07T17:40:39.429Z"
   },
   {
    "id": "cary-greenways",
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:02.887Z"
+   "retrievedAt": "2026-11-07T17:40:42.606Z"
   },
   {
    "id": "wake-parks",
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-06"
+   "retrievedAt": "2026-11-07T17:40:46.521Z"
   }
  ],
  "places": [
@@ -53,7 +53,7 @@
     "ATT"
    ],
    "category": "trail",
-   "municipality": "Cary",
+   "municipality": "Unincorporated Wake County",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -168,7 +168,7 @@
    "name": "Camp Branch Greenway",
    "aliases": [],
    "category": "trail",
-   "municipality": "Cary",
+   "municipality": "Unincorporated Wake County",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -536,7 +536,7 @@
    "name": "Kit Creek Greenway",
    "aliases": [],
    "category": "trail",
-   "municipality": "Cary",
+   "municipality": "Morrisville",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -720,7 +720,7 @@
    "name": "Optimist Farm Greenway",
    "aliases": [],
    "category": "trail",
-   "municipality": "Cary",
+   "municipality": "Unincorporated Wake County",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -1599,7 +1599,7 @@
    "name": "Conservation Swift Creek",
    "aliases": [],
    "category": "park",
-   "municipality": "Cary",
+   "municipality": "Unincorporated Wake County",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -2656,7 +2656,7 @@
    "name": "Veterans Freedom Park",
    "aliases": [],
    "category": "park",
-   "municipality": "Cary",
+   "municipality": "Unincorporated Wake County",
    "county": "Wake",
    "coverage": "core",
    "centroid": [
@@ -2827,8 +2827,4306 @@
     -78.580329,
     35.901752
    ],
-   "description": "Park in Raleigh (from Wake County's parks dataset).",
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "url": "https://raleighnc.gov/places/abbotts-creek-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-action-park",
+   "name": "Action Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.799147,
+    35.5928
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ailey-young-park",
+   "name": "Ailey Young Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.497693,
+    35.982457
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-alston-ridge-park",
+   "name": "Alston Ridge Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.812504,
+    35.623037
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-american-tobacco-trail-new-hill-entrance",
+   "name": "American Tobacco Trail - New Hill Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.946896,
+    35.714379
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-american-tobacco-trail-white-oak-entrance",
+   "name": "American Tobacco Trail - White Oak Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.923065,
+    35.786254
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-american-tobacco-trail-wimberly-rd-entrance",
+   "name": "American Tobacco Trail - Wimberly Rd Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.920922,
+    35.760829
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-anderson-point-park",
+   "name": "Anderson Point Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.542837,
+    35.772835
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/anderson-point-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-anderson-point-river-access",
+   "name": "Anderson Point River Access",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.543249,
+    35.774904
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/anderson-point-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-annie-louise-wilkerson-md-nature-preserve-park",
+   "name": "Annie Louise Wilkerson, MD Nature Preserve Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.599371,
+    35.918995
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/annie-louise-wilkerson-md-nature-preserve-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-community-center",
+   "name": "Apex Community Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.846283,
+    35.734928
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/453/Community-Center-Programs",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-community-park",
+   "name": "Apex Community Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.82862,
+    35.754616
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-community-park-lake-trail",
+   "name": "Apex Community Park (Lake Trail)",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.81596,
+    35.746757
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/795/Apex-Community-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-jaycee-park",
+   "name": "Apex Jaycee Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.860635,
+    35.731537
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/797/Apex-Jaycee-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-nature-park",
+   "name": "Apex Nature Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.905204,
+    35.717096
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/800/Nature-Park-Seymour-Athletic-Fields",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apex-nature-park-seymour-athletic-fields",
+   "name": "Apex Nature Park (Seymour Athletic Fields)",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.90286,
+    35.719681
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/800/Nature-Park-Seymour-Athletic-Fields",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-apollo-heights-park",
+   "name": "Apollo Heights Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.608867,
+    35.765187
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/apollo-heights-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-baileywick-road-park",
+   "name": "Baileywick Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.668202,
+    35.910192
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/baileywick-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ballentine-school-park",
+   "name": "Ballentine School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.77415,
+    35.612759
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-banks-road-fields",
+   "name": "Banks Road Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.710054,
+    35.633037
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-barwell-road-park",
+   "name": "Barwell Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.555537,
+    35.731178
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/barwell-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-bass-lake-park",
+   "name": "Bass Lake Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.803994,
+    35.643277
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-beech-bluff-county-park",
+   "name": "Beech Bluff County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.679334,
+    35.585373
+   ],
+   "description": "Park listed by Wake County, managed by Wake (from Wake County's parks layer).",
+   "url": "https://www.wake.gov/departments-government/parks-recreation-open-space/all-parks-trails/beech-bluff-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-berkshire-downs-west-park",
+   "name": "Berkshire Downs West Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.555944,
+    35.882854
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/berkshire-downs-west-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-biltmore-hills-park",
+   "name": "Biltmore Hills Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.627629,
+    35.744271
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/biltmore-hills-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-blue-jay-point-county-park",
+   "name": "Blue Jay Point County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.644548,
+    35.967628
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/blue-jay-point-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-bragg-street-park",
+   "name": "Bragg Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.635937,
+    35.765908
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/bragg-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-brentwood-park",
+   "name": "Brentwood Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.600626,
+    35.828521
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/brentwood-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-brier-creek-park",
+   "name": "Brier Creek Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.805944,
+    35.899969
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/brier-creek-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-brookhaven-nature-park",
+   "name": "Brookhaven Nature Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.686713,
+    35.852164
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/brookhaven-nature-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-buffaloe-road-athletic-park",
+   "name": "Buffaloe Road Athletic Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.541828,
+    35.840865
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/buffaloe-road-athletic-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-buffaloe-road-canoe-launch",
+   "name": "Buffaloe Road Canoe Launch",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.531371,
+    35.847553
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/river-access",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-c-c-jones-park",
+   "name": "C C Jones Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.856071,
+    35.730832
+   ],
+   "description": "Park listed by Wake County, managed by Privately Owned (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-campbell-lodge",
+   "name": "Campbell Lodge",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.578462,
+    35.889308
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/durant-nature-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-canoe-launch-at-falls-lake",
+   "name": "Canoe Launch at Falls Lake",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.578944,
+    35.939164
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/river-access",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-caraleigh-park",
+   "name": "Caraleigh Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.646102,
+    35.760921
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/caraleigh-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-carolina-pines-park",
+   "name": "Carolina Pines Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.671217,
+    35.749424
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/carolina-pines-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-carroll-howard-johnson-environmental-education-park",
+   "name": "Carroll Howard Johnson Environmental Education Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.807565,
+    35.566393
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-carver-elementary-school-park",
+   "name": "Carver Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.388133,
+    35.79191
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wendell (from Wake County's parks layer).",
+   "url": "https://www.townofwendell.com/departments/parks-and-recreation/facilites/carver-fields",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-cedar-hills-park",
+   "name": "Cedar Hills Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.630423,
+    35.860775
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/cedar-hills-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-centennial-park",
+   "name": "Centennial Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.603369,
+    35.668594
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-chamberlain-park",
+   "name": "Chamberlain Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.665179,
+    35.792294
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/chamberlain-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-church-street-park",
+   "name": "Church Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.84257,
+    35.846391
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-clairmont-park",
+   "name": "Clairmont Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.842137,
+    35.727285
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/796/Neighborhood-Parks",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-clemmons-educational-state-forest",
+   "name": "Clemmons Educational State Forest",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "nearby",
+   "centroid": [
+    -78.489052,
+    35.674152
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncesf.org/clemmons.html",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-cloverdale-park",
+   "name": "Cloverdale Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.613817,
+    35.724825
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "url": "https://www.garnernc.gov/departments/economic-development/living-here/recreation-and-cultural-resources",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-compiegne-park",
+   "name": "Compiegne Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.666591,
+    35.788092
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/compiegne-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-crabtree-creek-nature-park",
+   "name": "Crabtree Creek Nature Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.820271,
+    35.820522
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-creech-road-elementary-school-park",
+   "name": "Creech Road Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.60227,
+    35.71424
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dacian-road-park",
+   "name": "Dacian Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.601755,
+    35.762315
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dacian-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-davie-street-park",
+   "name": "Davie Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.624306,
+    35.775149
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/davie-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dixon-drive-park",
+   "name": "Dixon Drive Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.65178,
+    35.863099
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dixon-drive-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dorothea-dix-park-blair-dr-entrance",
+   "name": "Dorothea Dix Park - Blair Dr Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.66505,
+    35.770446
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dorothea-dix-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dorothea-dix-park-lake-wheeler-rd-entrance",
+   "name": "Dorothea Dix Park - Lake Wheeler Rd Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.658279,
+    35.76308
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dorothea-dix-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dorothea-dix-park-western-blvd-entrance",
+   "name": "Dorothea Dix Park - Western Blvd Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.656804,
+    35.77456
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dorothea-dix-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-dr-martin-luther-king-jr-memorial-gardens",
+   "name": "Dr. Martin Luther King, Jr. Memorial Gardens",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.618538,
+    35.768248
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/dr-martin-luther-king-jr-memorial-gardens",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-durant-nature-preserve",
+   "name": "Durant Nature Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.579179,
+    35.896085
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/durant-nature-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-e-carroll-joyner-park",
+   "name": "E. Carroll Joyner Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.514699,
+    35.998263
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-eastgate-park",
+   "name": "Eastgate Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.62481,
+    35.83859
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/eastgate-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-edna-metz-wells-park",
+   "name": "Edna Metz Wells Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.655096,
+    35.787474
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/edna-metz-wells-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-elevate-fitness-course",
+   "name": "Elevate Fitness Course",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.823985,
+    35.753246
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-eliza-pool-park",
+   "name": "Eliza Pool Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.643987,
+    35.759815
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/eliza-pool-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falcon-park",
+   "name": "Falcon Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.793039,
+    35.585802
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fallon-park",
+   "name": "Fallon Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.638994,
+    35.813093
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/fallon-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-b-w-wells-rec-area-entrance",
+   "name": "Falls Lake State Recreation Area - B.W. Wells Rec Area Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.632627,
+    35.994035
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-beaverdam-lake-entrance",
+   "name": "Falls Lake State Recreation Area - Beaverdam Lake Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.698049,
+    36.042356
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-holly-point-entrance",
+   "name": "Falls Lake State Recreation Area - Holly Point Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.657458,
+    36.010029
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-park-office-entrance",
+   "name": "Falls Lake State Recreation Area - Park Office Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.688842,
+    36.011701
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-sandling-beach-rec-area-entrance",
+   "name": "Falls Lake State Recreation Area - Sandling Beach Rec Area Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.698607,
+    36.04241
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-falls-lake-state-recreation-area-shinleaf-rec-area-entrance",
+   "name": "Falls Lake State Recreation Area - Shinleaf Rec Area Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.659416,
+    35.993816
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fisher-street-park",
+   "name": "Fisher Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.614758,
+    35.783604
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/fisher-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-five-points-center-for-active-adults",
+   "name": "Five Points Center for Active Adults",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.635716,
+    35.80891
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/five-points-center-active-adults",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fleming-loop-recreation-park",
+   "name": "Fleming Loop Recreation Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.816762,
+    35.579662
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-forest-ridge-park",
+   "name": "Forest Ridge Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.579064,
+    35.96612
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/forest-ridge-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fox-road-elementary-school-park",
+   "name": "Fox Road Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.555448,
+    35.871329
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fred-fletcher-park",
+   "name": "Fred Fletcher Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.651779,
+    35.793179
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/fred-fletcher-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fuquay-mineral-spring-park",
+   "name": "Fuquay Mineral Spring Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.800411,
+    35.578963
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fuquay-varina-downtown-dog-park",
+   "name": "Fuquay-Varina Downtown Dog Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.804399,
+    35.582521
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fuquay-varina-elementary-school-park",
+   "name": "Fuquay-Varina Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.756436,
+    35.604106
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fuquay-varina-high-school-tennis-courts",
+   "name": "Fuquay-Varina High School Tennis Courts",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.795881,
+    35.59675
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-fuquay-varina-museums-at-ashworth-park",
+   "name": "Fuquay-Varina Museums at Ashworth Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.798188,
+    35.583558
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-garner-jaycee-park",
+   "name": "Garner Jaycee Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.630438,
+    35.698512
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-garner-recreational-park",
+   "name": "Garner Recreational Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.602892,
+    35.706426
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-gill-street-park",
+   "name": "Gill Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Zebulon",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.310857,
+    35.82879
+   ],
+   "description": "Park listed by Wake County, managed by Town of Zebulon (from Wake County's parks layer).",
+   "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-glen-eden-pilot-park",
+   "name": "Glen Eden Pilot Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.685083,
+    35.827014
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/glen-eden-pilot-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-green-hills-county-park",
+   "name": "Green Hills County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.583792,
+    35.905154
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-open-space/all-parks-trails/green-hills-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-green-road-park",
+   "name": "Green Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.590757,
+    35.840479
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/green-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-greenbrier-park",
+   "name": "Greenbrier Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.649061,
+    35.719097
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-greystone-recreation-center",
+   "name": "Greystone Recreation Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.659473,
+    35.886578
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/greystone-recreation-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-h-l-miller-park",
+   "name": "H.L. Miller Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.507722,
+    35.976183
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-halifax-park",
+   "name": "Halifax Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.638357,
+    35.79335
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/halifax-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-halle-cultural-arts-center",
+   "name": "Halle Cultural Arts Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.850336,
+    35.732653
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-harper-park",
+   "name": "Harper Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.482888,
+    35.790229
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-harris-lake-county-park",
+   "name": "Harris Lake County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.91758,
+    35.630242
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/harris-lake-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-herbert-akins-fields",
+   "name": "Herbert Akins Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.801331,
+    35.621917
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-heritage-high-park",
+   "name": "Heritage High Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.507718,
+    35.939308
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-hertford-village-park",
+   "name": "Hertford Village Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.642792,
+    35.744232
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/hertford-village-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-hill-street-park",
+   "name": "Hill Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.588281,
+    35.812507
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/hill-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-historic-oak-view-county-park",
+   "name": "Historic Oak View County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.570632,
+    35.769801
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/historic-oak-view-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-historic-yates-mill-county-park",
+   "name": "Historic Yates Mill County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.685261,
+    35.721571
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/historic-yates-mill-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-holding-park",
+   "name": "Holding Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.514049,
+    35.978029
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-honeycutt-park",
+   "name": "Honeycutt Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.62242,
+    35.903633
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/honeycutt-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-honeycutt-road-park",
+   "name": "Honeycutt Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.761381,
+    35.582025
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-horseshoe-farm-nature-preserve",
+   "name": "Horseshoe Farm Nature Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.533118,
+    35.887717
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/horseshoe-farm-nature-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-hunter-street-park",
+   "name": "Hunter Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.847426,
+    35.738095
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/798/Hunter-Street-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-hymettus-woods-park",
+   "name": "Hymettus Woods Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.67627,
+    35.801187
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/hymettus-woods-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-indian-creek-greenway-and-trailhead",
+   "name": "Indian Creek Greenway and Trailhead",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.829255,
+    35.822294
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-isabella-cannon-park",
+   "name": "Isabella Cannon Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.669162,
+    35.792927
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/isabella-cannon-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-j-ashley-wall-town-square",
+   "name": "J Ashley Wall Town Square",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wendell",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.370497,
+    35.780407
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wendell (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-j-b-flaherty-park",
+   "name": "J.B. Flaherty Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.49387,
+    35.991985
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-james-a-campbell-park",
+   "name": "James A. Campbell Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.803248,
+    35.587116
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-jaycee-park",
+   "name": "Jaycee Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.664432,
+    35.800373
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/jaycee-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-john-chavis-memorial-park",
+   "name": "John Chavis Memorial Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.628419,
+    35.769104
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/john-chavis-memorial-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-john-p-top-greene-park",
+   "name": "John P Top Greene Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.632941,
+    35.769533
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/john-p-top-greene-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-jones-park",
+   "name": "Jones Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.829178,
+    35.657578
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-junious-n-sorrell-park",
+   "name": "Junious N. Sorrell Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.633345,
+    35.766908
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/junious-n-sorrell-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kaplan-park",
+   "name": "Kaplan Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.711541,
+    35.774382
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/kaplan-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kelly-glen-park",
+   "name": "Kelly Glen Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.893082,
+    35.729189
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/796/Neighborhood-Parks",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kelly-road-park",
+   "name": "Kelly Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.895283,
+    35.731806
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/799/Kelly-Road-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kentwood-park",
+   "name": "Kentwood Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.696682,
+    35.776875
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/kentwood-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kingwood-forest-park",
+   "name": "Kingwood Forest Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.618177,
+    35.74448
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/kingwood-forest-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kinton-soccer-fields",
+   "name": "Kinton Soccer Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.803883,
+    35.577728
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-kiwanis-park",
+   "name": "Kiwanis Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.630998,
+    35.815205
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/kiwanis-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-knightdale-community-park",
+   "name": "Knightdale Community Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.472626,
+    35.808033
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-knightdale-community-pool",
+   "name": "Knightdale Community Pool",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.53288,
+    35.794047
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "url": "https://www.knightdalenc.gov/departments/parks-recreation-and-cultural-programs/parks-greenways-and-facilities/knightdale-1",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-knightdale-elementary-school-park",
+   "name": "Knightdale Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.477091,
+    35.78392
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "url": "https://www.knightdalenc.gov/departments/parks-recreation-and-cultural-programs/parks-greenways-and-facilities",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-knightdale-environmental-park",
+   "name": "Knightdale Environmental Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.487806,
+    35.802636
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-knightdale-station-park",
+   "name": "Knightdale Station Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.475845,
+    35.795777
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-benson-park",
+   "name": "Lake Benson Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.628247,
+    35.675091
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-crabtree-county-park",
+   "name": "Lake Crabtree County Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.801049,
+    35.8456
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/lake-crabtree-county-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-johnson-nature-preserve",
+   "name": "Lake Johnson Nature Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.714258,
+    35.762682
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-johnson-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-johnson-park",
+   "name": "Lake Johnson Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.714258,
+    35.762682
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-johnson-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-johnson-pool",
+   "name": "Lake Johnson Pool",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.716275,
+    35.769664
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-johnson-pool",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-lynn-park-lynn-rd-entrance",
+   "name": "Lake Lynn Park - Lynn Rd Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.698404,
+    35.87187
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-lynn-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-lynn-park-ray-rd-entrance",
+   "name": "Lake Lynn Park - Ray Rd Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.697495,
+    35.889968
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-lynn-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lake-wheeler-park",
+   "name": "Lake Wheeler Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.695451,
+    35.695994
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lake-wheeler-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lassiter-mill-historical-park",
+   "name": "Lassiter Mill Historical Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.65023,
+    35.826441
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-latta-property",
+   "name": "Latta Property",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.662406,
+    35.796369
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/latta-university-historic-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-laurel-hills-park",
+   "name": "Laurel Hills Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.700537,
+    35.830614
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/laurel-hills-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-leesville-park",
+   "name": "Leesville Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.71318,
+    35.885878
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/leesville-community-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lenoir-street-park",
+   "name": "Lenoir Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.64867,
+    35.773332
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lenoir-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-levelle-moton-park",
+   "name": "LeVelle Moton Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.626366,
+    35.78336
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/levelle-moton-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-library-park",
+   "name": "Library Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.798184,
+    35.58312
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lions-park",
+   "name": "Lions Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.615377,
+    35.798416
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lions-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-little-river-park",
+   "name": "Little River Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.353919,
+    35.821988
+   ],
+   "description": "Park listed by Wake County, managed by Town of Zebulon (from Wake County's parks layer).",
+   "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lockwood-park",
+   "name": "Lockwood Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.599022,
+    35.795466
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/lockwood-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-longstreet-park",
+   "name": "Longstreet Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.650331,
+    35.876124
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/longstreet-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-longview-park",
+   "name": "Longview Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.609041,
+    35.785361
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/longview-pool",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-lt-col-george-f-marshall-memorial-park",
+   "name": "Lt. Col. George F. Marshall Memorial Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.681018,
+    35.830178
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/marshall-memorial-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-marsh-creek-park",
+   "name": "Marsh Creek Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.568987,
+    35.823133
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/marsh-creek-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mary-belle-pate-park",
+   "name": "Mary Belle Pate Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.679477,
+    35.752061
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/mary-belle-pate-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-method-community-park",
+   "name": "Method Community Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.693796,
+    35.792585
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/method-community-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-milburnie",
+   "name": "Milburnie",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.536896,
+    35.797753
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-milburnie-park-neuse-river-trail-access",
+   "name": "Milburnie Park Neuse River Trail Access",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.54087,
+    35.801451
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://www.raleighnc.gov/parks/content/ParksRec/Articles/Greenways/NeuseRiverTrail.html",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mill-bridge-nature-park",
+   "name": "Mill Bridge Nature Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Rolesville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.482588,
+    35.932128
+   ],
+   "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-millbrook-exchange-park",
+   "name": "Millbrook Exchange Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.607598,
+    35.866412
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/millbrook-exchange-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mingo-creek-park",
+   "name": "Mingo Creek Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.493888,
+    35.791614
+   ],
+   "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mitchell-mill-state-natural-area",
+   "name": "Mitchell Mill State Natural Area",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.388969,
+    35.919133
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "url": "https://www.ncparks.gov/falls-lake-state-recreation-area/history",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-moore-square",
+   "name": "Moore Square",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.635262,
+    35.776892
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/moore-square",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mordecai-historic-park",
+   "name": "Mordecai Historic Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.633136,
+    35.792392
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/mordecai-historic-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-mordecai-mini-park",
+   "name": "Mordecai Mini Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.635076,
+    35.795595
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/mordecai-mini-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-morrisville-aquatics-and-fitness-center",
+   "name": "Morrisville Aquatics and Fitness Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.840874,
+    35.810831
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "url": "https://www.townofmorrisville.org/government/departments-services/parks-recreation-cultural-resources/morrisville-aquatics-and-fitness-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-nash-square",
+   "name": "Nash Square",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.64311,
+    35.778326
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-new-hope-church-road-trailhead-park",
+   "name": "New Hope Church Road Trailhead Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Chatham County",
+   "county": "Chatham",
+   "coverage": "nearby",
+   "centroid": [
+    -78.926071,
+    35.816394
+   ],
+   "description": "Park listed by Wake County, managed by Town of Cary (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-north-garner-dog-park",
+   "name": "North Garner Dog Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.602892,
+    35.706426
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-north-hills-park",
+   "name": "North Hills Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.656152,
+    35.839896
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/north-hills-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-northwest-park",
+   "name": "Northwest Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.873471,
+    35.841665
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-oakwood-commons-park",
+   "name": "Oakwood Commons Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.632312,
+    35.787945
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/oakwood-commons-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-oakwood-park",
+   "name": "Oakwood Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.625473,
+    35.791023
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/oakwood-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-optimist-park",
+   "name": "Optimist Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.648067,
+    35.864639
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/optimist-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-parrish-womble-park",
+   "name": "Parrish Womble Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.82857,
+    35.64583
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-peach-road-park",
+   "name": "Peach Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.654814,
+    35.743359
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/peach-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pender-street-park",
+   "name": "Pender Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.615596,
+    35.78239
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/john-stokes-memorial-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-peter-williams-park",
+   "name": "Peter Williams Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.666579,
+    35.871154
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/peter-williams-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pleasant-park",
+   "name": "Pleasant Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.884491,
+    35.703887
+   ],
+   "description": "Park listed by Wake County, managed by Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/1163/Pleasant-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-plummer-park",
+   "name": "Plummer Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.548647,
+    35.969787
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pollock-place-park",
+   "name": "Pollock Place Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.679852,
+    35.794512
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/pollock-place-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-poole-road-canoe-launch",
+   "name": "Poole Road Canoe Launch",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.533753,
+    35.75452
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/river-access",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pope-house",
+   "name": "Pope House",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.638318,
+    35.773706
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/pope-house",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-powell-drive-park",
+   "name": "Powell Drive Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.713446,
+    35.778284
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/powell-drive-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pullen-arts-center",
+   "name": "Pullen Arts Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.664151,
+    35.784504
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/pullen-arts-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-pullen-park",
+   "name": "Pullen Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.661639,
+    35.779645
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/pullen-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-quarry-street-park",
+   "name": "Quarry Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.623407,
+    35.768997
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/quarry-street-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-raleigh-city-museum",
+   "name": "Raleigh City Museum",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.639499,
+    35.77765
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/city-raleigh-museum",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rand-mill-park",
+   "name": "Rand Mill Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.605314,
+    35.700083
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ransdell-soccer-fields",
+   "name": "Ransdell Soccer Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.753509,
+    35.599719
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ridge-road-park",
+   "name": "Ridge Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.68498,
+    35.813082
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/ridge-road-pool",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-river-bend-park",
+   "name": "River Bend Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.52992,
+    35.860897
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/river-bend-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-roanoke-park",
+   "name": "Roanoke Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.640641,
+    35.802301
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/roanoke-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-roberts-park",
+   "name": "Roberts Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.618698,
+    35.776157
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/roberts-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-robertson-millpond-preserve",
+   "name": "Robertson Millpond Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.412356,
+    35.81691
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/robertson-millpond-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rodgers-family-skate-plaza-at-trackside",
+   "name": "Rodgers Family Skate Plaza at Trackside",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.848284,
+    35.735949
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/485/Trackside-Skate-Plaza",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rolesville-community-school-park",
+   "name": "Rolesville Community School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Rolesville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.463565,
+    35.916483
+   ],
+   "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rolesville-main-street-park",
+   "name": "Rolesville Main Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Rolesville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.460702,
+    35.921089
+   ],
+   "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rose-garden-and-raleigh-little-theatre",
+   "name": "Rose Garden & Raleigh Little Theatre",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.668597,
+    35.790574
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/raleigh-little-theatre-and-rose-garden",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-rothgeb-park",
+   "name": "Rothgeb Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.641893,
+    35.82129
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/rothgeb-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ruritan-park",
+   "name": "Ruritan Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.826348,
+    35.823408
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "url": "https://www.townofmorrisville.org/government/departments-services/parks-recreation-cultural-resources/parks-and-greenways",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-salem-pond-park",
+   "name": "Salem Pond Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.849397,
+    35.754702
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/1251/Salem-Pond-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-sanderford-road-park",
+   "name": "Sanderford Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.613817,
+    35.743612
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/sanderford-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-sandy-pines-preserve",
+   "name": "Sandy Pines Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.389977,
+    35.831039
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-open-space/all-parks-trails/sandy-pines-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-seagroves-farm-park",
+   "name": "Seagroves Farm Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.828384,
+    35.727884
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/796/Neighborhood-Parks",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-sertoma-arts-center",
+   "name": "Sertoma Arts Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.666153,
+    35.857814
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/sertoma-arts-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-shelley-lake-park",
+   "name": "Shelley Lake Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.662295,
+    35.856393
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/shelley-lake-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-shiloh-park-luther-green-center",
+   "name": "Shiloh Park/Luther Green Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.842809,
+    35.850934
+   ],
+   "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-smith-creek-soccer-center",
+   "name": "Smith Creek Soccer Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.501239,
+    35.955814
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-south-garner-park",
+   "name": "South Garner Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.624897,
+    35.693503
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-south-park",
+   "name": "South Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.800704,
+    35.572468
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-southgate-park",
+   "name": "Southgate Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.608252,
+    35.755066
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/southgate-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-spring-forest-road-park",
+   "name": "Spring Forest Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.57139,
+    35.858055
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/spring-forest-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-spring-park",
+   "name": "Spring Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.685813,
+    35.778132
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/spring-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-strickland-road-neighborhood-park",
+   "name": "Strickland Road Neighborhood Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.714407,
+    35.907877
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/strickland-road-neighborhood-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-sue-helton-park",
+   "name": "Sue Helton Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.849056,
+    35.72035
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/796/Neighborhood-Parks",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-tarboro-road-park",
+   "name": "Tarboro Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.623213,
+    35.781916
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/tarboro-road-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-taylor-street-park",
+   "name": "Taylor Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.503972,
+    35.98329
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-the-pit-soccer-field",
+   "name": "The PIT Soccer Field",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.828809,
+    35.646
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-theatre-in-the-park-pullen-park",
+   "name": "Theatre in the Park (Pullen Park)",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.661639,
+    35.779645
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/theatre-park-pullen-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-thomas-g-crowder-woodland-center",
+   "name": "Thomas G. Crowder Woodland Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.716275,
+    35.769664
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/thomas-g-crowder-woodland-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-thompson-road-park",
+   "name": "Thompson Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.635442,
+    35.681771
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-ting-park",
+   "name": "Ting Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.834811,
+    35.669566
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "url": "https://www.hollyspringsnc.us/607/Ting-Park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-tucker-house",
+   "name": "Tucker House",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.634446,
+    35.785297
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/tucker-house",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-turnipseed-nature-preserve",
+   "name": "Turnipseed Nature Preserve",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.404243,
+    35.745338
+   ],
+   "description": "Park listed by Wake County, managed by Wake County (from Wake County's parks layer).",
+   "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/turnipseed-nature-preserve",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-tyler-run-park",
+   "name": "Tyler Run Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.521216,
+    35.971215
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-vallie-henderson-park",
+   "name": "Vallie Henderson Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.629177,
+    35.784532
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/vallie-henderson-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-vance-elementary-school-park",
+   "name": "Vance Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.669143,
+    35.656646
+   ],
+   "description": "Park listed by Wake County, managed by Wake County Public School System (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-varnell-park",
+   "name": "Varnell Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.672847,
+    35.833338
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/varnell-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-veterans-park",
+   "name": "Veterans Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.827505,
+    35.661371
+   ],
+   "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-wake-forest-kiwanis-park",
+   "name": "Wake Forest Kiwanis Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.509875,
+    35.969495
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-wake-forest-reservoir-soft-trails",
+   "name": "Wake Forest Reservoir Soft Trails",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.491454,
+    35.970588
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
+   "url": "https://www.wakeforestnc.gov/parks-recreation-cultural-resources/greenways/trails/wake-forest-reservoir-soft-trails",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-walnut-creek-softball-complex",
+   "name": "Walnut Creek Softball Complex",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.582943,
+    35.761159
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/walnut-creek-athletic-complex",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-walnut-creek-wetland-center",
+   "name": "Walnut Creek Wetland Center",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.62566,
+    35.760719
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/walnut-creek-wetland-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-walnut-terrace-park",
+   "name": "Walnut Terrace Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.640272,
+    35.766851
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/walnut-terrace-center",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-wendell-park",
+   "name": "Wendell Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Wendell",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.378583,
+    35.781719
+   ],
+   "description": "Park listed by Wake County, managed by Town of Wendell (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-west-street-park",
+   "name": "West Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.856041,
+    35.726559
+   ],
+   "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
+   "url": "https://www.apexnc.org/796/Neighborhood-Parks",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-white-deer-park",
+   "name": "White Deer Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.625164,
+    35.677033
+   ],
+   "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-whitley-park",
+   "name": "Whitley Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Zebulon",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.321212,
+    35.825694
+   ],
+   "description": "Park listed by Wake County, managed by Town of Zebulon (from Wake County's parks layer).",
+   "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-wildwood-forest-elementary-school-park",
+   "name": "Wildwood Forest Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.550865,
+    35.895023
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-william-b-umstead-state-park-crabtree-creek-entrance",
+   "name": "William B. Umstead State Park - Crabtree Creek Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.750284,
+    35.89047
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-william-b-umstead-state-park-reedy-creek-entrance",
+   "name": "William B. Umstead State Park - Reedy Creek Entrance",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.760462,
+    35.833276
+   ],
+   "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-william-freeman-park",
+   "name": "William Freeman Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.805862,
+    35.588448
+   ],
+   "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-willow-springs-elementary-school-park",
+   "name": "Willow Springs Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.726874,
+    35.59347
+   ],
+   "description": "Park listed by Wake County, managed by Wake County Public School System (from Wake County's parks layer).",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-windemere-beaver-dam-park",
+   "name": "Windemere Beaver Dam Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.673737,
+    35.806687
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/windemere-beaver-dam-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-wooten-meadows-park",
+   "name": "Wooten Meadows Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.695175,
+    35.862028
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/wooten-meadow-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-worthdale-park",
+   "name": "Worthdale Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.582361,
+    35.764254
+   ],
+   "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
+   "url": "https://raleighnc.gov/places/worthdale-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  },
+  {
+   "id": "wake-park-zebulon-community-park",
+   "name": "Zebulon Community Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Zebulon",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.310075,
+    35.817563
+   ],
+   "description": "Park listed by Wake County, managed by Town of Zebulon (from Wake County's parks layer).",
+   "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
    "sourceIds": [
     "wake-parks"
    ]

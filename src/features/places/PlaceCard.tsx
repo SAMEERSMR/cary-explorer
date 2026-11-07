@@ -11,6 +11,7 @@ import {
   captureFocusOrigin,
   chooseFocusTarget,
 } from './focusReturn'
+import { CoverageLabel } from '../towns/CoverageLabel'
 import { usePlaces } from './usePlaces'
 
 interface PlaceCardProps {
@@ -171,7 +172,12 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
           >
             {place.name}
           </h2>
-          {meta && <p className="text-[13px] leading-snug text-ink-muted">{meta}</p>}
+          {(meta || place.coverage === 'nearby' || place.coverage === 'outside') && (
+            <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-snug text-ink-muted">
+              {meta}
+              <CoverageLabel coverage={place.coverage} />
+            </p>
+          )}
         </div>
 
         <p className="text-[15px] leading-relaxed text-ink-soft">

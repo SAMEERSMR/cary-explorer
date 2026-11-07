@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { ALL_THEME_IDS, parseUrlState, serializeUrlState, type UrlState } from '../src/lib/urlState'
 
-const base: UrlState = { place: null, themes: [...ALL_THEME_IDS], view: 'map', q: '', map: null }
+const base: UrlState = { place: null, themes: [...ALL_THEME_IDS], view: 'map', q: '', town: null, map: null }
 
 describe('serializeUrlState', () => {
   it('omits defaults', () => {
@@ -13,9 +13,10 @@ describe('serializeUrlState', () => {
       themes: ['water', 'history'],
       view: 'list',
       q: 'duck pond',
+      town: 'holly-springs',
       map: { zoom: 14.123456, lat: 35.8123456, lon: -78.7654321 },
     })
-    expect(s).toBe('?place=dorothy-park&themes=history,water&view=list&q=duck%20pond&map=14.12/35.81235/-78.76543')
+    expect(s).toBe('?place=dorothy-park&themes=history,water&view=list&q=duck%20pond&town=holly-springs&map=14.12/35.81235/-78.76543')
   })
   it('writes themes=none when none are on', () => {
     expect(serializeUrlState({ ...base, themes: [] })).toBe('?themes=none')
@@ -32,6 +33,7 @@ describe('round trip', () => {
       themes: ['parks-trails', 'art-community'],
       view: 'list',
       q: 'café & trails?',
+      town: 'unincorporated-wake',
       map: { zoom: 15.5, lat: 35.8, lon: -78.8 },
     }
     expect(parseUrlState(serializeUrlState(state))).toEqual({
@@ -39,6 +41,7 @@ describe('round trip', () => {
       themes: ['parks-trails', 'art-community'],
       view: 'list',
       q: 'café & trails?',
+      town: 'unincorporated-wake',
       map: { zoom: 15.5, lat: 35.8, lon: -78.8 },
     })
   })
@@ -92,5 +95,18 @@ describe('parseUrlState validation', () => {
   it('never throws on huge or encoded junk', () => {
     const junk = ['%00', '%FF%FE', 'a'.repeat(100000), `?q=${'%41'.repeat(20000)}`, '?themes=' + ','.repeat(10000), '?map=' + '/'.repeat(5000)]
     for (const j of junk) expect(() => parseUrlState(j)).not.toThrow()
+  })
+})
+
+describe('town', () => {
+  it('omits a null town and writes a slug', () => {
+    expect(serializeUrlState(base)).toBe('')
+    expect(serializeUrlState({ ...base, town: 'apex' })).toBe('?town=apex')
+  })
+  it('round-trips every slug and ignores unknown ones', () => {
+    expect(parseUrlState('?town=holly-springs').town).toBe('holly-springs')
+    expect(parseUrlState('?town=atlantis').town).toBeUndefined()
+    expect(parseUrlState('?town=Holly%20Springs').town).toBeUndefined()
+    expect(serializeUrlState({ ...base, town: 'atlantis' })).toBe('')
   })
 })

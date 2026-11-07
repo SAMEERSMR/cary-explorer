@@ -1,5 +1,6 @@
 // Pure parse/serialise of the shareable URL state (query string). No DOM access: safe to unit test in Node.
 import type { ThemeId } from '../types/place'
+import { isTownSlug } from '../features/towns/coverage'
 
 export type UrlView = 'map' | 'list'
 export interface UrlCamera {
@@ -12,6 +13,7 @@ export interface UrlState {
   themes: ThemeId[]
   view: UrlView
   q: string
+  town: string | null
   map: UrlCamera | null
 }
 /** What a URL can contain; absent keys mean "not specified". */
@@ -20,6 +22,7 @@ export type ParsedUrlState = Partial<{
   themes: ThemeId[]
   view: UrlView
   q: string
+  town: string
   map: UrlCamera
 }>
 
@@ -77,6 +80,9 @@ export function parseUrlState(search: string): ParsedUrlState {
       if (trimmed) out.q = trimmed
     }
 
+    const town = params.get('town')
+    if (town !== null && isTownSlug(town)) out.town = town
+
     const map = params.get('map')
     if (map !== null) {
       const camera = parseCamera(map)
@@ -104,6 +110,7 @@ export function serializeUrlState(state: UrlState): string {
   if (state.view === 'list') parts.push('view=list')
   const q = state.q.trim().slice(0, MAX_QUERY_LENGTH)
   if (q) parts.push(`q=${enc(q)}`)
+  if (isTownSlug(state.town)) parts.push(`town=${enc(state.town)}`)
   const cam = state.map
   if (cam && !sameCamera(cam, DEFAULT_CAMERA)) {
     const zoom = Math.min(ZOOM_RANGE.max, Math.max(ZOOM_RANGE.min, cam.zoom))

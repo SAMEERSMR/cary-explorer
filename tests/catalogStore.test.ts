@@ -30,7 +30,7 @@ interface Pending {
 // A loader whose calls stay pending until the test settles them.
 function fakeLoader() {
   const calls: Pending[] = []
-  const loader: CatalogLoader = (_url, signal) =>
+  const loader: CatalogLoader = (signal) =>
     new Promise<Catalog>((resolve, reject) => {
       calls.push({ signal, resolve, reject })
     })

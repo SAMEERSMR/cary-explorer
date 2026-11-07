@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import { parseCatalog } from '../src/features/places/catalog'
 // @ts-expect-error untyped .mjs pipeline modules
 import { publish } from '../pipeline/scripts/publish.mjs'
+import { readRelease } from '../pipeline/lib/release.mjs'
 // @ts-expect-error untyped .mjs pipeline modules
 import { validateRelease } from '../pipeline/lib/validate.mjs'
 
@@ -106,7 +107,7 @@ describe('publish gates', () => {
   it('copies places/ with the release and blocks when a place has no detail file', () => {
     stage()
     expect(run().ok).toBe(true)
-    expect(readdirSync(p('out', 'places')).sort()).toEqual(['a.json', 'b.json'])
+    expect(readdirSync(readRelease(p('out')).placesDir).sort()).toEqual(['a.json', 'b.json'])
     const v1 = JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8')).version
     const d = JSON.parse(readFileSync(p('staging', 'places', 'a.json'), 'utf8'))
     d.fields[3] = { ...d.fields[3], status: 'known', value: 'Yes', sourceId: 'src-a', verifiedAt: '2026-11-01' }
@@ -127,7 +128,7 @@ describe('publish gates', () => {
     stage()
     const res = run()
     expect(res.warnings.join('\n')).toContain('unknown placeId "ghost"')
-    const cat = JSON.parse(readFileSync(p('out', 'catalog.json'), 'utf8'))
+    const cat = JSON.parse(readFileSync(readRelease(p('out')).catalogPath, 'utf8'))
     const a = cat.places.find((x: Json) => x.id === 'a')
     expect(a.description).toBe('curated')
     expect(a.aliases).toEqual(['Alpha'])
@@ -203,6 +204,58 @@ describe('publish gates', () => {
     const first = snapshotOut(p('out'))
     run()
     expect(snapshotOut(p('out'))).toEqual(first)
+  })
+})
+
+describe('hashed release artifacts', () => {
+  const files = (root: string) => Object.keys(snapshotOut(root)).sort()
+
+  it('writes hashed artifacts, a manifest with artifacts, and no unhashed files', () => {
+    stage()
+    expect(run().ok).toBe(true)
+    const m = JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8'))
+    expect(Object.keys(m)).toEqual(['version', 'generatedFrom', 'artifacts', 'sources'])
+    expect(m.artifacts.catalog).toMatch(/^catalog\.[0-9a-f]{12}\.json$/)
+    expect(m.artifacts.relationships).toMatch(/^relationships\.[0-9a-f]{12}\.json$/)
+    expect(m.artifacts.layers.parks).toMatch(/^layers\/parks\.[0-9a-f]{12}\.geojson$/)
+    expect(m.artifacts.places).toMatch(/^places\/[0-9a-f]{12}\/$/)
+    expect(files(p('out'))).toHaveLength(1 + 1 + 1 + 1 + 2)
+    const r = readRelease(p('out'))
+    expect(readFileSync(r.catalogPath, 'utf8')).toContain('"places"')
+  })
+
+  it('keeps the previous release, prunes older ones and legacy files', () => {
+    stage()
+    write(p('out', 'catalog.json'), {})
+    write(p('out', 'relationships.json'), {})
+    write(p('out', 'layers', 'parks.geojson'), {})
+    write(p('out', 'places', 'old.json'), {})
+    write(p('out', 'notes.txt'), {})
+    write(p('out', 'manifest.json'), { version: 'legacy', sources: [] })
+    expect(run().ok).toBe(true)
+    const after1 = files(p('out'))
+    expect(after1).not.toContain('/catalog.json')
+    expect(after1).not.toContain('/places/old.json')
+    expect(after1).toContain('/notes.txt')
+    const r1 = readRelease(p('out'))
+    const allow = { env: { PIPELINE_ALLOW_COUNT_CHANGE: 'src-a' } }
+    stage({ places: [place('a'), place('b'), place('c')] })
+    expect(run(allow).ok).toBe(true)
+    const r2 = readRelease(p('out'))
+    expect(r2.catalogPath).not.toBe(r1.catalogPath)
+    expect(readdirSync(r1.placesDir)).toHaveLength(2) // previous release still present
+    stage({ places: [place('a'), place('b'), place('c'), place('d')] })
+    expect(run(allow).ok).toBe(true)
+    expect(() => readdirSync(r1.placesDir)).toThrow() // two releases back is pruned
+    expect(readdirSync(r2.placesDir)).toHaveLength(3)
+  })
+
+  it('rejects unsafe artifact paths and manifests without artifacts', async () => {
+    const { artifactPath } = await import('../pipeline/lib/release.mjs')
+    for (const bad of ['/etc/passwd', '../x', 'a/../b', 'https://x/y', 'Upper.json', 'a b.json'])
+      expect(() => artifactPath(dir, bad)).toThrow()
+    write(p('manifest.json'), { version: 'x' })
+    expect(() => readRelease(dir)).toThrow(/artifacts/)
   })
 })
 

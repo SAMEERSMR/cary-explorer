@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
+import { readRelease } from '../pipeline/lib/release.mjs'
 import { parseCatalog } from '../src/features/places/catalog'
 import { createPlaceSearch } from '../src/features/search/searchIndex'
 import {
@@ -16,7 +18,8 @@ import {
 import type { Place } from '../src/types/place'
 
 
-const read = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'))
+const readAbs = (path: string) => JSON.parse(readFileSync(path, 'utf8'))
+const release = readRelease(fileURLToPath(new URL('../public/data', import.meta.url)))
 
 const square = (x: number, y: number, s = 1) => [
   [
@@ -146,12 +149,12 @@ describe('geometry helpers', () => {
 })
 
 describe('generated catalog', () => {
-  const catalog = read('public/data/catalog.json')
+  const catalog = readAbs(release.catalogPath)
   const places: Place[] = parseCatalog(catalog).places
   const ids = new Set(places.map((p) => p.id))
   const layers = {
-    park: read('public/data/layers/parks.geojson').features,
-    trail: read('public/data/layers/greenways.geojson').features,
+    park: readAbs(release.layerPaths.parks).features,
+    trail: readAbs(release.layerPaths.greenways).features,
   }
 
   it('has no sample source or places', () => {
@@ -178,7 +181,7 @@ describe('generated catalog', () => {
   })
 
   it('writes relationships that point at catalog places', () => {
-    const { relationships } = read('public/data/relationships.json')
+    const { relationships } = readAbs(release.relationshipsPath)
     expect(relationships.length).toBeGreaterThan(0)
     for (const r of relationships) {
       expect(ids.has(r.from) && ids.has(r.to), JSON.stringify(r)).toBe(true)

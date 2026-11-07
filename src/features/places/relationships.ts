@@ -1,9 +1,10 @@
-// Loader and pure helpers for place-to-place relationships (public/data/relationships.json).
+// Loader and pure helpers for place-to-place relationships (the hashed relationships file named by the manifest).
 import { useEffect, useState } from 'react'
+import { fetchBoundedJson } from '../../lib/boundedJson'
 import type { Relationship } from '../../types/data-model'
 import type { Place } from '../../types/place'
+import { useRelease } from './release'
 
-export const RELATIONSHIPS_URL = '/data/relationships.json'
 const MAX_BYTES = 1_000_000
 const KINDS = ['contained', 'nearby', 'curated'] as const
 const METRES_PER_MILE = 1609.344
@@ -56,29 +57,16 @@ export async function loadRelationships(
   signal: AbortSignal,
   maxBytes = MAX_BYTES,
 ): Promise<RelationshipIndex> {
-  const response = await fetch(url, { signal })
-  if (!response.ok) throw new Error(`Relationships request failed (${response.status}).`)
-  if (!response.body) throw new Error('Relationships response has no body.')
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
-  let bytes = 0
-  let text = ''
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      bytes += value.byteLength
-      if (bytes > maxBytes) {
-        await reader.cancel()
-        throw new Error('Relationships exceed the download budget.')
-      }
-      text += decoder.decode(value, { stream: true })
-    }
-    signal.throwIfAborted()
-    return indexRelationships(parseRelationships(JSON.parse(text + decoder.decode())))
-  } finally {
-    reader.releaseLock()
-  }
+  return indexRelationships(
+    parseRelationships(
+      await fetchBoundedJson(url, {
+        signal,
+        maxBytes,
+        label: 'Relationships',
+        budgetMessage: 'Relationships exceed the download budget.',
+      }),
+    ),
+  )
 }
 
 function formatMiles(distanceM: number): string {
@@ -133,12 +121,14 @@ export function connectionsFor(
 
 let shared: Promise<RelationshipIndex> | null = null
 
-/** Loads once per page; a failure yields an empty index (the card section just hides). */
+/** Loads once per page (after the release manifest); a failure yields an empty index (the card section just hides). */
 export function useRelationships(): RelationshipIndex | null {
+  const release = useRelease()
   const [index, setIndex] = useState<RelationshipIndex | null>(null)
   useEffect(() => {
+    if (!release) return
     let live = true
-    shared ??= loadRelationships(RELATIONSHIPS_URL, new AbortController().signal).catch(() => {
+    shared ??= loadRelationships(release.relationshipsUrl, new AbortController().signal).catch(() => {
       shared = null
       return new Map() as RelationshipIndex
     })
@@ -146,6 +136,6 @@ export function useRelationships(): RelationshipIndex | null {
     return () => {
       live = false
     }
-  }, [])
+  }, [release])
   return index
 }

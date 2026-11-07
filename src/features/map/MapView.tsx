@@ -4,6 +4,7 @@ import 'ol/ol.css'
 import './map.css'
 import OLMap from 'ol/Map'
 import { ScaleLine, defaults as defaultControls } from 'ol/control'
+import { defaults as defaultInteractions } from 'ol/interaction'
 import { createEmpty, extend as extendExtent } from 'ol/extent'
 import View from 'ol/View'
 import Feature from 'ol/Feature'
@@ -205,6 +206,11 @@ export function MapView() {
           rotate: false,
           attributionOptions: { collapsible: false },
         }).extend([new ScaleLine({ units: 'imperial' })]),
+        // OpenLayers' default is onFocusOnly: true, which (because the map has a tabindex for keyboard users)
+        // ignores wheel and trackpad-pinch input until the map itself has focus. Selecting a place moves focus
+        // to the card, so a pinch then zoomed the whole page. The app is full-screen and never scrolls, so the
+        // map always takes wheel and pinch input under the pointer. Keyboard pan/zoom still need map focus.
+        interactions: defaultInteractions({ onFocusOnly: false }),
         layers: [createBasemapLayer(reportTileEvent), clusterLayer, selectedLayer],
         view: new View({
           center: fromLonLat(CARY_CENTER),

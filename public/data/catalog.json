@@ -1,132 +1,2716 @@
 {
-  "sources": [
-    {
-      "id": "sample",
-      "name": "Sample data (placeholder)",
-      "url": "https://github.com/SAMEERSMR/cary-explorer",
-      "retrievedAt": "2026-11-02"
-    }
-  ],
-  "places": [
-    {
-      "id": "bond-park",
-      "name": "Fred G. Bond Metro Park",
-      "aliases": [
-        "Bond Park"
-      ],
-      "category": "park",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.8278,
-        35.7787
-      ],
-      "description": "Placeholder sample data entry for Fred G. Bond Metro Park; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "hemlock-bluffs",
-      "name": "Hemlock Bluffs Nature Preserve",
-      "aliases": [
-        "Hemlock Bluffs"
-      ],
-      "category": "park",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.7836,
-        35.7214
-      ],
-      "description": "Placeholder sample data entry for Hemlock Bluffs Nature Preserve; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "black-creek-greenway",
-      "name": "Black Creek Greenway",
-      "aliases": [],
-      "category": "trail",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.804,
-        35.804
-      ],
-      "description": "Placeholder sample data entry for Black Creek Greenway; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "lake-crabtree",
-      "name": "Lake Crabtree County Park",
-      "aliases": [
-        "Lake Crabtree"
-      ],
-      "category": "wildlife",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.7911,
-        35.8417
-      ],
-      "description": "Placeholder sample data entry for Lake Crabtree County Park; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "swift-creek",
-      "name": "Swift Creek",
-      "aliases": [],
-      "category": "water",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.77,
-        35.718
-      ],
-      "description": "Placeholder sample data entry for Swift Creek; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "page-walker",
-      "name": "Page-Walker Arts & History Center",
-      "aliases": [
-        "Page Walker"
-      ],
-      "category": "history",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.7826,
-        35.7898
-      ],
-      "description": "Placeholder sample data entry for Page-Walker Arts & History Center; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    },
-    {
-      "id": "cary-arts-center",
-      "name": "Cary Arts Center",
-      "aliases": [],
-      "category": "art",
-      "municipality": "Cary",
-      "county": "Wake",
-      "centroid": [
-        -78.781,
-        35.785
-      ],
-      "description": "Placeholder sample data entry for Cary Arts Center; details are not yet verified.",
-      "sourceIds": [
-        "sample"
-      ]
-    }
-  ]
+ "sources": [
+  {
+   "id": "cary-parks",
+   "name": "Town of Cary",
+   "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
+   "license": "CC0 1.0",
+   "retrievedAt": "2026-11-06T12:31:58.187Z"
+  },
+  {
+   "id": "cary-greenways",
+   "name": "Town of Cary",
+   "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
+   "license": "CC0 1.0",
+   "retrievedAt": "2026-11-06T12:32:00.182Z"
+  },
+  {
+   "id": "wake-parks",
+   "name": "Wake County",
+   "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
+   "license": "CC BY 4.0",
+   "retrievedAt": "2026-11-06"
+  }
+ ],
+ "places": [
+  {
+   "id": "cary-greenway-amberly-lake-greenway",
+   "name": "Amberly Lake Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.909844,
+    35.825763
+   ],
+   "bbox": [
+    -78.915051,
+    35.825461,
+    -78.904581,
+    35.828048
+   ],
+   "description": "Town of Cary greenway, about 0.8 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-american-tobacco-trail",
+   "name": "American Tobacco Trail",
+   "aliases": [
+    "ATT"
+   ],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.922561,
+    35.794959
+   ],
+   "bbox": [
+    -78.94342,
+    35.715396,
+    -78.920304,
+    35.867958
+   ],
+   "description": "Town of Cary greenway, about 11 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-annie-jones-greenway",
+   "name": "Annie Jones Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.810178,
+    35.758195
+   ],
+   "bbox": [
+    -78.814924,
+    35.755101,
+    -78.807265,
+    35.76289
+   ],
+   "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-batchelor-branch-greenway",
+   "name": "Batchelor Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.882207,
+    35.793694
+   ],
+   "bbox": [
+    -78.899554,
+    35.777225,
+    -78.870282,
+    35.794293
+   ],
+   "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-bishops-gate-greenway",
+   "name": "Bishops Gate Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.838598,
+    35.764773
+   ],
+   "bbox": [
+    -78.844479,
+    35.759759,
+    -78.832736,
+    35.769851
+   ],
+   "description": "Town of Cary greenway, about 1.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-black-creek-greenway",
+   "name": "Black Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.79743,
+    35.797658
+   ],
+   "bbox": [
+    -78.82537,
+    35.778636,
+    -78.782073,
+    35.839102
+   ],
+   "description": "Town of Cary greenway, about 7.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-camp-branch-greenway",
+   "name": "Camp Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.776654,
+    35.713671
+   ],
+   "bbox": [
+    -78.785926,
+    35.700825,
+    -78.7733,
+    35.722707
+   ],
+   "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-carpenter-fire-station-park-greenway",
+   "name": "Carpenter Fire Station Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.883253,
+    35.822424
+   ],
+   "bbox": [
+    -78.884662,
+    35.82122,
+    -78.881823,
+    35.823591
+   ],
+   "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-carpenter-park-greenway",
+   "name": "Carpenter Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.863289,
+    35.822664
+   ],
+   "bbox": [
+    -78.864606,
+    35.821576,
+    -78.862158,
+    35.824144
+   ],
+   "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-carpenter-village-lake-greenway",
+   "name": "Carpenter Village Lake Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.85951,
+    35.817822
+   ],
+   "bbox": [
+    -78.864296,
+    35.815826,
+    -78.854668,
+    35.819334
+   ],
+   "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-cary-park-lake-greenway",
+   "name": "Cary Park Lake Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.908764,
+    35.814837
+   ],
+   "bbox": [
+    -78.912517,
+    35.813129,
+    -78.90293,
+    35.816994
+   ],
+   "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-churchill-estates-greenway",
+   "name": "Churchill Estates Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.769501,
+    35.687741
+   ],
+   "bbox": [
+    -78.77229,
+    35.686547,
+    -78.767156,
+    35.691796
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-crabtree-creek-greenway",
+   "name": "Crabtree Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.807209,
+    35.828086
+   ],
+   "bbox": [
+    -78.832593,
+    35.781269,
+    -78.786648,
+    35.833724
+   ],
+   "description": "Town of Cary greenway, about 2.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-flat-branch-greenway",
+   "name": "Flat Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.908528,
+    35.783371
+   ],
+   "bbox": [
+    -78.911531,
+    35.777468,
+    -78.908039,
+    35.787732
+   ],
+   "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-green-hope-school-greenway",
+   "name": "Green Hope School Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.88217,
+    35.801788
+   ],
+   "bbox": [
+    -78.886482,
+    35.793907,
+    -78.879063,
+    35.812766
+   ],
+   "description": "Town of Cary greenway, about 1.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-green-level-greenway",
+   "name": "Green Level Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.898209,
+    35.806867
+   ],
+   "bbox": [
+    -78.900253,
+    35.794462,
+    -78.89403,
+    35.816977
+   ],
+   "description": "Town of Cary greenway, about 2.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-greystone-greenway",
+   "name": "Greystone Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.905676,
+    35.800244
+   ],
+   "bbox": [
+    -78.907517,
+    35.79726,
+    -78.903825,
+    35.803212
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-higgins-greenway",
+   "name": "Higgins Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.792191,
+    35.777671
+   ],
+   "bbox": [
+    -78.797801,
+    35.772315,
+    -78.781604,
+    35.779913
+   ],
+   "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-highcroft-village-greenway",
+   "name": "Highcroft Village Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.873334,
+    35.802314
+   ],
+   "bbox": [
+    -78.879408,
+    35.797498,
+    -78.872982,
+    35.808645
+   ],
+   "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-hinshaw-greenway",
+   "name": "Hinshaw Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.766763,
+    35.755646
+   ],
+   "bbox": [
+    -78.770377,
+    35.746465,
+    -78.762519,
+    35.765317
+   ],
+   "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-holland-farms-private-greenway",
+   "name": "Holland Farms Private Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.906922,
+    35.800078
+   ],
+   "bbox": [
+    -78.909038,
+    35.798804,
+    -78.903678,
+    35.801734
+   ],
+   "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-jack-smith-park-greenway",
+   "name": "Jack Smith Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.766525,
+    35.710289
+   ],
+   "bbox": [
+    -78.767382,
+    35.708648,
+    -78.765793,
+    35.711824
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-kit-creek-greenway",
+   "name": "Kit Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.873924,
+    35.841325
+   ],
+   "bbox": [
+    -78.888479,
+    35.813495,
+    -78.868213,
+    35.854191
+   ],
+   "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-macedonia-lake-loop-trail",
+   "name": "Macedonia Lake Loop Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.749313,
+    35.748886
+   ],
+   "bbox": [
+    -78.751051,
+    35.746463,
+    -78.746364,
+    35.74987
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-middle-creek-park-greenway",
+   "name": "Middle Creek Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.764379,
+    35.66575
+   ],
+   "bbox": [
+    -78.76583,
+    35.663612,
+    -78.762921,
+    35.66811
+   ],
+   "description": "Town of Cary greenway, about 1.2 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-montvale-greenway",
+   "name": "Montvale Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.92401,
+    35.803773
+   ],
+   "bbox": [
+    -78.929464,
+    35.798543,
+    -78.917165,
+    35.809173
+   ],
+   "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-morris-branch-greenway",
+   "name": "Morris Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.90138,
+    35.826069
+   ],
+   "bbox": [
+    -78.920243,
+    35.816092,
+    -78.88501,
+    35.829513
+   ],
+   "description": "Town of Cary greenway, about 2.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-nancy-branch-greenway",
+   "name": "Nancy Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.897907,
+    35.837623
+   ],
+   "bbox": [
+    -78.910511,
+    35.832793,
+    -78.884198,
+    35.838711
+   ],
+   "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-north-cary-park-greenway",
+   "name": "North Cary Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.786609,
+    35.821409
+   ],
+   "bbox": [
+    -78.78817,
+    35.82018,
+    -78.785129,
+    35.822668
+   ],
+   "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-northwoods-greenway",
+   "name": "Northwoods Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.788299,
+    35.797324
+   ],
+   "bbox": [
+    -78.792184,
+    35.793586,
+    -78.786702,
+    35.80041
+   ],
+   "description": "Town of Cary greenway, about 0.8 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-optimist-farm-greenway",
+   "name": "Optimist Farm Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.746987,
+    35.672568
+   ],
+   "bbox": [
+    -78.749731,
+    35.669001,
+    -78.744329,
+    35.676332
+   ],
+   "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-outer-loop-greenway",
+   "name": "Outer Loop Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.890091,
+    35.839536
+   ],
+   "bbox": [
+    -78.892618,
+    35.832913,
+    -78.889655,
+    35.844895
+   ],
+   "description": "Town of Cary greenway, about 1 mile of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-panther-creek-greenway",
+   "name": "Panther Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.901121,
+    35.817
+   ],
+   "bbox": [
+    -78.927981,
+    35.815158,
+    -78.876127,
+    35.822988
+   ],
+   "description": "Town of Cary greenway, about 3.3 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-park-village-greenway",
+   "name": "Park Village Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.852149,
+    35.770624
+   ],
+   "bbox": [
+    -78.855889,
+    35.770594,
+    -78.848661,
+    35.774095
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-pirates-cove-greenway",
+   "name": "Pirates Cove Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.763304,
+    35.758565
+   ],
+   "bbox": [
+    -78.76339,
+    35.754168,
+    -78.762429,
+    35.762687
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-southbridge-greenway",
+   "name": "Southbridge Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.908774,
+    35.807751
+   ],
+   "bbox": [
+    -78.910956,
+    35.802378,
+    -78.908123,
+    35.813129
+   ],
+   "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-speight-branch-greenway",
+   "name": "Speight Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.75061,
+    35.744296
+   ],
+   "bbox": [
+    -78.753264,
+    35.737988,
+    -78.740942,
+    35.748666
+   ],
+   "description": "Town of Cary greenway, about 1.3 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-stone-creek-greenway",
+   "name": "Stone Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.852106,
+    35.792354
+   ],
+   "bbox": [
+    -78.857034,
+    35.79156,
+    -78.847673,
+    35.793993
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-swift-creek-greenway",
+   "name": "Swift Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.789483,
+    35.730287
+   ],
+   "bbox": [
+    -78.830786,
+    35.720831,
+    -78.752435,
+    35.77621
+   ],
+   "description": "Town of Cary greenway, about 3.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-symphony-lake-greenway",
+   "name": "Symphony Lake Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.798412,
+    35.726754
+   ],
+   "bbox": [
+    -78.804757,
+    35.724061,
+    -78.792439,
+    35.729357
+   ],
+   "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-twin-lakes-loop-greenway",
+   "name": "Twin Lakes Loop Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.847808,
+    35.825771
+   ],
+   "bbox": [
+    -78.849391,
+    35.82279,
+    -78.844776,
+    35.829868
+   ],
+   "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-walnut-street-park-greenway",
+   "name": "Walnut Street Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.753627,
+    35.764549
+   ],
+   "bbox": [
+    -78.754655,
+    35.763231,
+    -78.752338,
+    35.765619
+   ],
+   "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-weldon-ridge-greenway",
+   "name": "Weldon Ridge Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.919727,
+    35.807477
+   ],
+   "bbox": [
+    -78.92342,
+    35.806809,
+    -78.916011,
+    35.808785
+   ],
+   "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-weston-pud-trails",
+   "name": "Weston PUD Trails",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.796845,
+    35.825026
+   ],
+   "bbox": [
+    -78.804948,
+    35.823609,
+    -78.78899,
+    35.829567
+   ],
+   "description": "Town of Cary greenway, about 1.4 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-white-oak-creek-greenway",
+   "name": "White Oak Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.871896,
+    35.779607
+   ],
+   "bbox": [
+    -78.921909,
+    35.764206,
+    -78.824919,
+    35.782806
+   ],
+   "description": "Town of Cary greenway, about 6.9 miles of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-greenway-woodlands-greenway",
+   "name": "Woodlands Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.902031,
+    35.790241
+   ],
+   "bbox": [
+    -78.908302,
+    35.787776,
+    -78.896936,
+    35.794462
+   ],
+   "description": "Town of Cary greenway, about 1 mile of existing trail (from Cary's greenway dataset).",
+   "sourceIds": [
+    "cary-greenways"
+   ]
+  },
+  {
+   "id": "cary-park-204-s-academy-street",
+   "name": "204 S Academy Street",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.781913,
+    35.786201
+   ],
+   "bbox": [
+    -78.782529,
+    35.786073,
+    -78.781345,
+    35.786352
+   ],
+   "description": "Town of Cary community facility, about 0.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-annie-l-jones-park",
+   "name": "Annie L. Jones Park",
+   "aliases": [
+    "Annie Jones Park"
+   ],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.813006,
+    35.761128
+   ],
+   "bbox": [
+    -78.814644,
+    35.760206,
+    -78.81137,
+    35.762481
+   ],
+   "description": "Town of Cary park, about 9.8 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/annie-jones-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-black-creek-greenway",
+   "name": "Black Creek Greenway",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.795445,
+    35.80589
+   ],
+   "bbox": [
+    -78.806894,
+    35.788485,
+    -78.782489,
+    35.828849
+   ],
+   "description": "Town of Cary natural area, about 36 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-black-creek-greenway-trailhead-park",
+   "name": "Black Creek Greenway Trailhead Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.790755,
+    35.802097
+   ],
+   "bbox": [
+    -78.791232,
+    35.801785,
+    -78.790255,
+    35.802364
+   ],
+   "description": "Town of Cary park, about 1 acre (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-carpenter-park",
+   "name": "Carpenter Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.863226,
+    35.822628
+   ],
+   "bbox": [
+    -78.864625,
+    35.821179,
+    -78.862008,
+    35.82438
+   ],
+   "description": "Town of Cary park, about 16 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/carpenter-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-cary-arts-center",
+   "name": "Cary Arts Center",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.781416,
+    35.782757
+   ],
+   "bbox": [
+    -78.781889,
+    35.78234,
+    -78.780554,
+    35.782976
+   ],
+   "description": "Town of Cary community facility, about 1.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-cary-high-school-softball-field",
+   "name": "Cary High School Softball Field",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.767648,
+    35.771155
+   ],
+   "bbox": [
+    -78.768114,
+    35.770555,
+    -78.76702,
+    35.771754
+   ],
+   "description": "Town of Cary park, about 1.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-cary-public-library",
+   "name": "Cary Public Library",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.782094,
+    35.784267
+   ],
+   "bbox": [
+    -78.783261,
+    35.783843,
+    -78.781367,
+    35.784674
+   ],
+   "description": "Town of Cary community facility, about 2.7 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-cary-tennis-park",
+   "name": "Cary Tennis Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.863044,
+    35.803917
+   ],
+   "bbox": [
+    -78.866286,
+    35.80161,
+    -78.861151,
+    35.806947
+   ],
+   "description": "Town of Cary park, about 31 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/facilities/cary-tennis-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-brookgreen-dr",
+   "name": "Conservation Brookgreen Dr",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.798228,
+    35.769578
+   ],
+   "bbox": [
+    -78.798735,
+    35.7693,
+    -78.79775,
+    35.769871
+   ],
+   "description": "Town of Cary natural area, about 1.1 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-dry-ave",
+   "name": "Conservation Dry Ave",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.788311,
+    35.782724
+   ],
+   "bbox": [
+    -78.789201,
+    35.782494,
+    -78.784983,
+    35.783042
+   ],
+   "description": "Town of Cary natural area, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-ederlee-dr",
+   "name": "Conservation Ederlee Dr",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.791183,
+    35.727156
+   ],
+   "bbox": [
+    -78.792335,
+    35.726635,
+    -78.789162,
+    35.727969
+   ],
+   "description": "Town of Cary natural area, about 3.5 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-glenkirk",
+   "name": "Conservation Glenkirk",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.811162,
+    35.796942
+   ],
+   "bbox": [
+    -78.813605,
+    35.795425,
+    -78.809883,
+    35.798116
+   ],
+   "description": "Town of Cary natural area, about 4.7 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-king-george-loop",
+   "name": "Conservation King George Loop",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.806906,
+    35.753843
+   ],
+   "bbox": [
+    -78.807147,
+    35.753556,
+    -78.80657,
+    35.754068
+   ],
+   "description": "Town of Cary natural area, about 0.6 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-louis-stephens",
+   "name": "Conservation Louis Stephens",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.864597,
+    35.823114
+   ],
+   "bbox": [
+    -78.864743,
+    35.822537,
+    -78.864421,
+    35.823421
+   ],
+   "description": "Town of Cary natural area, about 0.3 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-old-apex-rd",
+   "name": "Conservation Old Apex Rd",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.797789,
+    35.785167
+   ],
+   "bbox": [
+    -78.799235,
+    35.783573,
+    -78.794597,
+    35.786856
+   ],
+   "description": "Town of Cary natural area, about 5.2 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-orchard-park-dr",
+   "name": "Conservation Orchard Park Dr",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.805524,
+    35.785505
+   ],
+   "bbox": [
+    -78.805904,
+    35.784859,
+    -78.805155,
+    35.786272
+   ],
+   "description": "Town of Cary natural area, about 1.3 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-rattle-snap-court",
+   "name": "Conservation Rattle Snap Court",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.850171,
+    35.79759
+   ],
+   "bbox": [
+    -78.85034,
+    35.797264,
+    -78.849859,
+    35.797773
+   ],
+   "description": "Town of Cary natural area, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-regency-pkwy",
+   "name": "Conservation Regency Pkwy",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.793049,
+    35.730528
+   ],
+   "bbox": [
+    -78.802337,
+    35.72947,
+    -78.789759,
+    35.731899
+   ],
+   "description": "Town of Cary natural area, about 10 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-rr-high-house",
+   "name": "Conservation RR High House",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.857322,
+    35.788526
+   ],
+   "bbox": [
+    -78.858123,
+    35.787109,
+    -78.856119,
+    35.789181
+   ],
+   "description": "Town of Cary natural area, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-se-maynard-rd",
+   "name": "Conservation SE Maynard Rd",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.764599,
+    35.784533
+   ],
+   "bbox": [
+    -78.764986,
+    35.783252,
+    -78.764335,
+    35.786282
+   ],
+   "description": "Town of Cary natural area, about 3 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-spurgeon-ln",
+   "name": "Conservation Spurgeon Ln",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.751021,
+    35.760526
+   ],
+   "bbox": [
+    -78.752126,
+    35.759555,
+    -78.750117,
+    35.761858
+   ],
+   "description": "Town of Cary natural area, about 4.5 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-swift-creek",
+   "name": "Conservation Swift Creek",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.751373,
+    35.71544
+   ],
+   "bbox": [
+    -78.753816,
+    35.71247,
+    -78.749339,
+    35.717555
+   ],
+   "description": "Town of Cary natural area, about 38 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-tryon-rd",
+   "name": "Conservation Tryon Rd",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.763977,
+    35.744045
+   ],
+   "bbox": [
+    -78.764804,
+    35.743073,
+    -78.762878,
+    35.745389
+   ],
+   "description": "Town of Cary natural area, about 6 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-twin-lakes",
+   "name": "Conservation Twin Lakes",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.841239,
+    35.827739
+   ],
+   "bbox": [
+    -78.841512,
+    35.827429,
+    -78.841145,
+    35.828141
+   ],
+   "description": "Town of Cary natural area, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-veterans-park",
+   "name": "Conservation Veterans Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.774313,
+    35.820467
+   ],
+   "bbox": [
+    -78.774853,
+    35.8203,
+    -78.7741,
+    35.82056
+   ],
+   "description": "Town of Cary natural area, about 0.2 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-walnut-st",
+   "name": "Conservation Walnut St",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.761213,
+    35.76883
+   ],
+   "bbox": [
+    -78.762023,
+    35.768099,
+    -78.760365,
+    35.769618
+   ],
+   "description": "Town of Cary natural area, about 2.7 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-conservation-west-street",
+   "name": "Conservation West Street",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.785268,
+    35.785214
+   ],
+   "bbox": [
+    -78.785495,
+    35.785049,
+    -78.784966,
+    35.785362
+   ],
+   "description": "Town of Cary natural area, about 0.3 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-davis-drive-park",
+   "name": "Davis Drive Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.844856,
+    35.772697
+   ],
+   "bbox": [
+    -78.846857,
+    35.769721,
+    -78.843085,
+    35.775422
+   ],
+   "description": "Town of Cary park, about 16 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/davis-drive-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-davis-drive-school-fields",
+   "name": "Davis Drive School Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.851821,
+    35.77784
+   ],
+   "bbox": [
+    -78.852348,
+    35.776606,
+    -78.851031,
+    35.779071
+   ],
+   "description": "Town of Cary park, about 5.7 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-dorothy-park",
+   "name": "Dorothy Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.790535,
+    35.777515
+   ],
+   "bbox": [
+    -78.79205,
+    35.777259,
+    -78.789445,
+    35.777722
+   ],
+   "description": "Town of Cary park, about 0.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-downtown-theater",
+   "name": "Downtown Theater",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.780468,
+    35.787151
+   ],
+   "bbox": [
+    -78.780621,
+    35.786931,
+    -78.780189,
+    35.787323
+   ],
+   "description": "Town of Cary community facility, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-fred-g-bond-metro-park",
+   "name": "Fred G. Bond Metro Park",
+   "aliases": [
+    "Bond Park"
+   ],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.825964,
+    35.781273
+   ],
+   "bbox": [
+    -78.836921,
+    35.770012,
+    -78.819948,
+    35.788074
+   ],
+   "description": "Town of Cary park, about 276 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/fred-g-bond-metro-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-good-hope-farm",
+   "name": "Good Hope Farm",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.86234,
+    35.827349
+   ],
+   "bbox": [
+    -78.863488,
+    35.824307,
+    -78.861227,
+    35.830674
+   ],
+   "description": "Town of Cary park, about 30 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-green-hope-elementary-school-park",
+   "name": "Green Hope Elementary School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.860121,
+    35.804919
+   ],
+   "bbox": [
+    -78.861569,
+    35.803776,
+    -78.858606,
+    35.806042
+   ],
+   "description": "Town of Cary park, about 15 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/green-hope-elementary-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-green-hope-high-school-fields",
+   "name": "Green Hope High School Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.867946,
+    35.806429
+   ],
+   "bbox": [
+    -78.869508,
+    35.805913,
+    -78.86655,
+    35.806962
+   ],
+   "description": "Town of Cary park, about 5.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-harold-d-ritter-park",
+   "name": "Harold D. Ritter Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.782873,
+    35.727831
+   ],
+   "bbox": [
+    -78.785976,
+    35.724882,
+    -78.77764,
+    35.730227
+   ],
+   "description": "Town of Cary park, about 35 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/harold-d-ritter-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-hatcher-property",
+   "name": "Hatcher Property",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.849364,
+    35.816513
+   ],
+   "bbox": [
+    -78.851166,
+    35.815701,
+    -78.847596,
+    35.81719
+   ],
+   "description": "Town of Cary natural area, about 11 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-heater-park",
+   "name": "Heater Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.786829,
+    35.782569
+   ],
+   "bbox": [
+    -78.787634,
+    35.782336,
+    -78.785976,
+    35.782801
+   ],
+   "description": "Town of Cary park, about 1.5 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-hemlock-bluffs-nature-preserve",
+   "name": "Hemlock Bluffs Nature Preserve",
+   "aliases": [
+    "Hemlock Bluffs",
+    "Stevens Nature Center"
+   ],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.785781,
+    35.724695
+   ],
+   "bbox": [
+    -78.792779,
+    35.720649,
+    -78.777852,
+    35.729933
+   ],
+   "description": "Town of Cary natural area, about 140 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/stevens-nature-center-at-hemlock-bluffs-nature-preserve",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-herbert-c-young-community-center",
+   "name": "Herbert C. Young Community Center",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.780597,
+    35.790676
+   ],
+   "bbox": [
+    -78.781071,
+    35.790062,
+    -78.779797,
+    35.791223
+   ],
+   "description": "Town of Cary community facility, about 2.7 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-hillcrest-cemetery",
+   "name": "Hillcrest Cemetery",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.785818,
+    35.779444
+   ],
+   "bbox": [
+    -78.786578,
+    35.778713,
+    -78.784827,
+    35.780102
+   ],
+   "description": "Town of Cary park, about 4.9 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-ivey-ellington-house",
+   "name": "Ivey Ellington House",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.782317,
+    35.786763
+   ],
+   "bbox": [
+    -78.782528,
+    35.786349,
+    -78.782059,
+    35.787184
+   ],
+   "description": "Town of Cary community facility, about 0.9 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-jack-smith-park",
+   "name": "Jack Smith Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.765738,
+    35.709663
+   ],
+   "bbox": [
+    -78.76825,
+    35.707693,
+    -78.762853,
+    35.712401
+   ],
+   "description": "Town of Cary park, about 50 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/jack-smith-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-jones-foy-property",
+   "name": "Jones Foy Property",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.781656,
+    35.783295
+   ],
+   "bbox": [
+    -78.781912,
+    35.783128,
+    -78.781375,
+    35.783455
+   ],
+   "description": "Town of Cary community facility, about 0.4 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-koka-booth-amphitheatre",
+   "name": "Koka Booth Amphitheatre",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.795754,
+    35.729086
+   ],
+   "bbox": [
+    -78.797509,
+    35.72795,
+    -78.793521,
+    35.730189
+   ],
+   "description": "Town of Cary park, about 14 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-lexie-lane-park",
+   "name": "Lexie Lane Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.790721,
+    35.789605
+   ],
+   "bbox": [
+    -78.791653,
+    35.788837,
+    -78.790249,
+    35.790314
+   ],
+   "description": "Town of Cary park, about 2.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-lions-park",
+   "name": "Lion's Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.769445,
+    35.773755
+   ],
+   "bbox": [
+    -78.770974,
+    35.772878,
+    -78.767766,
+    35.774733
+   ],
+   "description": "Town of Cary park, about 6.2 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/lions-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-macdonald-woods-park",
+   "name": "MacDonald Woods Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.767112,
+    35.753277
+   ],
+   "bbox": [
+    -78.76927,
+    35.751585,
+    -78.765265,
+    35.7551
+   ],
+   "description": "Town of Cary park, about 14 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/macdonald-woods-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-marla-dorrel-park",
+   "name": "Marla Dorrel Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.764291,
+    35.747119
+   ],
+   "bbox": [
+    -78.765759,
+    35.745346,
+    -78.762261,
+    35.749178
+   ],
+   "description": "Town of Cary park, about 18 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/marla-dorrel-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-meeting-place-park",
+   "name": "Meeting Place Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.780512,
+    35.779592
+   ],
+   "bbox": [
+    -78.780825,
+    35.779353,
+    -78.780392,
+    35.779826
+   ],
+   "description": "Town of Cary park, about 0.3 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-middle-creek-school-park",
+   "name": "Middle Creek School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.764801,
+    35.667199
+   ],
+   "bbox": [
+    -78.769997,
+    35.66237,
+    -78.758166,
+    35.676859
+   ],
+   "description": "Town of Cary park, about 109 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-mills-school-park",
+   "name": "Mills School Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.898576,
+    35.814354
+   ],
+   "bbox": [
+    -78.903285,
+    35.809388,
+    -78.892741,
+    35.818658
+   ],
+   "description": "Town of Cary park, about 151 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/mills-school-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-nancy-branch-greenway",
+   "name": "Nancy Branch Greenway",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.902532,
+    35.837265
+   ],
+   "bbox": [
+    -78.905459,
+    35.836409,
+    -78.89994,
+    35.837921
+   ],
+   "description": "Town of Cary natural area, about 12 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-new-hope-church-road-trailhead-park",
+   "name": "New Hope Church Road Trailhead Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Chatham",
+   "centroid": [
+    -78.926321,
+    35.81729
+   ],
+   "bbox": [
+    -78.92777,
+    35.815922,
+    -78.923733,
+    35.819186
+   ],
+   "description": "Town of Cary park, about 12 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/new-hope-church-road-trailhead-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-north-cary-park",
+   "name": "North Cary Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.786687,
+    35.819622
+   ],
+   "bbox": [
+    -78.789219,
+    35.814203,
+    -78.783884,
+    35.82315
+   ],
+   "description": "Town of Cary park, about 61 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/north-cary-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-page-walker-arts-and-history-center",
+   "name": "Page-Walker Arts & History Center",
+   "aliases": [],
+   "category": "community",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.779408,
+    35.788997
+   ],
+   "bbox": [
+    -78.779604,
+    35.788604,
+    -78.779048,
+    35.789311
+   ],
+   "description": "Town of Cary community facility, about 0.8 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-preston-soccer-fields",
+   "name": "Preston Soccer Fields",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.831877,
+    35.789162
+   ],
+   "bbox": [
+    -78.833524,
+    35.787359,
+    -78.830058,
+    35.790699
+   ],
+   "description": "Town of Cary park, about 15 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-r-s-dunham-park",
+   "name": "R.S. Dunham Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.769987,
+    35.777984
+   ],
+   "bbox": [
+    -78.771183,
+    35.77702,
+    -78.768693,
+    35.778968
+   ],
+   "description": "Town of Cary park, about 5.6 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/r-s-dunham-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-robert-v-godbold-park",
+   "name": "Robert V. Godbold Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.791189,
+    35.800232
+   ],
+   "bbox": [
+    -78.794443,
+    35.795691,
+    -78.788062,
+    35.801855
+   ],
+   "description": "Town of Cary park, about 25 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/facilities/sk8-cary",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-rose-street-park",
+   "name": "Rose Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.784326,
+    35.773094
+   ],
+   "bbox": [
+    -78.78449,
+    35.772658,
+    -78.784125,
+    35.773525
+   ],
+   "description": "Town of Cary park, about 0.6 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/rose-street-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-sears-farm-road-park",
+   "name": "Sears Farm Road Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.882253,
+    35.799061
+   ],
+   "bbox": [
+    -78.883643,
+    35.797564,
+    -78.880409,
+    35.800285
+   ],
+   "description": "Town of Cary park, about 13 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/sears-farm-road-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-swift-creek-greenway",
+   "name": "Swift Creek Greenway",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.789582,
+    35.729797
+   ],
+   "bbox": [
+    -78.790365,
+    35.729227,
+    -78.789047,
+    35.730343
+   ],
+   "description": "Town of Cary natural area, about 1.9 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-symphony-lake-park",
+   "name": "Symphony Lake Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.797489,
+    35.727505
+   ],
+   "bbox": [
+    -78.803688,
+    35.725848,
+    -78.792451,
+    35.728904
+   ],
+   "description": "Town of Cary park, about 39 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-thomas-e-brooks-park",
+   "name": "Thomas E. Brooks Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.894101,
+    35.792895
+   ],
+   "bbox": [
+    -78.900555,
+    35.786904,
+    -78.889078,
+    35.800618
+   ],
+   "description": "Town of Cary park, about 164 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/thomas-brooks-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-thomas-e-brooks-park-usa-baseball-ntc",
+   "name": "Thomas E. Brooks Park - USA Baseball NTC",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.892544,
+    35.798181
+   ],
+   "bbox": [
+    -78.894945,
+    35.795061,
+    -78.890385,
+    35.802219
+   ],
+   "description": "Town of Cary park, about 54 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-urban-park",
+   "name": "Urban Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.771999,
+    35.788598
+   ],
+   "bbox": [
+    -78.772904,
+    35.787923,
+    -78.771157,
+    35.789299
+   ],
+   "description": "Town of Cary park, about 1.1 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-veterans-freedom-park",
+   "name": "Veterans Freedom Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.772663,
+    35.820739
+   ],
+   "bbox": [
+    -78.774112,
+    35.819564,
+    -78.771222,
+    35.821672
+   ],
+   "description": "Town of Cary park, about 12 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-wake-county-town-of-cary-trailhead",
+   "name": "Wake County/Town of Cary Trailhead",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.92278,
+    35.788543
+   ],
+   "bbox": [
+    -78.923672,
+    35.784976,
+    -78.921921,
+    35.791066
+   ],
+   "description": "Town of Cary park, about 20 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-wakemed-soccer-park",
+   "name": "WakeMed Soccer Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.754341,
+    35.786022
+   ],
+   "bbox": [
+    -78.760046,
+    35.77959,
+    -78.74917,
+    35.790457
+   ],
+   "description": "Town of Cary park, about 163 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/facilities/wakemed-soccer-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-walnut-street-park",
+   "name": "Walnut Street Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.754059,
+    35.764082
+   ],
+   "bbox": [
+    -78.756406,
+    35.762323,
+    -78.752356,
+    35.765616
+   ],
+   "description": "Town of Cary park, about 13 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/walnut-street-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-white-oak-creek-greenway",
+   "name": "White Oak Creek Greenway",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.891335,
+    35.777686
+   ],
+   "bbox": [
+    -78.914363,
+    35.772321,
+    -78.847173,
+    35.783214
+   ],
+   "description": "Town of Cary natural area, about 236 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-white-oak-park",
+   "name": "White Oak Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.859418,
+    35.775535
+   ],
+   "bbox": [
+    -78.860681,
+    35.774201,
+    -78.857675,
+    35.776792
+   ],
+   "description": "Town of Cary park, about 12 acres (from Cary's parks dataset).",
+   "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/white-oak-park",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "cary-park-white-plains-cemetery",
+   "name": "White Plains Cemetery",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Cary",
+   "county": "Wake",
+   "centroid": [
+    -78.765766,
+    35.759489
+   ],
+   "bbox": [
+    -78.766077,
+    35.759388,
+    -78.765859,
+    35.759812
+   ],
+   "description": "Town of Cary park, about 0.1 acres (from Cary's parks dataset).",
+   "sourceIds": [
+    "cary-parks"
+   ]
+  },
+  {
+   "id": "wake-park-abbotts-creek-park",
+   "name": "Abbotts Creek Park",
+   "aliases": [],
+   "category": "park",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "centroid": [
+    -78.580329,
+    35.901752
+   ],
+   "description": "Park in Raleigh (from Wake County's parks dataset).",
+   "url": "https://raleighnc.gov/places/abbotts-creek-park",
+   "sourceIds": [
+    "wake-parks"
+   ]
+  }
+ ]
 }

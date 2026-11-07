@@ -52,6 +52,8 @@ Retrieved 2026-11-06. Samples: `pipeline/sources/regional/` (see README there).
 - Greenway trails (30): LineString, status values `Existing` only (30). Fields `name`, `segment`, `status`, `shape_stlength`.
 - Existing vs proposed: lives in `proposed-greenway-trails`: Existing 648 (645 LineString + 3 MultiLineString), Proposed 450 (444 + 6). `segmentid` is unique (1098). `trailtype`: Greenway 810, Street-Side 285, Sidewalk Connector 3. `opentopublic` is `Yes` on all rows, including Proposed, so do not use it to filter; use `status`.
 - Update dates: Cary-stated frequency WEEKLY for the two trail datasets; polygons and points have none stated (modified 2026-10-31). `created_date`/`last_edited_date` are almost always null, so row-level vintage is unavailable; use dataset `modified`.
+- Data quality: `length_in_miles` in `proposed-greenway-trails` is off by a factor of 5280 (median haversine ratio 5280.0); `build-catalog.mjs` corrects it with `LENGTH_MILES_SCALE`.
+- Data quality: `parkurl` in the points dataset uses the old townofcary.org domain; the build rewrites it to carync.gov (301 redirect checked 2026-11-07).
 - County: no county or jurisdiction field in any dataset (`townzone` is a Town operational zone). The polygons bbox is lon -78.93..-78.75, lat 35.66..35.84 and covers Cary's Wake County core; Chatham/Durham pieces cannot be identified from these data and need a county-boundary join (boundaries task) or the neighbour counties' data.
 
 ## Join test

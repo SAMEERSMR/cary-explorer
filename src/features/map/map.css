@@ -45,6 +45,10 @@
   .cary-map .ol-scale-line {
     left: 416px;
   }
+  /* Panel collapsed (data-panel set on .cary-map by MapView): the scale line returns to the edge. */
+  .cary-map[data-panel='collapsed'] .ol-scale-line {
+    left: 16px;
+  }
 }
 
 @keyframes cary-spin {

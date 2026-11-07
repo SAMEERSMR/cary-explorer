@@ -44,3 +44,5 @@ Copy `.env.example` to `.env` for any server-side keys. Never expose them to the
 ## Docs
 
 Design and architecture decisions: [docs/decisions.md](docs/decisions.md)
+
+Per-town source coverage: [docs/source-matrix.md](docs/source-matrix.md)

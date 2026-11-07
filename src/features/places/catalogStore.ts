@@ -1,6 +1,7 @@
 // Framework-free store that loads the catalog once and shares the same arrays with every consumer.
 import type { Place, Source } from '../../types/place'
-import { CATALOG_URL, loadCatalog, type Catalog } from './catalog'
+import { loadCatalog, type Catalog } from './catalog'
+import { getRelease } from './release'
 import { loadLocalHotspots, hotspotsToCatalog } from './localHotspots'
 
 export type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
@@ -12,7 +13,7 @@ export interface CatalogState {
   error?: string
 }
 
-export type CatalogLoader = (url: string, signal: AbortSignal) => Promise<Catalog>
+export type CatalogLoader = (signal: AbortSignal) => Promise<Catalog>
 
 export interface CatalogStore {
   subscribe: (listener: () => void) => () => void
@@ -31,9 +32,10 @@ const IDLE: CatalogState = { status: 'idle', places: NO_PLACES, sources: NO_SOUR
 
 const isAbort = (err: unknown) => err instanceof Error && err.name === 'AbortError'
 
-/** Catalog plus, in dev only, local eBird preview data; its failure never fails the catalog. */
-async function loadWithLocalPreview(url: string, signal: AbortSignal): Promise<Catalog> {
-  const catalog = await loadCatalog(url, signal)
+/** Manifest, then the hashed catalog it names, plus, in dev only, local eBird preview data; its failure never fails the catalog. */
+async function loadWithLocalPreview(signal: AbortSignal): Promise<Catalog> {
+  const release = await getRelease()
+  const catalog = await loadCatalog(release.catalogUrl, signal)
   if (!import.meta.env.DEV) return catalog
   const payload = await loadLocalHotspots(signal)
   if (!payload) return catalog
@@ -65,7 +67,7 @@ export function createCatalogStore(load: CatalogLoader = loadWithLocalPreview): 
     before = state
     // Earlier places and sources (same array identity) stay in place until a load succeeds.
     set({ status: 'loading', places: state.places, sources: state.sources })
-    load(CATALOG_URL, own.signal).then(
+    load(own.signal).then(
       (catalog) => {
         if (controller !== own) return
         controller = null

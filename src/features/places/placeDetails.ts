@@ -1,5 +1,7 @@
-// On-demand loader, defensive parser and hook for per-place visit details (/data/places/<id>.json).
+// On-demand loader, defensive parser and hook for per-place visit details (the places folder named by the manifest).
 import { useEffect, useState } from 'react'
+import { fetchBoundedJson } from '../../lib/boundedJson'
+import { useRelease } from './release'
 import {
   VISIT_FIELD_KEYS,
   type PlaceDetails,
@@ -18,7 +20,8 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 export const isValidPlaceId = (id: unknown): id is string =>
   typeof id === 'string' && ID_PATTERN.test(id)
 
-export const placeDetailsUrl = (id: string) => `/data/places/${encodeURIComponent(id)}.json`
+/** `base` is the release's places folder URL (ends with a slash). */
+export const placeDetailsUrl = (base: string, id: string) => `${base}${encodeURIComponent(id)}.json`
 
 const KEY_SET = new Set<string>(VISIT_FIELD_KEYS)
 
@@ -82,40 +85,21 @@ export function splitFields(fields: VisitField[]): SplitFields {
   return { known, unknown, wheelchairUnknown }
 }
 
-async function readBounded(response: Response, signal: AbortSignal): Promise<string> {
-  if (!response.body) throw new Error('No body.')
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
-  let bytes = 0
-  let text = ''
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      bytes += value.byteLength
-      if (bytes > MAX_DETAILS_BYTES) {
-        await reader.cancel()
-        throw new Error('Place details exceed the download budget.')
-      }
-      text += decoder.decode(value, { stream: true })
-    }
-    signal.throwIfAborted()
-    return text + decoder.decode()
-  } finally {
-    reader.releaseLock()
-  }
-}
-
 /** Fetches and parses details for one id; resolves null when absent, invalid or failed. Rejects only on abort. */
 export async function loadPlaceDetails(
+  base: string,
   id: string,
   signal: AbortSignal,
 ): Promise<PlaceDetails | null> {
   if (!isValidPlaceId(id)) return null
   try {
-    const response = await fetch(placeDetailsUrl(id), { signal })
-    if (!response.ok) return null
-    return parsePlaceDetails(JSON.parse(await readBounded(response, signal)), id)
+    const raw = await fetchBoundedJson(placeDetailsUrl(base, id), {
+      signal,
+      maxBytes: MAX_DETAILS_BYTES,
+      label: 'Place details',
+      budgetMessage: 'Place details exceed the download budget.',
+    })
+    return parsePlaceDetails(raw, id)
   } catch (err) {
     if (signal.aborted) throw err
     return null
@@ -133,12 +117,13 @@ const MISSING: PlaceDetailsResult = { status: 'missing', details: null }
 const LOADING: PlaceDetailsResult = { status: 'loading', details: null }
 
 export function usePlaceDetails(id: string | null): PlaceDetailsResult {
+  const release = useRelease()
   const [loaded, setLoaded] = useState<{ id: string; details: PlaceDetails | null } | null>(null)
 
   useEffect(() => {
-    if (!id || !isValidPlaceId(id) || cache.has(id)) return
+    if (!release || !id || !isValidPlaceId(id) || cache.has(id)) return
     const controller = new AbortController()
-    loadPlaceDetails(id, controller.signal).then(
+    loadPlaceDetails(release.placesBaseUrl, id, controller.signal).then(
       (details) => {
         cache.set(id, details)
         setLoaded({ id, details })
@@ -148,7 +133,7 @@ export function usePlaceDetails(id: string | null): PlaceDetailsResult {
       },
     )
     return () => controller.abort()
-  }, [id])
+  }, [id, release])
 
   if (!id || !isValidPlaceId(id)) return MISSING
   const entry = cache.has(id) ? { id, details: cache.get(id) ?? null } : loaded?.id === id ? loaded : null

@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// Publishes a staged build into public/data: apply overrides -> validate -> swap in -> manifest.json.
+// Publishes a staged build into public/data: apply overrides -> validate -> write hashed artifacts -> manifest.json last -> prune.
 // Usage: node pipeline/scripts/publish.mjs [stagingDir] [--out dir] [--last-run file] [--overrides file] [--allow-stale]
-// Fails closed: on any error prints it, exits 1 and leaves the output dir untouched.
+// Fails closed: on any error prints it, exits 1 and leaves the output dir untouched (nothing is written).
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { artifactPath } from '../lib/release.mjs'
 import { applyOverrides, loadOverrides } from '../lib/overrides.mjs'
 import { countBySource, validateRelease } from '../lib/validate.mjs'
 
@@ -14,6 +15,27 @@ const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'))
 
 /** Keeps a staged file's own formatting when untouched; otherwise matches the builder's 1-space indent. */
 const serialize = (value) => JSON.stringify(value, null, 1) + '\n'
+
+const referenced = (m) => {
+  const a = m?.artifacts
+  if (!a) return new Set()
+  return new Set([a.catalog, a.relationships, ...Object.values(a.layers ?? {}), String(a.places ?? '').replace(/\/$/, '')])
+}
+
+/** Deletes artifact files and folders that neither the new nor the previous manifest references. */
+function prune(outDir, next, previous) {
+  const keep = new Set([...referenced(next), ...referenced(previous)])
+  const sweep = (dir, relDir, test) => {
+    if (!existsSync(dir)) return
+    for (const name of readdirSync(dir)) {
+      const rel = relDir ? `${relDir}/${name}` : name
+      if (test(name) && !keep.has(rel)) rmSync(join(dir, name), { recursive: true, force: true })
+    }
+  }
+  sweep(outDir, '', (n) => /^(catalog|relationships)(\..+)?\.json(\.tmp-.*)?$/.test(n) || /^manifest\.json\.tmp-/.test(n))
+  sweep(join(outDir, 'layers'), 'layers', () => true)
+  sweep(join(outDir, 'places'), 'places', () => true)
+}
 
 export function publish({
   stagingDir = join(ROOT, 'pipeline', '.staging'),
@@ -126,35 +148,61 @@ export function publish({
     sources: manifestSources,
   }
 
-  // Swap: build the full release in a sibling dir, then rename into place.
-  const next = `${outDir}.next`
-  const prev = `${outDir}.prev`
+  // Content-hashed artifacts: write only missing paths, manifest last, then prune.
+  const h12 = (text) => createHash('sha256').update(text).digest('hex').slice(0, 12)
+  const placesHash = (() => {
+    const h = createHash('sha256')
+    for (const id of Object.keys(detailTexts).sort()) h.update(`\0place\0${id}\0${detailTexts[id]}`)
+    return h.digest('hex').slice(0, 12)
+  })()
+  const files = {}
+  const artifacts = { catalog: `catalog.${h12(catalogText)}.json`, relationships: `relationships.${h12(relText)}.json`, layers: {}, places: `places/${placesHash}/` }
+  files[artifacts.catalog] = catalogText
+  files[artifacts.relationships] = relText
+  for (const name of Object.keys(layerTexts).sort()) {
+    const base = name.replace(/\.geojson$/, '')
+    artifacts.layers[base] = `layers/${base}.${h12(layerTexts[name])}.geojson`
+    files[artifacts.layers[base]] = layerTexts[name]
+  }
+  // Key order: version, generatedFrom, artifacts, sources.
+  const ordered = { version: manifest.version, generatedFrom: manifest.generatedFrom, artifacts, sources: manifest.sources }
   try {
-    rmSync(next, { recursive: true, force: true })
-    rmSync(prev, { recursive: true, force: true })
-    mkdirSync(join(next, 'layers'), { recursive: true })
-    writeFileSync(join(next, 'catalog.json'), catalogText)
-    for (const [name, text] of Object.entries(layerTexts)) writeFileSync(join(next, 'layers', name), text)
-    writeFileSync(join(next, 'relationships.json'), relText)
-    mkdirSync(join(next, 'places'), { recursive: true })
-    for (const [id, text] of Object.entries(detailTexts)) writeFileSync(join(next, 'places', `${id}.json`), text)
-    writeFileSync(join(next, 'manifest.json'), serialize(manifest))
-    mkdirSync(dirname(outDir), { recursive: true })
-    const hadOld = existsSync(outDir)
-    if (hadOld) renameSync(outDir, prev)
-    try {
-      renameSync(next, outDir)
-    } catch (e) {
-      if (hadOld) renameSync(prev, outDir)
-      throw e
+    mkdirSync(outDir, { recursive: true })
+    for (const [rel, text] of Object.entries(files)) {
+      const dest = artifactPath(outDir, rel)
+      if (existsSync(dest)) continue
+      mkdirSync(dirname(dest), { recursive: true })
+      const tmp = `${dest}.tmp-${process.pid}`
+      writeFileSync(tmp, text)
+      renameSync(tmp, dest)
     }
-    rmSync(prev, { recursive: true, force: true })
+    const placesDest = artifactPath(outDir, artifacts.places.replace(/\/$/, ''))
+    if (!existsSync(placesDest)) {
+      const tmpDir = `${placesDest}.tmp-${process.pid}`
+      rmSync(tmpDir, { recursive: true, force: true })
+      mkdirSync(tmpDir, { recursive: true })
+      for (const [id, text] of Object.entries(detailTexts)) writeFileSync(join(tmpDir, `${id}.json`), text)
+      try {
+        renameSync(tmpDir, placesDest)
+      } catch (e) {
+        rmSync(tmpDir, { recursive: true, force: true })
+        if (!existsSync(placesDest)) throw e
+      }
+    }
+    // The switch-over.
+    const manifestTmp = join(outDir, `manifest.json.tmp-${process.pid}`)
+    writeFileSync(manifestTmp, serialize(ordered))
+    renameSync(manifestTmp, join(outDir, 'manifest.json'))
   } catch (e) {
-    rmSync(next, { recursive: true, force: true })
-    errors.push(`swap failed: ${e.message}`)
+    errors.push(`publish failed: ${e.message}`)
     return fail()
   }
-  return { ok: true, errors, warnings, manifest }
+  try {
+    prune(outDir, ordered, previousManifest)
+  } catch (e) {
+    warnings.push(`prune failed: ${e.message}`)
+  }
+  return { ok: true, errors, warnings, manifest: ordered }
 }
 
 function main() {

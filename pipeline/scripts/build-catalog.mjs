@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Builds catalog.json, layers/*.geojson and relationships.json from the committed snapshots in
 // pipeline/sources/. Dependency-free, deterministic (stable sort by id).
-// Run: node pipeline/scripts/build-catalog.mjs [--out <dir>]   (default dir: public/data)
+// Run: node pipeline/scripts/build-catalog.mjs [--out <dir>]   (default dir: pipeline/.staging; publish.mjs moves it into public/data)
 import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,7 +24,7 @@ export { pointInGeometry, pointInPolygon }
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const SRC = join(ROOT, 'pipeline', 'sources')
-const OUT = join(ROOT, 'public', 'data')
+const OUT = join(ROOT, 'pipeline', '.staging')
 
 const PARK_LEVELS = new Set(['Existing Park', 'Natural Area', 'Community Use Facility'])
 const GREENWAY_MIN_MILES = 0.5

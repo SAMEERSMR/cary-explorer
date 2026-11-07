@@ -1,8 +1,7 @@
 // Validated catalog loader: bounded streaming download plus hand-rolled parsing into Place/Source.
 import type { CategoryId, Place, Source } from '../../types/place'
+import { fetchBoundedJson } from '../../lib/boundedJson'
 import { CATEGORY_THEME } from '../themes/themes'
-
-export const CATALOG_URL = '/data/catalog.json'
 
 const COVERAGE_VALUES = ['core', 'nearby', 'outside'] as const
 
@@ -161,27 +160,12 @@ export async function loadCatalog(
   signal: AbortSignal,
   maxBytes = 2_000_000,
 ): Promise<{ places: Place[]; sources: Source[] }> {
-  const response = await fetch(url, { signal })
-  if (!response.ok) throw new Error(`Catalog request failed (${response.status}).`)
-  if (!response.body) throw new Error('Catalog response has no body.')
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
-  let bytes = 0
-  let text = ''
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      bytes += value.byteLength
-      if (bytes > maxBytes) {
-        await reader.cancel()
-        throw new Error('Catalog exceeds the download budget; split it into smaller files.')
-      }
-      text += decoder.decode(value, { stream: true })
-    }
-    signal.throwIfAborted()
-    return parseCatalog(JSON.parse(text + decoder.decode()))
-  } finally {
-    reader.releaseLock()
-  }
+  return parseCatalog(
+    await fetchBoundedJson(url, {
+      signal,
+      maxBytes,
+      label: 'Catalog',
+      budgetMessage: 'Catalog exceeds the download budget; split it into smaller files.',
+    }),
+  )
 }

@@ -30,7 +30,7 @@ describe('ids and dates', () => {
   it('validates ids and encodes the url', () => {
     expect(isValidPlaceId('bond-park')).toBe(true)
     for (const bad of ['', 'A', '../x', 'a/b', 'a'.repeat(121)]) expect(isValidPlaceId(bad)).toBe(false)
-    expect(placeDetailsUrl('bond-park')).toBe('/data/places/bond-park.json')
+    expect(placeDetailsUrl('/data/places/abc123/', 'bond-park')).toBe('/data/places/abc123/bond-park.json')
   })
   it('formats dates in UTC', () => {
     expect(formatVerifiedDate('2026-11-02')).toBe('Nov 2, 2026')

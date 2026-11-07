@@ -1,0 +1,9 @@
+{
+  "manifest": 4096,
+  "catalog": 204800,
+  "relationships": 51200,
+  "layer": 153600,
+  "place": 4096,
+  "initialData": 262144,
+  "jsBundle": 237568
+}

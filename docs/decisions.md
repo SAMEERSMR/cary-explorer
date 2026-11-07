@@ -226,6 +226,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/lib/visit.mjs`, `pipeline/scripts/build-catalog.mjs`, `pipeline/lib/validate.mjs`, `pipeline/scripts/publish.mjs`, `public/data/places/`, #41.
 
+## 19. Release artifacts: hashed files, manifest last
+
+**Context:** Overwriting `catalog.json` and friends in place forces short cache lifetimes and can serve a mix of old and new files mid-deploy (#37).
+
+**Decision:** Every published file is content-hashed and immutable: `catalog.<h>.json`, `relationships.<h>.json`, `layers/<name>.<h>.geojson`, and a `places/<h>/` folder, where `<h>` is the first 12 hex of a SHA-256 (of the file text; for places, of every detail file in sorted id order). `manifest.json` is the only mutable file and lists the artifact paths, so hosting can cache hashed files forever and serve the manifest with `no-cache`. Publish writes missing artifacts first and `manifest.json` last (temp file, then rename); a failure before that leaves the old release live. The previous release stays on disk so open tabs keep working, and everything referenced by neither the new nor the previous manifest is pruned, including legacy unhashed files. The catalog/detail split is already in place (slim `catalog` vs `places/<id>.json`). Size limits live in `pipeline/budgets.json` and are enforced in CI (#20, `docs/performance.md`).
+
+**Applies to:** `pipeline/scripts/publish.mjs`, `pipeline/lib/release.mjs`, `pipeline/scripts/check-budgets.mjs`, `public/data/`, #37, #20.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

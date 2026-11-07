@@ -173,6 +173,6 @@ Each spike issue adds its outcome here when it closes.
 - #1 Confirm scope and priorities with the author: pending, add when the issue closes.
 - #2 Review Wander Wake County and define what we do differently: pending, add when the issue closes.
 - #3 Choose a production basemap and hosting: pending, add when the issue closes.
-- #4 Define geographic scope rules: pending, add when the issue closes.
-- #5 Check eBird API terms, limits and place matching: pending, add when the issue closes.
-- #6 Snapshot and inspect the first data sources: pending, add when the issue closes.
+- #4 Define geographic scope rules: done. Core = Wake ∪ full Cary limits; 5 mi buffer (cap 10 mi) in EPSG:32119; crossing features kept up to 5 km past the buffer; town filters default to the full limit with coverage labels. See [scope.md](scope.md).
+- #5 Check eBird API terms, limits and place matching: done, with open owner questions (API key holder, non-commercial use, public snapshot). Prototype snapshot is minimal (id, name, location, link). See [ebird.md](ebird.md).
+- #6 Snapshot and inspect the first data sources: done. Cary parks and greenways are CC0 and snapshotted; parcels must be dissolved into parks; Wake has an entrances layer; Chatham data stays out of git until its terms are confirmed. See [sources.md](sources.md).

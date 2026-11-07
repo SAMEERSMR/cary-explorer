@@ -1,0 +1,166 @@
+{
+  "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
+  "apiUrl": "https://data.townofcary.org/api/explore/v2.1/catalog/datasets/proposed-greenway-trails",
+  "title": "Greenway Trails Existing and Proposed",
+  "licence": "CC0 1.0 Universal",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "publisher": "Cary",
+  "retrievedAt": "2026-11-06T12:32:00.182Z",
+  "sourceModified": "2026-11-01T23:01:20+00:00",
+  "dataProcessed": "2026-11-01T23:01:20+00:00",
+  "updateFrequency": "WEEKLY",
+  "recordCount": 1098,
+  "geometryTypes": [
+    "LineString",
+    "MultiLineString"
+  ],
+  "crs": "WGS84 (EPSG:4326), GeoJSON export",
+  "upstream": "https://maps-apis.carync.gov/server/rest/services/ParksRecreation/Parks/MapServer/2",
+  "fields": [
+    {
+      "name": "name",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "segment",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "length_in_miles",
+      "type": "double",
+      "kept": true
+    },
+    {
+      "name": "length",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "width",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "trailtype",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "surftype",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "installdate",
+      "type": "datetime",
+      "kept": true
+    },
+    {
+      "name": "builtby",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "ownedby",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "maintby",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "priorcorr",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "pilzone",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "equestrian",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "ada",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "projname",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "projnum",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "notes",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "looptrail",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "loopname",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "opentopublic",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "carygwaymicount",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "created_date",
+      "type": "datetime",
+      "kept": true
+    },
+    {
+      "name": "last_edited_date",
+      "type": "datetime",
+      "kept": true
+    },
+    {
+      "name": "shape_stlength",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "segmentid",
+      "type": "int",
+      "kept": true
+    },
+    {
+      "name": "geo_shape",
+      "type": "geo_shape",
+      "kept": false
+    },
+    {
+      "name": "geo_point_2d",
+      "type": "geo_point_2d",
+      "kept": false
+    }
+  ]
+}

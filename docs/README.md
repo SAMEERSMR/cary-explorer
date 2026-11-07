@@ -5,3 +5,5 @@ The project brief was first written in a Google Doc: https://docs.google.com/doc
 Keep this folder to technical notes. Do not copy the brief's text into the repo.
 
 Technical decisions, including where the build differs from the reference material, are in [decisions.md](decisions.md).
+
+Spike results: [geographic scope](scope.md), [eBird rules](ebird.md), [sources and licences](sources.md).

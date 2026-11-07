@@ -1,0 +1,131 @@
+{
+  "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
+  "apiUrl": "https://data.townofcary.org/api/explore/v2.1/catalog/datasets/parks-and-recreation-feature-polygons",
+  "title": "Parks and Recreation Features",
+  "licence": "CC0 1.0 Universal",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "publisher": "Cary",
+  "retrievedAt": "2026-11-06T12:31:58.187Z",
+  "sourceModified": "2026-10-31T23:00:59+00:00",
+  "dataProcessed": "2026-10-31T23:00:59+00:00",
+  "updateFrequency": null,
+  "recordCount": 867,
+  "geometryTypes": [
+    "MultiPolygon",
+    "Polygon"
+  ],
+  "crs": "WGS84 (EPSG:4326), GeoJSON export",
+  "upstream": "https://maps-apis.carync.gov/server/rest/services/ParksRecreation/Parks/FeatureServer/5",
+  "fields": [
+    {
+      "name": "name",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "uselevel1",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "uselevel2",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "uselevel3",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "owner",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "calcacreag",
+      "type": "double",
+      "kept": true
+    },
+    {
+      "name": "townzone",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "realid",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "deedbook",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "deedpage",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "bookofmaps",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "mappage",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "cedeedbook",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "cedeedpage",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "documentli",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "documentl1",
+      "type": "text",
+      "kept": false
+    },
+    {
+      "name": "created_date",
+      "type": "datetime",
+      "kept": true
+    },
+    {
+      "name": "last_edited_date",
+      "type": "datetime",
+      "kept": true
+    },
+    {
+      "name": "shape_area",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "shape_length",
+      "type": "double",
+      "kept": false
+    },
+    {
+      "name": "geo_shape",
+      "type": "geo_shape",
+      "kept": false
+    },
+    {
+      "name": "geo_point_2d",
+      "type": "geo_point_2d",
+      "kept": false
+    }
+  ]
+}

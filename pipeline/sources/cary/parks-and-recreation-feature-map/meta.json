@@ -1,0 +1,80 @@
+{
+  "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/",
+  "apiUrl": "https://data.townofcary.org/api/explore/v2.1/catalog/datasets/parks-and-recreation-feature-map",
+  "title": "Parks and Recreation Feature Map (Points)",
+  "licence": "CC0 1.0 Universal",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "publisher": "Cary",
+  "retrievedAt": "2026-11-06T12:32:02.567Z",
+  "sourceModified": "2026-10-31T23:01:30+00:00",
+  "dataProcessed": "2026-10-31T23:01:30+00:00",
+  "updateFrequency": null,
+  "recordCount": 36,
+  "geometryTypes": [
+    "Point"
+  ],
+  "crs": "WGS84 (EPSG:4326), GeoJSON export",
+  "upstream": "https://maps.townofcary.org/arcgis/rest/services/ParksRec/Parks/FeatureServer/0",
+  "fields": [
+    {
+      "name": "parkarea",
+      "type": "double",
+      "kept": true
+    },
+    {
+      "name": "parkurl",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "restroom",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "playground",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "soccer",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "skatepark",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "naturetrail",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "lake",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "dogpark",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "discgolf",
+      "type": "text",
+      "kept": true
+    },
+    {
+      "name": "geo_shape",
+      "type": "geo_shape",
+      "kept": false
+    },
+    {
+      "name": "geo_point_2d",
+      "type": "geo_point_2d",
+      "kept": false
+    }
+  ]
+}

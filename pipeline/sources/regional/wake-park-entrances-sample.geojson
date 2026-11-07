@@ -1,0 +1,54 @@
+{
+ "type": "FeatureCollection",
+ "retrieved": "2026-11-06",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.5767341355403,
+     35.9023677385607
+    ]
+   },
+   "properties": {
+    "OBJECTID": 1,
+    "FULLNAME": "Abbotts Creek Park - Abbotts Creek Elementary Driveway Entrance",
+    "ENTRANCENAME": "Abbotts Creek Elementary Driveway Entrance",
+    "JURISDICTION": "City of Raleigh",
+    "ADDRESS": "9950 Durant Road, Raleigh, NC",
+    "GREENWAYENTRANCE": "No",
+    "VEHICLEENTRANCE": "Yes",
+    "PEDESTRIANENTRANCE": "Yes",
+    "PARKINGLOT": "Yes",
+    "PARKINGSTREET": "No",
+    "Lat": null,
+    "Lon": null
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.580328916846,
+     35.901752409014
+    ]
+   },
+   "properties": {
+    "OBJECTID": 2,
+    "FULLNAME": "Abbotts Creek Park - Durrant Rd Entrance",
+    "ENTRANCENAME": "Durrant Rd Entrance",
+    "JURISDICTION": "City of Raleigh",
+    "ADDRESS": "9950 Durant Road, Raleigh, NC",
+    "GREENWAYENTRANCE": "No",
+    "VEHICLEENTRANCE": "Yes",
+    "PEDESTRIANENTRANCE": "Yes",
+    "PARKINGLOT": "Yes",
+    "PARKINGSTREET": "No",
+    "Lat": null,
+    "Lon": null
+   }
+  }
+ ]
+}

@@ -95,6 +95,13 @@ describe('pipeline fetch', () => {
     expect(validateRegistry([{ ...source, licenceStatus: 'unclear', enabled: false }])).toEqual([])
   })
 
+  it('requires a licence and a known licenceStatus on every source', () => {
+    const { licence: _licence, ...noLicence } = source
+    expect(validateRegistry([noLicence as unknown as Source]).join()).toMatch(/missing licence/)
+    expect(validateRegistry([{ ...source, licenceStatus: 'maybe' } as unknown as Source]).join()).toMatch(/bad licenceStatus/)
+    expect(validateRegistry([{ ...source, licenceStatus: 'restricted' }]).join()).toMatch(/must have licenceStatus "open"/)
+  })
+
   it('the committed registry is valid', async () => {
     const reg = JSON.parse(readFileSync(new URL('../pipeline/sources.config.json', import.meta.url), 'utf8'))
     expect(validateRegistry(reg)).toEqual([])

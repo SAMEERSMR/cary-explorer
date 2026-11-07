@@ -110,3 +110,41 @@ describe('town', () => {
     expect(serializeUrlState({ ...base, town: 'atlantis' })).toBe('')
   })
 })
+
+describe('about param', () => {
+  it('serialises about=1 last and omits it when closed', () => {
+    expect(serializeUrlState({ ...base, about: true })).toBe('?about=1')
+    expect(serializeUrlState({ ...base, about: false })).toBe('')
+    expect(serializeUrlState({ ...base, place: 'dorothy-park', view: 'list', about: true })).toBe('?place=dorothy-park&view=list&about=1')
+  })
+  it('round-trips and keeps the other params', () => {
+    const state: UrlState = {
+      ...base,
+      place: 'dorothy-park',
+      themes: ['water'],
+      q: 'duck',
+      town: 'holly-springs',
+      map: { zoom: 14, lat: 35.8, lon: -78.7 },
+      about: true,
+    }
+    const search = serializeUrlState(state)
+    expect(search).toContain('about=1')
+    const parsed = parseUrlState(search)
+    expect(parsed).toMatchObject({ about: true, place: 'dorothy-park', themes: ['water'], q: 'duck', town: 'holly-springs' })
+    const again: UrlState = {
+      place: parsed.place ?? null,
+      themes: parsed.themes ?? base.themes,
+      view: parsed.view ?? 'map',
+      q: parsed.q ?? '',
+      town: parsed.town ?? null,
+      map: parsed.map ?? null,
+      about: parsed.about,
+    }
+    expect(serializeUrlState(again)).toBe(search)
+  })
+  it('only accepts about=1', () => {
+    expect(parseUrlState('?about=1').about).toBe(true)
+    for (const v of ['0', 'true', '', 'yes']) expect(parseUrlState(`?about=${v}`).about).toBeUndefined()
+    expect(parseUrlState('').about).toBeUndefined()
+  })
+})

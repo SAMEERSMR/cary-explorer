@@ -7,6 +7,18 @@ const DATA_ROOT = '/data/'
 const VERSION_PATTERN = /^[0-9a-f]{8,64}$/
 const PATH_PATTERN = /^[a-z0-9][a-z0-9._/-]*$/
 
+/** One source as the pipeline recorded it in the manifest (the Credits page reads this). */
+export interface ManifestSource {
+  id: string
+  recordCount?: number
+  retrievedAt?: string
+  licence?: string
+  licenceStatus?: string
+  lastSuccess?: string
+  /** False when the source failed in the latest refresh and an older snapshot was kept. */
+  ok: boolean
+}
+
 export interface Release {
   /** Release version (hex), shown shortened in the sources view. */
   id: string
@@ -17,6 +29,8 @@ export interface Release {
   placesBaseUrl: string
   /** Parsed and kept; nothing loads these yet. */
   layerUrls: Record<string, string>
+  /** Sources behind this release; entries without a string id are skipped. */
+  sources: ManifestSource[]
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -33,6 +47,27 @@ function resolve(value: unknown, field: string, folder = false): string {
   if (!isSafePath(value)) throw new Error(`Manifest ${field} must be a safe relative path.`)
   if (folder && !value.endsWith('/')) throw new Error(`Manifest ${field} must end with "/".`)
   return DATA_ROOT + value
+}
+
+const optString = (v: unknown) => (typeof v === 'string' && v.trim() ? v : undefined)
+
+function parseSources(raw: unknown): ManifestSource[] {
+  if (!Array.isArray(raw)) return []
+  const out: ManifestSource[] = []
+  for (const item of raw) {
+    if (!isRecord(item) || typeof item.id !== 'string' || !item.id) continue
+    out.push({
+      id: item.id,
+      recordCount:
+        typeof item.recordCount === 'number' && Number.isFinite(item.recordCount) ? item.recordCount : undefined,
+      retrievedAt: optString(item.retrievedAt),
+      licence: optString(item.licence),
+      licenceStatus: optString(item.licenceStatus),
+      lastSuccess: optString(item.lastSuccess),
+      ok: item.ok !== false,
+    })
+  }
+  return out
 }
 
 export function parseManifest(raw: unknown): Release {
@@ -56,7 +91,15 @@ export function parseManifest(raw: unknown): Release {
     typeof raw.generatedFrom === 'string' && Number.isFinite(Date.parse(raw.generatedFrom))
       ? raw.generatedFrom
       : undefined
-  return { id: raw.version, generatedFrom, catalogUrl, relationshipsUrl, placesBaseUrl, layerUrls }
+  return {
+    id: raw.version,
+    generatedFrom,
+    catalogUrl,
+    relationshipsUrl,
+    placesBaseUrl,
+    layerUrls,
+    sources: parseSources(raw.sources),
+  }
 }
 
 export async function loadManifest(

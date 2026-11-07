@@ -38,6 +38,7 @@ describe('parseManifest', () => {
       relationshipsUrl: '/data/relationships.bbfba91afdb4.json',
       placesBaseUrl: '/data/places/013a6ae0fd06/',
       layerUrls: { greenways: '/data/layers/greenways.711f94690142.geojson' },
+      sources: [],
     })
   })
 
@@ -45,6 +46,23 @@ describe('parseManifest', () => {
     const r = parseManifest(manifest({ generatedFrom: 'not a date' }, { layers: undefined }))
     expect(r.generatedFrom).toBeUndefined()
     expect(r.layerUrls).toEqual({})
+  })
+
+  it('parses manifest sources, skips entries without an id and treats a missing ok as true', () => {
+    const r = parseManifest(
+      manifest({
+        sources: [
+          { id: 'a', recordCount: 3, retrievedAt: '2026-11-07T00:00:00Z', licence: 'CC0 1.0', lastSuccess: '2026-11-06T00:00:00Z', ok: false },
+          { id: 'b' },
+          { licence: 'no id' },
+          'junk',
+        ],
+      }),
+    )
+    expect(r.sources).toEqual([
+      { id: 'a', recordCount: 3, retrievedAt: '2026-11-07T00:00:00Z', licence: 'CC0 1.0', licenceStatus: undefined, lastSuccess: '2026-11-06T00:00:00Z', ok: false },
+      { id: 'b', recordCount: undefined, retrievedAt: undefined, licence: undefined, licenceStatus: undefined, lastSuccess: undefined, ok: true },
+    ])
   })
 
   it('rejects a bad version and a missing artifacts block', () => {

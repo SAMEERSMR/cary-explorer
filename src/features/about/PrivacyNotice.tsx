@@ -1,0 +1,31 @@
+// Privacy text for the Credits & privacy dialog. Hand-written on purpose: it must match what the app actually does.
+// Facts were checked by searching src/ for geolocation, localStorage, sessionStorage, cookie, analytics, fetch( and navigator.
+// If any of these change (a location feature, analytics, saved settings, a new third-party request), update this text.
+export function PrivacyNotice({ headingId }: { headingId: string }) {
+  return (
+    <section aria-labelledby={headingId} className="space-y-3">
+      <h3 id={headingId} className="font-display text-lg font-semibold text-ink">
+        Privacy
+      </h3>
+      <ul className="list-disc space-y-2 pl-5 text-[14px] leading-relaxed text-ink-soft">
+        <li>There are no accounts, no cookies and no analytics or advertising trackers. The app does not save settings or data of its own in your browser.</li>
+        <li>The app does not ask for or use your device&apos;s location.</li>
+        <li>
+          Your browser loads this site&apos;s own data files (places, map layers and these credits) and map tiles from
+          OpenStreetMap&apos;s tile servers. The tile servers can see your IP address and which map tiles you view, like any
+          web request. Fonts are served from this site.
+        </li>
+        <li>
+          The address in your browser holds the place you have selected, your filters, any search text, the town, the map
+          position and zoom, and whether this dialog is open. If you share or bookmark that link, it includes those details,
+          and opening it sends them to this site&apos;s host like any page address. Avoid typing private information into search.
+        </li>
+        <li>The host of this site may keep routine server logs, as web servers usually do. This app adds nothing to them.</li>
+        <li>
+          &quot;Copy link&quot; writes the current address to your clipboard only when you press it. Links to other sites
+          (such as source pages) leave this app, and those sites have their own policies.
+        </li>
+      </ul>
+    </section>
+  )
+}

@@ -15,6 +15,8 @@ export interface UrlState {
   q: string
   town: string | null
   map: UrlCamera | null
+  /** The Credits & privacy dialog is open (`about=1`). Absent means closed. */
+  about?: boolean
 }
 /** What a URL can contain; absent keys mean "not specified". */
 export type ParsedUrlState = Partial<{
@@ -24,6 +26,7 @@ export type ParsedUrlState = Partial<{
   q: string
   town: string
   map: UrlCamera
+  about: true
 }>
 
 export const ALL_THEME_IDS: readonly ThemeId[] = ['parks-trails', 'history', 'birds-wildlife', 'water', 'art-community']
@@ -88,6 +91,8 @@ export function parseUrlState(search: string): ParsedUrlState {
       const camera = parseCamera(map)
       if (camera) out.map = camera
     }
+
+    if (params.get('about') === '1') out.about = true
   } catch {
     return {}
   }
@@ -116,5 +121,6 @@ export function serializeUrlState(state: UrlState): string {
     const zoom = Math.min(ZOOM_RANGE.max, Math.max(ZOOM_RANGE.min, cam.zoom))
     parts.push(`map=${zoom.toFixed(2)}/${cam.lat.toFixed(5)}/${cam.lon.toFixed(5)}`)
   }
+  if (state.about) parts.push('about=1')
   return parts.length ? `?${parts.join('&')}` : ''
 }

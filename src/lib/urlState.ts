@@ -1,6 +1,7 @@
 // Pure parse/serialise of the shareable URL state (query string). No DOM access: safe to unit test in Node.
 import type { ThemeId } from '../types/place'
 import { isTownSlug } from '../features/towns/coverage'
+import { parseLayers, serializeLayers, type LayerOverrides } from '../features/themes/layerSelection'
 
 export type UrlView = 'map' | 'list'
 export interface UrlCamera {
@@ -11,6 +12,8 @@ export interface UrlCamera {
 export interface UrlState {
   place: string | null
   themes: ThemeId[]
+  /** Layer switches that differ from the theme defaults; absent or empty means defaults. */
+  layers?: LayerOverrides
   view: UrlView
   q: string
   town: string | null
@@ -22,6 +25,7 @@ export interface UrlState {
 export type ParsedUrlState = Partial<{
   place: string
   themes: ThemeId[]
+  layers: LayerOverrides
   view: UrlView
   q: string
   town: string
@@ -74,6 +78,13 @@ export function parseUrlState(search: string): ParsedUrlState {
       }
     }
 
+    // `layers=-id,id`: only the deviation from the defaults. Unknown ids are dropped here; ids of inactive themes when applied.
+    const layers = params.get('layers')
+    if (layers !== null) {
+      const parsed = parseLayers(layers)
+      if (Object.keys(parsed).length > 0) out.layers = parsed
+    }
+
     const view = params.get('view')
     if (view === 'map' || view === 'list') out.view = view
 
@@ -112,6 +123,8 @@ export function serializeUrlState(state: UrlState): string {
   const active = ALL_THEME_IDS.filter((id) => state.themes.includes(id))
   if (active.length === 0) parts.push('themes=none')
   else if (active.length < ALL_THEME_IDS.length) parts.push(`themes=${enc(active.join(','))}`)
+  const layers = serializeLayers(active, state.layers ?? {})
+  if (layers) parts.push(`layers=${enc(layers)}`)
   if (state.view === 'list') parts.push('view=list')
   const q = state.q.trim().slice(0, MAX_QUERY_LENGTH)
   if (q) parts.push(`q=${enc(q)}`)

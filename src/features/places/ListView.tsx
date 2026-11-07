@@ -1,11 +1,10 @@
 // Accessible list of places in the active themes: name order, or relevance order while searching.
-import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { usePlaceSearch } from '../search/usePlaceSearch'
+import { useLayerSearch } from '../search/useLayerSearch'
 import { CategoryBadge } from '../themes/CategoryIcon'
+import { emptyLayersText } from '../themes/layerSelection'
 import { THEMES, categoryLabel, getTheme } from '../themes/themes'
 import { CoverageLabel } from '../towns/CoverageLabel'
-import { townBySlug } from '../towns/coverage'
 import { usePlaces } from './usePlaces'
 
 const ACTION_BUTTON =
@@ -15,6 +14,7 @@ export function ListView() {
   const { status, retry } = usePlaces()
   const activeThemes = useAppStore((s) => s.activeThemes)
   const town = useAppStore((s) => s.town)
+  const showAllLayers = useAppStore((s) => s.showAllLayers)
   const query = useAppStore((s) => s.searchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setSheetState = useAppStore((s) => s.setSheetState)
@@ -22,17 +22,15 @@ export function ListView() {
   const setActiveThemes = useAppStore((s) => s.setActiveThemes)
   const selectedPlaceId = useAppStore((s) => s.selectedPlaceId)
 
-  const search = usePlaceSearch()
-  // Empty query yields name order; otherwise keep the search's relevance order.
-  const rows = useMemo(
-    () => search(query, { themes: activeThemes, municipality: townBySlug(town)?.label }, Infinity),
-    [search, query, activeThemes, town],
-  )
+  // Empty query yields name order; otherwise keep the search's relevance order. Same selection as the map.
+  const { results: rows, hiddenLayers } = useLayerSearch(query, Infinity)
 
   if (rows.length === 0) {
     const noThemes = status === 'ready' && activeThemes.length === 0
     const trimmed = query.trim()
+    const layerText = status === 'ready' && !noThemes ? emptyLayersText(hiddenLayers) : null
     const text =
+      layerText ? `${trimmed ? `No places match “${trimmed}”. ` : 'Nothing to show. '}${layerText}` :
       status === 'loading'
         ? 'Loading places…'
         : status === 'error'
@@ -59,6 +57,11 @@ export function ListView() {
         {status === 'error' && (
           <button type="button" onClick={retry} className={ACTION_BUTTON}>
             Try again
+          </button>
+        )}
+        {layerText && (
+          <button type="button" onClick={showAllLayers} className={ACTION_BUTTON}>
+            Show all layers
           </button>
         )}
         {noThemes && (

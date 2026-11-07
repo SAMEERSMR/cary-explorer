@@ -3,7 +3,7 @@
 Owner: issue #6 (Cary part). Register columns mirror `Source` in `src/types/place.ts` (`id`, `name`, `url`, `license`, `retrievedAt`) plus attribution, vintage, coverage and a verdict.
 Per-town coverage: see [source-matrix.md](source-matrix.md).
 
-Snapshots live in `pipeline/sources/cary/<dataset>/` (`data.geojson`, `meta.json`, `metadata.json`); regenerate with `node pipeline/scripts/snapshot-cary.mjs` (node 22, no dependencies, fails if export count differs from catalog count).
+Snapshots live in `pipeline/sources/cary/<dataset>/` (`data.geojson`, `meta.json`, `metadata.json`); regenerate with `npm run data:snapshot` (`pipeline/scripts/snapshot.mjs`; add `--only <id,...>` to snapshot selected sources, e.g. `npm run data:snapshot -- --only cary-parks-polygons`). Node 22, no dependencies; fails if export count differs from catalog count. `pipeline/scripts/snapshot-cary.mjs` remains as a thin wrapper that snapshots only the Cary (opendatasoft) sources via `snapshot.mjs`.
 
 ## Licence/attribution register
 

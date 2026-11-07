@@ -1,50 +1,17 @@
 {
+  "sourceId": "greenway-trails",
   "url": "https://data.townofcary.org/explore/dataset/greenway-trails/",
-  "apiUrl": "https://data.townofcary.org/api/explore/v2.1/catalog/datasets/greenway-trails",
-  "title": "Natural Surface Trails",
-  "licence": "CC0 1.0 Universal",
-  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-  "publisher": "Cary",
-  "retrievedAt": "2026-11-06T12:31:58.995Z",
+  "licence": "CC0-1.0",
+  "licenceStatus": "open",
+  "attribution": "Town of Cary Open Data (CC0 1.0)",
+  "retrievedAt": "2026-11-07T17:40:40.229Z",
   "sourceModified": "2026-11-01T23:00:20+00:00",
-  "dataProcessed": "2026-11-01T23:00:20+00:00",
-  "updateFrequency": "WEEKLY",
   "recordCount": 30,
-  "geometryTypes": [
-    "LineString"
-  ],
-  "crs": "WGS84 (EPSG:4326), GeoJSON export",
-  "upstream": "https://maps-apis.carync.gov/server/rest/services/ParksRecreation/Parks/MapServer/3",
+  "expectedCount": 30,
   "fields": [
-    {
-      "name": "name",
-      "type": "text",
-      "kept": true
-    },
-    {
-      "name": "segment",
-      "type": "text",
-      "kept": true
-    },
-    {
-      "name": "status",
-      "type": "text",
-      "kept": true
-    },
-    {
-      "name": "shape_stlength",
-      "type": "double",
-      "kept": true
-    },
-    {
-      "name": "geo_point_2d",
-      "type": "geo_point_2d",
-      "kept": false
-    },
-    {
-      "name": "geo_shape",
-      "type": "geo_shape",
-      "kept": false
-    }
+    "name",
+    "segment",
+    "status",
+    "shape_stlength"
   ]
 }

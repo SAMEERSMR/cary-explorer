@@ -190,6 +190,18 @@ The seven test files (76 tests) pass on these versions.
 
 **Applies to:** `src/lib/urlState.ts`, `src/app/useUrlSync.ts`, `src/store/useAppStore.ts`, `src/features/map/MapView.tsx`, `src/features/places/PlaceCard.tsx`.
 
+## 16. Data pipeline: adapters, release gates and refresh runner
+
+**Context:** The brief's data preparation steps (snapshot, normalize, canonical places, overrides, relationships, publish) need a repeatable runner and must not take the site down when one source fails. The app has no database and no server runtime (#13). Sources differ in licence terms, and most are ArcGIS or opendatasoft feeds that cap responses per request.
+
+**Decision:** Run the pipeline on a GitHub Actions weekly schedule (Mondays 09:00 UTC) plus manual dispatch. The job never pushes to `dev` or `main`; it opens a review PR from `data-refresh/<run_id>` when data changed, and it fails without pushing when any step fails. Use no secrets: only open, keyless sources are enabled. Write one Node adapter per source (ArcGIS and opendatasoft paging, count checks, field allowlists). Use Python only for one-off geometry preparation such as `pipeline/tools/make-scope-polygons.py`, and commit its output rather than running it in the job. Keep a source registry, `pipeline/sources.config.json`, with a licence and `licenceStatus` for each source. Only `open` sources can be enabled. Validation gates run before publish: schema, unique ids, coordinate ranges, geometry validity, coverage, feature counts, and samples in Wake, Chatham and Durham. A record-count change of more than ±30% against the last release blocks publish. Publish atomically from `pipeline/.staging/` into `public/data/` and keep the last good release for any source that fails. Manual corrections live in `pipeline/overrides.json`, which a refresh never rewrites. Classify features as core, nearby or outside (#4). Relationships are `contained`, `nearby` (within 400 m) or `curated`, and are never merged into places. eBird stays out of the published pipeline: its output is local only until its API terms are confirmed (#5).
+
+**Reference's position:** The brief lists steps 1 to 6 and asks for validation before publish, versioned output and a source registry with licence status. `architecture.md` asks for a publication job that validates before it writes. The brief leaves the runner open, and #13 asks for the choice to be made and recorded.
+
+**Consequence:** Weekly data changes arrive as reviewable PRs, not as silent pushes. A Workers cron would need secrets and a server-side runtime, so it is deferred until keyed or on-demand data needs one (#16). A large real change in a source's count needs a human to check and override it before the release can publish. Adding a source means adding a registry entry, which keeps its licence visible.
+
+**Applies to:** `pipeline/`, `pipeline/sources.config.json`, `pipeline/overrides.json`, `pipeline/tools/`, `.github/workflows/data-refresh.yml`, `src/types/data-model.ts`, #13, #16, #4, #5.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

@@ -5,14 +5,14 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-06T12:31:58.187Z"
+   "retrievedAt": "2026-11-07T17:40:00.091Z"
   },
   {
    "id": "cary-greenways",
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-06T12:32:00.182Z"
+   "retrievedAt": "2026-11-07T17:40:02.887Z"
   },
   {
    "id": "wake-parks",
@@ -30,6 +30,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.909844,
     35.825763
@@ -54,6 +55,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.922561,
     35.794959
@@ -76,6 +78,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.810178,
     35.758195
@@ -98,6 +101,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.882207,
     35.793694
@@ -120,6 +124,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.838598,
     35.764773
@@ -142,6 +147,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.79743,
     35.797658
@@ -164,6 +170,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.776654,
     35.713671
@@ -186,6 +193,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.883253,
     35.822424
@@ -208,6 +216,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.863289,
     35.822664
@@ -230,6 +239,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.85951,
     35.817822
@@ -252,6 +262,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.908764,
     35.814837
@@ -274,6 +285,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.769501,
     35.687741
@@ -296,6 +308,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.807209,
     35.828086
@@ -318,6 +331,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.908528,
     35.783371
@@ -340,6 +354,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.88217,
     35.801788
@@ -362,6 +377,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.898209,
     35.806867
@@ -384,6 +400,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.905676,
     35.800244
@@ -406,6 +423,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.792191,
     35.777671
@@ -428,6 +446,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.873334,
     35.802314
@@ -450,6 +469,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.766763,
     35.755646
@@ -472,6 +492,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.906922,
     35.800078
@@ -494,6 +515,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.766525,
     35.710289
@@ -516,6 +538,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.873924,
     35.841325
@@ -538,6 +561,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.749313,
     35.748886
@@ -560,6 +584,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.764379,
     35.66575
@@ -582,6 +607,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.92401,
     35.803773
@@ -604,6 +630,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.90138,
     35.826069
@@ -626,6 +653,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.897907,
     35.837623
@@ -648,6 +676,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.786609,
     35.821409
@@ -670,6 +699,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.788299,
     35.797324
@@ -692,6 +722,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.746987,
     35.672568
@@ -714,6 +745,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.890091,
     35.839536
@@ -736,6 +768,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.901121,
     35.817
@@ -758,6 +791,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.852149,
     35.770624
@@ -780,6 +814,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.763304,
     35.758565
@@ -802,6 +837,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.908774,
     35.807751
@@ -824,6 +860,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.75061,
     35.744296
@@ -846,6 +883,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.852106,
     35.792354
@@ -868,6 +906,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.789483,
     35.730287
@@ -890,6 +929,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.798412,
     35.726754
@@ -912,6 +952,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.847808,
     35.825771
@@ -934,6 +975,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.753627,
     35.764549
@@ -956,6 +998,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.919727,
     35.807477
@@ -978,6 +1021,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.796845,
     35.825026
@@ -1000,6 +1044,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.871896,
     35.779607
@@ -1022,6 +1067,7 @@
    "category": "trail",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.902031,
     35.790241
@@ -1044,6 +1090,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.781913,
     35.786201
@@ -1068,6 +1115,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.813006,
     35.761128
@@ -1091,6 +1139,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.795445,
     35.80589
@@ -1113,6 +1162,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.790755,
     35.802097
@@ -1135,6 +1185,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.863226,
     35.822628
@@ -1158,6 +1209,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.781416,
     35.782757
@@ -1180,6 +1232,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.767648,
     35.771155
@@ -1202,6 +1255,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.782094,
     35.784267
@@ -1224,6 +1278,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.863044,
     35.803917
@@ -1247,6 +1302,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.798228,
     35.769578
@@ -1269,6 +1325,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.788311,
     35.782724
@@ -1291,6 +1348,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.791183,
     35.727156
@@ -1313,6 +1371,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.811162,
     35.796942
@@ -1335,6 +1394,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.806906,
     35.753843
@@ -1357,6 +1417,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.864597,
     35.823114
@@ -1379,6 +1440,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.797789,
     35.785167
@@ -1401,6 +1463,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.805524,
     35.785505
@@ -1423,6 +1486,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.850171,
     35.79759
@@ -1445,6 +1509,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.793049,
     35.730528
@@ -1467,6 +1532,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.857322,
     35.788526
@@ -1489,6 +1555,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.764599,
     35.784533
@@ -1511,6 +1578,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.751021,
     35.760526
@@ -1533,6 +1601,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.751373,
     35.71544
@@ -1555,6 +1624,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.763977,
     35.744045
@@ -1577,6 +1647,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.841239,
     35.827739
@@ -1599,6 +1670,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.774313,
     35.820467
@@ -1621,6 +1693,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.761213,
     35.76883
@@ -1643,6 +1716,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.785268,
     35.785214
@@ -1665,6 +1739,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.844856,
     35.772697
@@ -1688,6 +1763,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.851821,
     35.77784
@@ -1710,6 +1786,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.790535,
     35.777515
@@ -1732,6 +1809,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.780468,
     35.787151
@@ -1756,6 +1834,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.825964,
     35.781273
@@ -1779,6 +1858,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.86234,
     35.827349
@@ -1801,6 +1881,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.860121,
     35.804919
@@ -1824,6 +1905,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.867946,
     35.806429
@@ -1846,6 +1928,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.782873,
     35.727831
@@ -1869,6 +1952,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.849364,
     35.816513
@@ -1891,6 +1975,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.786829,
     35.782569
@@ -1916,6 +2001,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.785781,
     35.724695
@@ -1939,6 +2025,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.780597,
     35.790676
@@ -1961,6 +2048,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.785818,
     35.779444
@@ -1983,6 +2071,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.782317,
     35.786763
@@ -2005,6 +2094,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.765738,
     35.709663
@@ -2028,6 +2118,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.781656,
     35.783295
@@ -2050,6 +2141,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.795754,
     35.729086
@@ -2072,6 +2164,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.790721,
     35.789605
@@ -2094,6 +2187,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.769445,
     35.773755
@@ -2117,6 +2211,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.767112,
     35.753277
@@ -2140,6 +2235,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.764291,
     35.747119
@@ -2163,6 +2259,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.780512,
     35.779592
@@ -2185,6 +2282,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.764801,
     35.667199
@@ -2207,6 +2305,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.898576,
     35.814354
@@ -2230,6 +2329,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.902532,
     35.837265
@@ -2252,6 +2352,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Chatham",
+   "coverage": "core",
    "centroid": [
     -78.926321,
     35.81729
@@ -2275,6 +2376,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.786687,
     35.819622
@@ -2298,6 +2400,7 @@
    "category": "community",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.779408,
     35.788997
@@ -2320,6 +2423,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.831877,
     35.789162
@@ -2342,6 +2446,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.769987,
     35.777984
@@ -2365,6 +2470,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.791189,
     35.800232
@@ -2388,6 +2494,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.784326,
     35.773094
@@ -2411,6 +2518,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.882253,
     35.799061
@@ -2434,6 +2542,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.789582,
     35.729797
@@ -2456,6 +2565,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.797489,
     35.727505
@@ -2478,6 +2588,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.894101,
     35.792895
@@ -2501,6 +2612,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.892544,
     35.798181
@@ -2523,6 +2635,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.771999,
     35.788598
@@ -2545,6 +2658,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.772663,
     35.820739
@@ -2567,6 +2681,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.92278,
     35.788543
@@ -2589,6 +2704,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.754341,
     35.786022
@@ -2612,6 +2728,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.754059,
     35.764082
@@ -2635,6 +2752,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.891335,
     35.777686
@@ -2657,6 +2775,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.859418,
     35.775535
@@ -2680,6 +2799,7 @@
    "category": "park",
    "municipality": "Cary",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.765766,
     35.759489
@@ -2702,6 +2822,7 @@
    "category": "park",
    "municipality": "Raleigh",
    "county": "Wake",
+   "coverage": "core",
    "centroid": [
     -78.580329,
     35.901752

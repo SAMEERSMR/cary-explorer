@@ -20,6 +20,8 @@ export interface Place {
   theme: ThemeId
   municipality: string
   county?: string
+  /** Where the place sits against the scope rules: in the core area, in the 5-mile nearby buffer, or outside (dropped by the pipeline). */
+  coverage?: 'core' | 'nearby' | 'outside'
   /** Representative point in WGS84 [lon, lat], not a guaranteed entrance. */
   centroid: [number, number]
   bbox?: [number, number, number, number]

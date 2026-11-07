@@ -159,15 +159,30 @@ describe('generated catalog', () => {
     expect(places.some((p) => p.sourceIds.includes('sample'))).toBe(false)
   })
 
-  it('links every layer feature to a catalog place, with exactly one per park and trail place', () => {
+  it('links every layer feature to a catalog place, with a core and an outside-core part at most per place', () => {
     const seen = new Map<string, number>()
     for (const f of [...layers.park, ...layers.trail]) {
-      expect(Object.keys(f.properties)).toEqual(['placeId'])
+      expect(Object.keys(f.properties)).toEqual(['placeId', 'outsideCore'])
+      expect(typeof f.properties.outsideCore).toBe('boolean')
       expect(ids.has(f.properties.placeId)).toBe(true)
       seen.set(f.properties.placeId, (seen.get(f.properties.placeId) ?? 0) + 1)
     }
     for (const p of places.filter((x) => x.sourceIds.some((s) => s.startsWith('cary-')))) {
-      expect(seen.get(p.id), p.id).toBe(1)
+      expect(seen.get(p.id), p.id).toBeGreaterThanOrEqual(1)
+      expect(seen.get(p.id), p.id).toBeLessThanOrEqual(2)
+    }
+  })
+
+  it('gives every place a coverage and drops outside ones', () => {
+    for (const p of catalog.places) expect(['core', 'nearby']).toContain(p.coverage)
+  })
+
+  it('writes relationships that point at catalog places', () => {
+    const { relationships } = read('public/data/relationships.json')
+    expect(relationships.length).toBeGreaterThan(0)
+    for (const r of relationships) {
+      expect(ids.has(r.from) && ids.has(r.to), JSON.stringify(r)).toBe(true)
+      expect(['contained', 'nearby']).toContain(r.kind)
     }
   })
 

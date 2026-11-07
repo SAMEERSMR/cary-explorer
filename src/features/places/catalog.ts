@@ -4,6 +4,8 @@ import { CATEGORY_THEME } from '../themes/themes'
 
 export const CATALOG_URL = '/data/catalog.json'
 
+const COVERAGE_VALUES = ['core', 'nearby', 'outside'] as const
+
 export interface Catalog {
   places: Place[]
   sources: Source[]
@@ -34,14 +36,11 @@ function parseSource(item: unknown, index: number, ids: Set<string>): Source {
   if (ids.has(item.id)) return fail(`duplicate id "${item.id}"`)
   if (!nonEmpty(item.name)) return fail('name must be a non-empty string')
   if (!publicUrl(item.url)) return fail('url must be an http(s) URL')
-  if (item.retrievedAt !== undefined) {
-    if (!nonEmpty(item.retrievedAt) || !Number.isFinite(Date.parse(item.retrievedAt))) {
-      return fail('retrievedAt must be a parseable date')
-    }
+  // Optional in the TS type, but required at parse time: provenance is mandatory for every source.
+  if (!nonEmpty(item.retrievedAt) || !Number.isFinite(Date.parse(item.retrievedAt))) {
+    return fail('retrievedAt is required and must be a parseable date')
   }
-  if (item.license !== undefined && !nonEmpty(item.license)) {
-    return fail('license must be a non-empty string')
-  }
+  if (!nonEmpty(item.license)) return fail('license is required and must be a non-empty string')
   ids.add(item.id)
   return {
     id: item.id,
@@ -112,6 +111,10 @@ function parsePlace(
     return fail('url must be an https URL')
   }
 
+  if (item.coverage !== undefined && !(COVERAGE_VALUES as readonly unknown[]).includes(item.coverage)) {
+    return fail('coverage must be one of core, nearby, outside')
+  }
+
   if (!Array.isArray(item.sourceIds) || item.sourceIds.length === 0) {
     return fail('sourceIds must be a non-empty array')
   }
@@ -136,6 +139,7 @@ function parsePlace(
     address: item.address as string | undefined,
     stationNumber: item.stationNumber as number | undefined,
     url: item.url as string | undefined,
+    coverage: item.coverage as Place['coverage'],
     sourceIds: item.sourceIds as string[],
   }
 }

@@ -1,30 +1,64 @@
 # Data pipeline
 
-The pipeline turns raw public sources into the static files the app loads. Part of it runs now; the rest is planned.
+The pipeline turns public sources into the static files the app loads: `public/data/catalog.json`, `public/data/layers/*.geojson`, `public/data/relationships.json`, and `public/data/manifest.json`. It has no database and no server. Design decisions are in `docs/decisions.md` #16.
 
-## What exists now
+## Commands
 
-| Script | What it does |
-|--------|--------------|
-| `pipeline/scripts/snapshot-cary.mjs` | Snapshots Cary open data (parks, greenways, proposed greenways) into `pipeline/sources/cary/`. No dependencies. |
-| `pipeline/scripts/snapshot-ebird.mjs` | Snapshots eBird hotspots for Wake, Chatham and Durham into `pipeline/sources/ebird/`. Needs `EBIRD_API_KEY` in `.env`. Output is git-ignored. |
-| `pipeline/scripts/build-catalog.mjs` | Builds `public/data/catalog.json` and `public/data/layers/*.geojson` from the snapshots. |
+Run from the repo root with Node 22 or later.
 
-Run them from the repo root (Node 22 or later):
+| Command | What it does |
+|---------|--------------|
+| `npm run data:snapshot` | Fetches each enabled source from `pipeline/sources.config.json` (paged ArcGIS and opendatasoft adapters), checks the fetched count against the service count, keeps only allowlisted fields, and writes `pipeline/sources/<dir>/{data.geojson,meta.json}` and `pipeline/.last-run.json`. Use `-- --only <id,...>` to snapshot selected sources. `pipeline/scripts/snapshot-cary.mjs` remains as a thin wrapper that snapshots only the Cary (opendatasoft) sources. |
+| `npm run data:build` | Runs `build-catalog.mjs` (`--out <dir>` to choose the output folder). Writes the catalog, layers, `relationships.json` and coverage classes (core, nearby, outside). |
+| `npm run data:publish` | Applies `pipeline/overrides.json`, runs the validation gates, then swaps the release into `public/data` atomically and writes `manifest.json`. |
+| `npm run data:refresh` | Runs snapshot, build and publish in order. Output goes to `pipeline/.staging/` until publish. |
 
-```bash
-node pipeline/scripts/snapshot-cary.mjs
-node --env-file=.env pipeline/scripts/snapshot-ebird.mjs
-node pipeline/scripts/build-catalog.mjs
+The same output comes from the same snapshots, so a re-run on unchanged snapshots changes nothing.
+
+## Source registry
+
+`pipeline/sources.config.json` lists every source:
+
+`id`, `publisher`, `title`, `type` (`ods` or `arcgis`), `url`, `licence`, `licenceStatus` (`open`, `restricted` or `unclear`), `attribution`, `cadence` (`weekly` or `monthly`), `fields` (public field allowlist), `dir`, `enabled`.
+
+Only `open` sources can be enabled. Sources that are `restricted` or `unclear` stay out of the pipeline until their terms are confirmed.
+
+## Snapshot layout
+
+```
+pipeline/sources/<dir>/data.geojson   records after the field allowlist
+pipeline/sources/<dir>/meta.json      URL, retrieval time, licence, service count, fetched count
+pipeline/.last-run.json               per-source result of the latest run (git-ignored)
 ```
 
-Stable ids live in `pipeline/ids.json`. Name corrections and alternative names live in `pipeline/aliases.json`. Do not change an id by hand unless you also update `ids.json`; see `docs/decisions.md` #14.
+## Gates
 
-## Planned steps
+Publish stops if any gate fails:
 
-1. **Snapshot sources** (partly done): Cary and eBird snapshots exist. Other sources are not yet snapshotted. Each snapshot keeps its URL, licence and retrieval date.
-2. **Normalize** (not done): convert each snapshot into a common shape (names, geometry in WGS84, source IDs).
-3. **Build canonical places** (partly done): `build-catalog.mjs` merges Cary records into one place per real-world feature. Only the parks and greenways data is covered; the other themes have no real places yet.
-4. **Apply editorial overrides** (not done): hand-maintained corrections and additions that win over source data.
-5. **Precompute relationships** (not done): derive links such as park to watershed.
-6. **Publish atomically** (not done, tracked in #13): write versioned output files atomically. If a source fails, keep the last good release in place.
+- Schema and unique ids.
+- Coordinate ranges and valid geometry.
+- Source coverage, including samples in Wake, Chatham and Durham.
+- Fetched count matching the service count. A truncated fetch fails the run.
+- Record count changing by more than ±30% against the last release. A large change must be checked and, if real, accepted through the overrides file before it publishes.
+
+## Overrides
+
+`pipeline/overrides.json` holds curated descriptions, corrections and amenity or access evidence. A refresh never rewrites it, so curated text survives re-runs.
+
+## Staging and atomic publish
+
+`data:build` writes to `pipeline/.staging/`. `data:publish` replaces the files in `public/data/` in one step. If a source fails, the run reports which source failed and the last good release stays in place.
+
+## Manifest
+
+`public/data/manifest.json` records the release version, what it was built from, and for each source: record count, `retrievedAt`, licence, licence status, last successful refresh and `ok`. The browser can show source health from it.
+
+## Weekly workflow
+
+`.github/workflows/data-refresh.yml` runs on Mondays at 09:00 UTC and on manual dispatch. It runs `npm run data:refresh` and `npm test`. If files changed, it pushes a branch `data-refresh/<run_id>` and opens a PR to `dev` with the run report. It never pushes to `dev` or `main`, and it uses no secrets. A failed step fails the job and nothing is pushed.
+
+## Adding a source
+
+1. Add an entry to `pipeline/sources.config.json` with `licenceStatus: "open"`, the licence and attribution text, a `fields` allowlist that contains only the public fields you need, and `enabled: true`.
+2. Run `npm run data:snapshot` and check `pipeline/.last-run.json`.
+3. Run `npm run data:refresh` and review the diff and the manifest before merging.

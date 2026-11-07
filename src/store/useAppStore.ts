@@ -19,6 +19,7 @@ export interface UrlApply {
   view?: ViewMode
   searchQuery?: string
   town?: string | null
+  about?: boolean
   selectedPlaceId: string | null
   missingPlaceId?: string | null
   origin: SelectionOrigin
@@ -39,6 +40,10 @@ interface AppState {
   selectionOrigin: SelectionOrigin
   // A place id from the URL that is not in the catalog: the panel shows a "not found" note.
   missingPlaceId: string | null
+  // Credits & privacy dialog open (URL `about=1`).
+  aboutOpen: boolean
+  openAbout: () => void
+  closeAbout: () => void
   // One-shot camera move for the map (applied by `seq`, no animation).
   cameraRequest: CameraRequest | null
   // One-shot request to fit the map to the filtered places of the chosen town (applied by `seq`).
@@ -68,6 +73,9 @@ export const useAppStore = create<AppState>()((set) => ({
   panelCollapsed: false,
   selectionOrigin: 'user',
   missingPlaceId: null,
+  aboutOpen: false,
+  openAbout: () => set({ aboutOpen: true }),
+  closeAbout: () => set({ aboutOpen: false }),
   cameraRequest: null,
   fitRequest: null,
   requestFit: () => set((s) => ({ fitRequest: { seq: (s.fitRequest?.seq ?? 0) + 1 } })),
@@ -81,6 +89,7 @@ export const useAppStore = create<AppState>()((set) => ({
         activeThemes: a.themes ?? THEMES.map((t) => t.id),
         searchQuery: a.searchQuery ?? '',
         town: a.town ?? null,
+        aboutOpen: a.about ?? false,
         view,
         selectedPlaceId: a.selectedPlaceId,
         missingPlaceId: a.missingPlaceId ?? null,

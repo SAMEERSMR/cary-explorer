@@ -1,4 +1,5 @@
 // Mobile (below md) layout: search and theme chips floating over the map, plus a three-state bottom sheet.
+import { CreditsButton } from '../about/CreditsButton'
 import { useAppStore, type SheetState } from '../../store/useAppStore'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel } from '../themes/themes'
@@ -69,7 +70,7 @@ export function MobilePanel() {
 
         {/* No badge column without a selection, so the title lines up with the px-5 content below. */}
         <div
-          className={`relative grid shrink-0 items-center gap-3 px-5 pt-0 ${selected ? 'grid-cols-[36px_minmax(0,1fr)_auto]' : 'grid-cols-[minmax(0,1fr)_auto]'}`}
+          className={`relative grid shrink-0 items-center gap-3 px-5 pt-0 ${selected ? 'grid-cols-[36px_minmax(0,1fr)_auto_auto]' : 'grid-cols-[minmax(0,1fr)_auto_auto]'}`}
         >
           {selected && <CategoryBadge category={selected.category} size="md" />}
           <div className="min-w-0">
@@ -84,6 +85,7 @@ export function MobilePanel() {
           <div className="shrink-0 [&_button]:min-h-11 [&_button]:min-w-16 [&_button]:px-3">
             <ViewToggle />
           </div>
+          <CreditsButton variant="icon" className="-mr-2" />
         </div>
 
         <div

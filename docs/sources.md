@@ -95,3 +95,13 @@ No Chatham or Durham park was found (no county field), so the county-edge sample
 Deferred: Observation (eBird, iNaturalist), Collection, Relationship (park contains trail, trail connects greenway), entrances/trailheads, hours/amenities (points dataset flags could feed later), stationNumber (fire stations, other source), geometry storage (the `Place` type holds only centroid and bbox, so polygons/lines for map drawing need a separate geometry artifact).
 
 Blockers for the first real catalog entries (#7): choose id scheme and park-name dissolve rules, decide which Natural Area and Community Use Facility rows count, and group greenway segments by name into trail Places.
+
+## Credits & privacy page
+
+The in-app "Credits & privacy" dialog (issue #19) lists the sources that were actually published. It is generated, not hand-typed:
+
+- Rows come from `sources` in the release manifest (`public/data/manifest.json`: licence, retrieval and last-success dates, record count, `ok`), joined by id to the catalog `sources` (name and link). The join lives in `buildCreditsRows` in `src/features/about/credits.ts`; a source missing from the catalog is shown by its id. CC BY sources also get a visible credit line, and a source with `ok: false` shows a warning badge.
+- The eBird section appears only when the catalog has an `ebird` source. The Map section uses `BASEMAP_CREDIT` in `credits.ts`; keep it in step with `src/features/map/basemap.ts` when the production basemap provider is chosen (#3).
+- The privacy text is hand-written in `src/features/about/PrivacyNotice.tsx`. Update it whenever the app starts using geolocation, storage, cookies, analytics or a new third-party request.
+- The dialog opens from the URL param `about=1` (so Back/Forward and shared links work) and from the "Credits & privacy" button in the desktop panel footer and the mobile sheet header.
+- Licence gate: `validateRegistry` (`pipeline/lib/snapshot-core.mjs`) only allows `enabled` sources with `licenceStatus: "open"`, and `validateRelease` (`pipeline/lib/validate.mjs`) refuses to publish a catalog source with a missing or blank licence. Both are covered by tests.

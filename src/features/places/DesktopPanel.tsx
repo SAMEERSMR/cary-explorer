@@ -1,5 +1,6 @@
 // Desktop (md+) left side panel: title, search, theme filters, view toggle and body. Collapsible to a floating "Places" button.
 import { useEffect, useRef } from 'react'
+import { CreditsButton } from '../about/CreditsButton'
 import { CategoryIcon } from '../themes/CategoryIcon'
 import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
@@ -92,6 +93,12 @@ export function DesktopPanel() {
         <div className="flex-1 overflow-y-auto px-6 pt-5 pb-6">
           <PanelBody />
         </div>
+        {/* Footer entry point; while the panel is collapsed (inert) a floating button below takes over. */}
+        {!collapsed && (
+          <div className="shrink-0 border-t border-line px-3 py-1">
+            <CreditsButton variant="text" />
+          </div>
+        )}
       </aside>
       {collapsed && (
         <button
@@ -106,6 +113,11 @@ export function DesktopPanel() {
           <PanelIcon collapse={false} />
           Places
         </button>
+      )}
+      {collapsed && (
+        <div className="absolute bottom-12 left-4 z-20 rounded-control border border-line bg-white shadow-md">
+          <CreditsButton variant="text" />
+        </div>
       )}
     </>
   )

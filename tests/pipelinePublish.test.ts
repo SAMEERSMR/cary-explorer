@@ -178,6 +178,21 @@ describe('publish gates', () => {
     expect(noWake.errors.join()).toContain('Wake')
   })
 
+  it('refuses to publish a source with a missing or blank licence', () => {
+    for (const license of [undefined, '', '   ']) {
+      const res = check({ sources: [{ ...source('src-a'), license }], places: [place('a')] }, fc('a'))
+      expect(res.ok).toBe(false)
+      expect(res.errors.join()).toContain('source "src-a": licence missing')
+    }
+  })
+
+  it('does not publish when a catalog source has no licence', () => {
+    stage({ sources: [{ ...source('src-a'), license: '' }] })
+    const res = run()
+    expect(res.ok).toBe(false)
+    expect(res.errors.join()).toContain('licence missing')
+  })
+
   it('allows several features per trail and point-only places without features', () => {
     const trail = place('t', { category: 'trail', sourceIds: ['cary-greenways'] })
     const wakePark = place('w', { sourceIds: ['wake-parks'] })

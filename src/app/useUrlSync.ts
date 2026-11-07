@@ -28,6 +28,7 @@ export function useUrlSync() {
         q: s.searchQuery,
         town: s.town,
         map: camera,
+        about: s.aboutOpen,
       }
     }
     const write = (mode: 'push' | 'replace', state: UrlState) => {
@@ -69,6 +70,7 @@ export function useUrlSync() {
       view: st.view,
       searchQuery: st.searchQuery,
       town: st.town,
+      about: st.aboutOpen,
       selectedPlaceId: selected,
       missingPlaceId: missing,
       origin: pendingOrigin,
@@ -101,6 +103,7 @@ export function useUrlSync() {
           view: parsed.view,
           searchQuery: parsed.q,
           town: parsed.town ?? null,
+          about: parsed.about === true,
           selectedPlaceId: selected,
           missingPlaceId: missing,
           origin: parsed.map ? 'url' : 'user',
@@ -125,7 +128,7 @@ export function useUrlSync() {
       // A user action cancels a place still waiting for the catalog.
       if (s.selectedPlaceId !== before.selectedPlaceId) pendingPlace = null
       const placeChanged = s.selectedPlaceId !== before.selectedPlaceId || s.missingPlaceId !== before.missingPlaceId
-      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.town !== before.town
+      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.town !== before.town || s.aboutOpen !== before.aboutOpen
       if (structural) {
         const dismissed = before.missingPlaceId !== null && s.missingPlaceId === null && s.selectedPlaceId === before.selectedPlaceId
         // Flush a pending pan into the entry being left, so Back returns to where the user was.
@@ -139,6 +142,7 @@ export function useUrlSync() {
             q: before.searchQuery,
             town: before.town,
             map: camera,
+            about: before.aboutOpen,
           })
         }
         clearTimeout(searchTimer)

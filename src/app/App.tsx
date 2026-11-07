@@ -2,6 +2,7 @@
 import { MapView } from '../features/map/MapView'
 import { useUrlSync } from './useUrlSync'
 import { PlacePanel } from '../features/places/PlacePanel'
+import { AboutDialog } from '../features/about/AboutDialog'
 
 export default function App() {
   useUrlSync()
@@ -9,6 +10,7 @@ export default function App() {
     <main className="relative h-dvh w-screen overflow-hidden">
       <MapView />
       <PlacePanel />
+      <AboutDialog />
     </main>
   )
 }

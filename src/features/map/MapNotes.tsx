@@ -31,6 +31,7 @@ export function MapNotes() {
   const isDesktop = useIsDesktop()
   const { status, error, retry } = usePlaces()
   const { places: visible } = useFilteredPlaces()
+  const panelCollapsed = useAppStore((s) => s.panelCollapsed)
   const noThemes = useAppStore((s) => s.activeThemes.length === 0)
   const mapStatus = useMapStatus()
   const [showDetails, setShowDetails] = useState(false)
@@ -105,9 +106,9 @@ export function MapNotes() {
       </Card>
     ) : null
 
-  // Desktop: the visible map starts 16px right of the side panel. Mobile: below the search bar and chips (~128px).
+  // Desktop: the visible map starts 16px right of the side panel (or of the map edge when it is collapsed). Mobile: below the search bar and chips (~128px).
   const position = isDesktop ? 'right-4 top-4' : 'inset-x-4 top-[128px]'
-  const desktopOffset = isDesktop ? { left: DESKTOP_PANEL_WIDTH + 16 } : undefined
+  const desktopOffset = isDesktop ? { left: panelCollapsed ? 16 : DESKTOP_PANEL_WIDTH + 16 } : undefined
 
   return (
     <div

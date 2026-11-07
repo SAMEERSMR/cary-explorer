@@ -12,12 +12,16 @@ interface AppState {
   searchQuery: string
   view: ViewMode
   sheetState: SheetState
+  // Desktop side panel hidden. Transient UI state: deliberately not part of the shareable URL state.
+  panelCollapsed: boolean
   setSelectedPlaceId: (id: string | null) => void
   setActiveThemes: (themes: ThemeId[]) => void
   toggleTheme: (id: ThemeId) => void
   setSearchQuery: (query: string) => void
   setView: (view: ViewMode) => void
   setSheetState: (state: SheetState) => void
+  setPanelCollapsed: (collapsed: boolean) => void
+  togglePanel: () => void
 }
 
 export const useAppStore = create<AppState>()((set) => ({
@@ -26,9 +30,12 @@ export const useAppStore = create<AppState>()((set) => ({
   searchQuery: '',
   view: 'map',
   sheetState: 'peek',
+  panelCollapsed: false,
   setSelectedPlaceId: (id) =>
     set((s) => ({
       selectedPlaceId: id,
+      // Selecting a place re-opens a collapsed desktop panel so its card is visible.
+      panelCollapsed: id !== null ? false : s.panelCollapsed,
       sheetState: id !== null && s.sheetState === 'peek' ? 'half' : s.sheetState,
     })),
   setActiveThemes: (themes) => set({ activeThemes: themes }),
@@ -47,4 +54,6 @@ export const useAppStore = create<AppState>()((set) => ({
       sheetState: view === 'list' ? 'full' : s.sheetState === 'full' ? 'half' : s.sheetState,
     })),
   setSheetState: (sheetState) => set({ sheetState }),
+  setPanelCollapsed: (panelCollapsed) => set({ panelCollapsed }),
+  togglePanel: () => set((s) => ({ panelCollapsed: !s.panelCollapsed })),
 }))

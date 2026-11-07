@@ -17,7 +17,7 @@ import { fromLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
 import type { SheetState } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
-import { DESKTOP_PANEL_WIDTH } from '../../lib/layout'
+import { desktopSelectionPadding } from '../../lib/layout'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import type { CategoryId, ThemeId } from '../../types/place'
@@ -55,8 +55,8 @@ function sheetHeightPx(state: SheetState): number {
 }
 
 // Desktop: the side panel covers the left DESKTOP_PANEL_WIDTH px. Mobile: keep clear of the top edge and the bottom sheet.
-function selectionPadding(isDesktop: boolean, sheetState: SheetState): Padding {
-  if (isDesktop) return [40, 40, 40, DESKTOP_PANEL_WIDTH + 40]
+function selectionPadding(isDesktop: boolean, panelCollapsed: boolean, sheetState: SheetState = 'peek'): Padding {
+  if (isDesktop) return desktopSelectionPadding(panelCollapsed)
   return [120, 24, sheetHeightPx(sheetState) + 24, 24]
 }
 
@@ -246,7 +246,7 @@ export function MapView() {
       }
       const { isDesktop: desktop, sheetState: sheet } = framingRef.current
       map.getView().fit(extent, {
-        padding: selectionPadding(desktop, sheet),
+        padding: selectionPadding(desktop, useAppStore.getState().panelCollapsed, sheet),
         maxZoom: CLUSTER_MAX_ZOOM,
         duration: prefersReducedMotion() ? 0 : SELECT_ANIMATION_MS,
       })
@@ -334,7 +334,7 @@ export function MapView() {
     // Places may not have loaded yet. Leave the id unflown so this runs again when they arrive.
     if (!map || !place) return
     flownIdRef.current = selectedPlaceId
-    const padding = selectionPadding(isDesktop, useAppStore.getState().sheetState)
+    const padding = selectionPadding(isDesktop, useAppStore.getState().panelCollapsed, useAppStore.getState().sheetState)
     flyToPlace(map, fromLonLat(place.centroid), padding)
   }, [selectedPlaceId, allPlaces, isDesktop])
 
@@ -349,10 +349,12 @@ export function MapView() {
 
   const inset = bottomInsetPx(isDesktop, sheetState)
   const hideZoom = !isDesktop && sheetState === 'full'
+  const panelCollapsed = useAppStore((s) => s.panelCollapsed)
 
   return (
     <div
       className="cary-map absolute inset-0"
+      data-panel={isDesktop && panelCollapsed ? 'collapsed' : 'open'}
       style={{ '--map-bottom-inset': `${inset}px` } as React.CSSProperties}
     >
       <div

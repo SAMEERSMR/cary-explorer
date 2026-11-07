@@ -44,3 +44,24 @@ describe('chooseFocusTarget', () => {
     expect(chooseFocusTarget(base)).toBe('search')
   })
 })
+
+describe('desktop panel collapse', () => {
+  beforeEach(() => useAppStore.setState({ panelCollapsed: false }))
+
+  it('defaults to open and toggles', () => {
+    expect(useAppStore.getState().panelCollapsed).toBe(false)
+    useAppStore.getState().togglePanel()
+    expect(useAppStore.getState().panelCollapsed).toBe(true)
+    useAppStore.getState().setPanelCollapsed(false)
+    expect(useAppStore.getState().panelCollapsed).toBe(false)
+  })
+
+  it('selecting a place re-opens a collapsed panel; clearing the selection does not change it', () => {
+    useAppStore.getState().setPanelCollapsed(true)
+    useAppStore.getState().setSelectedPlaceId('p1')
+    expect(useAppStore.getState().panelCollapsed).toBe(false)
+    useAppStore.getState().setPanelCollapsed(true)
+    useAppStore.getState().setSelectedPlaceId(null)
+    expect(useAppStore.getState().panelCollapsed).toBe(true)
+  })
+})

@@ -10,6 +10,7 @@ import {
   classifyLine,
   clipToLimit,
   createScope,
+  haversineM,
   linesOf,
   pointInGeometry,
   pointInPolygon,
@@ -289,6 +290,14 @@ function roundGeometry(geometry, decimals) {
   }
 }
 
+export const DEDUPE_M = 1000
+
+/** The Cary place that is the same park as a Wake record: same normalized name (or alias) within 1 km. */
+export function findCaryTwin(name, pt, caryNames) {
+  const wn = normalize(name)
+  return caryNames.find((c) => c.names.has(wn) && haversineM(c.centroid, pt) <= DEDUPE_M)
+}
+
 export function build({ write = true, outDir = OUT } = {}) {
   const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
   const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
@@ -405,6 +414,12 @@ export function build({ write = true, outDir = OUT } = {}) {
   let skippedInCary = 0
   let skippedOutside = 0
   let skippedDuplicate = 0
+  const dedupeSkips = []
+  const caryNames = places.map((p) => ({
+    id: p.id,
+    centroid: p.centroid,
+    names: new Set([p.name, ...(p.aliases ?? []), ...(aliasMap[p.id] ?? [])].map(normalize).filter(Boolean)),
+  }))
   for (const f of wake.features) {
     const pt = f.geometry?.coordinates
     const name = f.properties?.NAME
@@ -415,6 +430,12 @@ export function build({ write = true, outDir = OUT } = {}) {
     }
     if (classify(pt, scope) === 'outside') {
       skippedOutside++
+      continue
+    }
+    // Same park listed by both sources: same normalized name (or a Cary alias) within 1 km of a Cary place.
+    const twin = findCaryTwin(name, pt, caryNames)
+    if (twin) {
+      dedupeSkips.push({ name: String(name).trim(), caryId: twin.id, distanceM: Math.round(haversineM(twin.centroid, pt)) })
       continue
     }
     const key = `wake-parks:${normalize(name)}`
@@ -532,6 +553,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     dropped,
     neighbours: neighbours.length,
     skipped: { inCary: skippedInCary, outside: skippedOutside, duplicate: skippedDuplicate },
+    dedupeSkips,
     jurisdictionMismatches,
     ids: allIds,
   }
@@ -562,6 +584,12 @@ function main() {
   const kinds = {}
   for (const x of r.relationships.relationships) kinds[x.kind] = (kinds[x.kind] ?? 0) + 1
   console.log('relationships:', kinds)
+  const rl = r.relationships.relationships
+  const linkedIds = new Set(rl.flatMap((x) => [x.from, x.to]))
+  const none = r.catalog.places.filter((p) => !linkedIds.has(p.id))
+  console.log(`places with >=1 link: ${r.catalog.places.length - none.length}/${r.catalog.places.length} (${(((r.catalog.places.length - none.length) / r.catalog.places.length) * 100).toFixed(1)}%), none: ${none.length}`)
+  console.log(`nearest-fallback links: ${rl.filter((x) => x.basis === 'nearest').length}`)
+  for (const d of r.dedupeSkips) console.log(`dedupe skip: Wake "${d.name}" == ${d.caryId} (${d.distanceM} m)`)
   console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}; skipped`, r.skipped)
   console.log('by municipality:', tally('municipality'))
   console.log(`JURISDICTION mismatches: ${r.jurisdictionMismatches.length}`)

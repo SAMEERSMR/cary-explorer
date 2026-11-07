@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { fetchArcgis } from '../pipeline/lib/fetch-arcgis.mjs'
-import { build, municipalityOf, pointInGeometry, TOWNS, UNINCORPORATED_WAKE } from '../pipeline/scripts/build-catalog.mjs'
+import { build, findCaryTwin, municipalityOf, pointInGeometry, TOWNS, UNINCORPORATED_WAKE } from '../pipeline/scripts/build-catalog.mjs'
 import { parseCatalog } from '../src/features/places/catalog'
 
 const read = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'))
@@ -78,5 +78,24 @@ describe('ArcGIS where option', () => {
     seen.length = 0
     await fetchArcgis({ url: 'https://example.test/MapServer/4', fields: [] }, { fetch: fetchFn as never })
     expect(seen).toEqual(['1=1'])
+  })
+})
+
+describe('Wake duplicate of a Cary park', () => {
+  const cary = [{ id: 'cary-park-x', centroid: [-78.8, 35.8], names: new Set(['x trailhead park', 'x tp']) }]
+  it('skips a Wake park with the same name within 1 km', () => {
+    expect(findCaryTwin('X Trailhead  Park', [-78.8, 35.805], cary)?.id).toBe('cary-park-x')
+    expect(findCaryTwin('X TP', [-78.8, 35.805], cary)?.id).toBe('cary-park-x')
+  })
+  it('keeps it when the names differ or the parks are far apart', () => {
+    expect(findCaryTwin('Y Park', [-78.8, 35.8], cary)).toBeUndefined()
+    expect(findCaryTwin('X Trailhead Park', [-78.8, 35.82], cary)).toBeUndefined()
+  })
+  it('drops the New Hope Church Road Trailhead duplicate from the real build', () => {
+    const { catalog, dedupeSkips } = build({ write: false })
+    const ids = catalog.places.map((p) => p.id as string)
+    expect(ids).toContain('cary-park-new-hope-church-road-trailhead-park')
+    expect(ids).not.toContain('wake-park-new-hope-church-road-trailhead-park')
+    expect(dedupeSkips.map((d: { caryId: string }) => d.caryId)).toContain('cary-park-new-hope-church-road-trailhead-park')
   })
 })

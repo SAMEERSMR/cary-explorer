@@ -87,10 +87,12 @@ describe('relationships', () => {
     expect(relationships).toContainEqual({ from: 'trail-in', to: 'park-a', kind: 'contained' })
   })
   it('links parks and trails within 400 m as nearby, and never trail to trail', () => {
-    expect(relationships).toContainEqual({ from: 'park-a', to: 'park-b', kind: 'nearby' })
-    expect(relationships).toContainEqual({ from: 'park-a', to: 'trail-near', kind: 'nearby' })
+    expect(relationships).toContainEqual(expect.objectContaining({ from: 'park-a', to: 'park-b', kind: 'nearby' }))
+    expect(relationships).toContainEqual(expect.objectContaining({ from: 'park-a', to: 'trail-near', kind: 'nearby' }))
     expect(relationships.some((r: { from: string; to: string }) => r.to === 'park-far' || r.from === 'park-far')).toBe(false)
-    expect(relationships.some((r: { from: string; to: string }) => r.from.startsWith('trail') && r.to.startsWith('trail'))).toBe(false)
+    expect(
+      relationships.some((r: { from: string; to: string; basis?: string }) => r.from.startsWith('trail') && r.to.startsWith('trail') && r.basis !== 'nearest'),
+    ).toBe(false)
   })
   it('does not repeat a contained pair as nearby', () => {
     expect(relationships.filter((r: { from: string; to: string }) => r.from === 'trail-in' && r.to === 'park-a')).toHaveLength(1)
@@ -98,7 +100,39 @@ describe('relationships', () => {
   it('is deterministic and independent of input order', () => {
     expect(computeRelationships([...items].reverse())).toEqual(computeRelationships(items))
     expect(JSON.stringify(computeRelationships(items))).toBe(JSON.stringify({ relationships }))
-    const kinds = relationships.map((r: { kind: string }) => r.kind)
-    expect(kinds).toEqual([...kinds].sort())
+    const keys = relationships.map((r: { from: string; to: string; kind: string }) => `${r.from}|${r.to}|${r.kind}`)
+    expect(keys).toEqual([...keys].sort())
+  })
+  it('gives nearby links a rounded distanceM and basis within-400m', () => {
+    const near = relationships.find((r: { from: string; to: string }) => r.from === 'park-a' && r.to === 'trail-near')!
+    expect(near.basis).toBe('within-400m')
+    expect(Number.isInteger(near.distanceM)).toBe(true)
+    expect(near.distanceM).toBeGreaterThan(200)
+    expect(near.distanceM).toBeLessThanOrEqual(400)
+    for (const r of relationships.filter((x: { kind: string }) => x.kind === 'nearby')) expect(typeof r.distanceM).toBe('number')
+  })
+})
+
+describe('relationships: nearest fallback', () => {
+  // 0.01 deg of latitude is about 1.1 km.
+  const pt = (id: string, lon: number, lat: number): RelationshipItem => ({ id, kind: 'park', points: [[lon, lat]] })
+  const items = [
+    pt('a', -78.8, 35.8),
+    pt('b', -78.8, 35.815), // ~1.67 km north of a: only reachable by the fallback
+    pt('c', -78.8, 35.84), // ~2.8 km north of b: beyond 2 km
+  ]
+  const { relationships } = computeRelationships(items)
+  it('links an otherwise unlinked place to its nearest neighbour within 2 km', () => {
+    const link = relationships.find((r: { from: string; to: string }) => r.from === 'a' && r.to === 'b')!
+    expect(link).toMatchObject({ kind: 'nearby', basis: 'nearest' })
+    expect(link.distanceM).toBeGreaterThan(1500)
+    expect(link.distanceM).toBeLessThanOrEqual(2000)
+  })
+  it('never links beyond 2 km and adds only one fallback link per place', () => {
+    expect(relationships.some((r: { from: string; to: string }) => r.from === 'c' || r.to === 'c')).toBe(false)
+    expect(relationships).toHaveLength(1)
+  })
+  it('is deterministic', () => {
+    expect(JSON.stringify(computeRelationships([...items].reverse()))).toBe(JSON.stringify({ relationships }))
   })
 })

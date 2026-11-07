@@ -12,6 +12,7 @@ import {
   chooseFocusTarget,
 } from './focusReturn'
 import { CoverageLabel } from '../towns/CoverageLabel'
+import { ConnectedPlaces } from './ConnectedPlaces'
 import { usePlaces } from './usePlaces'
 
 interface PlaceCardProps {
@@ -184,6 +185,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
           {place.description || 'A description has not been added yet.'}
         </p>
 
+        <ConnectedPlaces place={place} />
 
         <section aria-labelledby={`place-${place.id}-visit`} className="space-y-2">
           <h3

@@ -182,7 +182,12 @@ describe('generated catalog', () => {
     expect(relationships.length).toBeGreaterThan(0)
     for (const r of relationships) {
       expect(ids.has(r.from) && ids.has(r.to), JSON.stringify(r)).toBe(true)
-      expect(['contained', 'nearby']).toContain(r.kind)
+      expect(['contained', 'nearby', 'curated']).toContain(r.kind)
+      if (r.kind === 'nearby') {
+        expect(Number.isInteger(r.distanceM), JSON.stringify(r)).toBe(true)
+        expect(['within-400m', 'nearest']).toContain(r.basis)
+        expect(r.distanceM).toBeLessThanOrEqual(r.basis === 'nearest' ? 2000 : 400)
+      }
     }
   })
 

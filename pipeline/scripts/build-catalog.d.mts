@@ -32,7 +32,8 @@ export function assignIds(
   existing: Record<string, string>,
   entries: { key: string; prefix: string; name: string }[],
 ): Record<string, string>
-export function build(options?: { write?: boolean }): {
+export function build(options?: { write?: boolean; outDir?: string }): {
+  relationships: { relationships: { from: string; to: string; kind: string }[] }
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
   outputs: Record<string, string>
   parks: ParkGroup[]

@@ -9,6 +9,10 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
+    "data:snapshot": "node pipeline/scripts/snapshot.mjs",
+    "data:build": "node pipeline/scripts/build-catalog.mjs",
+    "data:publish": "node pipeline/scripts/publish.mjs",
+    "data:refresh": "node pipeline/scripts/refresh.mjs",
     "typecheck": "tsc -b && tsc -p tsconfig.test.json"
   },
   "engines": {

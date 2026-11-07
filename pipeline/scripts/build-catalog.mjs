@@ -1,9 +1,24 @@
 #!/usr/bin/env node
-// Builds public/data/catalog.json and public/data/layers/*.geojson from the committed snapshots in
-// pipeline/sources/. Dependency-free, deterministic (stable sort by id). Run: node pipeline/scripts/build-catalog.mjs
+// Builds catalog.json, layers/*.geojson and relationships.json from the committed snapshots in
+// pipeline/sources/. Dependency-free, deterministic (stable sort by id).
+// Run: node pipeline/scripts/build-catalog.mjs [--out <dir>]   (default dir: public/data)
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  classify,
+  classifyLine,
+  clipToLimit,
+  createScope,
+  linesOf,
+  pointInGeometry,
+  pointInPolygon,
+  polygonsOf,
+  splitByCore,
+} from '../lib/geo.mjs'
+import { computeRelationships } from '../lib/relationships.mjs'
+
+export { pointInGeometry, pointInPolygon }
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const SRC = join(ROOT, 'pipeline', 'sources')
@@ -43,42 +58,6 @@ export function round(n, decimals = COORD_DECIMALS) {
 
 const roundPos = (p, d) => [round(p[0], d), round(p[1], d)]
 const roundRing = (ring, d) => ring.map((p) => roundPos(p, d))
-
-/** Polygon -> [polygon]; MultiPolygon -> polygons. */
-function polygonsOf(geometry) {
-  if (!geometry) return []
-  if (geometry.type === 'Polygon') return [geometry.coordinates]
-  if (geometry.type === 'MultiPolygon') return geometry.coordinates
-  return []
-}
-
-function linesOf(geometry) {
-  if (!geometry) return []
-  if (geometry.type === 'LineString') return [geometry.coordinates]
-  if (geometry.type === 'MultiLineString') return geometry.coordinates
-  return []
-}
-
-function ringContains(ring, [x, y]) {
-  let inside = false
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i]
-    const [xj, yj] = ring[j]
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside
-  }
-  return inside
-}
-
-/** point in Polygon coordinates (first ring outer, others holes). */
-export function pointInPolygon(point, polygon) {
-  if (!polygon.length || !ringContains(polygon[0], point)) return false
-  for (let i = 1; i < polygon.length; i++) if (ringContains(polygon[i], point)) return false
-  return true
-}
-
-export function pointInGeometry(point, geometry) {
-  return polygonsOf(geometry).some((poly) => pointInPolygon(point, poly))
-}
 
 function ringArea(ring) {
   let a = 0
@@ -287,13 +266,18 @@ function roundGeometry(geometry, decimals) {
   }
 }
 
-export function build({ write = true } = {}) {
+export function build({ write = true, outDir = OUT } = {}) {
   const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
   const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
   const greenData = readJson(join(cary('proposed-greenway-trails'), 'data.geojson'))
   const counties = readJson(join(SRC, 'boundaries', 'census-counties-wake-chatham-durham.geojson'))
   const limits = readJson(join(SRC, 'boundaries', 'cary-corporate-limits.geojson'))
   const wake = readJson(join(SRC, 'regional', 'wake-parks-sample.geojson'))
+  const scope = createScope({
+    core: readJson(join(SRC, 'boundaries', 'core.geojson')),
+    nearby: readJson(join(SRC, 'boundaries', 'nearby-buffer.geojson')),
+    crossing: readJson(join(SRC, 'boundaries', 'crossing-limit.geojson')),
+  })
   const parksMeta = readJson(join(cary('parks-and-recreation-feature-polygons'), 'meta.json'))
   const greenMeta = readJson(join(cary('proposed-greenway-trails'), 'meta.json'))
   const idsPath = join(ROOT, 'pipeline', 'ids.json')
@@ -317,6 +301,7 @@ export function build({ write = true } = {}) {
   const places = []
   const parkFeatures = []
   const greenFeatures = []
+  const relItems = []
 
   for (const p of parks) {
     const id = ids[`cary-parks:${p.key}`]
@@ -325,6 +310,8 @@ export function build({ write = true } = {}) {
     // The points dataset has no name column, so join by the point falling inside the park's parcels.
     const hit = urlPoints.find((pt) => p.polygons.some((poly) => pointInPolygon(pt.geometry.coordinates, poly)))
     const acres = fmtNumber(p.acres)
+    const coverage = classify(c, scope)
+    if (coverage === 'outside') continue
     const place = {
       id,
       name: p.name,
@@ -332,6 +319,7 @@ export function build({ write = true } = {}) {
       category: p.category,
       municipality: 'Cary',
       county: countyOf(c, counties),
+      coverage,
       centroid: c,
       bbox,
       description: `Town of Cary ${p.kind}, about ${acres} ${acres === '1' ? 'acre' : 'acres'} (from Cary's parks dataset).`,
@@ -341,14 +329,20 @@ export function build({ write = true } = {}) {
     places.push(place)
     parkFeatures.push({
       type: 'Feature',
-      properties: { placeId: id },
+      properties: { placeId: id, outsideCore: coverage !== 'core' },
       geometry: { type: 'MultiPolygon', coordinates: p.polygons },
     })
+    relItems.push({ id, kind: 'park', polygons: p.polygons })
   }
 
   for (const g of kept) {
     const id = ids[`cary-greenways:${g.key}`]
-    const verts = g.lines.flat()
+    const coverage = classifyLine(g.lines, scope)
+    if (coverage === 'outside') continue
+    // Crossing trails stay whole up to the crossing limit (docs/scope.md); the rest is cut.
+    const { lines } = clipToLimit(g.lines, scope.crossing, scope.core)
+    if (!lines.length) continue
+    const verts = lines.flat()
     const c = vertexNearestBboxCentre(verts)
     const miles = fmtNumber(g.miles)
     places.push({
@@ -358,16 +352,22 @@ export function build({ write = true } = {}) {
       category: 'trail',
       municipality: 'Cary',
       county: countyOf(c, counties),
+      coverage,
       centroid: c,
       bbox: bboxOf(verts),
       description: `Town of Cary greenway, about ${miles} ${miles === '1' ? 'mile' : 'miles'} of existing trail (from Cary's greenway dataset).`,
       sourceIds: ['cary-greenways'],
     })
-    greenFeatures.push({
-      type: 'Feature',
-      properties: { placeId: id },
-      geometry: { type: 'MultiLineString', coordinates: g.lines },
-    })
+    const parts = splitByCore(lines, scope.core)
+    for (const [outsideCore, coordinates] of [[false, parts.inside], [true, parts.outside]]) {
+      if (!coordinates.length) continue
+      greenFeatures.push({
+        type: 'Feature',
+        properties: { placeId: id, outsideCore },
+        geometry: { type: 'MultiLineString', coordinates },
+      })
+    }
+    relItems.push({ id, kind: 'trail', lines })
   }
 
   // Neighbour sample: Wake County parks outside Cary's limits.
@@ -379,6 +379,7 @@ export function build({ write = true } = {}) {
     const name = f.properties?.NAME
     if (!pt || !normalize(name)) continue
     if (limitGeoms.some((g) => pointInGeometry(pt, g))) continue
+    if (classify(pt, scope) === 'outside') continue
     wakeKeys.push({ key: `wake-parks:${normalize(name)}`, prefix: 'wake-park', name })
     neighbours.push({ f, name: String(name).trim().replace(/\s+/g, ' '), pt })
   }
@@ -394,6 +395,7 @@ export function build({ write = true } = {}) {
       category: 'park',
       municipality: jur || 'Unincorporated Wake',
       county: 'Wake',
+      coverage: classify(n.pt, scope),
       centroid: roundPos(n.pt, COORD_DECIMALS),
       description: `Park in ${jur || 'unincorporated Wake County'} (from Wake County's parks dataset).`,
       sourceIds: ['wake-parks'],
@@ -401,6 +403,7 @@ export function build({ write = true } = {}) {
     const u = n.f.properties.URL
     if (typeof u === 'string' && u.startsWith('https://')) place.url = u
     places.push(place)
+    relItems.push({ id: place.id, kind: 'park', points: [place.centroid] })
   }
 
   for (const p of places) {
@@ -412,7 +415,12 @@ export function build({ write = true } = {}) {
   if (unknownAliases.length) console.warn(`aliases.json has unknown ids: ${unknownAliases.join(', ')}`)
 
   places.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  const byPlace = (a, b) => (a.properties.placeId < b.properties.placeId ? -1 : 1)
+  const byPlace = (a, b) =>
+    a.properties.placeId < b.properties.placeId
+      ? -1
+      : a.properties.placeId > b.properties.placeId
+        ? 1
+        : Number(a.properties.outsideCore) - Number(b.properties.outsideCore)
   parkFeatures.sort(byPlace)
   greenFeatures.sort(byPlace)
 
@@ -442,6 +450,8 @@ export function build({ write = true } = {}) {
     })
   }
 
+  const placeIds = new Set(places.map((p) => p.id))
+  const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
   const catalog = { sources, places: places.map(orderPlace) }
   const layer = (features, decimals) =>
     ({
@@ -453,27 +463,31 @@ export function build({ write = true } = {}) {
     'catalog.json': JSON.stringify(catalog, null, 1) + '\n',
     'layers/parks.geojson': JSON.stringify(layer(parkFeatures, COORD_DECIMALS)) + '\n',
     'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
+    'relationships.json': JSON.stringify(relationships, null, 1) + '\n',
   }
 
   if (write) {
-    mkdirSync(join(OUT, 'layers'), { recursive: true })
-    for (const [file, text] of Object.entries(outputs)) writeFileSync(join(OUT, file), text)
-    writeFileSync(idsPath, JSON.stringify(allIds, null, 2) + '\n')
+    mkdirSync(join(outDir, 'layers'), { recursive: true })
+    for (const [file, text] of Object.entries(outputs)) writeFileSync(join(outDir, file), text)
+    // ids.json is repo state, so only the default build touches it.
+    if (outDir === OUT) writeFileSync(idsPath, JSON.stringify(allIds, null, 2) + '\n')
   }
 
-  return { catalog, outputs, parks, kept, dropped, neighbours: neighbours.length, ids: allIds }
+  return { catalog, relationships, outputs, parks, kept, dropped, neighbours: neighbours.length, ids: allIds }
 }
 
 function orderPlace(p) {
   const out = {}
-  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'centroid', 'bbox', 'description', 'url', 'sourceIds']) {
+  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'url', 'sourceIds']) {
     if (p[k] !== undefined) out[k] = p[k]
   }
   return out
 }
 
 function main() {
-  const r = build()
+  const i = process.argv.indexOf('--out')
+  if (i !== -1 && !process.argv[i + 1]) throw new Error('--out needs a directory')
+  const r = build({ outDir: i === -1 ? OUT : resolve(process.argv[i + 1]) })
   const tally = (key) => {
     const t = {}
     for (const p of r.catalog.places) t[p[key] ?? 'unknown'] = (t[p[key] ?? 'unknown'] ?? 0) + 1
@@ -483,6 +497,10 @@ function main() {
   console.log(`places: ${r.catalog.places.length}`)
   console.log('by category:', tally('category'))
   console.log('by county:', tally('county'))
+  console.log('by coverage:', tally('coverage'))
+  const kinds = {}
+  for (const x of r.relationships.relationships) kinds[x.kind] = (kinds[x.kind] ?? 0) + 1
+  console.log('relationships:', kinds)
   console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}`)
   console.log('10 longest dropped greenways:')
   for (const g of dropByMiles) console.log(`  ${g.name} (${g.miles.toFixed(2)} mi)`)

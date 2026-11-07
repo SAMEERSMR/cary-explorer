@@ -1,0 +1,191 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { parseCatalog } from '../src/features/places/catalog'
+// @ts-expect-error untyped .mjs pipeline modules
+import { publish } from '../pipeline/scripts/publish.mjs'
+// @ts-expect-error untyped .mjs pipeline modules
+import { validateRelease } from '../pipeline/lib/validate.mjs'
+
+type Json = Record<string, any>
+let dir: string
+const p = (...s: string[]) => join(dir, ...s)
+const write = (path: string, v: unknown) => {
+  mkdirSync(join(path, '..'), { recursive: true })
+  writeFileSync(path, JSON.stringify(v))
+}
+
+const source = (id: string) => ({
+  id,
+  name: id,
+  url: 'https://example.org/x',
+  license: 'CC0 1.0',
+  retrievedAt: '2026-11-06T12:00:00.000Z',
+})
+const place = (id: string, extra: Json = {}) => ({
+  id,
+  name: id,
+  aliases: [],
+  category: 'park',
+  municipality: 'Cary',
+  county: 'Wake',
+  centroid: [-78.8, 35.8],
+  bbox: [-78.81, 35.79, -78.79, 35.81],
+  description: 'generated',
+  sourceIds: ['src-a'],
+  ...extra,
+})
+const feature = (placeId: string) => ({
+  type: 'Feature',
+  properties: { placeId },
+  geometry: { type: 'Polygon', coordinates: [[[-78.8, 35.8], [-78.79, 35.8], [-78.79, 35.81], [-78.8, 35.8]]] },
+})
+
+function stage(opts: { places?: Json[]; features?: Json[]; sources?: Json[]; rels?: Json[] } = {}) {
+  const places = opts.places ?? [place('a'), place('b')]
+  write(p('staging', 'catalog.json'), { sources: opts.sources ?? [source('src-a')], places })
+  write(p('staging', 'layers', 'parks.geojson'), {
+    type: 'FeatureCollection',
+    features: opts.features ?? places.map((x) => feature(x.id)),
+  })
+  write(p('staging', 'relationships.json'), { relationships: opts.rels ?? [] })
+}
+
+const run = (extra: Json = {}) =>
+  publish({
+    stagingDir: p('staging'),
+    outDir: p('out'),
+    lastRunPath: p('last-run.json'),
+    overridesPath: p('overrides.json'),
+    env: {},
+    ...extra,
+  })
+
+const snapshotOut = (root: string): Record<string, string> => {
+  const out: Record<string, string> = {}
+  const walk = (d: string) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      const f = join(d, e.name)
+      if (e.isDirectory()) walk(f)
+      else out[f.slice(root.length)] = readFileSync(f, 'utf8')
+    }
+  }
+  walk(root)
+  return out
+}
+
+beforeEach(() => {
+  dir = mkdtempSync(join(tmpdir(), 'publish-test-'))
+})
+afterEach(() => rmSync(dir, { recursive: true, force: true }))
+
+describe('publish gates', () => {
+  it('publishes a valid staging dir with a manifest', () => {
+    stage()
+    const res = run()
+    expect(res.errors).toEqual([])
+    expect(res.ok).toBe(true)
+    const manifest = JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8'))
+    expect(manifest.sources).toEqual([
+      expect.objectContaining({ id: 'src-a', recordCount: 2, licence: 'CC0 1.0', ok: true }),
+    ])
+    expect(manifest.generatedFrom).toBe('2026-11-06T12:00:00.000Z')
+  })
+
+  it('curated overrides survive a rebuild and unknown ids only warn', () => {
+    write(p('overrides.json'), { a: { description: 'curated', aliases: ['Alpha'] }, ghost: { name: 'x' } })
+    stage()
+    expect(run().ok).toBe(true)
+    // "rebuild": stage regenerated content again, republish
+    stage()
+    const res = run()
+    expect(res.warnings.join('\n')).toContain('unknown placeId "ghost"')
+    const cat = JSON.parse(readFileSync(p('out', 'catalog.json'), 'utf8'))
+    const a = cat.places.find((x: Json) => x.id === 'a')
+    expect(a.description).toBe('curated')
+    expect(a.aliases).toEqual(['Alpha'])
+    expect(cat.places.find((x: Json) => x.id === 'b').description).toBe('generated')
+  })
+
+  it('blocks a 50% record-count drop unless allowed', () => {
+    stage({ places: Array.from({ length: 10 }, (_, i) => place(`p${i}`)) })
+    expect(run().ok).toBe(true)
+    stage({ places: Array.from({ length: 5 }, (_, i) => place(`p${i}`)) })
+    const blocked = run()
+    expect(blocked.ok).toBe(false)
+    expect(blocked.errors.join()).toContain('src-a')
+    expect(run({ env: { PIPELINE_ALLOW_COUNT_CHANGE: 'src-a' } }).ok).toBe(true)
+  })
+
+  it('blocks on a failed source in lastRun unless --allow-stale', () => {
+    stage()
+    write(p('last-run.json'), { sources: [{ id: 'src-a', ok: false, error: 'HTTP 500' }] })
+    const blocked = run()
+    expect(blocked.ok).toBe(false)
+    expect(blocked.errors.join()).toContain('HTTP 500')
+    const allowed = run({ allowStale: true })
+    expect(allowed.ok).toBe(true)
+    expect(allowed.warnings.join()).toContain('src-a')
+  })
+
+  const check = (catalog: Json, layers: Json, relationships?: Json) =>
+    validateRelease({ catalog, layers: { parks: layers }, relationships })
+  const fc = (...ids: string[]) => ({ type: 'FeatureCollection', features: ids.map(feature) })
+
+  it('fails on duplicate ids, out-of-range coords and orphan layer features', () => {
+    const dup = check({ sources: [source('src-a')], places: [place('a'), place('a')] }, fc('a'))
+    expect(dup.errors.join()).toContain('duplicate place id')
+    const far = check({ sources: [source('src-a')], places: [place('a', { centroid: [-100, 35.8] })] }, fc('a'))
+    expect(far.errors.join()).toContain('outside study area')
+    const orphan = check({ sources: [source('src-a')], places: [place('a')] }, fc('a', 'zzz'))
+    expect(orphan.errors.join()).toContain('"zzz" not in catalog')
+    const cary = (id: string, extra: Json = {}) => place(id, { sourceIds: ['cary-parks'], ...extra })
+    const missing = check({ sources: [source('cary-parks')], places: [cary('a'), cary('b')] }, fc('a'))
+    expect(missing.errors.join()).toContain('"b" (park) has no layer feature')
+    const rel = check({ sources: [source('src-a')], places: [place('a')] }, fc('a'), {
+      relationships: [{ from: 'a', to: 'nope', kind: 'nearby' }],
+    })
+    expect(rel.errors.join()).toContain('"nope"')
+    const noWake = check({ sources: [source('src-a')], places: [place('a', { county: 'Chatham' })] }, fc('a'))
+    expect(noWake.errors.join()).toContain('Wake')
+  })
+
+  it('allows several features per trail and point-only places without features', () => {
+    const trail = place('t', { category: 'trail', sourceIds: ['cary-greenways'] })
+    const wakePark = place('w', { sourceIds: ['wake-parks'] })
+    const res = check(
+      { sources: [source('cary-greenways'), source('wake-parks')], places: [trail, wakePark] },
+      fc('t', 't'),
+    )
+    expect(res.errors).toEqual([])
+    expect(res.ok).toBe(true)
+  })
+
+  it('leaves the output dir untouched on failure', () => {
+    stage()
+    expect(run().ok).toBe(true)
+    const before = snapshotOut(p('out'))
+    stage({ places: [place('a'), place('a')] })
+    expect(run().ok).toBe(false)
+    expect(snapshotOut(p('out'))).toEqual(before)
+  })
+
+  it('is byte-identical across two publishes of the same staging', () => {
+    stage()
+    run()
+    const first = snapshotOut(p('out'))
+    run()
+    expect(snapshotOut(p('out'))).toEqual(first)
+  })
+})
+
+describe('source parser provenance', () => {
+  it('rejects a source without retrievedAt or license', () => {
+    const base = { id: 's', name: 'S', url: 'https://example.org' }
+    const withPlace = (s: Json) => ({ sources: [s], places: [] })
+    expect(() => parseCatalog(withPlace({ ...base, license: 'CC0 1.0' }))).toThrow(/retrievedAt/)
+    expect(() => parseCatalog(withPlace({ ...base, retrievedAt: '2026-11-06' }))).toThrow(/license/)
+    expect(() => parseCatalog(withPlace({ ...base, retrievedAt: 'nope', license: 'x' }))).toThrow(/retrievedAt/)
+  })
+})

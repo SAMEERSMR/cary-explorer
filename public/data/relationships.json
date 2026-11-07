@@ -1,0 +1,814 @@
+{
+ "relationships": [
+  {
+   "from": "cary-greenway-annie-jones-greenway",
+   "to": "cary-park-annie-l-jones-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-batchelor-branch-greenway",
+   "to": "cary-park-white-oak-creek-greenway",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-black-creek-greenway",
+   "to": "cary-park-black-creek-greenway",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-black-creek-greenway",
+   "to": "cary-park-black-creek-greenway-trailhead-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-black-creek-greenway",
+   "to": "cary-park-fred-g-bond-metro-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-black-creek-greenway",
+   "to": "cary-park-north-cary-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-black-creek-greenway",
+   "to": "cary-park-robert-v-godbold-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-carpenter-park-greenway",
+   "to": "cary-park-carpenter-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-crabtree-creek-greenway",
+   "to": "cary-park-fred-g-bond-metro-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-crabtree-creek-greenway",
+   "to": "cary-park-preston-soccer-fields",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-green-hope-school-greenway",
+   "to": "cary-park-sears-farm-road-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-green-level-greenway",
+   "to": "cary-park-mills-school-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-green-level-greenway",
+   "to": "cary-park-thomas-e-brooks-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-green-level-greenway",
+   "to": "cary-park-thomas-e-brooks-park-usa-baseball-ntc",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-higgins-greenway",
+   "to": "cary-park-hillcrest-cemetery",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-hinshaw-greenway",
+   "to": "cary-park-macdonald-woods-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-hinshaw-greenway",
+   "to": "cary-park-marla-dorrel-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-jack-smith-park-greenway",
+   "to": "cary-park-jack-smith-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-middle-creek-park-greenway",
+   "to": "cary-park-middle-creek-school-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-nancy-branch-greenway",
+   "to": "cary-park-nancy-branch-greenway",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-north-cary-park-greenway",
+   "to": "cary-park-north-cary-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-northwoods-greenway",
+   "to": "cary-park-robert-v-godbold-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-panther-creek-greenway",
+   "to": "cary-park-mills-school-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-panther-creek-greenway",
+   "to": "cary-park-new-hope-church-road-trailhead-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-fred-g-bond-metro-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-harold-d-ritter-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-hemlock-bluffs-nature-preserve",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-koka-booth-amphitheatre",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-swift-creek-greenway",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-symphony-lake-greenway",
+   "to": "cary-park-koka-booth-amphitheatre",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-symphony-lake-greenway",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-walnut-street-park-greenway",
+   "to": "cary-park-walnut-street-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-white-oak-creek-greenway",
+   "to": "cary-park-davis-drive-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-white-oak-creek-greenway",
+   "to": "cary-park-fred-g-bond-metro-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-white-oak-creek-greenway",
+   "to": "cary-park-white-oak-creek-greenway",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-white-oak-creek-greenway",
+   "to": "cary-park-white-oak-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-greenway-woodlands-greenway",
+   "to": "cary-park-thomas-e-brooks-park",
+   "kind": "contained"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-cary-arts-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-cary-public-library",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-conservation-west-street",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-downtown-theater",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-204-s-academy-street",
+   "to": "cary-park-page-walker-arts-and-history-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway",
+   "to": "cary-greenway-north-cary-park-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway",
+   "to": "cary-greenway-weston-pud-trails",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway",
+   "to": "cary-park-conservation-orchard-park-dr",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway",
+   "to": "cary-park-north-cary-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway-trailhead-park",
+   "to": "cary-greenway-northwoods-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-black-creek-greenway-trailhead-park",
+   "to": "cary-park-robert-v-godbold-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-carpenter-park",
+   "to": "cary-greenway-carpenter-village-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-carpenter-park",
+   "to": "cary-park-conservation-louis-stephens",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-carpenter-park",
+   "to": "cary-park-good-hope-farm",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-cary-public-library",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-conservation-dry-ave",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-conservation-west-street",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-heater-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-hillcrest-cemetery",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-arts-center",
+   "to": "cary-park-meeting-place-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-high-school-softball-field",
+   "to": "cary-park-lions-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-conservation-dry-ave",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-conservation-west-street",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-downtown-theater",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-heater-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-public-library",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-tennis-park",
+   "to": "cary-park-green-hope-elementary-school-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-cary-tennis-park",
+   "to": "cary-park-green-hope-high-school-fields",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-brookgreen-dr",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-dry-ave",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-dry-ave",
+   "to": "cary-park-conservation-west-street",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-dry-ave",
+   "to": "cary-park-heater-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-dry-ave",
+   "to": "cary-park-hillcrest-cemetery",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-dry-ave",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-greenway-symphony-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-conservation-regency-pkwy",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-harold-d-ritter-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-hemlock-bluffs-nature-preserve",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-koka-booth-amphitheatre",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-ederlee-dr",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-king-george-loop",
+   "to": "cary-greenway-annie-jones-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-louis-stephens",
+   "to": "cary-greenway-carpenter-park-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-louis-stephens",
+   "to": "cary-park-good-hope-farm",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-old-apex-rd",
+   "to": "cary-park-lexie-lane-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-orchard-park-dr",
+   "to": "cary-greenway-black-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-greenway-symphony-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-park-hemlock-bluffs-nature-preserve",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-park-koka-booth-amphitheatre",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-regency-pkwy",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-rr-high-house",
+   "to": "cary-greenway-stone-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-se-maynard-rd",
+   "to": "cary-park-wakemed-soccer-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-spurgeon-ln",
+   "to": "cary-greenway-walnut-street-park-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-spurgeon-ln",
+   "to": "cary-park-walnut-street-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-swift-creek",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-tryon-rd",
+   "to": "cary-greenway-hinshaw-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-tryon-rd",
+   "to": "cary-park-marla-dorrel-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-veterans-park",
+   "to": "cary-park-veterans-freedom-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-west-street",
+   "to": "cary-park-heater-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-west-street",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-conservation-west-street",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-davis-drive-park",
+   "to": "cary-greenway-park-village-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-davis-drive-park",
+   "to": "cary-park-white-oak-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-davis-drive-school-fields",
+   "to": "cary-greenway-white-oak-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-davis-drive-school-fields",
+   "to": "cary-park-white-oak-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-dorothy-park",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-dorothy-park",
+   "to": "cary-park-hillcrest-cemetery",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-downtown-theater",
+   "to": "cary-park-herbert-c-young-community-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-downtown-theater",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-downtown-theater",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-downtown-theater",
+   "to": "cary-park-page-walker-arts-and-history-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-fred-g-bond-metro-park",
+   "to": "cary-greenway-bishops-gate-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-fred-g-bond-metro-park",
+   "to": "cary-park-preston-soccer-fields",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-good-hope-farm",
+   "to": "cary-greenway-carpenter-park-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-harold-d-ritter-park",
+   "to": "cary-greenway-camp-branch-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-harold-d-ritter-park",
+   "to": "cary-park-hemlock-bluffs-nature-preserve",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-harold-d-ritter-park",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hatcher-property",
+   "to": "cary-greenway-carpenter-village-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-heater-park",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-heater-park",
+   "to": "cary-park-hillcrest-cemetery",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-heater-park",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hemlock-bluffs-nature-preserve",
+   "to": "cary-greenway-camp-branch-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hemlock-bluffs-nature-preserve",
+   "to": "cary-greenway-symphony-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hemlock-bluffs-nature-preserve",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hemlock-bluffs-nature-preserve",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-herbert-c-young-community-center",
+   "to": "cary-park-ivey-ellington-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-herbert-c-young-community-center",
+   "to": "cary-park-page-walker-arts-and-history-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-hillcrest-cemetery",
+   "to": "cary-park-meeting-place-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-ivey-ellington-house",
+   "to": "cary-park-jones-foy-property",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-ivey-ellington-house",
+   "to": "cary-park-page-walker-arts-and-history-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-jones-foy-property",
+   "to": "cary-park-meeting-place-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-koka-booth-amphitheatre",
+   "to": "cary-park-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-koka-booth-amphitheatre",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-lexie-lane-park",
+   "to": "cary-greenway-northwoods-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-lions-park",
+   "to": "cary-park-r-s-dunham-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-macdonald-woods-park",
+   "to": "cary-greenway-pirates-cove-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-macdonald-woods-park",
+   "to": "cary-park-marla-dorrel-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-meeting-place-park",
+   "to": "cary-greenway-higgins-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-mills-school-park",
+   "to": "cary-greenway-cary-park-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-new-hope-church-road-trailhead-park",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-new-hope-church-road-trailhead-park",
+   "to": "cary-greenway-morris-branch-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-north-cary-park",
+   "to": "cary-greenway-weston-pud-trails",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-sears-farm-road-park",
+   "to": "cary-greenway-highcroft-village-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-swift-creek-greenway",
+   "to": "cary-greenway-symphony-lake-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-swift-creek-greenway",
+   "to": "cary-park-symphony-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-thomas-e-brooks-park",
+   "to": "cary-greenway-greystone-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-thomas-e-brooks-park",
+   "to": "cary-park-thomas-e-brooks-park-usa-baseball-ntc",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-thomas-e-brooks-park-usa-baseball-ntc",
+   "to": "cary-greenway-woodlands-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-wake-county-town-of-cary-trailhead",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-oak-creek-greenway",
+   "to": "cary-greenway-flat-branch-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-oak-creek-greenway",
+   "to": "cary-greenway-park-village-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-oak-creek-greenway",
+   "to": "cary-park-white-oak-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-oak-park",
+   "to": "cary-greenway-park-village-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-plains-cemetery",
+   "to": "cary-greenway-hinshaw-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "cary-park-white-plains-cemetery",
+   "to": "cary-greenway-pirates-cove-greenway",
+   "kind": "nearby"
+  }
+ ]
+}

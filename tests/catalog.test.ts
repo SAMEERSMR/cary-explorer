@@ -7,6 +7,7 @@ const source = {
   name: 'Example source',
   url: 'https://example.org/places',
   retrievedAt: '2026-11-02T12:00:00Z',
+  license: 'CC0 1.0',
 }
 
 const place = (id: string, name: string, overrides: Record<string, unknown> = {}) => ({
@@ -65,6 +66,15 @@ describe('catalog boundary', () => {
     expect(result.places.map((p) => p.id)).toEqual(['one'])
     expect(result.sources.map((s) => s.id)).toEqual(['example-source'])
     expect(fetchMock).toHaveBeenCalledWith('/catalog.json', { signal: controller.signal })
+  })
+
+  it('accepts optional coverage values and rejects any other', () => {
+    const accepted = parseCatalog(catalog([place('one', 'Example Park', { coverage: 'nearby' })]))
+    expect(accepted.places[0].coverage).toBe('nearby')
+    expect(parseCatalog(catalog([place('two', 'Example Park')])).places[0].coverage).toBeUndefined()
+    expect(() => parseCatalog(catalog([place('one', 'Example Park', { coverage: 'county' })]))).toThrow(
+      /coverage must be one of core, nearby, outside/,
+    )
   })
 
   it('rejects a place whose sourceId has no matching source', () => {

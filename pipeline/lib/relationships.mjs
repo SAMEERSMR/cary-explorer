@@ -3,7 +3,7 @@
 // Input items: { id, kind: 'park' | 'trail', polygons?: Polygon[], lines?: Position[][], points?: Position[] }
 //   park  = any place drawn as polygons (or a single point when only a centroid is known)
 //   trail = a greenway drawn as lines
-// Output: [{ from, to, kind }] sorted by kind, from, to.
+// Output: [{ from, to, kind, distanceM?, basis? }] sorted by from, to, kind.
 //
 // Rules:
 //   contained: a trail with any vertex inside a park polygon -> { from: trailId, to: parkId, kind: 'contained' }.
@@ -13,10 +13,14 @@
 //              vertex of one lies inside a polygon of the other. A bbox prefilter (expanded by 400 m) rejects
 //              most pairs, and only vertices inside the other's expanded bbox are compared. Pairs already
 //              'contained' are not repeated as 'nearby'. park-park: from is the lower id; park-trail: from is
-//              the park.
+//              the park. Nearby links carry distanceM (rounded metres of closest approach, 0 when one geometry
+//              touches the other) and basis 'within-400m'. Point-only places use their point.
+//   fallback:  a place with no link at all gets ONE nearby link to its closest other place within
+//              NEAREST_MAX_M (2,000 m), with basis 'nearest' (from = the unlinked place). Never beyond 2 km.
 import { extent, haversineM, pointInPolygon } from './geo.mjs'
 
 export const NEARBY_M = 400
+export const NEAREST_MAX_M = 2000
 const M_PER_DEG_LAT = 111320
 
 function prep(item) {
@@ -41,13 +45,18 @@ function insideAny(point, target) {
   return false
 }
 
-function within(a, b, boxA, boxB) {
+// Smallest distance in metres between two prepared items (0 when a vertex lies inside the other's polygon),
+// or null when it is more than maxM. Only vertices inside the other's expanded bbox are compared.
+function closest(a, b, boxA, boxB, maxM) {
   const va = a.vertices.filter((p) => inBox(p, boxB))
   const vb = b.vertices.filter((p) => inBox(p, boxA))
-  if (va.some((p) => insideAny(p, b)) || vb.some((p) => insideAny(p, a))) return true
-  for (const p of va) for (const q of vb) if (haversineM(p, q) <= NEARBY_M) return true
-  return false
+  if (va.some((p) => insideAny(p, b)) || vb.some((p) => insideAny(p, a))) return 0
+  let best = Infinity
+  for (const p of va) for (const q of vb) best = Math.min(best, haversineM(p, q))
+  return best <= maxM ? best : null
 }
+
+const cmp = (x, y) => (x < y ? -1 : x > y ? 1 : 0)
 
 export function computeRelationships(items) {
   const list = items.map(prep).filter((p) => p.vertices.length)
@@ -64,13 +73,35 @@ export function computeRelationships(items) {
         out.push({ from: other.id, to: park.id, kind: 'contained' })
         continue
       }
-      if (within(a, b, boxes[i], boxes[j])) {
+      const d = closest(a, b, boxes[i], boxes[j], NEARBY_M)
+      if (d !== null) {
         const [from, to] = other.kind === 'trail' ? [park.id, other.id] : a.id < b.id ? [a.id, b.id] : [b.id, a.id]
-        out.push({ from, to, kind: 'nearby' })
+        out.push({ from, to, kind: 'nearby', distanceM: Math.round(d), basis: 'within-400m' })
       }
     }
   }
-  const cmp = (x, y) => (x < y ? -1 : x > y ? 1 : 0)
-  out.sort((x, y) => cmp(x.kind, y.kind) || cmp(x.from, y.from) || cmp(x.to, y.to))
+  // Coverage fallback: one nearest link (within 2 km) for each place that still has none.
+  const linked = new Set(out.flatMap((r) => [r.from, r.to]))
+  const wide = list.map((p) => grow(p.bbox, NEAREST_MAX_M))
+  const order = list.map((_, i) => i).sort((x, y) => cmp(list[x].id, list[y].id))
+  for (const i of order) {
+    const a = list[i]
+    if (linked.has(a.id)) continue
+    let best = null
+    for (let j = 0; j < list.length; j++) {
+      if (j === i) continue
+      const b = list[j]
+      if (!overlap(wide[i], wide[j])) continue
+      const d = closest(a, b, wide[i], wide[j], NEAREST_MAX_M)
+      if (d === null) continue
+      if (!best || d < best.d || (d === best.d && b.id < best.id)) best = { d, id: b.id }
+    }
+    if (best) {
+      out.push({ from: a.id, to: best.id, kind: 'nearby', distanceM: Math.round(best.d), basis: 'nearest' })
+      linked.add(a.id)
+      linked.add(best.id)
+    }
+  }
+  out.sort((x, y) => cmp(x.from, y.from) || cmp(x.to, y.to) || cmp(x.kind, y.kind))
   return { relationships: out }
 }

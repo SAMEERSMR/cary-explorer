@@ -48,6 +48,8 @@ export interface Relationship {
   kind: 'contained' | 'nearby' | 'curated'
   /** Straight-line distance in metres, present for `nearby`. */
   distanceM?: number
+  /** For `nearby`: whether the place is within 400 m or was the closest place found beyond that. */
+  basis?: 'within-400m' | 'nearest'
   /** Why the link exists (for example the geometry test or the override note). */
   evidence?: string
 }

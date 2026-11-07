@@ -41,7 +41,10 @@ export function municipalityOf(
 ): string
 export function stripJurisdiction(jurisdiction: unknown): string
 export function build(options?: { write?: boolean; outDir?: string }): {
-  relationships: { relationships: { from: string; to: string; kind: string }[] }
+  relationships: {
+    relationships: { from: string; to: string; kind: string; distanceM?: number; basis?: string }[]
+  }
+  dedupeSkips: { name: string; caryId: string; distanceM: number }[]
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
   outputs: Record<string, string>
   parks: ParkGroup[]
@@ -53,3 +56,9 @@ export function build(options?: { write?: boolean; outDir?: string }): {
   ids: Record<string, string>
 }
 export function carynUrl(url: unknown): unknown
+export const DEDUPE_M: number
+export function findCaryTwin(
+  name: unknown,
+  pt: Position,
+  caryNames: { id: string; centroid: Position; names: Set<string> }[],
+): { id: string; centroid: Position; names: Set<string> } | undefined

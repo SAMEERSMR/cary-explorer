@@ -5701,23 +5701,6 @@
    ]
   },
   {
-   "id": "wake-park-new-hope-church-road-trailhead-park",
-   "name": "New Hope Church Road Trailhead Park",
-   "aliases": [],
-   "category": "park",
-   "municipality": "Chatham County",
-   "county": "Chatham",
-   "coverage": "nearby",
-   "centroid": [
-    -78.926071,
-    35.816394
-   ],
-   "description": "Park listed by Wake County, managed by Town of Cary (from Wake County's parks layer).",
-   "sourceIds": [
-    "wake-parks"
-   ]
-  },
-  {
    "id": "wake-park-north-garner-dog-park",
    "name": "North Garner Dog Park",
    "aliases": [],

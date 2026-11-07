@@ -26,6 +26,10 @@ export interface Place {
   description: string
   address?: string
   stationNumber?: number
+  /** Official page for the place (e.g. its eBird hotspot page). */
+  url?: string
+  /** True = local dev preview data, never published. */
+  localOnly?: boolean
   /** At least one; each id matches a Source in the catalog. */
   sourceIds: string[]
 }

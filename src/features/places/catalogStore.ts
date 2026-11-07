@@ -1,6 +1,7 @@
 // Framework-free store that loads the catalog once and shares the same arrays with every consumer.
 import type { Place, Source } from '../../types/place'
 import { CATALOG_URL, loadCatalog, type Catalog } from './catalog'
+import { loadLocalHotspots, hotspotsToCatalog } from './localHotspots'
 
 export type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
 
@@ -30,7 +31,22 @@ const IDLE: CatalogState = { status: 'idle', places: NO_PLACES, sources: NO_SOUR
 
 const isAbort = (err: unknown) => err instanceof Error && err.name === 'AbortError'
 
-export function createCatalogStore(load: CatalogLoader = loadCatalog): CatalogStore {
+/** Catalog plus, in dev only, local eBird preview data; its failure never fails the catalog. */
+async function loadWithLocalPreview(url: string, signal: AbortSignal): Promise<Catalog> {
+  const catalog = await loadCatalog(url, signal)
+  if (!import.meta.env.DEV) return catalog
+  const payload = await loadLocalHotspots(signal)
+  if (!payload) return catalog
+  const local = hotspotsToCatalog(payload)
+  const placeIds = new Set(catalog.places.map((p) => p.id))
+  const sourceIds = new Set(catalog.sources.map((s) => s.id))
+  return {
+    places: [...catalog.places, ...local.places.filter((p) => !placeIds.has(p.id))],
+    sources: sourceIds.has(local.source.id) ? catalog.sources : [...catalog.sources, local.source],
+  }
+}
+
+export function createCatalogStore(load: CatalogLoader = loadWithLocalPreview): CatalogStore {
   let state: CatalogState = IDLE
   let controller: AbortController | null = null
   // State to go back to if a load is cancelled (idle for a first load, ready/error data for a reload).

@@ -30,7 +30,11 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const theme = getTheme(place.theme)
   const { sources } = usePlaces()
   const headingRef = useRef<HTMLHeadingElement>(null)
+  // Only places whose sources are the placeholder sample source get the "Sample data" badge.
   const isSample = place.sourceIds.includes('sample')
+  const isEbird = place.sourceIds.includes('ebird')
+  const officialLinkLabel = isEbird ? 'View on eBird' : 'Official page'
+  const showOfficialLink = Boolean(place.url) && publicUrl(place.url)
   const location = [place.municipality, place.county].filter(Boolean).join(', ')
   // Hide the category label when it repeats the theme chip (e.g. "History" / "History").
   const categoryName = categoryLabel[place.category]
@@ -121,6 +125,11 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
                 Sample data
               </span>
             )}
+            {place.localOnly && (
+              <span className="rounded-lg bg-subtle px-2 py-1 text-xs font-semibold text-ink-muted">
+                Local preview
+              </span>
+            )}
           </div>
           <h2
             id={`place-${place.id}-name`}
@@ -136,6 +145,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
         <p className="text-[15px] leading-relaxed text-ink-soft">
           {place.description || 'A description has not been added yet.'}
         </p>
+
 
         <section aria-labelledby={`place-${place.id}-visit`} className="space-y-2">
           <h3
@@ -188,6 +198,33 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
           </dl>
         </section>
 
+        {showOfficialLink && (
+          <a
+            href={place.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-control border border-line bg-white px-4 font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
+          >
+            {officialLinkLabel}
+            <span className="sr-only"> (opens in a new tab)</span>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              viewBox="0 0 24 24"
+              width={16}
+              height={16}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="shrink-0"
+            >
+              <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+            </svg>
+          </a>
+        )}
+
         <div className="space-y-4 border-t border-line pt-4 text-[13px] text-ink-muted">
           <p>Map pin is a representative location; check the source for entrances and access.</p>
 
@@ -209,14 +246,14 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
                         href={source.url}
                         className="font-medium text-link underline underline-offset-2 hover:text-ink"
                       >
-                        {source.name}
+                        {id === 'ebird' ? 'Data: eBird.org' : source.name}
                       </a>
                     ) : (
                       <span className="font-medium text-ink">{source.name}</span>
                     )}
                     {source.retrievedAt && (
                       <p>
-                        Retrieved{' '}
+                        {id === 'ebird' ? 'Snapshot ' : 'Retrieved '}
                         <time dateTime={source.retrievedAt}>{formatRetrieved(source.retrievedAt)}</time>
                       </p>
                     )}

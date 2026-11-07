@@ -8,6 +8,7 @@ import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import { THEMES } from '../themes/themes'
 import { useMapStatus } from './mapStatus'
+import { useGeometryLayers } from './layers'
 
 const cardClass =
   'pointer-events-auto w-full max-w-sm rounded-2xl border border-line bg-white p-6 text-ink shadow-md'
@@ -34,6 +35,7 @@ export function MapNotes() {
   const panelCollapsed = useAppStore((s) => s.panelCollapsed)
   const noThemes = useAppStore((s) => s.activeThemes.length === 0)
   const mapStatus = useMapStatus()
+  const layers = useGeometryLayers()
   const [showDetails, setShowDetails] = useState(false)
 
   let catalogNote: React.ReactNode = null
@@ -86,6 +88,17 @@ export function MapNotes() {
     catalogNote = <p className="pointer-events-auto rounded-2xl border border-line bg-white px-5 py-3 text-sm text-ink shadow-md">No places to show</p>
   }
 
+  // Small, non-blocking: points, filters and selection keep working. Skipped when the catalog note already says to retry.
+  const layerNote =
+    layers.status === 'error' && status !== 'error' ? (
+      <div className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-line bg-white py-1 pr-1 pl-4 text-sm text-ink shadow-md">
+        <p>Trail and park outlines didn&rsquo;t load.</p>
+        <button type="button" onClick={layers.retry} className={linkButton}>
+          Try again
+        </button>
+      </div>
+    ) : null
+
   const mapNote =
     mapStatus.state === 'unavailable' ? (
       <Card
@@ -119,6 +132,7 @@ export function MapNotes() {
     >
       {mapNote}
       {catalogNote}
+      {layerNote}
     </div>
   )
 }

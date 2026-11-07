@@ -28,6 +28,12 @@ export interface GreenwayGroup {
 }
 export function groupParks(features: unknown[]): ParkGroup[]
 export function groupGreenways(features: unknown[]): { kept: GreenwayGroup[]; dropped: GreenwayGroup[] }
+export function greenwayFeatures(
+  placeId: string,
+  existingLines: Position[][],
+  proposedLines: Position[][],
+  scope: unknown,
+): { type: 'Feature'; properties: { placeId: string; status: 'existing' | 'proposed'; outsideCore: boolean }; geometry: { type: 'MultiLineString'; coordinates: Position[][] } }[]
 export function assignIds(
   existing: Record<string, string>,
   entries: { key: string; prefix: string; name: string }[],

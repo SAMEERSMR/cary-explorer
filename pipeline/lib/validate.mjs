@@ -8,6 +8,7 @@ const REQUIRED_COUNTY = 'Wake'
 const OPTIONAL_COUNTIES = ['Chatham', 'Durham']
 const LAYERED_CATEGORIES = new Set(['park', 'trail'])
 // Sources that publish layer geometry; their park/trail places need at least one layer feature.
+export const GREENWAY_STATUSES = new Set(['existing', 'proposed'])
 export const LAYER_SOURCES = new Set(['cary-parks', 'cary-greenways'])
 
 const inBounds = (p) =>
@@ -72,6 +73,9 @@ export function validateRelease({
       const placeId = f?.properties?.placeId
       if (!ids.has(placeId)) errors.push(`layer "${name}" feature ${i}: placeId "${placeId}" not in catalog`)
       else featureCount.set(placeId, (featureCount.get(placeId) ?? 0) + 1)
+      if (name === 'greenways' && !GREENWAY_STATUSES.has(f?.properties?.status)) {
+        errors.push(`layer "greenways" feature ${i} (${placeId}): status must be "existing" or "proposed"`)
+      }
       for (const pos of positions(f?.geometry?.coordinates)) {
         if (!inBounds(pos)) {
           errors.push(`layer "${name}" feature ${i} (${placeId}): coordinate outside study area`)

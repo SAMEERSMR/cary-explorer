@@ -1,11 +1,11 @@
 {
- "version": "4188bdab5a4741a2",
+ "version": "234281b2521fd5b1",
  "generatedFrom": "2026-11-07T17:40:46.521Z",
  "artifacts": {
   "catalog": "catalog.7462e19b5925.json",
   "relationships": "relationships.bbfba91afdb4.json",
   "layers": {
-   "greenways": "layers/greenways.711f94690142.geojson",
+   "greenways": "layers/greenways.a597a9cb7855.geojson",
    "parks": "layers/parks.4aee84a0f2c8.geojson"
   },
   "places": "places/013a6ae0fd06/"

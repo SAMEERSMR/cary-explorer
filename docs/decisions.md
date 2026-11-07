@@ -234,6 +234,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/scripts/publish.mjs`, `pipeline/lib/release.mjs`, `pipeline/scripts/check-budgets.mjs`, `public/data/`, #37, #20.
 
+## 20. Trail lines and selected geometry
+
+**Context:** Places had points only; trails and parks needed outlines linked to places, with the selected one clearly on top (#38).
+
+**Decision:** Layers stack basemap < park areas < trail lines < point clusters < selected geometry < selected pin. Areas use a 25% theme fill with a 1 px stroke and show from zoom 13; existing trails are 3 px solid in the theme colour; proposed trails are 2 px dashed `[6, 6]` at 60% opacity, and a missing `status` counts as existing. Only places that pass the theme and town filters are drawn, plus the selected place, whose lines get a 7 px white casing under a 4 px line (a proposed part dashed inside the casing) and whose areas get a stronger fill and 2 px stroke on their own top layer. Clicks keep `singleclick` and the 8 px tolerance, test only pins, lines and areas, and prefer pin, then line, then area. A selection fits the union extent of its geometry, else its `bbox`, else centres on the point, using the panel and sheet padding with maxZoom 17; it re-frames when the sheet or desktop panel changes, and refits once if the layers arrive after a bbox or point frame, unless the user has moved the map. A selection restored from a shared link that also has `map=` is never framed: the shared camera wins. A failed layer fetch shows a small retry note and leaves points, filters and selection working.
+
+**Applies to:** `src/features/map/` (`layers.ts`, `geometryStyles.ts`, `picking.ts`, `framing.ts`, `MapView.tsx`), `PlaceCard.tsx`, #38.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

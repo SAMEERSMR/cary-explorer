@@ -1,6 +1,8 @@
 # Source register and Cary snapshot findings
 
 Owner: issue #6 (Cary part). Register columns mirror `Source` in `src/types/place.ts` (`id`, `name`, `url`, `license`, `retrievedAt`) plus attribution, vintage, coverage and a verdict.
+Per-town coverage: see [source-matrix.md](source-matrix.md).
+
 Snapshots live in `pipeline/sources/cary/<dataset>/` (`data.geojson`, `meta.json`, `metadata.json`); regenerate with `node pipeline/scripts/snapshot-cary.mjs` (node 22, no dependencies, fails if export count differs from catalog count).
 
 ## Licence/attribution register

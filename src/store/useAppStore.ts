@@ -2,6 +2,13 @@
 import { create } from 'zustand'
 import type { ThemeId } from '../types/place'
 import { THEMES } from '../features/themes/themes'
+import {
+  normalizeOverrides,
+  reconcileOverrides,
+  showAllOverrides,
+  type LayerId,
+  type LayerOverrides,
+} from '../features/themes/layerSelection'
 
 export type ViewMode = 'map' | 'list'
 export type SheetState = 'peek' | 'half' | 'full'
@@ -16,6 +23,7 @@ export interface FitRequest {
 }
 export interface UrlApply {
   themes?: ThemeId[]
+  layers?: LayerOverrides
   view?: ViewMode
   searchQuery?: string
   town?: string | null
@@ -29,6 +37,8 @@ export type SelectionOrigin = 'user' | 'url'
 interface AppState {
   selectedPlaceId: string | null
   activeThemes: ThemeId[]
+  // Layer switches that differ from the theme defaults (see features/themes/layerSelection.ts).
+  layerOverrides: LayerOverrides
   searchQuery: string
   // Town slug (see features/towns/coverage.ts); null = all towns.
   town: string | null
@@ -55,6 +65,11 @@ interface AppState {
   setSelectedPlaceId: (id: string | null) => void
   setActiveThemes: (themes: ThemeId[]) => void
   toggleTheme: (id: ThemeId) => void
+  setLayer: (id: LayerId, on: boolean) => void
+  // Turns on every layer of the active themes.
+  showAllLayers: () => void
+  // Back to the theme defaults.
+  resetLayers: () => void
   setSearchQuery: (query: string) => void
   setTown: (town: string | null) => void
   setView: (view: ViewMode) => void
@@ -66,6 +81,7 @@ interface AppState {
 export const useAppStore = create<AppState>()((set) => ({
   selectedPlaceId: null,
   activeThemes: THEMES.map((t) => t.id),
+  layerOverrides: {},
   searchQuery: '',
   town: null,
   view: 'map',
@@ -87,6 +103,7 @@ export const useAppStore = create<AppState>()((set) => ({
       const view = a.view ?? 'map'
       return {
         activeThemes: a.themes ?? THEMES.map((t) => t.id),
+        layerOverrides: normalizeOverrides(a.themes ?? THEMES.map((t) => t.id), a.layers ?? {}),
         searchQuery: a.searchQuery ?? '',
         town: a.town ?? null,
         aboutOpen: a.about ?? false,
@@ -115,13 +132,17 @@ export const useAppStore = create<AppState>()((set) => ({
       panelCollapsed: id !== null ? false : s.panelCollapsed,
       sheetState: id !== null && s.sheetState === 'peek' ? 'half' : s.sheetState,
     })),
-  setActiveThemes: (themes) => set({ activeThemes: themes }),
+  // Changing a theme chip resets that theme's layers to its defaults.
+  setActiveThemes: (themes) =>
+    set((s) => ({ activeThemes: themes, layerOverrides: reconcileOverrides(s.activeThemes, themes, s.layerOverrides) })),
   toggleTheme: (id) =>
-    set((s) => ({
-      activeThemes: s.activeThemes.includes(id)
-        ? s.activeThemes.filter((t) => t !== id)
-        : [...s.activeThemes, id],
-    })),
+    set((s) => {
+      const next = s.activeThemes.includes(id) ? s.activeThemes.filter((t) => t !== id) : [...s.activeThemes, id]
+      return { activeThemes: next, layerOverrides: reconcileOverrides(s.activeThemes, next, s.layerOverrides) }
+    }),
+  setLayer: (id, on) => set((s) => ({ layerOverrides: normalizeOverrides(s.activeThemes, { ...s.layerOverrides, [id]: on }) })),
+  showAllLayers: () => set((s) => ({ layerOverrides: showAllOverrides(s.activeThemes) })),
+  resetLayers: () => set({ layerOverrides: {} }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   // Like themes, changing the town never clears the selection: the card stays even if the place is filtered out.
   // Choosing a town (not "all towns") also asks the map to fit its places.

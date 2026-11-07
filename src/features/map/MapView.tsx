@@ -31,6 +31,7 @@ import { ICON_SIZE } from '../themes/icons'
 import { getClusterStyle, getLabelBorderStyle, getPinStyle } from './pinStyles'
 import { LAYER_Z, AREA_LAYER_MIN_ZOOM, geometryStyleFor } from './geometryStyles'
 import { useGeometryLayers } from './layers'
+import { isGeometryShown } from '../themes/layerSelection'
 import type { GeometryKind, GeometryStatus } from './layers'
 import { pickBest } from './picking'
 import type { PickKind } from './picking'
@@ -163,7 +164,7 @@ export function MapView() {
   const flownIdRef = useRef<string | null>(null)
 
   const { places: allPlaces, status: placesStatus } = usePlaces()
-  const { places: visiblePlaces } = useFilteredPlaces()
+  const { places: visiblePlaces, layers: layerSelection } = useFilteredPlaces()
   const selectedPlaceId = useAppStore((s) => s.selectedPlaceId)
   const sheetState = useAppStore((s) => s.sheetState)
   const isDesktop = useIsDesktop()
@@ -432,11 +433,15 @@ export function MapView() {
     if (!lineSource || !areaSource || !selectedSource) return
     const themeById = new Map<string, ThemeId>()
     for (const p of visiblePlaces) themeById.set(p.id, p.theme)
+    // Proposed trails and park outlines also follow their own layer switches; the selected place keeps its geometry.
     const withTheme = (features: typeof geometry.lines) =>
       features.filter((f) => {
         const theme = themeById.get(f.get('placeId') as string)
         if (theme) f.set('theme', theme, true)
-        return theme !== undefined
+        return (
+          theme !== undefined &&
+          isGeometryShown(f.get('kind') as GeometryKind, f.get('status') as GeometryStatus, layerSelection)
+        )
       })
     lineSource.clear()
     areaSource.clear()
@@ -446,7 +451,7 @@ export function MapView() {
     const selected = allPlaces.find((p) => p.id === selectedPlaceId)
     // Clones, so the same Feature is never held by two sources (the base layers keep the originals).
     selectedSource.addFeatures(selected ? selectedGeometryFeatures(geometry.index.get(selected.id), selected.theme) : [])
-  }, [visiblePlaces, allPlaces, selectedPlaceId, geometry.lines, geometry.areas, geometry.index])
+  }, [visiblePlaces, layerSelection, allPlaces, selectedPlaceId, geometry.lines, geometry.areas, geometry.index])
 
   // Frame the selected place: on a new selection, when the sheet or panel changes, and once when layers arrive late.
   useEffect(() => {

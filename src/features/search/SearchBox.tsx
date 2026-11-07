@@ -1,17 +1,16 @@
 // Search combobox over the full catalog, limited to active themes, with full ARIA combobox keyboard support.
-import { useId, useMemo, useState, type KeyboardEvent } from 'react'
+import { useId, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel, getTheme } from '../themes/themes'
-import { townBySlug } from '../towns/coverage'
 import { usePlaces } from '../places/usePlaces'
-import { usePlaceSearch } from './usePlaceSearch'
+import { emptyLayersText } from '../themes/layerSelection'
+import { useLayerSearch } from './useLayerSearch'
 
 const MAX_RESULTS = 8
 
 export function SearchBox() {
   const activeThemes = useAppStore((s) => s.activeThemes)
-  const town = useAppStore((s) => s.town)
   const query = useAppStore((s) => s.searchQuery)
   const setSearchQuery = useAppStore((s) => s.setSearchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
@@ -22,12 +21,9 @@ export function SearchBox() {
   const baseId = useId()
   const listId = `${baseId}-list`
 
-  const search = usePlaceSearch()
   const { status, retry } = usePlaces()
-  const results = useMemo(
-    () => (query.trim() ? search(query, { themes: activeThemes, municipality: townBySlug(town)?.label }, MAX_RESULTS) : []),
-    [search, query, activeThemes, town],
-  )
+  // Same selection as the map and list: hidden layers are not searched, but named when they hold the matches.
+  const { results, hiddenLayers } = useLayerSearch(query, MAX_RESULTS, true)
 
   const hasQuery = query.trim() !== ''
   const expanded = open && results.length > 0
@@ -40,7 +36,7 @@ export function SearchBox() {
         ? "Couldn't load places."
         : noThemes
           ? 'No themes selected'
-          : 'No places found'
+          : `No places found.${hiddenLayers.length ? ` ${emptyLayersText(hiddenLayers)}` : ''}`
   const showEmpty = hasQuery && results.length === 0 && (status === 'error' || open)
   const active = Math.min(activeIndex, results.length - 1)
   const optionId = (i: number) => `${baseId}-opt-${i}`

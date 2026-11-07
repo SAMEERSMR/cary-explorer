@@ -242,6 +242,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/map/` (`layers.ts`, `geometryStyles.ts`, `picking.ts`, `framing.ts`, `MapView.tsx`), `PlaceCard.tsx`, #38.
 
+## 21. Theme defaults and layer switches
+
+**Context:** Every theme chip toggled everything in its theme, and there were no finer switches (#58).
+
+**Decision:** A layer is one category, or one of two geometry layers: `proposed-trails` (dashed greenway segments) and `park-outlines` (park polygons). `THEME_DEFAULTS` (`src/features/themes/layerSelection.ts`) lists the layers on per theme: every category is on except `proposed-trails` (not built, so not walkable) and `fire-station` (utilities, not places to visit); park outlines are on. Turning a theme chip on or off resets that theme's layers to its defaults. A "Layers" disclosure under the chips holds one `aria-pressed` 44 px switch per layer for active themes only; the app never needs it. The store keeps only overrides on top of the defaults, and `useFilteredPlaces` is the one selector for pins, geometry, list and search (the selected place keeps its own outline). Search applies the same selection and does not look into switched-off layers; when that leaves nothing, the empty state names the layers that hold matches, with a "Show all layers" button. The URL stores the deviation as `layers=-id,id` (`-` off, bare id on, unknown ids and inactive themes dropped); a link with only `themes=` uses the defaults, and a change is a pushState.
+
+**Applies to:** `src/features/themes/`, `useFilteredPlaces.ts`, `src/features/search/useLayerSearch.ts`, `src/lib/urlState.ts`, `src/app/useUrlSync.ts`, #58.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

@@ -7,6 +7,8 @@ import { DESKTOP_PANEL_WIDTH } from '../../lib/layout'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import { THEMES } from '../themes/themes'
+import { emptyLayersText } from '../themes/layerSelection'
+import { useLayerSearch } from '../search/useLayerSearch'
 import { useMapStatus } from './mapStatus'
 import { useGeometryLayers } from './layers'
 
@@ -34,6 +36,7 @@ export function MapNotes() {
   const { places: visible } = useFilteredPlaces()
   const panelCollapsed = useAppStore((s) => s.panelCollapsed)
   const noThemes = useAppStore((s) => s.activeThemes.length === 0)
+  const { hiddenLayers } = useLayerSearch('', Infinity)
   const mapStatus = useMapStatus()
   const layers = useGeometryLayers()
   const [showDetails, setShowDetails] = useState(false)
@@ -81,6 +84,14 @@ export function MapNotes() {
           className={`${primaryButton} mt-3`}
         >
           Turn on all themes
+        </button>
+      </Card>
+    )
+  } else if (visible.length === 0 && hiddenLayers.length > 0) {
+    catalogNote = (
+      <Card title="Nothing to show with these layers" body={emptyLayersText(hiddenLayers) ?? ''}>
+        <button type="button" onClick={() => useAppStore.getState().showAllLayers()} className={`${primaryButton} mt-3`}>
+          Show all layers
         </button>
       </Card>
     )

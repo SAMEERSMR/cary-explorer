@@ -3,6 +3,7 @@ import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel, getTheme } from '../themes/themes'
+import { townBySlug } from '../towns/coverage'
 import { usePlaces } from '../places/usePlaces'
 import { usePlaceSearch } from './usePlaceSearch'
 
@@ -10,6 +11,7 @@ const MAX_RESULTS = 8
 
 export function SearchBox() {
   const activeThemes = useAppStore((s) => s.activeThemes)
+  const town = useAppStore((s) => s.town)
   const query = useAppStore((s) => s.searchQuery)
   const setSearchQuery = useAppStore((s) => s.setSearchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
@@ -23,8 +25,8 @@ export function SearchBox() {
   const search = usePlaceSearch()
   const { status, retry } = usePlaces()
   const results = useMemo(
-    () => (query.trim() ? search(query, { themes: activeThemes }, MAX_RESULTS) : []),
-    [search, query, activeThemes],
+    () => (query.trim() ? search(query, { themes: activeThemes, municipality: townBySlug(town)?.label }, MAX_RESULTS) : []),
+    [search, query, activeThemes, town],
   )
 
   const hasQuery = query.trim() !== ''

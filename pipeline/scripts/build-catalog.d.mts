@@ -32,6 +32,14 @@ export function assignIds(
   existing: Record<string, string>,
   entries: { key: string; prefix: string; name: string }[],
 ): Record<string, string>
+export const TOWNS: string[]
+export const UNINCORPORATED_WAKE: string
+export function municipalityOf(
+  point: Position,
+  towns: { features: { properties?: { BASENAME?: string }; geometry: unknown }[] },
+  county: string | undefined,
+): string
+export function stripJurisdiction(jurisdiction: unknown): string
 export function build(options?: { write?: boolean; outDir?: string }): {
   relationships: { relationships: { from: string; to: string; kind: string }[] }
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
@@ -40,6 +48,8 @@ export function build(options?: { write?: boolean; outDir?: string }): {
   kept: GreenwayGroup[]
   dropped: GreenwayGroup[]
   neighbours: number
+  skipped: { inCary: number; outside: number; duplicate: number }
+  jurisdictionMismatches: { name: string; jurisdiction: string; municipality: string }[]
   ids: Record<string, string>
 }
 export function carynUrl(url: unknown): unknown

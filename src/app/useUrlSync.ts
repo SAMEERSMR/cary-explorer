@@ -26,6 +26,7 @@ export function useUrlSync() {
         themes: s.activeThemes,
         view: s.view,
         q: s.searchQuery,
+        town: s.town,
         map: camera,
       }
     }
@@ -67,6 +68,7 @@ export function useUrlSync() {
       themes: st.activeThemes,
       view: st.view,
       searchQuery: st.searchQuery,
+      town: st.town,
       selectedPlaceId: selected,
       missingPlaceId: missing,
       origin: pendingOrigin,
@@ -98,10 +100,13 @@ export function useUrlSync() {
           themes: parsed.themes,
           view: parsed.view,
           searchQuery: parsed.q,
+          town: parsed.town ?? null,
           selectedPlaceId: selected,
           missingPlaceId: missing,
           origin: parsed.map ? 'url' : 'user',
         })
+        // A town in the URL without a camera or a place: show that town (a `map=` camera wins otherwise).
+        if (parsed.town && !parsed.map && !parsed.place) st.requestFit()
       } finally {
         applying = false
       }
@@ -120,7 +125,7 @@ export function useUrlSync() {
       // A user action cancels a place still waiting for the catalog.
       if (s.selectedPlaceId !== before.selectedPlaceId) pendingPlace = null
       const placeChanged = s.selectedPlaceId !== before.selectedPlaceId || s.missingPlaceId !== before.missingPlaceId
-      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes
+      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.town !== before.town
       if (structural) {
         const dismissed = before.missingPlaceId !== null && s.missingPlaceId === null && s.selectedPlaceId === before.selectedPlaceId
         // Flush a pending pan into the entry being left, so Back returns to where the user was.
@@ -132,6 +137,7 @@ export function useUrlSync() {
             themes: before.activeThemes,
             view: before.view,
             q: before.searchQuery,
+            town: before.town,
             map: camera,
           })
         }

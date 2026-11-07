@@ -4,6 +4,8 @@ import { useAppStore } from '../../store/useAppStore'
 import { usePlaceSearch } from '../search/usePlaceSearch'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { THEMES, categoryLabel, getTheme } from '../themes/themes'
+import { CoverageLabel } from '../towns/CoverageLabel'
+import { townBySlug } from '../towns/coverage'
 import { usePlaces } from './usePlaces'
 
 const ACTION_BUTTON =
@@ -12,6 +14,7 @@ const ACTION_BUTTON =
 export function ListView() {
   const { status, retry } = usePlaces()
   const activeThemes = useAppStore((s) => s.activeThemes)
+  const town = useAppStore((s) => s.town)
   const query = useAppStore((s) => s.searchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setSheetState = useAppStore((s) => s.setSheetState)
@@ -22,8 +25,8 @@ export function ListView() {
   const search = usePlaceSearch()
   // Empty query yields name order; otherwise keep the search's relevance order.
   const rows = useMemo(
-    () => search(query, { themes: activeThemes }, Infinity),
-    [search, query, activeThemes],
+    () => search(query, { themes: activeThemes, municipality: townBySlug(town)?.label }, Infinity),
+    [search, query, activeThemes, town],
   )
 
   if (rows.length === 0) {
@@ -38,7 +41,9 @@ export function ListView() {
             ? 'No themes selected — turn on a theme to see places.'
             : trimmed
               ? `No places match “${trimmed}”.`
-              : 'No places match the selected themes.'
+              : town
+                ? 'No places match the selected themes in this town.'
+                : 'No places match the selected themes.'
     return (
       <div className="space-y-3 rounded-card border border-dashed border-placeholder-line p-5">
         {noThemes ? (
@@ -101,6 +106,7 @@ export function ListView() {
                 <span className="block truncate text-[13px] text-ink-muted">
                   {categoryLabel[place.category]} · {place.municipality}
                 </span>
+                <CoverageLabel coverage={place.coverage} className="mt-0.5" />
               </span>
               <svg
                 aria-hidden="true"

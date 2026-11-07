@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { CategoryIcon } from '../themes/CategoryIcon'
 import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
+import { TownFilter } from '../towns/TownFilter'
 import { DESKTOP_PANEL_ID, DESKTOP_PANEL_WIDTH } from '../../lib/layout'
 import { useAppStore } from '../../store/useAppStore'
 import { PanelBody } from './PanelBody'
@@ -84,6 +85,7 @@ export function DesktopPanel() {
             </button>
           </div>
           <SearchBox />
+          <TownFilter />
           <ThemeFilter />
           <ViewToggle />
         </div>

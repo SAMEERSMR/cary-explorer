@@ -1,5 +1,8 @@
 // Panel content shared by desktop and mobile: the place card, the list view, or a hint.
 import { useAppStore } from '../../store/useAppStore'
+import { emptyThemeText, emptyThemes, townBySlug } from '../towns/coverage'
+import { getTheme } from '../themes/themes'
+import { usePlaces } from './usePlaces'
 import { ListView } from './ListView'
 import { PlaceCard } from './PlaceCard'
 import { useSelectedPlace } from './useSelectedPlace'
@@ -22,6 +25,25 @@ function MissingPlaceNote() {
   )
 }
 
+// One line per active theme with no places in the chosen town. Hidden while searching.
+function TownGapNotes() {
+  const town = useAppStore((s) => s.town)
+  const activeThemes = useAppStore((s) => s.activeThemes)
+  const query = useAppStore((s) => s.searchQuery)
+  const { places, status } = usePlaces()
+  const label = townBySlug(town)?.label
+  if (!label || status !== 'ready' || query.trim()) return null
+  const gaps = emptyThemes(places, activeThemes, town)
+  if (gaps.length === 0) return null
+  return (
+    <div className="mb-3 space-y-1 text-[13px] leading-snug text-ink-muted">
+      {gaps.map(({ theme, kind }) => (
+        <p key={theme}>{emptyThemeText(getTheme(theme).label, label, kind)}</p>
+      ))}
+    </div>
+  )
+}
+
 export function PanelBody() {
   const selected = useSelectedPlace()
   const view = useAppStore((s) => s.view)
@@ -33,6 +55,9 @@ export function PanelBody() {
       <>
         <MissingPlaceNote />
         <ListView />
+        <div className="mt-3">
+          <TownGapNotes />
+        </div>
       </>
     )
   }
@@ -40,6 +65,7 @@ export function PanelBody() {
   return (
     <>
       <MissingPlaceNote />
+      <TownGapNotes />
       <div className="rounded-card border border-dashed border-placeholder-line bg-white p-5">
       <p className="font-display text-xl font-semibold text-ink">Pick a place to start</p>
       <p className="mt-1 text-sm leading-relaxed text-ink-muted">

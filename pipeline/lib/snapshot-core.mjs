@@ -22,6 +22,7 @@ export function validateRegistry(sources) {
     if (!TYPES.has(s.type)) errors.push(`${where}: bad type ${s.type}`)
     if (!LICENCE_STATUS.has(s.licenceStatus)) errors.push(`${where}: bad licenceStatus ${s.licenceStatus}`)
     if (!CADENCE.has(s.cadence)) errors.push(`${where}: bad cadence ${s.cadence}`)
+    if (s.where !== undefined && (typeof s.where !== 'string' || !s.where.trim())) errors.push(`${where}: where must be a non-empty string`)
     if (!Array.isArray(s.fields)) errors.push(`${where}: fields must be an array`)
     if (typeof s.enabled !== 'boolean') errors.push(`${where}: enabled must be boolean`)
     if (s.enabled && s.licenceStatus !== 'open') errors.push(`${where}: enabled source must have licenceStatus "open" (is "${s.licenceStatus}")`)

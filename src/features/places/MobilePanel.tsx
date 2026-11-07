@@ -4,6 +4,8 @@ import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel } from '../themes/themes'
 import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
+import { TownFilter } from '../towns/TownFilter'
+import { townNote } from '../towns/coverage'
 import { PanelBody } from './PanelBody'
 import { ViewToggle } from './ViewToggle'
 import { useSelectedPlace } from './useSelectedPlace'
@@ -27,6 +29,7 @@ export function MobilePanel() {
   const sheetState = useAppStore((s) => s.sheetState)
   const setSheetState = useAppStore((s) => s.setSheetState)
   const selected = useSelectedPlace()
+  const note = townNote(useAppStore((s) => s.town))
 
   return (
     <>
@@ -38,6 +41,9 @@ export function MobilePanel() {
       >
         <div className="rounded-control shadow-[0_2px_8px_rgba(31,42,36,0.12)]">
           <SearchBox />
+        </div>
+        <div className="rounded-control shadow-[0_2px_8px_rgba(31,42,36,0.12)]">
+          <TownFilter compact />
         </div>
         {/* Single horizontally scrolling row; the bottom padding keeps focus rings from being clipped. */}
         <div className="overflow-x-auto pb-1">
@@ -71,7 +77,7 @@ export function MobilePanel() {
               {selected?.name ?? 'Explore Cary'}
             </p>
             <p className="truncate text-[13px] text-ink-muted">
-              {selected ? categoryLabel[selected.category] : 'Parks, trails, birds, water and history'}
+              {selected ? categoryLabel[selected.category] : (note ?? 'Parks, trails, birds, water and history')}
             </p>
           </div>
           {/* Compact override of ViewToggle's default sizing, applied from this wrapper only. */}

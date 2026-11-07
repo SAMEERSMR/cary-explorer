@@ -243,6 +243,29 @@ export function countyOf(point, counties) {
   return undefined
 }
 
+/** The twelve study towns, exactly as shown in the app (Census BASENAME). Order is irrelevant to the result. */
+export const TOWNS = [
+  'Cary', 'Apex', 'Morrisville', 'Raleigh', 'Garner', 'Holly Springs',
+  'Fuquay-Varina', 'Knightdale', 'Wendell', 'Zebulon', 'Wake Forest', 'Rolesville',
+]
+export const UNINCORPORATED_WAKE = 'Unincorporated Wake County'
+
+/**
+ * Municipality by point-in-polygon against Census incorporated places (never ZIP/postal data).
+ * `towns` is a FeatureCollection; `county` is the bare county name ("Wake") or undefined.
+ */
+export function municipalityOf(point, towns, county) {
+  const names = new Set(TOWNS)
+  for (const f of towns.features) {
+    const name = f.properties?.BASENAME
+    if (names.has(name) && pointInGeometry(point, f.geometry)) return name
+  }
+  return county === 'Wake' ? UNINCORPORATED_WAKE : county ? `${county} County` : UNINCORPORATED_WAKE
+}
+
+/** "City of Raleigh" -> "Raleigh". */
+export const stripJurisdiction = (j) => String(j ?? '').replace(/^(City|Town|Village) of /i, '').trim()
+
 // ---------- IO ----------
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'))
@@ -272,7 +295,9 @@ export function build({ write = true, outDir = OUT } = {}) {
   const greenData = readJson(join(cary('proposed-greenway-trails'), 'data.geojson'))
   const counties = readJson(join(SRC, 'boundaries', 'census-counties-wake-chatham-durham.geojson'))
   const limits = readJson(join(SRC, 'boundaries', 'cary-corporate-limits.geojson'))
-  const wake = readJson(join(SRC, 'regional', 'wake-parks-sample.geojson'))
+  const towns = readJson(join(SRC, 'census', 'places', 'data.geojson'))
+  const wake = readJson(join(SRC, 'wake', 'parks', 'data.geojson'))
+  const wakeMeta = readJson(join(SRC, 'wake', 'parks', 'meta.json'))
   const scope = createScope({
     core: readJson(join(SRC, 'boundaries', 'core.geojson')),
     nearby: readJson(join(SRC, 'boundaries', 'nearby-buffer.geojson')),
@@ -312,13 +337,14 @@ export function build({ write = true, outDir = OUT } = {}) {
     const acres = fmtNumber(p.acres)
     const coverage = classify(c, scope)
     if (coverage === 'outside') continue
+    const county = countyOf(c, counties)
     const place = {
       id,
       name: p.name,
       aliases: [],
       category: p.category,
-      municipality: 'Cary',
-      county: countyOf(c, counties),
+      municipality: municipalityOf(c, towns, county),
+      county,
       coverage,
       centroid: c,
       bbox,
@@ -345,13 +371,14 @@ export function build({ write = true, outDir = OUT } = {}) {
     const verts = lines.flat()
     const c = vertexNearestBboxCentre(verts)
     const miles = fmtNumber(g.miles)
+    const county = countyOf(c, counties)
     places.push({
       id,
       name: g.name,
       aliases: [],
       category: 'trail',
-      municipality: 'Cary',
-      county: countyOf(c, counties),
+      municipality: municipalityOf(c, towns, county),
+      county,
       coverage,
       centroid: c,
       bbox: bboxOf(verts),
@@ -370,34 +397,57 @@ export function build({ write = true, outDir = OUT } = {}) {
     relItems.push({ id, kind: 'trail', lines })
   }
 
-  // Neighbour sample: Wake County parks outside Cary's limits.
+  // Wake County parks layer. Cary's own CC0 data wins inside Cary's corporate limits (docs/source-matrix.md section 4).
   const limitGeoms = limits.features.map((f) => f.geometry)
   const neighbours = []
   const wakeKeys = []
+  const seenKeys = new Set()
+  let skippedInCary = 0
+  let skippedOutside = 0
+  let skippedDuplicate = 0
   for (const f of wake.features) {
     const pt = f.geometry?.coordinates
     const name = f.properties?.NAME
     if (!pt || !normalize(name)) continue
-    if (limitGeoms.some((g) => pointInGeometry(pt, g))) continue
-    if (classify(pt, scope) === 'outside') continue
-    wakeKeys.push({ key: `wake-parks:${normalize(name)}`, prefix: 'wake-park', name })
+    if (limitGeoms.some((g) => pointInGeometry(pt, g))) {
+      skippedInCary++
+      continue
+    }
+    if (classify(pt, scope) === 'outside') {
+      skippedOutside++
+      continue
+    }
+    const key = `wake-parks:${normalize(name)}`
+    if (seenKeys.has(key)) {
+      skippedDuplicate++
+      continue
+    }
+    seenKeys.add(key)
+    wakeKeys.push({ key, prefix: 'wake-park', name })
     neighbours.push({ f, name: String(name).trim().replace(/\s+/g, ' '), pt })
   }
   const allIds = assignIds(ids, wakeKeys)
+  const jurisdictionMismatches = []
   for (const n of neighbours) {
-    const jur = String(n.f.properties.JURISDICTION ?? '')
-      .replace(/^(City|Town|Village) of /i, '')
-      .trim()
+    const centroidPt = roundPos(n.pt, COORD_DECIMALS)
+    const county = countyOf(centroidPt, counties) ?? 'Wake'
+    const municipality = municipalityOf(centroidPt, towns, county)
+    const jurRaw = String(n.f.properties.JURISDICTION ?? '').trim()
+    const jur = stripJurisdiction(jurRaw)
+    const agrees = jur === municipality || (/^wake(\s+county)?$/i.test(jur) && municipality === UNINCORPORATED_WAKE)
+    if (!agrees) jurisdictionMismatches.push({ name: n.name, jurisdiction: jurRaw || '(none)', municipality })
     const place = {
       id: allIds[`wake-parks:${normalize(n.name)}`],
       name: n.name,
       aliases: [],
       category: 'park',
-      municipality: jur || 'Unincorporated Wake',
-      county: 'Wake',
+      municipality,
+      county,
       coverage: classify(n.pt, scope),
-      centroid: roundPos(n.pt, COORD_DECIMALS),
-      description: `Park in ${jur || 'unincorporated Wake County'} (from Wake County's parks dataset).`,
+      centroid: centroidPt,
+      description: jurRaw
+        ? `Park listed by Wake County, managed by ${jurRaw} (from Wake County's parks layer).`
+        : `Park listed by Wake County (from Wake County's parks layer).`,
       sourceIds: ['wake-parks'],
     }
     const u = n.f.properties.URL
@@ -446,7 +496,7 @@ export function build({ write = true, outDir = OUT } = {}) {
       name: 'Wake County',
       url: 'https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0',
       license: 'CC BY 4.0',
-      retrievedAt: wake.retrieved,
+      retrievedAt: wakeMeta.retrievedAt,
     })
   }
 
@@ -473,7 +523,18 @@ export function build({ write = true, outDir = OUT } = {}) {
     if (outDir === OUT) writeFileSync(idsPath, JSON.stringify(allIds, null, 2) + '\n')
   }
 
-  return { catalog, relationships, outputs, parks, kept, dropped, neighbours: neighbours.length, ids: allIds }
+  return {
+    catalog,
+    relationships,
+    outputs,
+    parks,
+    kept,
+    dropped,
+    neighbours: neighbours.length,
+    skipped: { inCary: skippedInCary, outside: skippedOutside, duplicate: skippedDuplicate },
+    jurisdictionMismatches,
+    ids: allIds,
+  }
 }
 
 function orderPlace(p) {
@@ -501,7 +562,10 @@ function main() {
   const kinds = {}
   for (const x of r.relationships.relationships) kinds[x.kind] = (kinds[x.kind] ?? 0) + 1
   console.log('relationships:', kinds)
-  console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}`)
+  console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}; skipped`, r.skipped)
+  console.log('by municipality:', tally('municipality'))
+  console.log(`JURISDICTION mismatches: ${r.jurisdictionMismatches.length}`)
+  for (const m of r.jurisdictionMismatches.slice(0, 10)) console.log(`  ${m.name}: ${m.jurisdiction} vs ${m.municipality}`)
   console.log('10 longest dropped greenways:')
   for (const g of dropByMiles) console.log(`  ${g.name} (${g.miles.toFixed(2)} mi)`)
   for (const [file, text] of Object.entries(r.outputs)) console.log(`${file}: ${Buffer.byteLength(text)} bytes`)

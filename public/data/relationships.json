@@ -741,6 +741,11 @@
    "kind": "nearby"
   },
   {
+   "from": "cary-park-new-hope-church-road-trailhead-park",
+   "to": "wake-park-new-hope-church-road-trailhead-park",
+   "kind": "nearby"
+  },
+  {
    "from": "cary-park-north-cary-park",
    "to": "cary-greenway-weston-pud-trails",
    "kind": "nearby"
@@ -781,6 +786,11 @@
    "kind": "nearby"
   },
   {
+   "from": "cary-park-wake-county-town-of-cary-trailhead",
+   "to": "wake-park-american-tobacco-trail-white-oak-entrance",
+   "kind": "nearby"
+  },
+  {
    "from": "cary-park-white-oak-creek-greenway",
    "to": "cary-greenway-flat-branch-greenway",
    "kind": "nearby"
@@ -808,6 +818,231 @@
   {
    "from": "cary-park-white-plains-cemetery",
    "to": "cary-greenway-pirates-cove-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-american-tobacco-trail-new-hill-entrance",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-american-tobacco-trail-white-oak-entrance",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-american-tobacco-trail-wimberly-rd-entrance",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-american-tobacco-trail-wimberly-rd-entrance",
+   "to": "cary-greenway-white-oak-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-anderson-point-park",
+   "to": "wake-park-anderson-point-river-access",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-apex-community-center",
+   "to": "wake-park-hunter-street-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-apex-community-center",
+   "to": "wake-park-rodgers-family-skate-plaza-at-trackside",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-apex-community-park",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-apex-community-park-lake-trail",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-apex-nature-park",
+   "to": "wake-park-apex-nature-park-seymour-athletic-fields",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-bragg-street-park",
+   "to": "wake-park-junious-n-sorrell-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-caraleigh-park",
+   "to": "wake-park-eliza-pool-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-chamberlain-park",
+   "to": "wake-park-isabella-cannon-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-chamberlain-park",
+   "to": "wake-park-rose-garden-and-raleigh-little-theatre",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-compiegne-park",
+   "to": "wake-park-rose-garden-and-raleigh-little-theatre",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-dixon-drive-park",
+   "to": "wake-park-optimist-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-elevate-fitness-course",
+   "to": "cary-greenway-swift-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-falls-lake-state-recreation-area-beaverdam-lake-entrance",
+   "to": "wake-park-falls-lake-state-recreation-area-sandling-beach-rec-area-entrance",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-fisher-street-park",
+   "to": "wake-park-pender-street-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-fuquay-mineral-spring-park",
+   "to": "wake-park-kinton-soccer-fields",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-fuquay-varina-museums-at-ashworth-park",
+   "to": "wake-park-library-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-garner-recreational-park",
+   "to": "wake-park-north-garner-dog-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-halifax-park",
+   "to": "wake-park-mordecai-mini-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-hunter-street-park",
+   "to": "wake-park-rodgers-family-skate-plaza-at-trackside",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-indian-creek-greenway-and-trailhead",
+   "to": "wake-park-ruritan-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-isabella-cannon-park",
+   "to": "wake-park-rose-garden-and-raleigh-little-theatre",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-james-a-campbell-park",
+   "to": "wake-park-william-freeman-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-john-p-top-greene-park",
+   "to": "wake-park-junious-n-sorrell-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-kelly-glen-park",
+   "to": "wake-park-kelly-road-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-lake-benson-park",
+   "to": "wake-park-white-deer-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-lake-johnson-nature-preserve",
+   "to": "wake-park-lake-johnson-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-lake-johnson-pool",
+   "to": "wake-park-thomas-g-crowder-woodland-center",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-levelle-moton-park",
+   "to": "wake-park-tarboro-road-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-levelle-moton-park",
+   "to": "wake-park-vallie-henderson-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-moore-square",
+   "to": "wake-park-raleigh-city-museum",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-mordecai-historic-park",
+   "to": "wake-park-mordecai-mini-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-nash-square",
+   "to": "wake-park-raleigh-city-museum",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-new-hope-church-road-trailhead-park",
+   "to": "cary-greenway-american-tobacco-trail",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-new-hope-church-road-trailhead-park",
+   "to": "cary-greenway-panther-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-northwest-park",
+   "to": "cary-greenway-kit-creek-greenway",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-oakwood-commons-park",
+   "to": "wake-park-tucker-house",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-parrish-womble-park",
+   "to": "wake-park-the-pit-soccer-field",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-pullen-park",
+   "to": "wake-park-theatre-in-the-park-pullen-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-sertoma-arts-center",
+   "to": "wake-park-shelley-lake-park",
+   "kind": "nearby"
+  },
+  {
+   "from": "wake-park-walnut-creek-softball-complex",
+   "to": "wake-park-worthdale-park",
    "kind": "nearby"
   }
  ]

@@ -239,6 +239,27 @@
     "enabled": true
   },
   {
+    "id": "census-places",
+    "publisher": "US Census Bureau",
+    "title": "TIGERweb Incorporated Places (North Carolina, 12 study towns)",
+    "type": "arcgis",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4",
+    "where": "STATE='37' AND BASENAME IN ('Cary','Apex','Morrisville','Raleigh','Garner','Holly Springs','Fuquay-Varina','Knightdale','Wendell','Zebulon','Wake Forest','Rolesville')",
+    "licence": "Public Domain (US Census)",
+    "licenceStatus": "open",
+    "attribution": "US Census Bureau TIGERweb (public domain)",
+    "cadence": "monthly",
+    "fields": [
+      "GEOID",
+      "BASENAME",
+      "NAME",
+      "STATE",
+      "LSADC"
+    ],
+    "dir": "census/places",
+    "enabled": true
+  },
+  {
     "id": "wake-county-parks",
     "publisher": "Wake County GIS",
     "title": "County-owned parks",

@@ -202,6 +202,12 @@ The seven test files (76 tests) pass on these versions.
 
 **Applies to:** `pipeline/`, `pipeline/sources.config.json`, `pipeline/overrides.json`, `pipeline/tools/`, `.github/workflows/data-refresh.yml`, `src/types/data-model.ts`, #13, #16, #4, #5.
 
+## 17. Town membership from Census boundaries
+
+Municipality is decided by point-in-polygon of a place's centroid against US Census TIGERweb incorporated places (public domain; registry source `census-places`, snapshot in `pipeline/sources/census/places/`, restricted to the 12 study towns by a `where` clause). A centroid in none of them is "Unincorporated Wake County" when it is inside Wake, otherwise "<County> County". `county` comes from the Census county polygons and is now required by the catalog parser. ZIP and other postal fields are never used, because they do not follow municipal limits.
+
+The full Wake County parks layer (`wake-parks`, CC BY 4.0) replaces the earlier sample. Per docs/source-matrix.md section 4, a Wake park whose point is inside Cary's corporate limits is skipped because Cary's CC0 data wins there; every other Wake park becomes a point-only `park` place. The layer's `JURISDICTION` field is shown in the description but does not decide municipality; disagreements with the polygons are reported by the build. Town portions outside Wake County follow source-matrix section 6. Because this raises the `wake-parks` place count from 1 to about 244, the refresh used `PIPELINE_ALLOW_COUNT_CHANGE=wake-parks` once.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

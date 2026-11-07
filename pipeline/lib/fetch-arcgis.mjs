@@ -16,6 +16,7 @@ function qs(params) {
 }
 
 export async function fetchArcgis(source, { fetch: fetchFn = globalThis.fetch } = {}) {
+  const where = typeof source.where === 'string' && source.where.trim() ? source.where : '1=1'
   const base = source.url.replace(/\/+$/, '')
   const info = await getJson(fetchFn, `${base}?f=json`)
   const idField = info.objectIdField || 'OBJECTID'
@@ -23,7 +24,7 @@ export async function fetchArcgis(source, { fetch: fetchFn = globalThis.fetch } 
   const edited = info.editingInfo?.dataLastEditDate ?? info.editingInfo?.lastEditDate
   const sourceModified = typeof edited === 'number' ? new Date(edited).toISOString() : null
 
-  const count = await getJson(fetchFn, `${base}/query?${qs({ where: '1=1', returnCountOnly: 'true', f: 'json' })}`)
+  const count = await getJson(fetchFn, `${base}/query?${qs({ where, returnCountOnly: 'true', f: 'json' })}`)
   const expectedCount = count.count
   if (!Number.isInteger(expectedCount)) throw new Error(`no count returned for ${base}`)
 
@@ -35,14 +36,14 @@ export async function fetchArcgis(source, { fetch: fetchFn = globalThis.fetch } 
     for (let offset = 0; offset < expectedCount; offset += pageSize) {
       const page = await getJson(
         fetchFn,
-        `${base}/query?${qs({ where: '1=1', ...common, orderByFields: idField, resultOffset: String(offset), resultRecordCount: String(pageSize) })}`,
+        `${base}/query?${qs({ where, ...common, orderByFields: idField, resultOffset: String(offset), resultRecordCount: String(pageSize) })}`,
       )
       const got = page.features ?? []
       if (got.length === 0) break
       features.push(...got)
     }
   } else {
-    const ids = (await getJson(fetchFn, `${base}/query?${qs({ where: '1=1', returnIdsOnly: 'true', f: 'json' })}`)).objectIds ?? []
+    const ids = (await getJson(fetchFn, `${base}/query?${qs({ where, returnIdsOnly: 'true', f: 'json' })}`)).objectIds ?? []
     ids.sort((a, b) => a - b)
     for (let i = 0; i < ids.length; i += CHUNK_IDS) {
       const page = await getJson(

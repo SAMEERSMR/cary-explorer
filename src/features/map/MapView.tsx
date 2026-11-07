@@ -40,6 +40,8 @@ const CLUSTER_MIN_DISTANCE_PX = 16
 const CLUSTER_MAX_ZOOM = 16
 const CONTROL_GAP_PX = 12
 const ZOOM_ANIMATION_MS = 200
+const TOWN_FIT_ANIMATION_MS = 300
+const TOWN_FIT_MAX_ZOOM = 15
 
 // Same order as OpenLayers padding: [top, right, bottom, left], in pixels.
 type Padding = [number, number, number, number]
@@ -146,7 +148,7 @@ export function MapView() {
   // Last selection the view flew to, so the fly-to runs only when the selection changes.
   const flownIdRef = useRef<string | null>(null)
 
-  const { places: allPlaces } = usePlaces()
+  const { places: allPlaces, status: placesStatus } = usePlaces()
   const { places: visiblePlaces } = useFilteredPlaces()
   const selectedPlaceId = useAppStore((s) => s.selectedPlaceId)
   const sheetState = useAppStore((s) => s.sheetState)
@@ -371,6 +373,24 @@ export function MapView() {
     view.setCenter(fromLonLat(cameraRequest.center))
     view.setZoom(cameraRequest.zoom)
   }, [cameraRequest])
+
+  // Fit the map to the chosen town's places once per request. Waits for the catalog; skipped when a place is selected.
+  const fitRequest = useAppStore((s) => s.fitRequest)
+  const appliedFitSeqRef = useRef(0)
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !fitRequest || fitRequest.seq === appliedFitSeqRef.current || placesStatus !== 'ready') return
+    appliedFitSeqRef.current = fitRequest.seq
+    if (useAppStore.getState().selectedPlaceId !== null || visiblePlaces.length === 0) return
+    const extent = createEmpty()
+    for (const p of visiblePlaces) extendExtent(extent, new Point(fromLonLat(p.centroid)).getExtent())
+    const { isDesktop: desktop, sheetState: sheet } = framingRef.current
+    map.getView().fit(extent, {
+      padding: selectionPadding(desktop, useAppStore.getState().panelCollapsed, sheet),
+      maxZoom: TOWN_FIT_MAX_ZOOM,
+      duration: prefersReducedMotion() ? 0 : TOWN_FIT_ANIMATION_MS,
+    })
+  }, [fitRequest, visiblePlaces, placesStatus])
 
   const zoomBy = (delta: number) => {
     const view = mapRef.current?.getView()

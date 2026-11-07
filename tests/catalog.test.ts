@@ -16,6 +16,7 @@ const place = (id: string, name: string, overrides: Record<string, unknown> = {}
   aliases: [],
   category: 'park',
   municipality: 'Example Town',
+  county: 'Wake',
   centroid: [-78.8, 35.8],
   description: 'Synthetic test record.',
   sourceIds: ['example-source'],

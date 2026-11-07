@@ -26,7 +26,9 @@ Base URL `https://api.ebird.org/v2`. Key goes in the `x-ebirdapitoken` request h
 | Recent notable (rare/unusual) | `GET /data/obs/{regionCode}/recent/notable` and `/data/obs/geo/recent/notable` | yes | Same `back`, `dist`, `hotspot` limits; `detail=simple` or `full`. Notable includes rarities, so expect sensitive-adjacent records to be filtered by eBird; do not use for the game or featured lists. |
 | Species list for a region | `GET /product/spplist/{regionCode}` | yes | Species codes ever seen. Refreshed about every 10 s for locations, daily for larger regions. |
 
-Getting a key: sign in to an eBird account and request one through the eBird API key form (the documentation links a sign-up page; `https://ebird.org/api/keygen`). Keys are tied to that person's eBird account, personal use, and the holder is responsible for activity under them. Do not share the key, do not put it in the repo, and never in a `VITE_` variable. There is no key on the dev machine yet; the owner must request one and set `EBIRD_API_KEY` in the serverless/job environment (listed in `.env.example`, empty).
+Getting a key: sign in to an eBird account and request one through the eBird API key form (the documentation links a sign-up page; `https://ebird.org/api/keygen`). Keys are tied to that person's eBird account, personal use, and the holder is responsible for activity under them. Do not share the key, do not put it in the repo, and never in a `VITE_` variable. A key now exists on the dev machine (holder: Sameer, for development only), set as `EBIRD_API_KEY` in the repo-root `.env` (git-ignored). The serverless/job environment still needs its own key set by the owner (listed in `.env.example`, empty).
+
+Hotspot snapshot script: `pipeline/scripts/snapshot-ebird.mjs` (run with `node --env-file=.env pipeline/scripts/snapshot-ebird.mjs`). It writes git-ignored outputs to `pipeline/sources/ebird/`; see that folder's README.
 
 Rate limits: none published in the API documentation. A commonly repeated figure of about 1,000 requests a day is from third parties and is unverified; do not rely on it. Terms say use that adversely affects eBird server stability can lead to suspension. Plan for a handful of calls per hour at most, cached.
 
@@ -82,7 +84,7 @@ What the sources say (paraphrased):
 1. Request an eBird API key (personal account) and decide who holds it; set `EBIRD_API_KEY` server-side only.
 2. Read the full eBird API Terms of Use in a browser (our automated fetch was blocked) and confirm: public static snapshot allowed? caching limits? Or ask the Cornell Lab through the eBird Help Center for written confirmation of a committed hotspot snapshot and a 3-hour cache.
 3. Confirm the project is strictly non-commercial (no ads, sponsors or paid features); otherwise written permission is required.
-4. Confirm the county code `US-NC-183` is Wake County and whether Cary-only is filtered by polygon.
+4. ~~Confirm the county code `US-NC-183` is Wake County and whether Cary-only is filtered by polygon.~~ Answered: `US-NC-183` is Wake (confirmed via `/ref/region/info/US-NC-183`, result "Wake, North Carolina, United States"). The snapshot script keeps all hotspots from Wake, Chatham (`US-NC-037`) and Durham (`US-NC-063`) and sets `inCaryLimits` by polygon rather than filtering.
 5. Accept the minimal snapshot (id, name, lat/lng) now, with counts held back until step 2 is answered?
 6. Accept the conservative cache bounds in #16 (3 h TTL, 10 km, 7 days, 100 results)?
 

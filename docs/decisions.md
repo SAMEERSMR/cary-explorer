@@ -18,7 +18,7 @@ This file records where the build deliberately differs from the reference materi
 
 **Context:** Selection, theme filters, search text and view mode are read by the map, the panel, the search box and the list at the same time.
 
-**Decision:** One Zustand store holds `selectedPlaceId`, `activeThemes`, `searchQuery`, `view` and `sheetState`. The map camera stays inside OpenLayers, not in the store. Nothing is written to the URL yet; URL sync is tracked in #35. `sheetState` is layout only and should stay transient when URL sync lands.
+**Decision:** One Zustand store holds `selectedPlaceId`, `activeThemes`, `searchQuery`, `view` and `sheetState`. The map camera stays inside OpenLayers, not in the store. The selected place, themes, view, search text and camera are mirrored to the URL (see decision 15, #35); `sheetState` and `panelCollapsed` are layout only and stay out of it.
 
 **Reference's position:** The reference says to keep state small, store shareable state in the URL, and add a store only when several unrelated components need it. Its list of state (selected ID, search text, filters, view, camera) matches here, except that the camera stays in OpenLayers and `sheetState` is added.
 
@@ -90,7 +90,7 @@ The seven test files (76 tests) pass on these versions.
 
 **Reference's position:** Base UI is an optional design-system choice in `frontend.md`. The reference says a data-fetching library can be added later for caching and retries.
 
-**Consequence:** Routing and data fetching use plain code for now (for example `loadCatalog`). Revisit when URL routing (#35) or geometry work starts.
+**Consequence:** Routing and data fetching use plain code for now (for example `loadCatalog`). URL state (#35) used a small History API layer instead of TanStack Router (see decision 15). Revisit TanStack Router when geometry work starts or the URL needs many more fields.
 
 **Applies to:** `package.json` (`dependencies`, `devDependencies`).
 
@@ -177,6 +177,18 @@ The seven test files (76 tests) pass on these versions.
 **Consequence:** Renaming a park in Cary's data creates a new id unless `ids.json` is updated by hand. The History, Water and Art themes have no real places until their own issues land (#22, #24, #26). Map pins are representative points; park and greenway shapes are drawn later (#38).
 
 **Applies to:** `pipeline/scripts/build-catalog.mjs`, `pipeline/ids.json`, `pipeline/aliases.json`, `public/data/catalog.json`, `public/data/layers/`.
+
+## 15. Shareable links with a small History API layer
+
+**Context:** A selected place, view, filters, search text and map camera should survive a reload and be shareable. Sheet state and panel collapse are layout only.
+
+**Decision:** The URL query string holds `place`, `themes` (omitted when all themes are on), `view`, `q` and `map=<zoom>/<lat>/<lon>`. Default values are omitted. Sheet state and panel collapse stay out of the URL. Selecting a place, changing the view and changing filters push a history entry. Camera moves and search typing replace the current entry, and typing is debounced. Values are validated on load. A place that is not in the current data shows a "not in the current data" note. There is no router library.
+
+**Reference's position:** The brief's stack names TanStack Router and says shareable state belongs in the URL. `frontend.md` says to keep state small.
+
+**Consequence:** The URL carries only a few fields, so no router is needed. Adding routes or many more URL fields later is the point to revisit TanStack Router. Query strings need no static-host fallback, so the deploy team needs no rewrite rules.
+
+**Applies to:** `src/lib/urlState.ts`, `src/app/useUrlSync.ts`, `src/store/useAppStore.ts`, `src/features/map/MapView.tsx`, `src/features/places/PlaceCard.tsx`.
 
 ## Spike outcomes
 

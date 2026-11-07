@@ -33,7 +33,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   // Only places whose sources are the placeholder sample source get the "Sample data" badge.
   const isSample = place.sourceIds.includes('sample')
   const isEbird = place.sourceIds.includes('ebird')
-  const officialLinkLabel = isEbird ? 'View on eBird' : 'Official page'
+  const officialLinkLabel = isEbird ? 'eBird page' : 'Website'
   const showOfficialLink = Boolean(place.url) && publicUrl(place.url)
   const location = [place.municipality, place.county].filter(Boolean).join(', ')
   // Hide the category label when it repeats the theme chip (e.g. "History" / "History").
@@ -74,6 +74,38 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
       })
     } else if (target === 'map') document.querySelector<HTMLElement>(MAP_SELECTOR)?.focus()
     else document.querySelector<HTMLElement>(SEARCH_SELECTOR)?.focus()
+  }
+
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'fallback'>('idle')
+  const [fallbackUrl, setFallbackUrl] = useState('')
+  const copyTimer = useRef<number | undefined>(undefined)
+  const fallbackInput = useRef<HTMLInputElement>(null)
+
+  // Stop the "Link copied" timer if the card unmounts first.
+  useEffect(() => () => window.clearTimeout(copyTimer.current), [])
+
+  // When the clipboard is unavailable, the URL field opens with its text selected for manual copying.
+  useEffect(() => {
+    if (copyState !== 'fallback') return
+    fallbackInput.current?.focus()
+    fallbackInput.current?.select()
+  }, [copyState])
+
+  async function handleCopyLink() {
+    const url = window.location.href
+    window.clearTimeout(copyTimer.current)
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(url)
+        setCopyState('copied')
+        copyTimer.current = window.setTimeout(() => setCopyState('idle'), 2000)
+        return
+      } catch {
+        // Rejected (for example, no permission): fall through to the manual copy field.
+      }
+    }
+    setFallbackUrl(url)
+    setCopyState('fallback')
   }
 
   return (
@@ -198,32 +230,76 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
           </dl>
         </section>
 
-        {showOfficialLink && (
-          <a
-            href={place.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-control border border-line bg-white px-4 font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
-          >
-            {officialLinkLabel}
-            <span className="sr-only"> (opens in a new tab)</span>
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              viewBox="0 0 24 24"
-              width={16}
-              height={16}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="shrink-0"
+        <div className="space-y-2">
+          <div className={showOfficialLink ? 'grid grid-cols-2 gap-2' : undefined}>
+            {showOfficialLink && (
+              <a
+                href={place.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-control border border-line bg-white px-4 font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
+              >
+                {officialLinkLabel}
+                <span className="sr-only"> (opens in a new tab)</span>
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                  width={16}
+                  height={16}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="shrink-0"
+                >
+                  <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+                </svg>
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-control border border-line bg-white px-4 font-semibold text-ink hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link"
             >
-              <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
-            </svg>
-          </a>
-        )}
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                viewBox="0 0 24 24"
+                width={16}
+                height={16}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="shrink-0"
+              >
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              Copy link
+            </button>
+          </div>
+          <div role="status" className="min-h-5 text-[13px] font-semibold text-forest">
+            {copyState === 'copied' ? 'Link copied' : null}
+          </div>
+          {copyState === 'fallback' && (
+            <div className="space-y-1">
+              <label htmlFor={`place-${place.id}-link`} className="text-[13px] text-ink-muted">
+                Copy this link
+              </label>
+              <input
+                id={`place-${place.id}-link`}
+                ref={fallbackInput}
+                type="text"
+                readOnly
+                value={fallbackUrl}
+                className="h-11 w-full rounded-control border border-line bg-white px-3 text-[14px] text-ink"
+              />
+            </div>
+          )}
+        </div>
 
         <div className="space-y-4 border-t border-line pt-4 text-[13px] text-ink-muted">
           <p>Map pin is a representative location; check the source for entrances and access.</p>

@@ -14,11 +14,12 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Cluster from 'ol/source/Cluster'
 import type { FeatureLike } from 'ol/Feature'
-import { fromLonLat } from 'ol/proj'
+import { fromLonLat, toLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
 import type { SheetState } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
 import { desktopSelectionPadding } from '../../lib/layout'
+import { reportCamera } from '../../lib/cameraBus'
 import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import type { CategoryId, ThemeId } from '../../types/place'
@@ -282,6 +283,16 @@ export function MapView() {
     }
     viewport?.addEventListener('pointerleave', onLeave)
 
+    // Report the camera once a move ends (also after animations) so the URL layer can record it.
+    map.on('moveend', () => {
+      const view = map.getView()
+      const center = view.getCenter()
+      const zoom = view.getZoom()
+      if (!center || zoom === undefined) return
+      const [lon, lat] = toLonLat(center)
+      reportCamera({ zoom, lat, lon })
+    })
+
     const resizeObserver = new ResizeObserver(() => map.updateSize())
     resizeObserver.observe(container)
 
@@ -337,12 +348,29 @@ export function MapView() {
     }
     const map = mapRef.current
     const place = allPlaces.find((p) => p.id === selectedPlaceId)
+    // A selection restored from the URL keeps the camera the URL carries instead of flying to the place.
+    if (map && place && useAppStore.getState().selectionOrigin === 'url') {
+      flownIdRef.current = selectedPlaceId
+      return
+    }
     // Places may not have loaded yet. Leave the id unflown so this runs again when they arrive.
     if (!map || !place) return
     flownIdRef.current = selectedPlaceId
     const padding = selectionPadding(isDesktop, useAppStore.getState().panelCollapsed, useAppStore.getState().sheetState)
     flyToPlace(map, fromLonLat(place.centroid), padding)
   }, [selectedPlaceId, allPlaces, isDesktop])
+
+  // Apply camera requests (from the URL) once each, by sequence number, without animation.
+  const cameraRequest = useAppStore((s) => s.cameraRequest)
+  const appliedSeqRef = useRef(0)
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !cameraRequest || cameraRequest.seq === appliedSeqRef.current) return
+    appliedSeqRef.current = cameraRequest.seq
+    const view = map.getView()
+    view.setCenter(fromLonLat(cameraRequest.center))
+    view.setZoom(cameraRequest.zoom)
+  }, [cameraRequest])
 
   const zoomBy = (delta: number) => {
     const view = mapRef.current?.getView()

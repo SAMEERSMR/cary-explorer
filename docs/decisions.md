@@ -166,6 +166,18 @@ The seven test files (76 tests) pass on these versions.
 
 **Applies to:** `package.json` build script, `dist/`, #16, #3 (basemap only), #43 (closed: owned by another team).
 
+## 14. Real catalog from Cary data
+
+**Context:** Cary's parks dataset is land parcels, not park outlines: 867 records, of which 668 are greenway-corridor parcels and 46 are future parks. A park can be several parcels. Greenways come as segments. There is no county field and no stable id.
+
+**Decision:** Parks are parcels with use level Existing Park, Natural Area or Community Use Facility, grouped by normalized name into one place. Community Use Facility maps to the community category. Street-side trails are excluded from greenway places by the name rule (for example Davis Dr Street-Side Trail, 3.9 mi); they can come back as a separate category later. Greenways are Existing segments grouped by name, and kept when they are at least 0.5 mi long and are not a connector, street-side, sidewalk or side-path. Ids are `cary-park-<slug>` and `cary-greenway-<slug>`, recorded once in `pipeline/ids.json` and never changed. A place's county comes from a point-in-polygon test of its point against Census county polygons. The official page link is joined from Cary's park points. Descriptions are one generated factual line until curated text arrives (#68). Sample places are removed.
+
+**Reference's position:** The brief asks for stable ids that do not depend on display names, canonical places linked to their source records, and no merging of records by proximity alone.
+
+**Consequence:** Renaming a park in Cary's data creates a new id unless `ids.json` is updated by hand. The History, Water and Art themes have no real places until their own issues land (#22, #24, #26). Map pins are representative points; park and greenway shapes are drawn later (#38).
+
+**Applies to:** `pipeline/scripts/build-catalog.mjs`, `pipeline/ids.json`, `pipeline/aliases.json`, `public/data/catalog.json`, `public/data/layers/`.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

@@ -1,0 +1,492 @@
+#!/usr/bin/env node
+// Builds public/data/catalog.json and public/data/layers/*.geojson from the committed snapshots in
+// pipeline/sources/. Dependency-free, deterministic (stable sort by id). Run: node pipeline/scripts/build-catalog.mjs
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+const SRC = join(ROOT, 'pipeline', 'sources')
+const OUT = join(ROOT, 'public', 'data')
+
+const PARK_LEVELS = new Set(['Existing Park', 'Natural Area', 'Community Use Facility'])
+const GREENWAY_MIN_MILES = 0.5
+const GREENWAY_EXCLUDE = /connector|street-side|sidewalk|side path/i
+const COORD_DECIMALS = 6
+// The snapshot's `length_in_miles` is off by a factor of 5280 (the median haversine length of a segment
+// divided by it is 5280.0), so real miles = value * 5280. Verified against the geometry.
+const LENGTH_MILES_SCALE = 5280
+
+// ---------- pure helpers ----------
+
+/** Trim, collapse whitespace, lowercase. Returns '' for non-strings. */
+export function normalize(name) {
+  return typeof name === 'string' ? name.trim().replace(/\s+/g, ' ').toLowerCase() : ''
+}
+
+/** Lowercase ascii slug with hyphens. */
+export function slug(text) {
+  return String(text)
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+export function round(n, decimals = COORD_DECIMALS) {
+  const f = 10 ** decimals
+  return Math.round(n * f) / f
+}
+
+const roundPos = (p, d) => [round(p[0], d), round(p[1], d)]
+const roundRing = (ring, d) => ring.map((p) => roundPos(p, d))
+
+/** Polygon -> [polygon]; MultiPolygon -> polygons. */
+function polygonsOf(geometry) {
+  if (!geometry) return []
+  if (geometry.type === 'Polygon') return [geometry.coordinates]
+  if (geometry.type === 'MultiPolygon') return geometry.coordinates
+  return []
+}
+
+function linesOf(geometry) {
+  if (!geometry) return []
+  if (geometry.type === 'LineString') return [geometry.coordinates]
+  if (geometry.type === 'MultiLineString') return geometry.coordinates
+  return []
+}
+
+function ringContains(ring, [x, y]) {
+  let inside = false
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i]
+    const [xj, yj] = ring[j]
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside
+  }
+  return inside
+}
+
+/** point in Polygon coordinates (first ring outer, others holes). */
+export function pointInPolygon(point, polygon) {
+  if (!polygon.length || !ringContains(polygon[0], point)) return false
+  for (let i = 1; i < polygon.length; i++) if (ringContains(polygon[i], point)) return false
+  return true
+}
+
+export function pointInGeometry(point, geometry) {
+  return polygonsOf(geometry).some((poly) => pointInPolygon(point, poly))
+}
+
+function ringArea(ring) {
+  let a = 0
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1]
+  }
+  return a / 2
+}
+
+/** Area-weighted centroid of an array of Polygon coordinates (planar lon/lat). Falls back to the vertex mean. */
+export function centroid(polygons) {
+  let area = 0
+  let cx = 0
+  let cy = 0
+  for (const poly of polygons) {
+    poly.forEach((ring, idx) => {
+      if (ring.length < 3) return
+      const a = Math.abs(ringArea(ring))
+      if (a === 0) return
+      const sign = idx === 0 ? 1 : -1
+      let rx = 0
+      let ry = 0
+      const signed = ringArea(ring)
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const f = ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1]
+        rx += (ring[j][0] + ring[i][0]) * f
+        ry += (ring[j][1] + ring[i][1]) * f
+      }
+      const ccx = rx / (6 * signed)
+      const ccy = ry / (6 * signed)
+      area += sign * a
+      cx += sign * a * ccx
+      cy += sign * a * ccy
+    })
+  }
+  if (area > 0) return [round(cx / area), round(cy / area)]
+  const pts = polygons.flat(2).filter((p) => Array.isArray(p) && typeof p[0] === 'number')
+  const n = pts.length || 1
+  return [round(pts.reduce((s, p) => s + p[0], 0) / n), round(pts.reduce((s, p) => s + p[1], 0) / n)]
+}
+
+export function bboxOf(positions) {
+  let [minX, minY, maxX, maxY] = [Infinity, Infinity, -Infinity, -Infinity]
+  for (const [x, y] of positions) {
+    if (x < minX) minX = x
+    if (y < minY) minY = y
+    if (x > maxX) maxX = x
+    if (y > maxY) maxY = y
+  }
+  return [round(minX), round(minY), round(maxX), round(maxY)]
+}
+
+/** The vertex closest to the bbox centre, so a trail pin sits on the trail. */
+export function vertexNearestBboxCentre(positions) {
+  const [a, b, c, d] = bboxOf(positions)
+  const cx = (a + c) / 2
+  const cy = (b + d) / 2
+  let best = positions[0]
+  let bestD = Infinity
+  for (const p of positions) {
+    const dist = (p[0] - cx) ** 2 + (p[1] - cy) ** 2
+    if (dist < bestD) {
+      bestD = dist
+      best = p
+    }
+  }
+  return roundPos(best, COORD_DECIMALS)
+}
+
+/** Cary's park points use the old townofcary.org domain, which 301-redirects to carync.gov. */
+export function carynUrl(url) {
+  return typeof url === 'string' ? url.trim().replace(/^https?:\/\/www\.townofcary\.org\//, 'https://www.carync.gov/') : url
+}
+
+/** Most common original spelling of a name group (ties: first alphabetically). */
+function displayName(names) {
+  const counts = new Map()
+  for (const n of names) {
+    const clean = n.trim().replace(/\s+/g, ' ')
+    counts.set(clean, (counts.get(clean) ?? 0) + 1)
+  }
+  return [...counts.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))[0][0]
+}
+
+/**
+ * Group park parcels into one entry per normalized name.
+ * Returns [{ key, name, category, acres, polygons, parcels }] sorted by key.
+ */
+export function groupParks(features) {
+  const groups = new Map()
+  for (const f of features) {
+    const p = f.properties ?? {}
+    const key = normalize(p.name)
+    if (!key || !PARK_LEVELS.has(p.uselevel2)) continue
+    const polys = polygonsOf(f.geometry)
+    if (!polys.length) continue
+    let g = groups.get(key)
+    if (!g) groups.set(key, (g = { key, names: [], levels: new Set(), acres: 0, polygons: [], parcels: 0 }))
+    g.names.push(p.name)
+    g.levels.add(p.uselevel2)
+    g.acres += Number(p.calcacreag) || 0
+    g.polygons.push(...polys)
+    g.parcels++
+  }
+  return [...groups.values()]
+    .map((g) => {
+      const parkLike = g.levels.has('Existing Park') || g.levels.has('Natural Area')
+      const natural = !g.levels.has('Existing Park') && g.levels.has('Natural Area')
+      return {
+        key: g.key,
+        name: displayName(g.names),
+        category: parkLike ? 'park' : 'community',
+        kind: parkLike ? (natural ? 'natural area' : 'park') : 'community facility',
+        acres: g.acres,
+        polygons: g.polygons,
+        parcels: g.parcels,
+      }
+    })
+    .sort((a, b) => a.key.localeCompare(b.key))
+}
+
+/**
+ * Group Existing greenway segments by normalized name and apply the keep rules.
+ * Returns { kept, dropped } where each entry is { key, name, miles, lines, segments }.
+ */
+export function groupGreenways(features) {
+  const groups = new Map()
+  for (const f of features) {
+    const p = f.properties ?? {}
+    const key = normalize(p.name)
+    if (!key || p.status !== 'Existing') continue
+    const lines = linesOf(f.geometry)
+    if (!lines.length) continue
+    let g = groups.get(key)
+    if (!g) groups.set(key, (g = { key, names: [], miles: 0, lines: [], segments: 0 }))
+    g.names.push(p.name)
+    g.miles += (Number(p.length_in_miles) || 0) * LENGTH_MILES_SCALE
+    g.lines.push(...lines)
+    g.segments++
+  }
+  const kept = []
+  const dropped = []
+  for (const g of groups.values()) {
+    const entry = { key: g.key, name: displayName(g.names), miles: g.miles, lines: g.lines, segments: g.segments }
+    ;(g.miles >= GREENWAY_MIN_MILES && !GREENWAY_EXCLUDE.test(g.key) ? kept : dropped).push(entry)
+  }
+  const byKey = (a, b) => a.key.localeCompare(b.key)
+  kept.sort(byKey)
+  dropped.sort(byKey)
+  return { kept, dropped }
+}
+
+/**
+ * Resolve stable ids. `existing` maps key -> id and is never changed; new keys get `<prefix>-<slug>`.
+ * Throws if two keys would share an id. Returns a new, key-sorted object.
+ */
+export function assignIds(existing, entries) {
+  const out = { ...existing }
+  const owner = new Map()
+  for (const [k, id] of Object.entries(out)) {
+    if (owner.has(id)) throw new Error(`ids.json: "${k}" and "${owner.get(id)}" share id "${id}"`)
+    owner.set(id, k)
+  }
+  for (const { key, prefix, name } of entries) {
+    if (out[key] === undefined) {
+      const s = slug(name)
+      if (!s) throw new Error(`Cannot slug "${name}"`)
+      out[key] = `${prefix}-${s}`
+    }
+    const prior = owner.get(out[key])
+    if (prior !== undefined && prior !== key) {
+      throw new Error(`Id collision: "${key}" and "${prior}" would both be "${out[key]}"`)
+    }
+    owner.set(out[key], key)
+  }
+  return Object.fromEntries(Object.entries(out).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
+}
+
+export function countyOf(point, counties) {
+  for (const c of counties.features) {
+    if (pointInGeometry(point, c.geometry)) return String(c.properties.NAME).replace(/ County$/, '')
+  }
+  return undefined
+}
+
+// ---------- IO ----------
+
+const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'))
+const readOptional = (path, fallback) => (existsSync(path) ? readJson(path) : fallback)
+const cary = (name) => join(SRC, 'cary', name)
+
+const fmtNumber = (n) => {
+  if (n >= 10) return String(Math.round(n))
+  const r = Math.round(n * 10) / 10
+  return r === 0 ? 'under 0.1' : String(r)
+}
+
+function roundGeometry(geometry, decimals) {
+  switch (geometry.type) {
+    case 'MultiPolygon':
+      return { type: 'MultiPolygon', coordinates: geometry.coordinates.map((poly) => poly.map((r) => roundRing(r, decimals))) }
+    case 'MultiLineString':
+      return { type: 'MultiLineString', coordinates: geometry.coordinates.map((l) => roundRing(l, decimals)) }
+    default:
+      throw new Error(`Unexpected geometry ${geometry.type}`)
+  }
+}
+
+export function build({ write = true } = {}) {
+  const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
+  const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
+  const greenData = readJson(join(cary('proposed-greenway-trails'), 'data.geojson'))
+  const counties = readJson(join(SRC, 'boundaries', 'census-counties-wake-chatham-durham.geojson'))
+  const limits = readJson(join(SRC, 'boundaries', 'cary-corporate-limits.geojson'))
+  const wake = readJson(join(SRC, 'regional', 'wake-parks-sample.geojson'))
+  const parksMeta = readJson(join(cary('parks-and-recreation-feature-polygons'), 'meta.json'))
+  const greenMeta = readJson(join(cary('proposed-greenway-trails'), 'meta.json'))
+  const idsPath = join(ROOT, 'pipeline', 'ids.json')
+  const aliasPath = join(ROOT, 'pipeline', 'aliases.json')
+  const aliasMap = readOptional(aliasPath, {})
+
+  const parks = groupParks(parksData.features)
+  const { kept, dropped } = groupGreenways(greenData.features)
+
+  const ids = assignIds(readOptional(idsPath, {}), [
+    ...parks.map((p) => ({ key: `cary-parks:${p.key}`, prefix: 'cary-park', name: p.name })),
+    ...kept.map((g) => ({ key: `cary-greenways:${g.key}`, prefix: 'cary-greenway', name: g.name })),
+  ])
+
+  const urlPoints = pointsData.features
+    .filter((f) => f.geometry?.type === 'Point' && typeof f.properties?.parkurl === 'string')
+    .map((f) => ({ ...f, properties: { ...f.properties, parkurl: carynUrl(f.properties.parkurl) } }))
+    .filter((f) => f.properties.parkurl.startsWith('https://www.carync.gov/'))
+    .sort((a, b) => a.properties.parkurl.localeCompare(b.properties.parkurl))
+
+  const places = []
+  const parkFeatures = []
+  const greenFeatures = []
+
+  for (const p of parks) {
+    const id = ids[`cary-parks:${p.key}`]
+    const c = centroid(p.polygons)
+    const bbox = bboxOf(p.polygons.flat(2))
+    // The points dataset has no name column, so join by the point falling inside the park's parcels.
+    const hit = urlPoints.find((pt) => p.polygons.some((poly) => pointInPolygon(pt.geometry.coordinates, poly)))
+    const acres = fmtNumber(p.acres)
+    const place = {
+      id,
+      name: p.name,
+      aliases: [],
+      category: p.category,
+      municipality: 'Cary',
+      county: countyOf(c, counties),
+      centroid: c,
+      bbox,
+      description: `Town of Cary ${p.kind}, about ${acres} ${acres === '1' ? 'acre' : 'acres'} (from Cary's parks dataset).`,
+      url: hit?.properties.parkurl,
+      sourceIds: ['cary-parks'],
+    }
+    places.push(place)
+    parkFeatures.push({
+      type: 'Feature',
+      properties: { placeId: id },
+      geometry: { type: 'MultiPolygon', coordinates: p.polygons },
+    })
+  }
+
+  for (const g of kept) {
+    const id = ids[`cary-greenways:${g.key}`]
+    const verts = g.lines.flat()
+    const c = vertexNearestBboxCentre(verts)
+    const miles = fmtNumber(g.miles)
+    places.push({
+      id,
+      name: g.name,
+      aliases: [],
+      category: 'trail',
+      municipality: 'Cary',
+      county: countyOf(c, counties),
+      centroid: c,
+      bbox: bboxOf(verts),
+      description: `Town of Cary greenway, about ${miles} ${miles === '1' ? 'mile' : 'miles'} of existing trail (from Cary's greenway dataset).`,
+      sourceIds: ['cary-greenways'],
+    })
+    greenFeatures.push({
+      type: 'Feature',
+      properties: { placeId: id },
+      geometry: { type: 'MultiLineString', coordinates: g.lines },
+    })
+  }
+
+  // Neighbour sample: Wake County parks outside Cary's limits.
+  const limitGeoms = limits.features.map((f) => f.geometry)
+  const neighbours = []
+  const wakeKeys = []
+  for (const f of wake.features) {
+    const pt = f.geometry?.coordinates
+    const name = f.properties?.NAME
+    if (!pt || !normalize(name)) continue
+    if (limitGeoms.some((g) => pointInGeometry(pt, g))) continue
+    wakeKeys.push({ key: `wake-parks:${normalize(name)}`, prefix: 'wake-park', name })
+    neighbours.push({ f, name: String(name).trim().replace(/\s+/g, ' '), pt })
+  }
+  const allIds = assignIds(ids, wakeKeys)
+  for (const n of neighbours) {
+    const jur = String(n.f.properties.JURISDICTION ?? '')
+      .replace(/^(City|Town|Village) of /i, '')
+      .trim()
+    const place = {
+      id: allIds[`wake-parks:${normalize(n.name)}`],
+      name: n.name,
+      aliases: [],
+      category: 'park',
+      municipality: jur || 'Unincorporated Wake',
+      county: 'Wake',
+      centroid: roundPos(n.pt, COORD_DECIMALS),
+      description: `Park in ${jur || 'unincorporated Wake County'} (from Wake County's parks dataset).`,
+      sourceIds: ['wake-parks'],
+    }
+    const u = n.f.properties.URL
+    if (typeof u === 'string' && u.startsWith('https://')) place.url = u
+    places.push(place)
+  }
+
+  for (const p of places) {
+    const extra = aliasMap[p.id]
+    if (extra) p.aliases = [...new Set([...p.aliases, ...extra])]
+  }
+  const known = new Set(places.map((p) => p.id))
+  const unknownAliases = Object.keys(aliasMap).filter((id) => !known.has(id))
+  if (unknownAliases.length) console.warn(`aliases.json has unknown ids: ${unknownAliases.join(', ')}`)
+
+  places.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+  const byPlace = (a, b) => (a.properties.placeId < b.properties.placeId ? -1 : 1)
+  parkFeatures.sort(byPlace)
+  greenFeatures.sort(byPlace)
+
+  const sources = [
+    {
+      id: 'cary-parks',
+      name: 'Town of Cary',
+      url: parksMeta.url,
+      license: 'CC0 1.0',
+      retrievedAt: parksMeta.retrievedAt,
+    },
+    {
+      id: 'cary-greenways',
+      name: 'Town of Cary',
+      url: greenMeta.url,
+      license: 'CC0 1.0',
+      retrievedAt: greenMeta.retrievedAt,
+    },
+  ]
+  if (neighbours.length) {
+    sources.push({
+      id: 'wake-parks',
+      name: 'Wake County',
+      url: 'https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0',
+      license: 'CC BY 4.0',
+      retrievedAt: wake.retrieved,
+    })
+  }
+
+  const catalog = { sources, places: places.map(orderPlace) }
+  const layer = (features, decimals) =>
+    ({
+      type: 'FeatureCollection',
+      features: features.map((f) => ({ ...f, geometry: roundGeometry(f.geometry, decimals) })),
+    })
+
+  const outputs = {
+    'catalog.json': JSON.stringify(catalog, null, 1) + '\n',
+    'layers/parks.geojson': JSON.stringify(layer(parkFeatures, COORD_DECIMALS)) + '\n',
+    'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
+  }
+
+  if (write) {
+    mkdirSync(join(OUT, 'layers'), { recursive: true })
+    for (const [file, text] of Object.entries(outputs)) writeFileSync(join(OUT, file), text)
+    writeFileSync(idsPath, JSON.stringify(allIds, null, 2) + '\n')
+  }
+
+  return { catalog, outputs, parks, kept, dropped, neighbours: neighbours.length, ids: allIds }
+}
+
+function orderPlace(p) {
+  const out = {}
+  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'centroid', 'bbox', 'description', 'url', 'sourceIds']) {
+    if (p[k] !== undefined) out[k] = p[k]
+  }
+  return out
+}
+
+function main() {
+  const r = build()
+  const tally = (key) => {
+    const t = {}
+    for (const p of r.catalog.places) t[p[key] ?? 'unknown'] = (t[p[key] ?? 'unknown'] ?? 0) + 1
+    return t
+  }
+  const dropByMiles = [...r.dropped].sort((a, b) => b.miles - a.miles).slice(0, 10)
+  console.log(`places: ${r.catalog.places.length}`)
+  console.log('by category:', tally('category'))
+  console.log('by county:', tally('county'))
+  console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}`)
+  console.log('10 longest dropped greenways:')
+  for (const g of dropByMiles) console.log(`  ${g.name} (${g.miles.toFixed(2)} mi)`)
+  for (const [file, text] of Object.entries(r.outputs)) console.log(`${file}: ${Buffer.byteLength(text)} bytes`)
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main()

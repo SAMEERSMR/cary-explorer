@@ -108,6 +108,10 @@ function parsePlace(
     return fail('stationNumber must be an integer >= 1')
   }
 
+  if (item.url !== undefined && !(nonEmpty(item.url) && item.url.startsWith('https://') && publicUrl(item.url))) {
+    return fail('url must be an https URL')
+  }
+
   if (!Array.isArray(item.sourceIds) || item.sourceIds.length === 0) {
     return fail('sourceIds must be a non-empty array')
   }
@@ -131,6 +135,7 @@ function parsePlace(
     description: item.description,
     address: item.address as string | undefined,
     stationNumber: item.stationNumber as number | undefined,
+    url: item.url as string | undefined,
     sourceIds: item.sourceIds as string[],
   }
 }

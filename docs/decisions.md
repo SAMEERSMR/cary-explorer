@@ -282,6 +282,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/places/amenities.ts`, `AmenityFilters.tsx`, `useFilteredPlaces.ts`, `src/lib/urlState.ts`, #84.
 
+## 26. Search by simple intent
+
+**Context:** People type "parks in Apex" or "trails near Bond Park" and expect a filter, not a fuzzy name match (#59).
+
+**Decision:** `parseIntent` (`src/features/search/intent.ts`) accepts only `<category> in <town>` and `<category> near [this|the] [park|trail|greenway] <place>`, ignoring case and punctuation. Categories are singular or plural (greenways are trails); amenities such as playgrounds are not categories. A town is a known label or slug ("unincorporated" counts); a place needs an exact name or alias match from the search index and must be unique, so near-misses and duplicates give null. A match appears as the first suggestion row; anything else falls through to plain name search unchanged. "In town" sets the town, makes the requested categories' themes the only active themes and switches the other category layers in them off, all through the existing setters (so chips, Layers panel and URL show it) and shows "Showing parks in Apex" with Undo. "Near" lists precomputed relationships of that category (contained, nearby, nearest) with their labels and the note "Near = within 400 m in a straight line, or the closest place within 2 km"; no geometry is computed in the browser, and an empty result says so. No AI and no guessing from proximity alone.
+
+**Applies to:** `src/features/search/`, #59.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

@@ -1,6 +1,7 @@
 // Release manifest: the only fixed-name data file. It names the content-hashed files the app may load.
 import { useEffect, useState } from 'react'
 import { fetchBoundedJson } from '../../lib/boundedJson'
+import { isRecord } from '../../lib/guards'
 
 export const MANIFEST_URL = '/data/manifest.json'
 const DATA_ROOT = '/data/'
@@ -34,9 +35,6 @@ export interface Release {
   /** Sources behind this release; entries without a string id are skipped. */
   sources: ManifestSource[]
 }
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  value !== null && typeof value === 'object' && !Array.isArray(value)
 
 const isSafePath = (value: unknown): value is string =>
   typeof value === 'string' &&

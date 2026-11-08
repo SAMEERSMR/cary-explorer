@@ -8,7 +8,6 @@ import { haversineM, simplifyLine } from '../pipeline/lib/geo.mjs'
 import type { Source } from '../pipeline/lib/snapshot-core.mjs'
 import { snapshotSource, validateRegistry } from '../pipeline/lib/snapshot-core.mjs'
 import {
-  build,
   dominantSurface,
   findTrailTwin,
   groupWakeGreenways,
@@ -17,6 +16,7 @@ import {
   wakeGreenwayStatus,
   wakeOwnerLabel,
 } from '../pipeline/scripts/build-catalog.mjs'
+import { builtCatalog } from './helpers/builtCatalog'
 
 type Json = Record<string, unknown>
 
@@ -221,7 +221,7 @@ describe('findTrailTwin', () => {
 // ---------- built release ----------
 
 describe('built regional trails', () => {
-  const out = build({ write: false })
+  const out = builtCatalog()
   const places = out.catalog.places as { id: string; name: string; category: string; municipality: string; sourceIds: string[]; centroid: number[] }[]
   const regional = places.filter((p) => p.sourceIds.includes('wake-greenways'))
   const layer = JSON.parse(out.outputs['layers/greenways.geojson']) as { features: { properties: { placeId: string; status: string; outsideCore: boolean }; geometry: { type: string } }[] }

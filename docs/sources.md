@@ -10,7 +10,7 @@ Snapshots live in `pipeline/sources/cary/<dataset>/` (`data.geojson`, `meta.json
 | id | source | publisher | URL | licence/reuse terms | attribution text | vintage | last refresh | coverage | verdict |
 |---|---|---|---|---|---|---|---|---|---|
 | cary-parks-polygons | Parks and Recreation Features | Town of Cary | https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/ | CC0 1.0 Universal (metadata `license`; https://creativecommons.org/publicdomain/zero/1.0/). Committing is allowed. | Not required by CC0; courtesy: "Town of Cary open data (CC0)" | Source modified 2026-10-31; upstream ArcGIS `ParksRecreation/Parks/FeatureServer/5`; no update frequency stated | 2026-11-06 | 867 parcel-level polygons across Cary (and a little of Apex per `territory`); 142 Parks and Recreation + 725 Conservation | Usable with cleanup: parcels must be dissolved by name, greenway-corridor parcels excluded, private-owner field dropped, no stable id |
-| cary-greenway-trails | Natural Surface Trails (id `greenway-trails`) | Town of Cary | https://data.townofcary.org/explore/dataset/greenway-trails/ | CC0 1.0 Universal | as above | Modified 2026-11-01; WEEKLY | 2026-11-06 | 30 LineStrings, all `Existing`, all inside parks (Bond, Hemlock Bluffs, WakeMed, ...) | Usable with cleanup: title says natural-surface trails, not the greenway system; no id; no proposed rows |
+| cary-greenway-trails | Natural Surface Trails (id `greenway-trails`) | Town of Cary | https://data.townofcary.org/explore/dataset/greenway-trails/ | CC0 1.0 Universal | as above | Modified 2026-11-01; WEEKLY | 2026-11-06 | 30 LineStrings, all `Existing`, all inside parks (Bond, Hemlock Bluffs, WakeMed, ...) | Not used by the build (disabled in the registry as a licence record; the snapshot folder was deleted). Title says natural-surface trails, not the greenway system; no id; no proposed rows |
 | cary-greenways-all | Greenway Trails Existing and Proposed (id `proposed-greenway-trails`) | Town of Cary | https://data.townofcary.org/explore/dataset/proposed-greenway-trails/ | CC0 1.0 Universal | as above | Modified 2026-11-01; WEEKLY; upstream `Parks/MapServer/2` | 2026-11-06 | 1098 segments: 648 Existing, 450 Proposed | Usable as-is for geometry (has `segmentid`); names need grouping into trails |
 | cary-parks-points | Parks and Recreation Feature Map (Points) | Town of Cary | https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/ | CC0 1.0 Universal | as above | Modified 2026-10-31 | 2026-11-06 | 36 points, `parkurl` and amenity Yes/No flags, no name field | Usable with cleanup: only a join aid (4 rows lack a URL) |
 
@@ -18,7 +18,7 @@ Not snapshotted: `cary-parks-and-recreation-areas` (same 867 polygons as the pol
 
 ## Regional and other sources
 
-Retrieved 2026-11-06. Samples: `pipeline/sources/regional/` (see README there).
+Retrieved 2026-11-06.
 
 | id | source | publisher | URL | licence / reuse terms | attribution | vintage | last refresh | coverage | verdict (usable as-is / with cleanup / not usable / not inspected) + reason |
 |---|---|---|---|---|---|---|---|---|---|

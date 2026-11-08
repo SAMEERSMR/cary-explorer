@@ -15,6 +15,8 @@ export function polygonsOf(geometry: unknown): Polygon[]
 export function linesOf(geometry: unknown): Position[][]
 export function pointInPolygon(point: Position, polygon: Polygon): boolean
 export function pointInGeometry(point: Position, geometry: unknown): boolean
+export function roundTo(n: number, decimals?: number): number
+export function roundCoords<T>(c: T, decimals?: number): T
 export function extent(positions: Position[]): number[]
 export function prepare(source: unknown): Prepared
 export function inPrepared(point: Position, prepared: Prepared): boolean

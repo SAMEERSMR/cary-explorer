@@ -66,7 +66,10 @@ describe('catalog boundary', () => {
     const result = await loadCatalog('/catalog.json', controller.signal)
     expect(result.places.map((p) => p.id)).toEqual(['one'])
     expect(result.sources.map((s) => s.id)).toEqual(['example-source'])
-    expect(fetchMock).toHaveBeenCalledWith('/catalog.json', { signal: controller.signal })
+    const init = fetchMock.mock.calls[0][1] as RequestInit
+    expect(fetchMock.mock.calls[0][0]).toBe('/catalog.json')
+    // The fetch gets a linked signal (caller plus timeout); propagation is covered in boundedJson.test.ts.
+    expect(init.signal?.aborted).toBe(false)
   })
 
   it('keeps an optional trimmed source title, capped at 200 chars, and drops blank or non-string ones', () => {

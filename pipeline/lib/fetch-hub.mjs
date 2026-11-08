@@ -10,19 +10,15 @@
 // cached features against 1,299 live). Any non-default `where` makes the Hub build a fresh export from the live
 // service, and the count check in snapshot-core then compares that export against the dataset's record count.
 
+import { roundCoords } from './geo.mjs'
+import { getJson, isoFromEpoch } from './http.mjs'
+
 const HUB = 'https://hub.arcgis.com'
 const POLL_MS = 5000
 const MAX_POLLS = 60
 
 const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-async function getJson(fetchFn, url) {
-  const res = await fetchFn(url)
-  if (!res.ok) throw new Error(`${res.status} ${url}`)
-  return res.json()
-}
-
-const roundCoords = (c) => (typeof c[0] === 'number' ? c.map((v) => Math.round(v * 1e6) / 1e6) : c.map(roundCoords))
 
 const sameLicence = (a, b) => String(a ?? '').trim().toLowerCase() === String(b ?? '').trim().toLowerCase()
 
@@ -40,7 +36,7 @@ export async function fetchHub(source, { fetch: fetchFn = globalThis.fetch, slee
   const expectedCount = meta.recordCount
   if (!Number.isInteger(expectedCount)) throw new Error(`${source.id}: Hub dataset has no record count`)
   const edited = meta.itemModified ?? meta.modified
-  const sourceModified = typeof edited === 'number' ? new Date(edited).toISOString() : null
+  const sourceModified = isoFromEpoch(edited)
 
   const request = `${HUB}/api/download/v1/items/${item}/geojson?${new URLSearchParams({ redirect: 'false', layers: String(layer), where })}`
   let resultUrl

@@ -1,6 +1,7 @@
 // Validated catalog loader: bounded streaming download plus hand-rolled parsing into Place/Source.
 import type { CategoryId, Place, Source } from '../../types/place'
 import { fetchBoundedJson } from '../../lib/boundedJson'
+import { finite, isRecord, nonEmpty, publicUrl } from '../../lib/guards'
 import { CATEGORY_THEME } from '../themes/themes'
 import { parseAmenities } from './amenities'
 
@@ -11,21 +12,7 @@ export interface Catalog {
   sources: Source[]
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  value !== null && typeof value === 'object' && !Array.isArray(value)
-const nonEmpty = (value: unknown): value is string =>
-  typeof value === 'string' && value.trim().length > 0
-const finite = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isFinite(value)
-
-export function publicUrl(value: unknown): value is string {
-  if (typeof value !== 'string') return false
-  try {
-    return ['http:', 'https:'].includes(new URL(value).protocol)
-  } catch {
-    return false
-  }
-}
+export { publicUrl }
 
 function parseSource(item: unknown, index: number, ids: Set<string>): Source {
   const fail = (reason: string): never => {

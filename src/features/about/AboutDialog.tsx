@@ -2,7 +2,7 @@
 // focus trap, inert background and Escape; this component adds the Close button, backdrop click and focus return.
 import { useEffect, useRef } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { publicUrl } from '../places/catalog'
+import { publicUrl } from '../../lib/guards'
 import { ReleaseLine } from '../places/ReleaseLine'
 import { useRelease } from '../places/release'
 import { usePlaces } from '../places/usePlaces'
@@ -28,7 +28,7 @@ function SourceRow({ row }: { row: CreditsRow }) {
         )}
         {row.name !== row.title && <span className="text-xs">{row.name}</span>}
         {!row.ok && (
-          <span className="rounded-lg bg-sample-bg px-2 py-0.5 text-xs font-semibold text-sample-ink">
+          <span className="rounded-lg bg-warn-bg px-2 py-0.5 text-xs font-semibold text-warn-ink">
             Last refresh failed: showing older data
           </span>
         )}
@@ -48,7 +48,7 @@ function SourceRow({ row }: { row: CreditsRow }) {
           </>
         )}
       </p>
-      {row.recordCount !== undefined && <p>{row.recordCount.toLocaleString('en-US')} records</p>}
+      {row.recordCount !== undefined && <p>{row.recordCount.toLocaleString('en-US')} places</p>}
     </li>
   )
 }

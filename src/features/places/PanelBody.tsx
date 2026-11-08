@@ -1,4 +1,5 @@
 // Panel content shared by desktop and mobile: the place card, the list view, or a hint.
+import { EMPTY_CARD } from '../../lib/styles'
 import { useAppStore } from '../../store/useAppStore'
 import { CollectionsEntry, CollectionView } from '../collections/CollectionsPanel'
 import { useOpenCollection } from '../collections/collections'
@@ -40,8 +41,8 @@ function TownGapNotes() {
   if (gaps.length === 0) return null
   return (
     <div className="mb-3 space-y-1 text-[13px] leading-snug text-ink-muted">
-      {gaps.map(({ theme, kind }) => (
-        <p key={theme}>{emptyThemeText(getTheme(theme).label, label, kind)}</p>
+      {gaps.map((theme) => (
+        <p key={theme}>{emptyThemeText(getTheme(theme).label, label)}</p>
       ))}
     </div>
   )
@@ -87,7 +88,7 @@ export function PanelBody() {
     <>
       <MissingPlaceNote />
       <TownGapNotes />
-      <div className="rounded-card border border-dashed border-placeholder-line bg-white p-5">
+      <div className={`${EMPTY_CARD} bg-white`}>
       <p className="font-display text-xl font-semibold text-ink">Pick a place to start</p>
       <p className="mt-1 text-sm leading-relaxed text-ink-muted">
         Tap a pin on the map, search by name, or switch to the list.

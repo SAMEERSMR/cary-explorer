@@ -1,11 +1,15 @@
 // USGS Watershed Boundary Dataset (WBD) HUC-12 subwatersheds as catalog places, and park/trail -> watershed links.
 // Pure and dependency-free. Only boundaries and names are used; WBD's flow field (`tohuc`) is never read, so nothing
 // here can claim a flow or downstream connection (that is issue #28).
-import { extent, inPrepared, pointInPolygon, polygonsOf, simplifyLine } from './geo.mjs'
+import { extent, haversineM, inPrepared, pointInPolygon, polygonsOf, simplifyLine } from './geo.mjs'
 
 export const WATERSHED_SIMPLIFY_M = 25
 /** A park lists a second watershed when at least this share of its sample points fall in it. */
 export const DIVIDE_SHARE = 0.1
+/** A trail lists every watershed that holds at least this share of its length. */
+export const TRAIL_MIN_SHARE = 0.15
+/** A trail with one watershed holding at least this share keeps a single link. */
+export const TRAIL_SINGLE_SHARE = 0.8
 const GRID = 12
 const MAX_PER_PARK = 3
 
@@ -116,6 +120,46 @@ function samplePoints(polygons) {
 }
 
 /**
+ * Watersheds of a trail, from its lines: [{ code, share }] with share = fraction of the trail's length (each segment
+ * counted in the watershed holding its midpoint; length outside every watershed is ignored). One watershed holding
+ * TRAIL_SINGLE_SHARE or more -> just that one. Otherwise every watershed holding at least TRAIL_MIN_SHARE, largest
+ * first. Empty when no segment lies in a watershed. Shares are rounded to 2 decimals.
+ */
+export function trailShares(lines, prepared) {
+  const lengths = new Map()
+  let total = 0
+  for (const line of lines) {
+    for (let i = 1; i < line.length; i++) {
+      const a = line[i - 1]
+      const b = line[i]
+      const hit = prepared.find((w) => pointInWatershed([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], w))
+      if (!hit) continue
+      const m = haversineM(a, b)
+      lengths.set(hit.huc12, (lengths.get(hit.huc12) ?? 0) + m)
+      total += m
+    }
+  }
+  if (!(total > 0)) return []
+  const ranked = [...lengths.entries()]
+    .map(([code, m]) => ({ code, share: m / total }))
+    .sort((x, y) => y.share - x.share || (x.code < y.code ? -1 : 1))
+  const round = (n) => Math.round(n * 100) / 100
+  if (ranked[0].share >= TRAIL_SINGLE_SHARE) return [{ code: ranked[0].code, share: round(ranked[0].share) }]
+  const kept = ranked.filter((r) => r.share >= TRAIL_MIN_SHARE)
+  return (kept.length ? kept : ranked.slice(0, 1)).map((r) => ({ code: r.code, share: round(r.share) }))
+}
+
+/** [{ code, share? }] for one item. Only a trail drawn as lines gets shares; `share` is set only when it has several. */
+function watershedLinksFor(item, prepared) {
+  if (item.kind === 'trail' && item.lines?.length) {
+    const shares = trailShares(item.lines, prepared)
+    if (shares.length > 1) return shares
+    if (shares.length === 1) return [{ code: shares[0].code }]
+  }
+  return watershedsFor(item, prepared).map((code) => ({ code }))
+}
+
+/**
  * Watersheds (as huc12 codes, most of the place first) for one item { kind, centroid, polygons? }.
  * A trail or a point-only park uses its centroid. A park drawn as polygons also lists a second watershed that holds
  * at least DIVIDE_SHARE of its sample points. Returns [] when no watershed holds the centroid ("not determined").
@@ -144,20 +188,22 @@ export function watershedsFor(item, prepared) {
 
 /**
  * Relationships park/trail -> watershed place: { from, to: watershedPlaceId, kind: 'contained', basis: 'watershed' }.
- * `items`: [{ id, kind, centroid, polygons? }]; `idByHuc12`: huc12 -> place id. Also returns the ids with no watershed.
+ * A trail with `lines` links every watershed holding 15% or more of its length (a single link when one holds 80% or more);
+ * when it has several, each link carries `share`. Parks are unchanged (centroid plus the divide rule).
+ * `items`: [{ id, kind, centroid, polygons?, lines? }]; `idByHuc12`: huc12 -> place id. Also returns the ids with no watershed.
  */
 export function watershedRelationships(items, prepared, idByHuc12) {
   const relationships = []
   const notDetermined = []
   for (const item of items) {
-    const codes = watershedsFor(item, prepared)
-    if (!codes.length) {
+    const links = watershedLinksFor(item, prepared)
+    if (!links.length) {
       notDetermined.push(item.id)
       continue
     }
-    for (const code of codes) {
+    for (const { code, share } of links) {
       const to = idByHuc12.get(code)
-      if (to) relationships.push({ from: item.id, to, kind: 'contained', basis: 'watershed' })
+      if (to) relationships.push({ from: item.id, to, kind: 'contained', basis: 'watershed', ...(share === undefined ? {} : { share }) })
     }
   }
   return { relationships, notDetermined }

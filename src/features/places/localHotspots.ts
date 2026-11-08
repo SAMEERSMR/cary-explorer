@@ -1,5 +1,6 @@
 // Dev-only: converts locally fetched eBird hotspots into catalog places. Never part of the public build.
 import type { Place, Source } from '../../types/place'
+import { isRecord, nonEmpty } from '../../lib/guards'
 import { CATEGORY_THEME } from '../themes/themes'
 
 export const LOCAL_HOTSPOTS_URL = '/__local/ebird-hotspots.json'
@@ -17,10 +18,6 @@ const COUNTY: Record<string, string> = {
 
 const DESCRIPTION =
   'An eBird birding hotspot where people report sightings. Reports are observations, not a guarantee that birds are present.'
-
-const isRecord = (v: unknown): v is Record<string, unknown> =>
-  v !== null && typeof v === 'object' && !Array.isArray(v)
-const nonEmpty = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0
 
 export function hotspotsToCatalog(payload: unknown): { places: Place[]; source: Source } {
   const features = isRecord(payload) && Array.isArray(payload.features) ? payload.features : []

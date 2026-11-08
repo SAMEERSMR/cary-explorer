@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react'
 import type { Place, Source } from '../../types/place'
 import type { VisitFieldKey } from '../../types/data-model'
+import { ACTION_BUTTON } from '../../lib/styles'
 import { formatVerifiedDate, splitFields, usePlaceDetails } from './placeDetails'
 
 const ICON_PROPS = {
@@ -47,7 +48,7 @@ interface VisitInfoProps {
 }
 
 export function VisitInfo({ place, sources }: VisitInfoProps) {
-  const { status, details } = usePlaceDetails(place.id)
+  const { status, details, retry } = usePlaceDetails(place.id)
   const split = details ? splitFields(details.fields) : null
   const hasKnownAddress = split?.known.some((f) => f.key === 'address') ?? false
   const headingId = `place-${place.id}-visit`
@@ -62,6 +63,15 @@ export function VisitInfo({ place, sources }: VisitInfoProps) {
         <div aria-busy="true" className="border-t border-line py-3">
           <div className="h-4 w-2/3 animate-pulse rounded bg-subtle" />
           <span className="sr-only">Loading visit details</span>
+        </div>
+      )}
+
+      {status === 'error' && (
+        <div role="status" className="flex flex-wrap items-center gap-3 border-t border-line py-3">
+          <p className="text-[14px] text-ink-muted">Couldn&apos;t load visit details.</p>
+          <button type="button" onClick={retry} className={ACTION_BUTTON}>
+            Try again
+          </button>
         </div>
       )}
 

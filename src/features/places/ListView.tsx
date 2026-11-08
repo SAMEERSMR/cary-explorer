@@ -10,10 +10,8 @@ import { emptyLayersText } from '../themes/layerSelection'
 import { emptyAmenitiesText } from './amenities'
 import { THEMES, categoryLabel, getTheme } from '../themes/themes'
 import { CoverageLabel } from '../towns/CoverageLabel'
+import { ACTION_BUTTON, EMPTY_CARD } from '../../lib/styles'
 import { usePlaces } from './usePlaces'
-
-const ACTION_BUTTON =
-  'min-h-11 rounded-control border border-forest px-4 text-sm font-semibold text-forest hover:bg-forest-tint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link'
 
 export function ListView() {
   const { status, retry } = usePlaces()
@@ -60,7 +58,7 @@ export function ListView() {
     return (
       <>
       <NearMeBar />
-      <div className="space-y-3 rounded-card border border-dashed border-placeholder-line p-5">
+      <div className={`${EMPTY_CARD} space-y-3`}>
         {noThemes ? (
           <>
             <p className="font-display text-xl font-semibold text-ink">Nothing to show yet</p>

@@ -43,6 +43,9 @@ describe('collection rules', () => {
     expect(c.placeIds[3]).toBe('p00')
     for (const gone of ['no-entrance', 'no-restroom', 'a-trail']) expect(c.placeIds).not.toContain(gone)
     expect(c.curation).toMatch(/most confirmed facilities first, Cary first on ties/)
+    expect(c.title).toBe('Parks with restrooms and mapped entrances')
+    expect(c.summary).toMatch(/the 12 with the most confirmed facilities, of 17 that qualify/)
+    expect(c.curation).toMatch(/top 12 of 17 qualifying parks/)
   })
 
   it('ships nothing empty and builds paved trails only from confirmed paved surface', () => {
@@ -53,6 +56,22 @@ describe('collection rules', () => {
     )
     expect(out.collections.map((c) => c.id)).toEqual(['paved-trails'])
     expect(out.collections[0].placeIds).toEqual(['t1'])
+  })
+
+  it('ranks paved trails by the build-computed length, longest first, and states 12 of N', () => {
+    const trails = [
+      place('short', { category: 'trail', amenities: ['pavedSurface'] }),
+      place('long', { category: 'trail', amenities: ['pavedSurface', 'parking'] }),
+      place('mid-b', { category: 'trail', amenities: ['pavedSurface'] }),
+      place('mid-a', { category: 'trail', amenities: ['pavedSurface'] }),
+      place('unknown', { category: 'trail', amenities: ['pavedSurface'] }),
+    ]
+    const trailMiles = new Map([['short', 1], ['long', 9.5], ['mid-b', 4], ['mid-a', 4]])
+    const c = buildCollections(trails, {}, { trailMiles }).collections[0]
+    expect(c.placeIds).toEqual(['long', 'mid-a', 'mid-b', 'short', 'unknown'])
+    expect(c.summary).toBe('Trails whose surface is recorded as paved; the 5 longest, of 5 that qualify.')
+    expect(c.curation).not.toMatch(/not in the data/)
+    expect(c.curation).toMatch(/longest first/)
   })
 })
 

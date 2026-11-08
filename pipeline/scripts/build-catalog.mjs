@@ -10,11 +10,13 @@ import {
   classifyLine,
   clipToLimit,
   createScope,
+  extent,
   haversineM,
   linesOf,
   pointInGeometry,
   pointInPolygon,
   polygonsOf,
+  roundTo,
   simplifyLine,
   splitByCore,
 } from '../lib/geo.mjs'
@@ -71,10 +73,7 @@ export function slug(text) {
     .replace(/^-+|-+$/g, '')
 }
 
-export function round(n, decimals = COORD_DECIMALS) {
-  const f = 10 ** decimals
-  return Math.round(n * f) / f
-}
+export const round = (n, decimals = COORD_DECIMALS) => roundTo(n, decimals)
 
 const roundPos = (p, d) => [round(p[0], d), round(p[1], d)]
 const roundRing = (ring, d) => ring.map((p) => roundPos(p, d))
@@ -120,14 +119,7 @@ export function centroid(polygons) {
 }
 
 export function bboxOf(positions) {
-  let [minX, minY, maxX, maxY] = [Infinity, Infinity, -Infinity, -Infinity]
-  for (const [x, y] of positions) {
-    if (x < minX) minX = x
-    if (y < minY) minY = y
-    if (x > maxX) maxX = x
-    if (y > maxY) maxY = y
-  }
-  return [round(minX), round(minY), round(maxX), round(maxY)]
+  return extent(positions).map((v) => round(v))
 }
 
 /** The vertex closest to the bbox centre, so a trail pin sits on the trail. */
@@ -159,7 +151,7 @@ function displayName(names) {
     const clean = n.trim().replace(/\s+/g, ' ')
     counts.set(clean, (counts.get(clean) ?? 0) + 1)
   }
-  return [...counts.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))[0][0]
+  return [...counts.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0], 'en'))[0][0]
 }
 
 /**
@@ -196,7 +188,7 @@ export function groupParks(features) {
         parcels: g.parcels,
       }
     })
-    .sort((a, b) => a.key.localeCompare(b.key))
+    .sort((a, b) => a.key.localeCompare(b.key, 'en'))
 }
 
 /**
@@ -224,7 +216,7 @@ export function groupGreenways(features) {
     const entry = { key: g.key, name: displayName(g.names), miles: g.miles, lines: g.lines, segments: g.segments }
     ;(g.miles >= GREENWAY_MIN_MILES && !GREENWAY_EXCLUDE.test(g.key) ? kept : dropped).push(entry)
   }
-  const byKey = (a, b) => a.key.localeCompare(b.key)
+  const byKey = (a, b) => a.key.localeCompare(b.key, 'en')
   kept.sort(byKey)
   dropped.sort(byKey)
   return { kept, dropped }
@@ -450,7 +442,7 @@ export function groupWakeGreenways(features) {
     }
     ;(entry.miles >= GREENWAY_MIN_MILES && !WAKE_GREENWAY_EXCLUDE.test(g.key) ? kept : dropped).push(entry)
   }
-  const byKey = (a, b) => a.key.localeCompare(b.key)
+  const byKey = (a, b) => a.key.localeCompare(b.key, 'en')
   kept.sort(byKey)
   dropped.sort(byKey)
   return { kept, dropped, skipped }
@@ -510,7 +502,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     .filter((f) => f.geometry?.type === 'Point' && typeof f.properties?.parkurl === 'string')
     .map((f) => ({ ...f, properties: { ...f.properties, parkurl: carynUrl(f.properties.parkurl) } }))
     .filter((f) => f.properties.parkurl.startsWith('https://www.carync.gov/'))
-    .sort((a, b) => a.properties.parkurl.localeCompare(b.properties.parkurl))
+    .sort((a, b) => a.properties.parkurl.localeCompare(b.properties.parkurl, 'en'))
 
   const existingSegments = new Map() // normalized greenway name -> Existing segment properties
   for (const f of greenData.features) {
@@ -533,6 +525,7 @@ export function build({ write = true, outDir = OUT } = {}) {
   const parkFeatures = []
   const greenFeatures = []
   const relItems = []
+  const trailMiles = new Map() // trail place id -> miles computed above (the same figure the description rounds)
 
   for (const p of parks) {
     const id = ids[`cary-parks:${p.key}`]
@@ -600,6 +593,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
     greenFeatures.push(...greenwayFeatures(id, lines, proposedLines.get(g.key) ?? [], scope))
     relItems.push({ id, kind: 'trail', lines })
+    trailMiles.set(id, g.miles)
   }
 
   // Wake County parks layer. Cary's own CC0 data wins inside Cary's corporate limits (docs/source-matrix.md section 4).
@@ -719,6 +713,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     visitCtx.set(id, { wakeSegments: g.visitSegments })
     greenFeatures.push(...greenwayFeatures(id, lines, g.proposedLines.map((l) => simplifyLine(l, WAKE_GREENWAY_SIMPLIFY_M)), scope))
     relItems.push({ id, kind: 'trail', lines })
+    trailMiles.set(id, g.miles)
   }
 
   // USGS WBD HUC-12 subwatersheds that touch the core or nearby area become Water places (docs/decisions.md, "Watersheds from USGS WBD").
@@ -894,7 +889,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
     'layers/water.geojson': JSON.stringify(layer(waterFeatures, WATER_COORD_DECIMALS)) + '\n',
     'relationships.json': JSON.stringify(relationships, null, 1) + '\n',
-    'collections.json': JSON.stringify(buildCollections(catalog.places, details), null, 1) + '\n',
+    'collections.json': JSON.stringify(buildCollections(catalog.places, details, { trailMiles }), null, 1) + '\n',
   }
   for (const [id, d] of Object.entries(details)) outputs[`places/${id}.json`] = JSON.stringify(d) + '\n'
 

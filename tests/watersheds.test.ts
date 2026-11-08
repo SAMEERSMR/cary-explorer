@@ -82,6 +82,35 @@ describe('park to watershed assignment', () => {
   })
 })
 
+describe('trail to watershed shares', () => {
+  const ids = new Map(mapped.map((w, i) => [w.huc12, `ws-${i}`]))
+  // x runs west to east: 0-1 is 030202010102 (ws-1), 1-2 is 030202010101 (ws-0). Vertices every 0.1 degree.
+  const trail = (x0: number, x1: number) =>
+    [Array.from({ length: Math.round((x1 - x0) / 0.1) + 1 }, (_, i) => [Math.round((x0 + i * 0.1) * 10) / 10, 0.5])]
+  const link = (lines: number[][][], centroid = lines[0][0]) =>
+    watershedRelationships([{ id: 't', kind: 'trail' as const, centroid, lines }], prepared, ids).relationships
+
+  it('links every watershed holding at least 15% of the length, each with its share', () => {
+    expect(link(trail(0.3, 1.9))).toEqual([
+      { from: 't', to: 'ws-0', kind: 'contained', basis: 'watershed', share: 0.56 },
+      { from: 't', to: 'ws-1', kind: 'contained', basis: 'watershed', share: 0.44 },
+    ])
+    expect(link(trail(0.1, 1.3)).map((r) => [r.to, r.share])).toEqual([['ws-1', 0.75], ['ws-0', 0.25]])
+  })
+  it('keeps a single link, without a share, when one watershed holds 80% or more', () => {
+    const r = link(trail(0.1, 1.1)) // 90% in ws-1
+    expect(r).toEqual([{ from: 't', to: 'ws-1', kind: 'contained', basis: 'watershed' }])
+  })
+  it('measures the whole trail, not the centroid', () => {
+    expect(link(trail(0.1, 1.1), [1.5, 0.5]).map((x) => x.to)).toEqual(['ws-1'])
+  })
+  it('never reports a trail outside every watershed as linked', () => {
+    const r = watershedRelationships([{ id: 'far', kind: 'trail' as const, centroid: [50, 50], lines: trail(50, 50.5) }], prepared, ids)
+    expect(r.relationships).toEqual([])
+    expect(r.notDetermined).toEqual(['far'])
+  })
+})
+
 const place = (id: string, name: string, category: Place['category'] = 'park'): Place => ({
   id,
   name,
@@ -129,6 +158,28 @@ describe('watershed relationship wording', () => {
   it('labels the watershed side with the park name and does not claim flow', () => {
     expect(connectionsFor('w1', index, byId)[0].label).toBe('Example Park is in this watershed')
     for (const x of connectionsFor('park', index, byId)) expect(x.label).not.toMatch(/flow|downstream|upstream/i)
+  })
+  it('labels a trail by how many watersheds it crosses and never claims flow', () => {
+    const multi = indexRelationships(
+      parseRelationships({
+        relationships: [
+          { from: 'trail', to: 'w1', kind: 'contained', basis: 'watershed', share: 0.6 },
+          { from: 'trail', to: 'w2', kind: 'contained', basis: 'watershed', share: 0.4 },
+          { from: 'solo', to: 'w1', kind: 'contained', basis: 'watershed' },
+        ],
+      }),
+    )
+    const names = new Map([...byId, ['solo', place('solo', 'Solo Greenway', 'trail')]])
+    expect(connectionsFor('trail', multi, names).map((x) => x.label)).toEqual([
+      'Passes through the Crabtree Creek watershed',
+      'Passes through the Walnut Creek watershed',
+    ])
+    expect(connectionsFor('solo', multi, names)[0].label).toBe('In the Crabtree Creek watershed')
+    expect(connectionsFor('w1', multi, names).map((x) => x.label)).toEqual([
+      'Example Greenway passes through this watershed',
+      'Solo Greenway passes through this watershed',
+    ])
+    expect(parseRelationships({ relationships: [{ from: 'a', to: 'b', kind: 'nearby', share: 0.5 }] })[0]).not.toHaveProperty('share')
   })
   it('explains a divide only for parks in two watersheds', () => {
     expect(divideNote('park', index, byId)).toBe('This park sits on a divide between two watersheds.')

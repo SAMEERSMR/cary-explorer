@@ -37,6 +37,17 @@ export function pointInGeometry(point, geometry) {
   return polygonsOf(geometry).some((poly) => pointInPolygon(point, poly))
 }
 
+/** Rounds to `decimals` places (6 is about 0.1 m, the precision every layer ships at). */
+export function roundTo(n, decimals = 6) {
+  const f = 10 ** decimals
+  return Math.round(n * f) / f
+}
+
+/** Rounds every number in a nested coordinate array (Position, line, ring, polygon, ...). */
+export function roundCoords(c, decimals = 6) {
+  return typeof c[0] === 'number' ? c.map((v) => roundTo(v, decimals)) : c.map((x) => roundCoords(x, decimals))
+}
+
 /** [minX, minY, maxX, maxY] of a list of positions (not rounded). */
 export function extent(positions) {
   let minX = Infinity
@@ -141,7 +152,7 @@ function crossing(a, b, aIn, prepared) {
     if (inPrepared(mid, prepared) === aIn) lo = mid
     else hi = mid
   }
-  return [Math.round(lo[0] * 1e6) / 1e6, Math.round(lo[1] * 1e6) / 1e6]
+  return [roundTo(lo[0]), roundTo(lo[1])]
 }
 
 /**

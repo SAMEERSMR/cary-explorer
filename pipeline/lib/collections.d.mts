@@ -14,9 +14,11 @@ export function buildCollections(
     id: string
     name: string
     category: string
+    municipality?: string
     coverage?: string
     amenities?: string[]
   }[],
   details?: Record<string, { fields?: { key: string; status: string }[] } | undefined>,
+  options?: { trailMiles?: Map<string, number> },
 ): CollectionsFile
 export function validateCollections(data: unknown, placeIds: Set<string>): string[]

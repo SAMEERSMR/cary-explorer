@@ -55,9 +55,8 @@ Working choice: take county polygons from Census, Cary from Cary open data, and 
 
 - **Default: full incorporated limit of the town, all county parts**, because someone who picks "Apex" expects Apex. This is the same rule as Cary's core.
 - **Coverage label** under the town chip and in the info panel:
-  - Cary: "Complete: Wake, Chatham and Durham parts".
-  - Towns with one county part (Garner, Holly Springs, Fuquay-Varina, Knightdale, Wendell, Zebulon, Rolesville): "Complete: whole town is in Wake County".
-  - Towns that cross the county line (Apex, Morrisville, Raleigh, Wake Forest): "Wake portion complete. The [Chatham / Durham / Franklin] portion shows nearby places only."
+  - The note is built at runtime from the catalog, never typed per town: "Parks: N · Trails: N in this town's data", plus a count for each other theme that has places. A theme with no places in the town is a gap ("[Theme] places for [Town] aren't in the app yet.").
+  - Towns that cross the county line (Apex, Morrisville, Raleigh, Wake Forest) add: "Part of [Town] is in [Chatham / Durham / Franklin] County; places there aren't counted here and show only if they're near Wake." Places in that part carry the county's name, so the town filter does not list them.
 - **Unincorporated Wake stays discoverable**: places inside Wake but in no town limit get town = none and appear in "All places" and an "Unincorporated Wake" filter option. Never hide them because they have no town.
 - Town of a place is by point-in-polygon with the town limits, not by mailing address. A Raleigh mailing address in unincorporated or Cary land does not make it Raleigh.
 

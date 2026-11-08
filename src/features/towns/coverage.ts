@@ -1,4 +1,4 @@
-// Town filter options and the per-town, per-theme source coverage (from docs/source-matrix.md §2 and §6). Pure: no React.
+// Town filter options and per-town, per-theme coverage derived from the loaded catalog. Pure: no React.
 import type { Place, ThemeId } from '../../types/place'
 
 export interface Town {
@@ -23,44 +23,53 @@ export const TOWNS: readonly Town[] = [
   { slug: 'unincorporated-wake', label: 'Unincorporated Wake County' },
 ]
 
-/** `data` = a usable source exists; `gap` = nothing found; `region-wide-only` = only county/state/national layers. */
-export type CoverageStatus = 'data' | 'gap' | 'region-wide-only'
+/** `data` = the town has at least one place of that theme in the loaded catalog; `gap` = none. Derived, never typed by hand. */
+export type CoverageStatus = 'data' | 'gap'
 
-const D: CoverageStatus = 'data'
-const G: CoverageStatus = 'gap'
-const R: CoverageStatus = 'region-wide-only'
-
-type ThemeRow = Record<ThemeId, CoverageStatus>
-const row = (parks: CoverageStatus, history: CoverageStatus, birds: CoverageStatus, water: CoverageStatus, art: CoverageStatus): ThemeRow => ({
-  'parks-trails': parks,
-  history,
-  'birds-wildlife': birds,
-  water,
-  'art-community': art,
-})
-
-// Parks & trails is `data` everywhere (Wake parks); trail-only gaps in Knightdale, Wendell, Zebulon and Fuquay-Varina are partial, not whole-theme.
-export const COVERAGE: Readonly<Record<string, ThemeRow>> = {
-  cary: row(D, R, R, D, D),
-  apex: row(D, D, R, D, D),
-  morrisville: row(D, R, R, D, G),
-  raleigh: row(D, D, D, D, D),
-  garner: row(D, R, R, D, G),
-  'holly-springs': row(D, D, R, D, G),
-  'fuquay-varina': row(D, R, R, D, G),
-  knightdale: row(D, R, R, D, G),
-  wendell: row(D, R, R, D, G),
-  zebulon: row(D, R, R, D, G),
-  'wake-forest': row(D, D, R, D, G),
-  rolesville: row(D, R, R, D, G),
-  'unincorporated-wake': row(D, R, R, D, G),
+export interface TownCoverage {
+  /** Per-theme status from the places the catalog holds for this town. */
+  themes: Record<ThemeId, CoverageStatus>
+  /** Trails alone: the parks-and-trails theme can be `data` from parks while trails are a `gap`. */
+  trails: CoverageStatus
+  parks: number
+  trailCount: number
+  /** Place count per theme. */
+  themeCounts: Record<ThemeId, number>
 }
 
+const THEME_IDS: readonly ThemeId[] = ['parks-trails', 'history', 'birds-wildlife', 'water', 'art-community']
+const THEME_SHORT: Record<ThemeId, string> = {
+  'parks-trails': 'Parks & trails',
+  history: 'History',
+  'birds-wildlife': 'Birds & wildlife',
+  water: 'Water',
+  'art-community': 'Art & community',
+}
+
+/** Places in another county's part carry that county's name as `municipality`, so they never count toward (or show under) these towns. */
 const OTHER_COUNTY_PART: Readonly<Record<string, string>> = {
   apex: 'Chatham',
   morrisville: 'Durham',
   raleigh: 'Durham',
   'wake-forest': 'Franklin',
+}
+
+/** Per-theme status for one town from the catalog itself. Pure; callers memoise on `places`. Null for "all towns" or an unknown slug. */
+export function coverageFor(places: readonly Pick<Place, 'municipality' | 'theme' | 'category'>[], slug: string | null): TownCoverage | null {
+  const town = townBySlug(slug)
+  if (!town) return null
+  const themeCounts = Object.fromEntries(THEME_IDS.map((t) => [t, 0])) as Record<ThemeId, number>
+  let parks = 0
+  let trailCount = 0
+  for (const p of places) {
+    if (p.municipality !== town.label) continue
+    themeCounts[p.theme] += 1
+    if (p.category === 'park') parks += 1
+    else if (p.category === 'trail') trailCount += 1
+  }
+  const status = (n: number): CoverageStatus => (n > 0 ? 'data' : 'gap')
+  const themes = Object.fromEntries(THEME_IDS.map((t) => [t, status(themeCounts[t])])) as Record<ThemeId, CoverageStatus>
+  return { themes, trails: status(trailCount), parks, trailCount, themeCounts }
 }
 
 export function townBySlug(slug: string | null | undefined): Town | null {
@@ -75,20 +84,20 @@ export function isTownSlug(value: string | null | undefined): value is string {
   return townBySlug(value) !== null
 }
 
-/** The town sentence shown under the filter, or null for "all towns" / an unknown slug. */
-export function townNote(slug: string | null): string | null {
+/** The town sentence shown under the filter, built from what the data holds. Null for "all towns" / an unknown slug. */
+export function townNote(slug: string | null, coverage: TownCoverage | null): string | null {
   const town = townBySlug(slug)
   if (!town) return null
-  if (town.slug === 'cary') return 'Complete: Wake, Chatham and Durham parts (parks and trails)'
-  if (town.slug === 'unincorporated-wake') return 'Wake County outside town limits'
-  const part = OTHER_COUNTY_PART[town.slug]
-  if (part) return `Wake portion complete. The ${part} portion shows nearby places only.`
-  return 'Whole town is in Wake County'
-}
-
-export function themeStatus(slug: string | null, theme: ThemeId): CoverageStatus | null {
-  if (!slug) return null
-  return COVERAGE[slug]?.[theme] ?? null
+  const sentences: string[] = []
+  if (coverage) {
+    const counts = [`Parks: ${coverage.parks}`, `Trails: ${coverage.trailCount}`]
+    for (const t of THEME_IDS.slice(1)) if (coverage.themeCounts[t] > 0) counts.push(`${THEME_SHORT[t]}: ${coverage.themeCounts[t]}`)
+    sentences.push(`${counts.join(' · ')} in this town's data`)
+  }
+  if (town.slug === 'unincorporated-wake') sentences.push('Wake County outside town limits')
+  const other = OTHER_COUNTY_PART[town.slug]
+  if (other) sentences.push(`Part of ${town.label} is in ${other} County; places there aren't counted here and show only if they're near Wake`)
+  return sentences.length ? `${sentences.join('. ')}.` : null
 }
 
 /** Places in the chosen town (all places when `slug` is null or unknown). */
@@ -107,24 +116,20 @@ export function filterPlaces<T extends Pick<Place, 'municipality' | 'theme'>>(
   return places.filter((p) => activeThemes.includes(p.theme) && (!town || p.municipality === town.label))
 }
 
-/** Active themes with no places in the chosen town; `gap` = nothing found upstream, otherwise data exists but is not imported yet. Empty when no town is chosen. */
+/** Active themes with no places in the chosen town, from the derived coverage. Empty when no town is chosen. */
 export function emptyThemes(
-  places: readonly Pick<Place, 'municipality' | 'theme'>[],
+  places: readonly Pick<Place, 'municipality' | 'theme' | 'category'>[],
   activeThemes: readonly ThemeId[],
   slug: string | null,
-): { theme: ThemeId; kind: 'gap' | 'not-imported' }[] {
-  const town = townBySlug(slug)
-  if (!town) return []
-  return activeThemes
-    .filter((theme) => !places.some((p) => p.municipality === town.label && p.theme === theme))
-    .map((theme) => ({ theme, kind: themeStatus(slug, theme) === 'gap' ? ('gap' as const) : ('not-imported' as const) }))
+): ThemeId[] {
+  const coverage = coverageFor(places, slug)
+  if (!coverage) return []
+  return activeThemes.filter((theme) => coverage.themes[theme] === 'gap')
 }
 
 /** The one-line message for an empty theme in a town. */
-export function emptyThemeText(themeLabel: string, townLabel: string, kind: 'gap' | 'not-imported'): string {
-  return kind === 'gap'
-    ? `No data yet for ${themeLabel} in ${townLabel}.`
-    : `${themeLabel} places for ${townLabel} aren't in the app yet.`
+export function emptyThemeText(themeLabel: string, townLabel: string): string {
+  return `${themeLabel} places for ${townLabel} aren't in the app yet.`
 }
 
 /** Label text for a place's coverage; null for core or unspecified. */

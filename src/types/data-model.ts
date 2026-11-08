@@ -14,22 +14,6 @@ export interface SourceRecord {
   properties: Record<string, unknown>
 }
 
-/** A dated sighting or event tied to a place or location. */
-export interface Observation {
-  id: string
-  /** Place the observation belongs to, if it has been matched. */
-  placeId?: string
-  sourceId: string
-  /** When the thing was observed (ISO 8601). */
-  observedAt: string
-  /** When the pipeline fetched it (ISO 8601). */
-  fetchedAt: string
-  /** How exact the published location is: point, hotspot centre, deliberately blurred, or an area. */
-  locationPrecision: 'exact' | 'hotspot' | 'obscured' | 'area'
-  /** Short human-readable description, if the source gives one. */
-  summary?: string
-}
-
 /** A named group of places shown together (for example a theme or a curated list). */
 export interface Collection {
   id: string
@@ -80,30 +64,6 @@ export interface SourceRegistryEntry {
   dir: string
   /** When false, the snapshot step skips this source. */
   enabled: boolean
-}
-
-/** The published release manifest (`public/data/manifest.json`). */
-export interface ReleaseManifest {
-  /** Release version identifier. */
-  version: string
-  /** What the release was built from, for example the snapshot run id or date. */
-  generatedFrom: string
-  /** Per-source health and counts for this release. */
-  sources: {
-    id: string
-    /** Number of records published for this source. */
-    recordCount: number
-    /** When the source was last retrieved (ISO 8601). */
-    retrievedAt: string
-    /** Licence of the source, copied from the registry. */
-    licence: string
-    /** Licence status copied from the registry. */
-    licenceStatus: 'open' | 'restricted' | 'unclear'
-    /** Last successful refresh of this source (ISO 8601). */
-    lastSuccess: string
-    /** False when the source failed in the latest run and this release kept its last good data. */
-    ok: boolean
-  }[]
 }
 
 /** The 14 visit-information fields, in display order. */

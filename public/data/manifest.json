@@ -1,14 +1,15 @@
 {
- "version": "1f1b9a505702ed37",
- "generatedFrom": "2026-11-07T21:09:55.268Z",
+ "version": "b4464b6c2a4d19ce",
+ "generatedFrom": "2026-11-08T06:53:56.840Z",
  "artifacts": {
-  "catalog": "catalog.b89ef523754f.json",
-  "relationships": "relationships.fe1fb8e791c5.json",
+  "catalog": "catalog.804ca278d9fb.json",
+  "relationships": "relationships.271798384849.json",
   "layers": {
    "greenways": "layers/greenways.87e56a2d9f7f.geojson",
-   "parks": "layers/parks.4aee84a0f2c8.geojson"
+   "parks": "layers/parks.4aee84a0f2c8.geojson",
+   "water": "layers/water.d6323db0f4b2.geojson"
   },
-  "places": "places/7e4f6fe92c67/",
+  "places": "places/306b5eee8617/",
   "collections": "collections.35216ac87c06.json"
  },
  "sources": [
@@ -37,6 +38,15 @@
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:39.429Z",
+   "ok": true
+  },
+  {
+   "id": "usgs-wbd-huc12",
+   "recordCount": 57,
+   "retrievedAt": "2026-11-08T06:53:56.840Z",
+   "licence": "Public domain (USGS)",
+   "licenceStatus": "declared",
+   "lastSuccess": "2026-11-08T06:53:56.840Z",
    "ok": true
   },
   {

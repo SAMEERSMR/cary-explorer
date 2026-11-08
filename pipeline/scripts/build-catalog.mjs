@@ -20,6 +20,7 @@ import {
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
 import { buildCollections } from '../lib/collections.mjs'
+import { intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
@@ -45,6 +46,8 @@ const PARK_LEVELS = new Set(['Existing Park', 'Natural Area', 'Community Use Fac
 const GREENWAY_MIN_MILES = 0.5
 const GREENWAY_EXCLUDE = /connector|street-side|sidewalk|side path/i
 const COORD_DECIMALS = 6
+const WATER_COORD_DECIMALS = 5
+const cmp = (x, y) => (x < y ? -1 : x > y ? 1 : 0)
 // The snapshot's `length_in_miles` is off by a factor of 5280 (the median haversine length of a segment
 // divided by it is 5280.0), so real miles = value * 5280. Verified against the geometry.
 const LENGTH_MILES_SCALE = 5280
@@ -718,6 +721,58 @@ export function build({ write = true, outDir = OUT } = {}) {
     relItems.push({ id, kind: 'trail', lines })
   }
 
+  // USGS WBD HUC-12 subwatersheds that touch the core or nearby area become Water places (docs/decisions.md, "Watersheds from USGS WBD").
+  const wbd = { huc12: readJson(join(SRC, 'usgs', 'wbd-huc12', 'data.geojson')), huc8: readJson(join(SRC, 'usgs', 'wbd-huc8', 'data.geojson')), huc6: readJson(join(SRC, 'usgs', 'wbd-huc6', 'data.geojson')) }
+  const wbdMeta = readJson(join(SRC, 'usgs', 'wbd-huc12', 'meta.json'))
+  // Every place keeps a county (the catalog parser requires one), so a watershed needs some area inside Wake, Chatham or Durham; its pin
+  // sits on the point of that area nearest the area-weighted centroid.
+  const inCounties = (pt) => countyOf(pt, counties) !== undefined
+  // Boundaries are simplified once (25 m) so the tests, the pins and the drawn layer all use the same shape.
+  const inScopeWatersheds = mapWatersheds(wbd)
+    .map((w) => ({ ...w, polygons: simplifyPolygons(w.polygons) }))
+    .map(prepareWatershed).filter((w) => intersectsScope(w, scope.nearby))
+  const watersheds = []
+  const watershedPins = new Map()
+  for (const w of inScopeWatersheds) {
+    const pin = representativePoint(w, centroid(w.polygons), inCounties)
+    if (!pin) continue
+    watersheds.push(w)
+    watershedPins.set(w.huc12, [round(pin[0]), round(pin[1])])
+  }
+  allIds = assignIds(allIds, watersheds.map((w) => ({ key: `usgs-wbd-huc12:${w.huc12}`, prefix: 'watershed', name: w.huc12 })))
+  const idByHuc12 = new Map(watersheds.map((w) => [w.huc12, allIds[`usgs-wbd-huc12:${w.huc12}`]]))
+  const waterFeatures = []
+  for (const w of watersheds) {
+    const id = idByHuc12.get(w.huc12)
+    const c = watershedPins.get(w.huc12)
+    const county = countyOf(c, counties)
+    const coverage = intersectsScope(w, scope.core) ? 'core' : 'nearby'
+    places.push({
+      id,
+      name: w.placeName,
+      aliases: [],
+      category: 'water',
+      municipality: municipalityOf(c, towns, county),
+      county,
+      coverage,
+      centroid: c,
+      bbox: bboxOf(w.polygons.flat(2)),
+      description: watershedDescription(w),
+      sourceIds: ['usgs-wbd-huc12'],
+    })
+    waterFeatures.push({
+      type: 'Feature',
+      properties: { placeId: id, outsideCore: coverage !== 'core' },
+      geometry: { type: 'MultiPolygon', coordinates: w.polygons },
+    })
+  }
+  const centroidOf = new Map(places.map((p) => [p.id, p.centroid]))
+  const watershedLinks = watershedRelationships(
+    relItems.filter((r) => centroidOf.has(r.id)).map((r) => ({ ...r, centroid: centroidOf.get(r.id) })),
+    watersheds,
+    idByHuc12,
+  )
+
   for (const p of places) {
     const extra = aliasMap[p.id]
     if (extra) p.aliases = [...new Set([...p.aliases, ...extra])]
@@ -734,6 +789,7 @@ export function build({ write = true, outDir = OUT } = {}) {
         ? 1
         : Number(a.properties.outsideCore) - Number(b.properties.outsideCore)
   parkFeatures.sort(byPlace)
+  waterFeatures.sort(byPlace)
   greenFeatures.sort(byPlace)
 
   const registry = readJson(join(ROOT, 'pipeline', 'sources.config.json'))
@@ -778,6 +834,17 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
 
+  if (watersheds.length) {
+    sources.push({
+      id: 'usgs-wbd-huc12',
+      title: title('usgs-wbd-huc12'),
+      name: 'US Geological Survey',
+      url: wbdMeta.url,
+      license: 'Public domain (USGS)',
+      retrievedAt: wbdMeta.retrievedAt,
+    })
+  }
+
   const placeIds = new Set(places.map((p) => p.id))
   const details = buildDetails(places, visitCtx, entrancesData.features, aliasMap, {
     wake: verifiedDate(wakeMeta),
@@ -808,6 +875,8 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
+  relationships.relationships.push(...watershedLinks.relationships)
+  relationships.relationships.sort((x, y) => cmp(x.from, y.from) || cmp(x.to, y.to) || cmp(x.kind, y.kind))
   for (const p of places) {
     const amenities = amenitiesOf(details[p.id].fields)
     if (amenities.length) p.amenities = amenities
@@ -823,6 +892,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     'catalog.json': JSON.stringify(catalog, null, 1) + '\n',
     'layers/parks.geojson': JSON.stringify(layer(parkFeatures, COORD_DECIMALS)) + '\n',
     'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
+    'layers/water.geojson': JSON.stringify(layer(waterFeatures, WATER_COORD_DECIMALS)) + '\n',
     'relationships.json': JSON.stringify(relationships, null, 1) + '\n',
     'collections.json': JSON.stringify(buildCollections(catalog.places, details), null, 1) + '\n',
   }
@@ -852,6 +922,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     wakeGreenways: { kept: wakeGw.kept, dropped: wakeGw.dropped, skipped: wakeGw.skipped, imported: regionalTrails.length },
     jurisdictionMismatches,
     ids: allIds,
+    watersheds: { inScope: watersheds, noCountyArea: inScopeWatersheds.length - watersheds.length, notDetermined: watershedLinks.notDetermined, links: watershedLinks.relationships },
   }
 }
 
@@ -925,6 +996,7 @@ function main() {
   console.log(`nearest-fallback links: ${rl.filter((x) => x.basis === 'nearest').length}`)
   for (const d of r.dedupeSkips) console.log(`dedupe skip: Wake "${d.name}" == ${d.caryId} (${d.distanceM} m)`)
   for (const d of r.trailDedupeSkips) console.log(`dedupe skip: Wake greenway "${d.name}" == ${d.twinId} (${d.distanceM} m)`)
+  console.log(`watersheds in scope: ${r.watersheds.inScope.length} (${r.watersheds.noCountyArea} skipped: no area in the three counties); watershed links ${r.watersheds.links.length}; parks/trails not determined ${r.watersheds.notDetermined.length}`)
   console.log(`wake greenways imported ${r.wakeGreenways.imported}, kept groups ${r.wakeGreenways.kept.length}, dropped ${r.wakeGreenways.dropped.length}; skipped segments`, r.wakeGreenways.skipped)
   console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}; skipped`, r.skipped)
   console.log('by municipality:', tally('municipality'))

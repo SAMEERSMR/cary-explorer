@@ -806,5 +806,87 @@
     "fields": [],
     "dir": "cary/stormwater-network-stormwater-channel",
     "enabled": false
+  },
+  {
+    "id": "usgs-wbd-huc12",
+    "publisher": "US Geological Survey",
+    "title": "USGS Watershed Boundary Dataset, 12-digit subwatersheds (Wake County and buffer)",
+    "type": "arcgis",
+    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/6",
+    "licence": "Public domain (USGS: 'None. All data are open and non-proprietary')",
+    "licenceStatus": "open",
+    "attribution": "US Geological Survey, Watershed Boundary Dataset (public domain)",
+    "cadence": "monthly",
+    "fields": [
+      "huc12",
+      "name",
+      "areasqkm",
+      "states",
+      "hutype",
+      "loaddate"
+    ],
+    "bbox": [
+      -79.09,
+      35.44,
+      -78.16,
+      36.15
+    ],
+    "dir": "usgs/wbd-huc12",
+    "enabled": true,
+    "geometryPrecision": 5
+  },
+  {
+    "id": "usgs-wbd-huc8",
+    "publisher": "US Geological Survey",
+    "title": "USGS Watershed Boundary Dataset, 8-digit subbasins (Wake County and buffer)",
+    "type": "arcgis",
+    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/4",
+    "licence": "Public domain (USGS: 'None. All data are open and non-proprietary')",
+    "licenceStatus": "open",
+    "attribution": "US Geological Survey, Watershed Boundary Dataset (public domain)",
+    "cadence": "monthly",
+    "fields": [
+      "huc8",
+      "name",
+      "areasqkm",
+      "states",
+      "loaddate"
+    ],
+    "bbox": [
+      -79.09,
+      35.44,
+      -78.16,
+      36.15
+    ],
+    "dir": "usgs/wbd-huc8",
+    "enabled": true,
+    "geometry": false
+  },
+  {
+    "id": "usgs-wbd-huc6",
+    "publisher": "US Geological Survey",
+    "title": "USGS Watershed Boundary Dataset, 6-digit basins (Wake County and buffer)",
+    "type": "arcgis",
+    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/3",
+    "licence": "Public domain (USGS: 'None. All data are open and non-proprietary')",
+    "licenceStatus": "open",
+    "attribution": "US Geological Survey, Watershed Boundary Dataset (public domain)",
+    "cadence": "monthly",
+    "fields": [
+      "huc6",
+      "name",
+      "areasqkm",
+      "states",
+      "loaddate"
+    ],
+    "bbox": [
+      -79.09,
+      35.44,
+      -78.16,
+      36.15
+    ],
+    "dir": "usgs/wbd-huc6",
+    "enabled": true,
+    "geometry": false
   }
 ]

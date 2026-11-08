@@ -13,6 +13,6 @@ export interface Relationship {
   to: string
   kind: 'contained' | 'nearby' | 'curated'
   distanceM?: number
-  basis?: 'within-400m' | 'nearest'
+  basis?: 'within-400m' | 'nearest' | 'watershed'
 }
 export function computeRelationships(items: RelationshipItem[]): { relationships: Relationship[] }

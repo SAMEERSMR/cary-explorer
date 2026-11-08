@@ -466,7 +466,7 @@ export function MapView() {
         if (theme) f.set('theme', theme, true)
         return (
           theme !== undefined &&
-          isGeometryShown(f.get('kind') as GeometryKind, f.get('status') as GeometryStatus, layerSelection)
+          isGeometryShown(f.get('kind') as GeometryKind, f.get('status') as GeometryStatus, layerSelection, theme)
         )
       })
     lineSource.clear()

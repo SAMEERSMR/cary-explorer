@@ -137,7 +137,7 @@ Duplicate and stale layers that lost to a better one are listed in section 4.
 | chat-bound | [Chatham park boundaries][chat-bound] | Chatham County GIS | [REST][chat-bound] | Polygon | 166 (14 centroids in Cary) | 2026-10-31 | restricted ("Any resale of this data is strictly prohibited"). Excluded | point-in-polygon |
 | dur-hb | [Durham Bike & Hike (HikeBike2026)][dur-hb] | City of Durham GIS | [REST][dur-hb] | Point / line | 20 featured POIs, 45 trailheads, 268 trails, others | 2026-09-01 | unclear (no licence string). Not used until licensed | point-in-polygon |
 
-Other candidates seen but not placed in the matrix (all region-wide, no town field): USGS WBD HUC12 (layer 6, open), USGS 3DHP (open, lowest priority), NC DWR major basins (unclear), NC Highway Historical Markers (1,658 statewide, unclear, geometry split only), Wake hydrolines (113,281, last edit 2016), Wake primary, critical and water-supply watersheds, Wake National Register districts (183, 2018, unclear), Wake police stations (29), Wake park facilities (418 points, 423 lines, 375 polygons).
+Other candidates seen but not placed in the matrix (all region-wide, no town field): USGS WBD HUC12 (layer 6, open; now used for watershed places, see decisions 26), USGS 3DHP (open, lowest priority), NC DWR major basins (unclear), NC Highway Historical Markers (1,658 statewide, unclear, geometry split only), Wake hydrolines (113,281, last edit 2016), Wake primary, critical and water-supply watersheds, Wake National Register districts (183, 2018, unclear), Wake police stations (29), Wake park facilities (418 points, 423 lines, 375 polygons).
 
 ## 4. Overlaps and precedence
 
@@ -326,3 +326,14 @@ How the import works: `maps.wake.gov` still times out from this network, so the 
 [chat-parks]: https://gisservices.chathamcountync.gov/opendataagol/rest/services/ReferenceData/Chatham_Parks/MapServer/0
 [chat-bound]: https://gisservices.chathamcountync.gov/opendataagol/rest/services/ReferenceData/Chatham_ParkBoundaries/MapServer/0
 [dur-hb]: https://services2.arcgis.com/G5vR3cOjh6g2Ed8E/arcgis/rest/services/HikeBike2026/FeatureServer
+
+## 10. USGS Watershed Boundary Dataset (#22)
+
+| Item | Value |
+|------|-------|
+| Service | https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer, layers 6 (HUC-12, 108 features in the buffer box), 4 (HUC-8, 7) and 3 (HUC-6, 3) |
+| Licence | The service's own metadata says: "Use Constraints: None. All data are open and non-proprietary." It asks for acknowledgment of the U.S. Geological Survey, which the credits give. Registry licence: "Public domain (USGS)" |
+| Status | WBD is no longer maintained; USGS 3DHP is the successor for hydrography. We use WBD because it has a ready HUC-12 layer we could snapshot with a count check (service data loaded 2024-08); 3DHP was not evaluated, so check its coverage at the next refresh |
+| Snapshot | `pipeline/sources/usgs/wbd-huc12/` (5-decimal geometry), `wbd-huc8/` and `wbd-huc6/` (names only), bbox -79.09,35.44,-78.16,36.15, count checked against the service count |
+| Basins | Neuse, Cape Fear and Pamlico (the Tar-Pamlico basin) |
+| Not used | The `tohuc` flow field is not snapshotted, so no flow or downstream claim can be made (#28). Creek places, a tap-a-point lookup and the Neuse / Cape Fear story text with Cary citations are still open on #22 |

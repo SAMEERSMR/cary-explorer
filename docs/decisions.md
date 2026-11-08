@@ -298,6 +298,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/favorites/`, `src/features/collections/`, `pipeline/lib/collections.mjs`, `src/lib/urlState.ts`, `PrivacyNotice.tsx`, #45.
 
+## 28. Watersheds from USGS WBD
+
+**Context:** "Which watershed am I in?" (#22) needs open watershed polygons for Wake County and the buffer.
+
+**Decision:** The USGS Watershed Boundary Dataset HUC-12 layer (`hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/6`, snapshot `pipeline/sources/usgs/wbd-huc12/`, with HUC-8 and HUC-6 name tables) supplies the units. The service says "None. All data are open and non-proprietary", and we credit USGS as it asks. WBD is no longer maintained and 3DHP is its successor; we use WBD because it has a ready HUC-12 layer on a REST service we could snapshot with a count check, and we did not evaluate 3DHP's coverage (re-check in a refresh). Each HUC-12 that touches the nearby area and has ground in Wake, Chatham or Durham becomes a `water` place ("<name> watershed", pin inside the counties so it keeps a county and town), drawn from `layers/water` (25 m simplified, shown with the Water category switch, not park outlines). Each park and trail gets a `contained` relationship with `basis: 'watershed'` from its centroid; a park whose sample points put at least 10% in a second watershed lists both and the card says it sits on a divide. Copy states membership only: no flow, downstream, drinking-water or utility claims (#28).
+
+**Applies to:** `pipeline/lib/watersheds.mjs`, `pipeline/scripts/build-catalog.mjs`, `src/features/places/relationships.ts`, `src/features/map/layers.ts`, #22.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

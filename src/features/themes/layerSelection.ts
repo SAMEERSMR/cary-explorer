@@ -139,8 +139,14 @@ export function filterByLayers<T extends Pick<Place, 'category'>>(places: readon
 }
 
 /** Whether a trail line or park area is drawn. Existing trails follow their category only. */
-export function isGeometryShown(kind: 'line' | 'area', status: 'existing' | 'proposed', selection: readonly LayerId[]): boolean {
-  if (kind === 'area') return selection.includes('park-outlines')
+export function isGeometryShown(
+  kind: 'line' | 'area',
+  status: 'existing' | 'proposed',
+  selection: readonly LayerId[],
+  theme?: ThemeId,
+): boolean {
+  // Watershed areas follow the Water theme's own category switch (already applied to the places), not park outlines.
+  if (kind === 'area') return theme === 'water' || selection.includes('park-outlines')
   return status === 'proposed' ? selection.includes('proposed-trails') : true
 }
 

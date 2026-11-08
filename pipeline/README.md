@@ -22,7 +22,7 @@ The same output comes from the same snapshots, so a re-run on unchanged snapshot
 
 `id`, `publisher`, `title`, `type` (`ods`, `arcgis` or `arcgis-hub`), `url`, `licence`, `licenceStatus` (`open`, `restricted` or `unclear`), `attribution`, `cadence` (`weekly` or `monthly`), `fields` (public field allowlist), `dir`, `enabled`.
 
-An `arcgis-hub` source also needs `hubItemId` (the 32-character item id) and may set `hubLayer` and `where`. It downloads a fresh GeoJSON export from ArcGIS Hub for public items whose own REST host is unreachable (`pipeline/lib/fetch-hub.mjs`). The run fails unless the Hub dataset's `license` equals the registry `licence` and the export count equals the dataset's record count.
+An `arcgis-hub` source also needs `hubItemId` (the 32-character item id) and may set `hubLayer` and `where`. An `arcgis` source may also set `bbox` (`[west, south, east, north]`, WGS84, features intersecting it are kept whole), `geometry: false` (attributes only) and `geometryPrecision` (decimal places). It downloads a fresh GeoJSON export from ArcGIS Hub for public items whose own REST host is unreachable (`pipeline/lib/fetch-hub.mjs`). The run fails unless the Hub dataset's `license` equals the registry `licence` and the export count equals the dataset's record count.
 
 Only `open` sources can be enabled. Sources that are `restricted` or `unclear` stay out of the pipeline until their terms are confirmed.
 

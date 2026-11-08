@@ -48,8 +48,8 @@ export interface Relationship {
   kind: 'contained' | 'nearby' | 'curated'
   /** Straight-line distance in metres, present for `nearby`. */
   distanceM?: number
-  /** For `nearby`: whether the place is within 400 m or was the closest place found beyond that. */
-  basis?: 'within-400m' | 'nearest'
+  /** For `nearby`: within 400 m, or the closest place found beyond that. For `contained`: `watershed` means a park or trail lies in a USGS watershed place (not a trail running through a park). */
+  basis?: 'within-400m' | 'nearest' | 'watershed'
   /** Why the link exists (for example the geometry test or the override note). */
   evidence?: string
 }

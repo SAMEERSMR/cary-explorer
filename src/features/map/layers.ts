@@ -14,7 +14,7 @@ export type GeometryStatus = 'existing' | 'proposed'
 export type GeometryKind = 'line' | 'area'
 export type LayerLoadStatus = 'idle' | 'loading' | 'ready' | 'error'
 
-export const LAYER_NAMES = ['greenways', 'parks'] as const
+export const LAYER_NAMES = ['greenways', 'parks', 'water'] as const
 const LAYER_MAX_BYTES = 2 * 1024 * 1024
 
 const isRecord = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v)
@@ -122,7 +122,7 @@ const IDLE: GeometryState = { status: 'idle', index: EMPTY_INDEX, lines: NO_FEAT
 
 const isAbort = (err: unknown) => err instanceof Error && err.name === 'AbortError'
 
-/** Loads both files named in the release manifest. A failed file is reported; the other still loads. */
+/** Loads the files named in the release manifest. A failed file is reported; the other still loads. */
 export async function loadGeometry(signal: AbortSignal): Promise<GeometryLoad> {
   const release = await getRelease()
   const names = LAYER_NAMES.filter((n) => release.layerUrls[n])

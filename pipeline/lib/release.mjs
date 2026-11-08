@@ -25,5 +25,6 @@ export function readRelease(dataDir) {
     relationshipsPath: artifactPath(dataDir, a.relationships),
     layerPaths,
     placesDir: artifactPath(dataDir, a.places),
+    collectionsPath: a.collections ? artifactPath(dataDir, a.collections) : undefined,
   }
 }

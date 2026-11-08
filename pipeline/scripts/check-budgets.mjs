@@ -28,6 +28,7 @@ export function checkBudgets({
   const m = add('manifest.json', readFileSync(join(dataDir, 'manifest.json')), budgets.manifest)
   const c = add(a.catalog, read(a.catalog), budgets.catalog)
   const r = add(a.relationships, read(a.relationships), budgets.relationships)
+  if (a.collections && budgets.collections) add(a.collections, read(a.collections), budgets.collections)
   for (const rel of Object.values(a.layers)) add(rel, read(rel), budgets.layer)
   const folder = a.places.replace(/\/$/, '')
   let placeCount = 0

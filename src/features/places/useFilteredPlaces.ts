@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
 import { filterByLayers, resolveLayers, type LayerId } from '../themes/layerSelection'
 import { filterPlaces } from '../towns/coverage'
+import { useOpenCollection } from '../collections/collections'
 import { filterByAmenities } from './amenities'
 import { usePlaces } from './usePlaces'
 
@@ -23,9 +24,15 @@ export function useFilteredPlaces() {
     () => filterByLayers(filterPlaces(places, activeThemes, town), layers),
     [places, activeThemes, town, layers],
   )
-  const filtered = useMemo(() => filterByAmenities(beforeAmenities, amenities), [beforeAmenities, amenities])
+  // While a collection is open the map and list show exactly its places (theme, town and amenity filters do not apply).
+  const collectionId = useAppStore((s) => s.collectionId)
+  const open = useOpenCollection(collectionId)
+  const filtered = useMemo(
+    () => (open ? open.places : filterByAmenities(beforeAmenities, amenities)),
+    [open, beforeAmenities, amenities],
+  )
   // `amenityEmpty`: the amenity filters alone are why nothing is shown.
-  const amenityEmpty = amenities.length > 0 && filtered.length === 0 && beforeAmenities.length > 0
+  const amenityEmpty = !open && amenities.length > 0 && filtered.length === 0 && beforeAmenities.length > 0
   return useMemo(
     () => ({ places: filtered, layers, status, retry, amenityEmpty }),
     [filtered, layers, status, retry, amenityEmpty],

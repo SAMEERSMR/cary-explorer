@@ -1,3 +1,4 @@
+import { validateCollections } from './collections.mjs'
 import { amenitiesOf, validateDetail } from './visit.mjs'
 
 // Release gates. validateRelease({ catalog, layers, relationships, previousManifest, lastRun, env, allowStale })
@@ -37,6 +38,7 @@ export function validateRelease({
   layers = {},
   relationships = { relationships: [] },
   details = null,
+  collections = null,
   previousManifest = null,
   lastRun = null,
   env = process.env,
@@ -119,6 +121,9 @@ export function validateRelease({
       }
     }
   }
+
+  // Collections (optional artifact): unique ids, titles present, every place in the catalog
+  if (collections) errors.push(...validateCollections(collections, ids))
 
   // Counties
   const countyCounts = {}

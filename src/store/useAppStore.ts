@@ -1,6 +1,7 @@
 // Zustand store for global UI state: selection, theme filters, search query, view mode and mobile sheet state.
 import { create } from 'zustand'
-import type { ThemeId } from '../types/place'
+import type { AmenityKey, ThemeId } from '../types/place'
+import { normalizeAmenities } from '../features/places/amenities'
 import { THEMES } from '../features/themes/themes'
 import {
   normalizeOverrides,
@@ -24,6 +25,7 @@ export interface FitRequest {
 export interface UrlApply {
   themes?: ThemeId[]
   layers?: LayerOverrides
+  amenities?: AmenityKey[]
   view?: ViewMode
   searchQuery?: string
   town?: string | null
@@ -39,6 +41,8 @@ interface AppState {
   activeThemes: ThemeId[]
   // Layer switches that differ from the theme defaults (see features/themes/layerSelection.ts).
   layerOverrides: LayerOverrides
+  // Visit-field filters (AND). A place passes only if the field is known for it; unknown never counts as "no".
+  amenityFilters: AmenityKey[]
   searchQuery: string
   // Town slug (see features/towns/coverage.ts); null = all towns.
   town: string | null
@@ -70,6 +74,8 @@ interface AppState {
   showAllLayers: () => void
   // Back to the theme defaults.
   resetLayers: () => void
+  toggleAmenity: (key: AmenityKey) => void
+  clearAmenities: () => void
   setSearchQuery: (query: string) => void
   setTown: (town: string | null) => void
   setView: (view: ViewMode) => void
@@ -82,6 +88,7 @@ export const useAppStore = create<AppState>()((set) => ({
   selectedPlaceId: null,
   activeThemes: THEMES.map((t) => t.id),
   layerOverrides: {},
+  amenityFilters: [],
   searchQuery: '',
   town: null,
   view: 'map',
@@ -104,6 +111,7 @@ export const useAppStore = create<AppState>()((set) => ({
       return {
         activeThemes: a.themes ?? THEMES.map((t) => t.id),
         layerOverrides: normalizeOverrides(a.themes ?? THEMES.map((t) => t.id), a.layers ?? {}),
+        amenityFilters: normalizeAmenities(a.amenities ?? []),
         searchQuery: a.searchQuery ?? '',
         town: a.town ?? null,
         aboutOpen: a.about ?? false,
@@ -143,6 +151,13 @@ export const useAppStore = create<AppState>()((set) => ({
   setLayer: (id, on) => set((s) => ({ layerOverrides: normalizeOverrides(s.activeThemes, { ...s.layerOverrides, [id]: on }) })),
   showAllLayers: () => set((s) => ({ layerOverrides: showAllOverrides(s.activeThemes) })),
   resetLayers: () => set({ layerOverrides: {} }),
+  toggleAmenity: (key) =>
+    set((s) => ({
+      amenityFilters: normalizeAmenities(
+        s.amenityFilters.includes(key) ? s.amenityFilters.filter((k) => k !== key) : [...s.amenityFilters, key],
+      ),
+    })),
+  clearAmenities: () => set({ amenityFilters: [] }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   // Like themes, changing the town never clears the selection: the card stays even if the place is filtered out.
   // Choosing a town (not "all towns") also asks the map to fit its places.

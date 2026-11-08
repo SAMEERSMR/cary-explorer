@@ -2,6 +2,7 @@
 // Desktop wraps the chips; below md they scroll horizontally (the mobile sheet).
 import { useState } from 'react'
 import { useAppStore } from '../../store/useAppStore'
+import { AMENITY_PANEL_ID, AmenityFilters } from '../places/AmenityFilters'
 import { LAYER_PANEL_ID, LayerSwitches } from './LayerSwitches'
 import { THEMES } from './themes'
 
@@ -9,7 +10,9 @@ export function ThemeFilter() {
   const activeThemes = useAppStore((s) => s.activeThemes)
   const toggleTheme = useAppStore((s) => s.toggleTheme)
   const customised = useAppStore((s) => Object.keys(s.layerOverrides).length > 0)
+  const amenitiesActive = useAppStore((s) => s.amenityFilters.length > 0)
   const [layersOpen, setLayersOpen] = useState(false)
+  const [amenitiesOpen, setAmenitiesOpen] = useState(false)
 
   return (
     <div>
@@ -83,8 +86,35 @@ export function ThemeFilter() {
           {customised && <span className="size-2 rounded-full bg-forest" aria-hidden="true" />}
           {customised && <span className="sr-only">(changed)</span>}
         </button>
+        <button
+          type="button"
+          aria-expanded={amenitiesOpen}
+          aria-controls={amenitiesOpen ? AMENITY_PANEL_ID : undefined}
+          onClick={() => setAmenitiesOpen((v) => !v)}
+          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-line bg-white px-3 text-sm font-medium whitespace-nowrap text-ink-muted hover:bg-ground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-1"
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            width={16}
+            height={16}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="shrink-0"
+          >
+            <path d="M4 6h16M7 12h10M10 18h4" />
+          </svg>
+          Amenities
+          {amenitiesActive && <span className="size-2 rounded-full bg-forest" aria-hidden="true" />}
+          {amenitiesActive && <span className="sr-only">(filters on)</span>}
+        </button>
       </div>
       {layersOpen && <LayerSwitches />}
+      {amenitiesOpen && <AmenityFilters />}
     </div>
   )
 }

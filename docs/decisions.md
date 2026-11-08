@@ -274,6 +274,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/lib/fetch-hub.mjs`, `pipeline/scripts/build-catalog.mjs`, `pipeline/sources.config.json`, `docs/source-matrix.md`, #67.
 
+## 25. Amenity filters on verified fields
+
+**Context:** People want to find places with restrooms, parking and similar, but the visit fields are mostly unknown (#84, decision 18).
+
+**Decision:** An "Amenities" disclosure next to "Layers" offers one `aria-pressed` switch per amenity that some loaded place has. Several selected amenities combine with AND, and the filter runs inside `useFilteredPlaces` and the search selection, so pins, geometry, list and search agree. Unknown is never "no": a place without the key is simply not shown while the filter is on, and the UI says so. The URL stores `amenities=restrooms,parking` in fixed order (unknown values dropped, a change is a pushState). The data is the catalog's optional `amenities` list, derived by the pipeline from the same known visit fields (decision 18); the app never reads the per-place files to filter.
+
+**Applies to:** `src/features/places/amenities.ts`, `AmenityFilters.tsx`, `useFilteredPlaces.ts`, `src/lib/urlState.ts`, #84.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

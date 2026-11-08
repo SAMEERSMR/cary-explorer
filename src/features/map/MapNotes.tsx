@@ -8,6 +8,7 @@ import { useFilteredPlaces } from '../places/useFilteredPlaces'
 import { usePlaces } from '../places/usePlaces'
 import { THEMES } from '../themes/themes'
 import { emptyLayersText } from '../themes/layerSelection'
+import { emptyAmenitiesText } from '../places/amenities'
 import { useLayerSearch } from '../search/useLayerSearch'
 import { useMapStatus } from './mapStatus'
 import { useGeometryLayers } from './layers'
@@ -33,7 +34,8 @@ function Card({ title, body, children }: { title: string; body: string; children
 export function MapNotes() {
   const isDesktop = useIsDesktop()
   const { status, error, retry } = usePlaces()
-  const { places: visible } = useFilteredPlaces()
+  const { places: visible, amenityEmpty } = useFilteredPlaces()
+  const amenityFilters = useAppStore((s) => s.amenityFilters)
   const panelCollapsed = useAppStore((s) => s.panelCollapsed)
   const noThemes = useAppStore((s) => s.activeThemes.length === 0)
   const { hiddenLayers } = useLayerSearch('', Infinity)
@@ -92,6 +94,14 @@ export function MapNotes() {
       <Card title="Nothing to show with these layers" body={emptyLayersText(hiddenLayers) ?? ''}>
         <button type="button" onClick={() => useAppStore.getState().showAllLayers()} className={`${primaryButton} mt-3`}>
           Show all layers
+        </button>
+      </Card>
+    )
+  } else if (amenityEmpty) {
+    catalogNote = (
+      <Card title="Nothing to show with these filters" body={emptyAmenitiesText(amenityFilters) ?? ''}>
+        <button type="button" onClick={() => useAppStore.getState().clearAmenities()} className={`${primaryButton} mt-3`}>
+          Clear amenity filters
         </button>
       </Card>
     )

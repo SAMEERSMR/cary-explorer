@@ -3,6 +3,7 @@ import { useAppStore } from '../../store/useAppStore'
 import { useLayerSearch } from '../search/useLayerSearch'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { emptyLayersText } from '../themes/layerSelection'
+import { emptyAmenitiesText } from './amenities'
 import { THEMES, categoryLabel, getTheme } from '../themes/themes'
 import { CoverageLabel } from '../towns/CoverageLabel'
 import { usePlaces } from './usePlaces'
@@ -15,6 +16,8 @@ export function ListView() {
   const activeThemes = useAppStore((s) => s.activeThemes)
   const town = useAppStore((s) => s.town)
   const showAllLayers = useAppStore((s) => s.showAllLayers)
+  const amenityFilters = useAppStore((s) => s.amenityFilters)
+  const clearAmenities = useAppStore((s) => s.clearAmenities)
   const query = useAppStore((s) => s.searchQuery)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
   const setSheetState = useAppStore((s) => s.setSheetState)
@@ -29,7 +32,9 @@ export function ListView() {
     const noThemes = status === 'ready' && activeThemes.length === 0
     const trimmed = query.trim()
     const layerText = status === 'ready' && !noThemes ? emptyLayersText(hiddenLayers) : null
+    const amenityText = status === 'ready' && !noThemes && !layerText ? emptyAmenitiesText(amenityFilters) : null
     const text =
+      amenityText ? amenityText :
       layerText ? `${trimmed ? `No places match “${trimmed}”. ` : 'Nothing to show. '}${layerText}` :
       status === 'loading'
         ? 'Loading places…'
@@ -62,6 +67,11 @@ export function ListView() {
         {layerText && (
           <button type="button" onClick={showAllLayers} className={ACTION_BUTTON}>
             Show all layers
+          </button>
+        )}
+        {amenityText && (
+          <button type="button" onClick={clearAmenities} className={ACTION_BUTTON}>
+            Clear amenity filters
           </button>
         )}
         {noThemes && (

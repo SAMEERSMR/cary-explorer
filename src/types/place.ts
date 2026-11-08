@@ -11,6 +11,18 @@ export type CategoryId =
   | 'community'
   | 'fire-station'
 
+/** Visit fields a place can be filtered by; present only when the field is known with a source. */
+export type AmenityKey =
+  | 'restrooms'
+  | 'parking'
+  | 'playground'
+  | 'picnicShelter'
+  | 'dogPark'
+  | 'walkingTrails'
+  | 'pavedSurface'
+  | 'wheelchair'
+  | 'water'
+
 export interface Place {
   id: string
   name: string
@@ -32,6 +44,8 @@ export interface Place {
   url?: string
   /** True = local dev preview data, never published. */
   localOnly?: boolean
+  /** Visit-field keys that are KNOWN for this place (with a source), in fixed order. Omitted when none. Absence means unknown, never "no". */
+  amenities?: AmenityKey[]
   /** At least one; each id matches a Source in the catalog. */
   sourceIds: string[]
 }

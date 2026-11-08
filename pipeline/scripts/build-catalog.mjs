@@ -19,13 +19,26 @@ import {
   splitByCore,
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
-import { buildVisitFields, verifiedDate } from '../lib/visit.mjs'
+import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const SRC = join(ROOT, 'pipeline', 'sources')
 const OUT = join(ROOT, 'pipeline', '.staging')
+
+// Catalog source id -> registry id (pipeline/sources.config.json), where they differ. The title comes from the registry.
+const REGISTRY_ID = {
+  'cary-parks': 'parks-and-recreation-feature-polygons',
+  'cary-greenways': 'proposed-greenway-trails',
+  'cary-park-features': 'parks-and-recreation-feature-map',
+}
+/** The registry's dataset title for a catalog source id. Throws when the registry has none. */
+export function registryTitle(registry, catalogId) {
+  const entry = registry.find((r) => r.id === (REGISTRY_ID[catalogId] ?? catalogId))
+  if (typeof entry?.title !== 'string' || !entry.title.trim()) throw new Error(`No registry title for catalog source "${catalogId}"`)
+  return entry.title.trim()
+}
 
 const PARK_LEVELS = new Set(['Existing Park', 'Natural Area', 'Community Use Facility'])
 const GREENWAY_MIN_MILES = 0.5
@@ -721,9 +734,12 @@ export function build({ write = true, outDir = OUT } = {}) {
   parkFeatures.sort(byPlace)
   greenFeatures.sort(byPlace)
 
+  const registry = readJson(join(ROOT, 'pipeline', 'sources.config.json'))
+  const title = (id) => registryTitle(registry, id)
   const sources = [
     {
       id: 'cary-parks',
+      title: title('cary-parks'),
       name: 'Town of Cary',
       url: parksMeta.url,
       license: 'CC0 1.0',
@@ -731,6 +747,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     },
     {
       id: 'cary-greenways',
+      title: title('cary-greenways'),
       name: 'Town of Cary',
       url: greenMeta.url,
       license: 'CC0 1.0',
@@ -740,6 +757,7 @@ export function build({ write = true, outDir = OUT } = {}) {
   if (neighbours.length) {
     sources.push({
       id: 'wake-parks',
+      title: title('wake-parks'),
       name: 'Wake County',
       url: 'https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0',
       license: 'CC BY 4.0',
@@ -750,6 +768,7 @@ export function build({ write = true, outDir = OUT } = {}) {
   if (regionalTrails.length) {
     sources.push({
       id: 'wake-greenways',
+      title: title('wake-greenways'),
       name: 'Wake County',
       url: wakeGreenMeta.url,
       license: 'CC BY 4.0',
@@ -768,6 +787,7 @@ export function build({ write = true, outDir = OUT } = {}) {
   if (usedSources.has('wake-park-entrances')) {
     sources.push({
       id: 'wake-park-entrances',
+      title: title('wake-park-entrances'),
       name: 'Wake County',
       url: entrancesMeta.url,
       license: 'CC BY 4.0',
@@ -777,6 +797,7 @@ export function build({ write = true, outDir = OUT } = {}) {
   if (usedSources.has('cary-park-features')) {
     sources.push({
       id: 'cary-park-features',
+      title: title('cary-park-features'),
       name: 'Town of Cary',
       url: featuresMeta.url,
       license: 'CC0 1.0',
@@ -784,6 +805,10 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
+  for (const p of places) {
+    const amenities = amenitiesOf(details[p.id].fields)
+    if (amenities.length) p.amenities = amenities
+  }
   const catalog = { sources, places: places.map(orderPlace) }
   const layer = (features, decimals) =>
     ({
@@ -866,7 +891,7 @@ export function buildDetails(places, visitCtx, entrances, aliasMap, dates) {
 
 function orderPlace(p) {
   const out = {}
-  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'url', 'sourceIds']) {
+  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'url', 'sourceIds', 'amenities']) {
     if (p[k] !== undefined) out[k] = p[k]
   }
   return out

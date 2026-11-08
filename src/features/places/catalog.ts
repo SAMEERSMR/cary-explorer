@@ -41,8 +41,10 @@ function parseSource(item: unknown, index: number, ids: Set<string>): Source {
   }
   if (!nonEmpty(item.license)) return fail('license is required and must be a non-empty string')
   ids.add(item.id)
+  const title = typeof item.title === 'string' ? item.title.trim().slice(0, 200) : ''
   return {
     id: item.id,
+    ...(title ? { title } : {}),
     name: item.name,
     url: item.url,
     license: item.license as string | undefined,

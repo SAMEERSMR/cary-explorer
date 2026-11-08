@@ -19,6 +19,7 @@ const write = (path: string, v: unknown) => {
 
 const source = (id: string) => ({
   id,
+  title: `${id} dataset`,
   name: id,
   url: 'https://example.org/x',
   license: 'CC0 1.0',
@@ -111,6 +112,9 @@ describe('publish gates', () => {
     const v1 = JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8')).version
     const d = JSON.parse(readFileSync(p('staging', 'places', 'a.json'), 'utf8'))
     d.fields[3] = { ...d.fields[3], status: 'known', value: 'Yes', sourceId: 'src-a', verifiedAt: '2026-11-01' }
+    write(p('staging', 'places', 'a.json'), d)
+    expect(run().ok).toBe(false) // catalog amenities no longer match the detail file
+    stage({ places: [place('a', { amenities: ['restrooms'] }), place('b')] })
     write(p('staging', 'places', 'a.json'), d)
     expect(run().ok).toBe(true)
     expect(JSON.parse(readFileSync(p('out', 'manifest.json'), 'utf8')).version).not.toBe(v1)

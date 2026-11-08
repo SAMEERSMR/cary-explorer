@@ -20,13 +20,13 @@ function SourceRow({ row }: { row: CreditsRow }) {
       <p className="flex flex-wrap items-baseline gap-x-2">
         {row.url && publicUrl(row.url) ? (
           <a href={row.url} target="_blank" rel="noopener noreferrer" className={`text-[15px] ${linkClass}`}>
-            {row.name}
+            {row.title}
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         ) : (
-          <span className="text-[15px] font-medium text-ink">{row.name}</span>
+          <span className="text-[15px] font-medium text-ink">{row.title}</span>
         )}
-        {row.name !== row.id && <span className="text-xs">{row.id}</span>}
+        {row.name !== row.title && <span className="text-xs">{row.name}</span>}
         {!row.ok && (
           <span className="rounded-lg bg-sample-bg px-2 py-0.5 text-xs font-semibold text-sample-ink">
             Last refresh failed: showing older data

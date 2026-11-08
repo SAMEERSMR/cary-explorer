@@ -20,6 +20,25 @@ export const VISIT_FIELDS = [
 ]
 export const VISIT_KEYS = VISIT_FIELDS.map(([k]) => k)
 
+/** Visit fields exposed as catalog `amenities` (issue #84), in this fixed order. */
+export const AMENITY_KEYS = [
+  'restrooms',
+  'parking',
+  'playground',
+  'picnicShelter',
+  'dogPark',
+  'walkingTrails',
+  'pavedSurface',
+  'wheelchair',
+  'water',
+]
+
+/** Amenity keys that are known in a place's computed visit fields, in AMENITY_KEYS order. Empty when none. */
+export function amenitiesOf(fields) {
+  const known = new Set((fields ?? []).filter((f) => f?.status === 'known').map((f) => f.key))
+  return AMENITY_KEYS.filter((k) => known.has(k))
+}
+
 /** Sources whose fields explicitly state accessibility. Only these may back a known `wheelchair` value. */
 export const ACCESSIBILITY_SOURCES = new Set(['cary-greenways'])
 

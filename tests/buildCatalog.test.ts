@@ -231,7 +231,8 @@ describe('catalog source titles', () => {
   })
 
   it('the built catalog gives every source its registry title', () => {
-    const catalog = JSON.parse(readFileSync(fileURLToPath(new URL('../pipeline/.staging/catalog.json', import.meta.url)), 'utf8'))
+    // The published release, not pipeline/.staging (git-ignored, absent in CI).
+    const catalog = JSON.parse(readFileSync(release.catalogPath, 'utf8'))
     const registryIds: Record<string, string> = {
       'cary-parks': 'parks-and-recreation-feature-polygons',
       'cary-greenways': 'proposed-greenway-trails',

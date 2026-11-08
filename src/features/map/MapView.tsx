@@ -12,12 +12,14 @@ import Feature from 'ol/Feature'
 import type { Coordinate } from 'ol/coordinate'
 import Point from 'ol/geom/Point'
 import VectorLayer from 'ol/layer/Vector'
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style'
 import VectorSource from 'ol/source/Vector'
 import Cluster from 'ol/source/Cluster'
 import type { FeatureLike } from 'ol/Feature'
 import type BaseLayer from 'ol/layer/Base'
 import { fromLonLat, toLonLat } from 'ol/proj'
 import { useAppStore } from '../../store/useAppStore'
+import { useLocationStore } from '../location/locationStore'
 import type { SheetState } from '../../store/useAppStore'
 import { useIsDesktop } from '../../lib/useIsDesktop'
 import { desktopSelectionPadding, sheetHeightPx } from '../../lib/layout'
@@ -152,6 +154,7 @@ export function MapView() {
   const lineSourceRef = useRef<VectorSource | null>(null)
   const areaSourceRef = useRef<VectorSource | null>(null)
   const selectedGeomSourceRef = useRef<VectorSource | null>(null)
+  const youSourceRef = useRef<VectorSource | null>(null)
   // What the camera last did for the selected place, and whether the user has panned or zoomed since.
   const framedRef = useRef<FramedState | null>(null)
   const movedRef = useRef(false)
@@ -190,6 +193,20 @@ export function MapView() {
     const lineSource = new VectorSource()
     const areaSource = new VectorSource()
     const selectedGeomSource = new VectorSource()
+    // "You are here" dot: only while Near me is on. Not pickable, never moves the camera.
+    const youSource = new VectorSource()
+    const youLayer = new VectorLayer({
+      source: youSource,
+      zIndex: LAYER_Z.selectedPin + 1,
+      style: new Style({
+        image: new CircleStyle({
+          radius: 7,
+          fill: new Fill({ color: '#1a73e8' }),
+          stroke: new Stroke({ color: '#ffffff', width: 3 }),
+        }),
+      }),
+    })
+    youSourceRef.current = youSource
 
     const themeOf = (f: FeatureLike) => getTheme((f.get('theme') as ThemeId | undefined) ?? 'parks-trails').id
     const geometryStyle = (selected: boolean) => (f: FeatureLike) =>
@@ -252,7 +269,7 @@ export function MapView() {
         // to the card, so a pinch then zoomed the whole page. The app is full-screen and never scrolls, so the
         // map always takes wheel and pinch input under the pointer. Keyboard pan/zoom still need map focus.
         interactions: defaultInteractions({ onFocusOnly: false }),
-        layers: [createBasemapLayer(reportTileEvent), areaLayer, lineLayer, clusterLayer, selectedGeomLayer, selectedLayer],
+        layers: [createBasemapLayer(reportTileEvent), areaLayer, lineLayer, clusterLayer, selectedGeomLayer, selectedLayer, youLayer],
         view: new View({
           center: fromLonLat(CARY_CENTER),
           zoom: 12,
@@ -400,6 +417,15 @@ export function MapView() {
       resetMapStatus()
     }
   }, [])
+
+  // Show or clear the "you are here" dot as location turns on or off.
+  const userCoords = useLocationStore((s) => s.coords)
+  useEffect(() => {
+    const source = youSourceRef.current
+    if (!source) return
+    source.clear()
+    if (userCoords) source.addFeature(new Feature({ geometry: new Point(fromLonLat(userCoords)) }))
+  }, [userCoords])
 
   // Rebuild the point features when places, theme filters or the selection change (map is not recreated).
   // The selected place leaves the cluster source and is drawn from its own layer.

@@ -11,6 +11,8 @@ import {
   captureFocusOrigin,
   chooseFocusTarget,
 } from './focusReturn'
+import { distanceMeters, formatMilesShort } from '../location/distance'
+import { useLocationStore } from '../location/locationStore'
 import { CoverageLabel } from '../towns/CoverageLabel'
 import { ConnectedPlaces } from './ConnectedPlaces'
 import { ReleaseLine } from './ReleaseLine'
@@ -37,6 +39,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const { sources } = usePlaces()
   const release = useRelease()
   const proposedPart = hasProposedPart(useGeometryLayers().index.get(place.id))
+  const userCoords = useLocationStore((s) => s.coords)
   const headingRef = useRef<HTMLHeadingElement>(null)
   // Only places whose sources are the placeholder sample source get the "Sample data" badge.
   const isSample = place.sourceIds.includes('sample')
@@ -189,6 +192,12 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
             <p className="text-[13px] leading-snug text-ink-muted">Dashed sections are proposed and not built yet.</p>
           )}
         </div>
+
+        {userCoords && (
+          <p className="text-[13px] leading-snug text-ink-muted">
+            About {formatMilesShort(distanceMeters(userCoords, place.centroid))} from you (straight-line)
+          </p>
+        )}
 
         <p className="text-[15px] leading-relaxed text-ink-soft">
           {place.description || 'A description has not been added yet.'}

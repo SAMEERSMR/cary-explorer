@@ -19,7 +19,7 @@ const serialize = (value) => JSON.stringify(value, null, 1) + '\n'
 const referenced = (m) => {
   const a = m?.artifacts
   if (!a) return new Set()
-  return new Set([a.catalog, a.relationships, ...Object.values(a.layers ?? {}), String(a.places ?? '').replace(/\/$/, '')])
+  return new Set([a.catalog, a.relationships, a.collections, ...Object.values(a.layers ?? {}), String(a.places ?? '').replace(/\/$/, '')])
 }
 
 /** Deletes artifact files and folders that neither the new nor the previous manifest references. */
@@ -32,7 +32,7 @@ function prune(outDir, next, previous) {
       if (test(name) && !keep.has(rel)) rmSync(join(dir, name), { recursive: true, force: true })
     }
   }
-  sweep(outDir, '', (n) => /^(catalog|relationships)(\..+)?\.json(\.tmp-.*)?$/.test(n) || /^manifest\.json\.tmp-/.test(n))
+  sweep(outDir, '', (n) => /^(catalog|relationships|collections)(\..+)?\.json(\.tmp-.*)?$/.test(n) || /^manifest\.json\.tmp-/.test(n))
   sweep(join(outDir, 'layers'), 'layers', () => true)
   sweep(join(outDir, 'places'), 'places', () => true)
 }
@@ -53,7 +53,7 @@ export function publish({
     return fail()
   }
 
-  let catalogText, catalog, layers = {}, layerTexts = {}, relText, relationships
+  let catalogText, catalog, layers = {}, layerTexts = {}, relText, relationships, collTexts, collections
   const details = {}
   const detailTexts = {}
   try {
@@ -81,6 +81,11 @@ export function publish({
       warnings.push('staging has no relationships.json; publishing an empty relationship set')
       relationships = { relationships: [] }
       relText = serialize(relationships)
+    }
+    // Optional: older stagings have no collections.json, and the release then has no collections artifact.
+    if (existsSync(join(stagingDir, 'collections.json'))) {
+      collTexts = readFileSync(join(stagingDir, 'collections.json'), 'utf8')
+      collections = JSON.parse(collTexts)
     }
   } catch (e) {
     errors.push(`could not read staging: ${e.message}`)
@@ -117,7 +122,7 @@ export function publish({
     }
   } else warnings.push('no .last-run.json; source failure gate skipped')
 
-  const result = validateRelease({ catalog, layers, relationships, details, previousManifest, lastRun, env, allowStale })
+  const result = validateRelease({ catalog, layers, relationships, details, collections, previousManifest, lastRun, env, allowStale })
   errors.push(...result.errors)
   warnings.push(...result.warnings)
   if (errors.length) return fail()
@@ -128,6 +133,7 @@ export function publish({
   for (const name of Object.keys(layerTexts).sort()) hash.update(`\0${name}\0${layerTexts[name]}`)
   hash.update(`\0relationships\0${relText}`)
   for (const id of Object.keys(detailTexts).sort()) hash.update(`\0place\0${id}\0${detailTexts[id]}`)
+  if (collTexts !== undefined) hash.update(`\0collections\0${collTexts}`)
   const failed = new Map((lastRun?.sources ?? []).filter((s) => !s.ok).map((s) => [s.id, s]))
   const prevById = new Map((previousManifest?.sources ?? []).map((s) => [s.id, s]))
   const counts = countBySource(catalog)
@@ -159,6 +165,10 @@ export function publish({
   const artifacts = { catalog: `catalog.${h12(catalogText)}.json`, relationships: `relationships.${h12(relText)}.json`, layers: {}, places: `places/${placesHash}/` }
   files[artifacts.catalog] = catalogText
   files[artifacts.relationships] = relText
+  if (collTexts !== undefined) {
+    artifacts.collections = `collections.${h12(collTexts)}.json`
+    files[artifacts.collections] = collTexts
+  }
   for (const name of Object.keys(layerTexts).sort()) {
     const base = name.replace(/\.geojson$/, '')
     artifacts.layers[base] = `layers/${base}.${h12(layerTexts[name])}.geojson`

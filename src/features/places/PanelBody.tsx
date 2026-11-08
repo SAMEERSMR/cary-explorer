@@ -1,5 +1,8 @@
 // Panel content shared by desktop and mobile: the place card, the list view, or a hint.
 import { useAppStore } from '../../store/useAppStore'
+import { CollectionsEntry, CollectionView } from '../collections/CollectionsPanel'
+import { useOpenCollection } from '../collections/collections'
+import { SavedPlaces } from '../favorites/SavedPlaces'
 import { emptyThemeText, emptyThemes, townBySlug } from '../towns/coverage'
 import { getTheme } from '../themes/themes'
 import { usePlaces } from './usePlaces'
@@ -48,13 +51,23 @@ export function PanelBody() {
   const selected = useSelectedPlace()
   const view = useAppStore((s) => s.view)
   const setSelectedPlaceId = useAppStore((s) => s.setSelectedPlaceId)
+  const collectionId = useAppStore((s) => s.collectionId)
+  const openCollection = useOpenCollection(collectionId)
 
   // The list view shows the list even when a place is selected (its row is highlighted); the card shows in map view.
   if (view === 'list') {
     return (
       <>
         <MissingPlaceNote />
-        <ListView />
+        {openCollection ? (
+          <CollectionView />
+        ) : (
+          <>
+            <CollectionsEntry compact />
+            <SavedPlaces compact />
+            <ListView />
+          </>
+        )}
         <div className="mt-3">
           <TownGapNotes />
         </div>
@@ -62,6 +75,14 @@ export function PanelBody() {
     )
   }
   if (selected) return <PlaceCard key={selected.id} place={selected} onClose={() => setSelectedPlaceId(null)} />
+  if (openCollection) {
+    return (
+      <>
+        <MissingPlaceNote />
+        <CollectionView />
+      </>
+    )
+  }
   return (
     <>
       <MissingPlaceNote />
@@ -72,6 +93,8 @@ export function PanelBody() {
         Tap a pin on the map, search by name, or switch to the list.
       </p>
       </div>
+      <CollectionsEntry />
+      <SavedPlaces />
     </>
   )
 }

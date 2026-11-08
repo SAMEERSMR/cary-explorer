@@ -24,6 +24,8 @@ export interface UrlState {
   map: UrlCamera | null
   /** The Credits & privacy dialog is open (`about=1`). Absent means closed. */
   about?: boolean
+  /** Open curated collection id (`collection=<id>`); validated against the release by the app. */
+  collection?: string | null
 }
 /** What a URL can contain; absent keys mean "not specified". */
 export type ParsedUrlState = Partial<{
@@ -36,6 +38,7 @@ export type ParsedUrlState = Partial<{
   town: string
   map: UrlCamera
   about: true
+  collection: string
 }>
 
 export const ALL_THEME_IDS: readonly ThemeId[] = ['parks-trails', 'history', 'birds-wildlife', 'water', 'art-community']
@@ -44,6 +47,7 @@ export const ZOOM_RANGE = { min: 8, max: 20 }
 export const LAT_RANGE = { min: 35.0, max: 36.6 }
 export const LON_RANGE = { min: -79.6, max: -78.0 }
 export const MAX_QUERY_LENGTH = 200
+const COLLECTION_ID = /^[a-z0-9-]{1,60}$/
 const PLACE_ID = /^[a-z0-9-]{1,120}$/
 const NUMBER = /^-?\d{1,6}(\.\d{1,12})?$/
 
@@ -116,6 +120,9 @@ export function parseUrlState(search: string): ParsedUrlState {
     }
 
     if (params.get('about') === '1') out.about = true
+
+    const collection = params.get('collection')
+    if (collection !== null && COLLECTION_ID.test(collection)) out.collection = collection
   } catch {
     return {}
   }
@@ -148,6 +155,7 @@ export function serializeUrlState(state: UrlState): string {
     const zoom = Math.min(ZOOM_RANGE.max, Math.max(ZOOM_RANGE.min, cam.zoom))
     parts.push(`map=${zoom.toFixed(2)}/${cam.lat.toFixed(5)}/${cam.lon.toFixed(5)}`)
   }
+  if (state.collection && COLLECTION_ID.test(state.collection)) parts.push(`collection=${enc(state.collection)}`)
   if (state.about) parts.push('about=1')
   return parts.length ? `?${parts.join('&')}` : ''
 }

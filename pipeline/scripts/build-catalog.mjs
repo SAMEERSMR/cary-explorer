@@ -19,6 +19,7 @@ import {
   splitByCore,
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
+import { buildCollections } from '../lib/collections.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
@@ -823,6 +824,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     'layers/parks.geojson': JSON.stringify(layer(parkFeatures, COORD_DECIMALS)) + '\n',
     'layers/greenways.geojson': JSON.stringify(layer(greenFeatures, COORD_DECIMALS)) + '\n',
     'relationships.json': JSON.stringify(relationships, null, 1) + '\n',
+    'collections.json': JSON.stringify(buildCollections(catalog.places, details), null, 1) + '\n',
   }
   for (const [id, d] of Object.entries(details)) outputs[`places/${id}.json`] = JSON.stringify(d) + '\n'
 

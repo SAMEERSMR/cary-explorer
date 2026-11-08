@@ -30,6 +30,7 @@ export interface UrlApply {
   searchQuery?: string
   town?: string | null
   about?: boolean
+  collectionId?: string | null
   selectedPlaceId: string | null
   missingPlaceId?: string | null
   origin: SelectionOrigin
@@ -56,6 +57,9 @@ interface AppState {
   missingPlaceId: string | null
   // Credits & privacy dialog open (URL `about=1`).
   aboutOpen: boolean
+  // Open curated collection (URL `collection=<id>`); the map and panel show only its places.
+  collectionId: string | null
+  setCollectionId: (id: string | null) => void
   openAbout: () => void
   closeAbout: () => void
   // One-shot camera move for the map (applied by `seq`, no animation).
@@ -97,6 +101,16 @@ export const useAppStore = create<AppState>()((set) => ({
   selectionOrigin: 'user',
   missingPlaceId: null,
   aboutOpen: false,
+  collectionId: null,
+  setCollectionId: (collectionId) =>
+    set((s) => ({
+      collectionId,
+      // Opening shows the panel again; the list is the collection's own, so stay in the current view.
+      panelCollapsed: collectionId !== null ? false : s.panelCollapsed,
+      sheetState: collectionId !== null && s.sheetState === 'peek' ? 'half' : s.sheetState,
+      // Opening a collection frames its places on the map.
+      fitRequest: collectionId !== null ? { seq: (s.fitRequest?.seq ?? 0) + 1 } : s.fitRequest,
+    })),
   openAbout: () => set({ aboutOpen: true }),
   closeAbout: () => set({ aboutOpen: false }),
   cameraRequest: null,
@@ -115,6 +129,7 @@ export const useAppStore = create<AppState>()((set) => ({
         searchQuery: a.searchQuery ?? '',
         town: a.town ?? null,
         aboutOpen: a.about ?? false,
+        collectionId: a.collectionId ?? null,
         view,
         selectedPlaceId: a.selectedPlaceId,
         missingPlaceId: a.missingPlaceId ?? null,

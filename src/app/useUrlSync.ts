@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { useAppStore } from '../store/useAppStore'
 import { catalogStore } from '../features/places/catalogStore'
+import { getCollections } from '../features/collections/collections'
 import { onCameraChange } from '../lib/cameraBus'
 import { parseUrlState, serializeUrlState, type ParsedUrlState, type UrlCamera, type UrlState } from '../lib/urlState'
 
@@ -31,6 +32,7 @@ export function useUrlSync() {
         town: s.town,
         map: camera,
         about: s.aboutOpen,
+        collection: s.collectionId,
       }
     }
     const write = (mode: 'push' | 'replace', state: UrlState) => {
@@ -75,6 +77,7 @@ export function useUrlSync() {
       searchQuery: st.searchQuery,
       town: st.town,
       about: st.aboutOpen,
+      collectionId: st.collectionId,
       selectedPlaceId: selected,
       missingPlaceId: missing,
       origin: pendingOrigin,
@@ -110,6 +113,7 @@ export function useUrlSync() {
           searchQuery: parsed.q,
           town: parsed.town ?? null,
           about: parsed.about === true,
+          collectionId: parsed.collection ?? null,
           selectedPlaceId: selected,
           missingPlaceId: missing,
           origin: parsed.map ? 'url' : 'user',
@@ -121,12 +125,35 @@ export function useUrlSync() {
       }
     }
 
+    // An unknown collection id (not in this release) is ignored: cleared once the collections are known.
+    const checkCollection = () => {
+      if (useAppStore.getState().collectionId === null) return
+      getCollections().then(
+        (list) => {
+          const id = useAppStore.getState().collectionId
+          if (id === null || list.some((c) => c.id === id)) return
+          applying = true
+          try {
+            useAppStore.getState().setCollectionId(null)
+          } finally {
+            applying = false
+          }
+          prev = useAppStore.getState()
+          write('replace', current())
+        },
+        () => {
+          // No collections available: leave the id alone; the panel shows nothing for it.
+        },
+      )
+    }
+
     applyUrl(parseUrlState(window.location.search))
     const unsubCatalog = catalogStore.subscribe(resolvePending)
     catalogStore.ensureLoaded()
     resolvePending()
 
     let prev = useAppStore.getState()
+    checkCollection()
     const unsubStore = useAppStore.subscribe((s) => {
       const before = prev
       prev = s
@@ -134,7 +161,7 @@ export function useUrlSync() {
       // A user action cancels a place still waiting for the catalog.
       if (s.selectedPlaceId !== before.selectedPlaceId) pendingPlace = null
       const placeChanged = s.selectedPlaceId !== before.selectedPlaceId || s.missingPlaceId !== before.missingPlaceId
-      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.layerOverrides !== before.layerOverrides || s.amenityFilters !== before.amenityFilters || s.town !== before.town || s.aboutOpen !== before.aboutOpen
+      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.layerOverrides !== before.layerOverrides || s.amenityFilters !== before.amenityFilters || s.town !== before.town || s.aboutOpen !== before.aboutOpen || s.collectionId !== before.collectionId
       if (structural) {
         const dismissed = before.missingPlaceId !== null && s.missingPlaceId === null && s.selectedPlaceId === before.selectedPlaceId
         // Flush a pending pan into the entry being left, so Back returns to where the user was.
@@ -151,6 +178,7 @@ export function useUrlSync() {
             town: before.town,
             map: camera,
             about: before.aboutOpen,
+            collection: before.collectionId,
           })
         }
         clearTimeout(searchTimer)
@@ -175,6 +203,7 @@ export function useUrlSync() {
       applyUrl(parseUrlState(window.location.search))
       resolvePending()
       prev = useAppStore.getState()
+      checkCollection()
     }
     window.addEventListener('popstate', onPopState)
 

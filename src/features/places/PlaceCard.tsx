@@ -11,6 +11,7 @@ import {
   captureFocusOrigin,
   chooseFocusTarget,
 } from './focusReturn'
+import { FavoriteButton } from '../favorites/FavoriteButton'
 import { distanceMeters, formatMilesShort } from '../location/distance'
 import { useLocationStore } from '../location/locationStore'
 import { CoverageLabel } from '../towns/CoverageLabel'
@@ -208,6 +209,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
         <VisitInfo place={place} sources={sources} />
 
         <div className="space-y-2">
+          <FavoriteButton placeId={place.id} />
           <div className={showOfficialLink ? 'grid grid-cols-2 gap-2' : undefined}>
             {showOfficialLink && (
               <a

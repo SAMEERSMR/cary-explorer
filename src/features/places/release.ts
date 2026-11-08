@@ -27,6 +27,8 @@ export interface Release {
   relationshipsUrl: string
   /** Folder URL ending in "/"; a place file is this plus `<id>.json`. */
   placesBaseUrl: string
+  /** Curated collections file; absent in older releases. */
+  collectionsUrl?: string
   /** Parsed and kept; nothing loads these yet. */
   layerUrls: Record<string, string>
   /** Sources behind this release; entries without a string id are skipped. */
@@ -80,6 +82,8 @@ export function parseManifest(raw: unknown): Release {
   const catalogUrl = resolve(artifacts.catalog, 'artifacts.catalog')
   const relationshipsUrl = resolve(artifacts.relationships, 'artifacts.relationships')
   const placesBaseUrl = resolve(artifacts.places, 'artifacts.places', true)
+  const collectionsUrl =
+    artifacts.collections === undefined ? undefined : resolve(artifacts.collections, 'artifacts.collections')
   const layerUrls: Record<string, string> = {}
   if (artifacts.layers !== undefined) {
     if (!isRecord(artifacts.layers)) throw new Error('Manifest "artifacts.layers" must be an object.')
@@ -97,6 +101,7 @@ export function parseManifest(raw: unknown): Release {
     catalogUrl,
     relationshipsUrl,
     placesBaseUrl,
+    collectionsUrl,
     layerUrls,
     sources: parseSources(raw.sources),
   }

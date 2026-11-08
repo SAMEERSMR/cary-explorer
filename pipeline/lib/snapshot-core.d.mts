@@ -2,7 +2,7 @@ export interface Source {
   id: string
   publisher: string
   title: string
-  type: 'ods' | 'arcgis'
+  type: 'ods' | 'arcgis' | 'arcgis-hub'
   url: string
   licence: string
   licenceStatus: 'open' | 'restricted' | 'unclear'
@@ -10,6 +10,8 @@ export interface Source {
   cadence: 'weekly' | 'monthly'
   fields: string[]
   where?: string
+  hubItemId?: string
+  hubLayer?: number
   dir: string
   enabled: boolean
 }

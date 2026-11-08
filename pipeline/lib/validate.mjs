@@ -9,7 +9,7 @@ const OPTIONAL_COUNTIES = ['Chatham', 'Durham']
 const LAYERED_CATEGORIES = new Set(['park', 'trail'])
 // Sources that publish layer geometry; their park/trail places need at least one layer feature.
 export const GREENWAY_STATUSES = new Set(['existing', 'proposed'])
-export const LAYER_SOURCES = new Set(['cary-parks', 'cary-greenways'])
+export const LAYER_SOURCES = new Set(['cary-parks', 'cary-greenways', 'wake-greenways'])
 
 const inBounds = (p) =>
   Array.isArray(p) &&

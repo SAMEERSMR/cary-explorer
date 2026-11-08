@@ -239,6 +239,36 @@
     "enabled": true
   },
   {
+    "id": "wake-greenways",
+    "publisher": "Wake County GIS",
+    "title": "Greenways in Wake County, NC",
+    "type": "arcgis-hub",
+    "url": "https://maps.wake.gov/arcgis/rest/services/OpenSpace/Greenways/MapServer/0",
+    "hubItemId": "3f75595edc244c35812675b226021258",
+    "hubLayer": 0,
+    "where": "OBJECTID>0",
+    "licence": "CC-BY-4.0",
+    "licenceStatus": "open",
+    "attribution": "Wake County GIS (CC BY 4.0)",
+    "cadence": "monthly",
+    "fields": [
+      "OBJECTID",
+      "TRAIL_NAME",
+      "CORRIDOR_NAME",
+      "OWNER",
+      "TRAIL_STATUS",
+      "TRAIL_SURFACE",
+      "TRAIL_CLASS",
+      "ACCESSIBILITY_STATUS",
+      "PUBLIC_ACCESS",
+      "BIKE",
+      "HIKE",
+      "DOG"
+    ],
+    "dir": "wake/greenways",
+    "enabled": true
+  },
+  {
     "id": "census-places",
     "publisher": "US Census Bureau",
     "title": "TIGERweb Incorporated Places (North Carolina, 12 study towns)",

@@ -15,6 +15,7 @@ import {
   pointInGeometry,
   pointInPolygon,
   polygonsOf,
+  simplifyLine,
   splitByCore,
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
@@ -321,6 +322,139 @@ export function greenwayFeatures(placeId, existingLines, proposedLinesRaw, scope
   return out
 }
 
+// ---------- Wake County greenways (regional trails outside Cary) ----------
+
+/** Layer simplification for regional trails, in metres. Cary's own greenways are not simplified. */
+export const WAKE_GREENWAY_SIMPLIFY_M = 5
+const CARY_OWNERS = new Set(['town of cary', 'cary'])
+// Same rule as Cary (GREENWAY_EXCLUDE), plus names that are only a street ("Davis Drive") or a development path.
+const WAKE_GREENWAY_EXCLUDE = new RegExp(
+  `${GREENWAY_EXCLUDE.source}|sidepath|\\bside$|multi.?use (side)?path|\\b(dr|drive|rd|road|blvd|pkwy|parkway|ave|avenue|ln|lane|st|street|way)$|\\bdev$`,
+  'i',
+)
+const OWNER_LABELS = { cor: 'Raleigh' }
+
+/** Length in metres of an array of lines. */
+export function lineLengthM(lines) {
+  let m = 0
+  for (const line of lines) for (let i = 1; i < line.length; i++) m += haversineM(line[i - 1], line[i])
+  return m
+}
+
+/** Wake's TRAIL_STATUS -> the layer status, or undefined when the source says something else (planned and under construction are not trails yet). */
+export function wakeGreenwayStatus(raw) {
+  const s = normalize(raw)
+  if (s === 'existing') return 'existing'
+  if (s === 'proposed') return 'proposed'
+  return undefined
+}
+
+/** "City of Raleigh" / "COR" -> "Raleigh"; blank owners -> undefined. */
+export function wakeOwnerLabel(owner) {
+  const o = String(owner ?? '').trim()
+  if (!o) return undefined
+  return OWNER_LABELS[o.toLowerCase()] ?? stripJurisdiction(o)
+}
+
+/** The surface that covers most of the length, lowercase ("asphalt"), ignoring blank and "other"; undefined when no segment states one. */
+export function dominantSurface(segments) {
+  const by = new Map()
+  for (const s of segments) {
+    const k = normalize(s.surface)
+    if (!k || k === 'other') continue
+    by.set(k, (by.get(k) ?? 0) + s.lengthM)
+  }
+  return [...by.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0]?.[0]
+}
+
+/**
+ * Group Wake County greenway segments by normalized trail name (TRAIL_NAME, else CORRIDOR_NAME), leaving out
+ * Cary-owned segments (Cary's CC0 greenways win), private paths and unnamed segments, then apply the Cary keep rules
+ * (at least 0.5 mi of existing trail, not a connector, street-side, sidewalk or street name).
+ * Returns { kept, dropped, skipped: { cary, private, unnamed, notExisting } }; entries are
+ * { key, name, miles, lines, segments, owners, surface, proposedLines }.
+ */
+export function groupWakeGreenways(features) {
+  const groups = new Map()
+  const skipped = { cary: 0, private: 0, unnamed: 0, notExisting: 0 }
+  for (const f of features) {
+    const p = f.properties ?? {}
+    const owner = String(p.OWNER ?? '').trim().toLowerCase()
+    if (CARY_OWNERS.has(owner)) {
+      skipped.cary++
+      continue
+    }
+    if (owner === 'private') {
+      skipped.private++
+      continue
+    }
+    const rawName = String(p.TRAIL_NAME ?? '').trim() || String(p.CORRIDOR_NAME ?? '').trim()
+    const key = normalize(rawName)
+    if (!key) {
+      skipped.unnamed++
+      continue
+    }
+    const status = wakeGreenwayStatus(p.TRAIL_STATUS)
+    const lines = linesOf(f.geometry)
+    if (!status || !lines.length) {
+      skipped.notExisting++
+      continue
+    }
+    let g = groups.get(key)
+    if (!g) groups.set(key, (g = { key, names: [], lengthM: 0, lines: [], proposedLines: [], segments: 0, owners: new Map(), parts: [] }))
+    if (status === 'proposed') {
+      g.proposedLines.push(...lines)
+      continue
+    }
+    const lengthM = lineLengthM(lines)
+    g.names.push(rawName)
+    g.lengthM += lengthM
+    g.lines.push(...lines)
+    g.segments++
+    const label = wakeOwnerLabel(p.OWNER)
+    if (label) g.owners.set(label, (g.owners.get(label) ?? 0) + lengthM)
+    g.parts.push({ surface: p.TRAIL_SURFACE, lengthM })
+  }
+  const kept = []
+  const dropped = []
+  for (const g of groups.values()) {
+    if (!g.segments) continue // proposed-only: never creates a place
+    const owners = [...g.owners.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).map(([o]) => o)
+    const entry = {
+      key: g.key,
+      name: displayName(g.names),
+      miles: g.lengthM / 1609.344,
+      lines: g.lines,
+      proposedLines: g.proposedLines,
+      segments: g.segments,
+      owners,
+      surface: dominantSurface(g.parts),
+    }
+    ;(entry.miles >= GREENWAY_MIN_MILES && !WAKE_GREENWAY_EXCLUDE.test(g.key) ? kept : dropped).push(entry)
+  }
+  const byKey = (a, b) => a.key.localeCompare(b.key)
+  kept.sort(byKey)
+  dropped.sort(byKey)
+  return { kept, dropped, skipped }
+}
+
+/**
+ * The existing place a Wake greenway duplicates: same normalized name (or alias) and some vertex of the trail within
+ * 1 km of that place's centroid. Checked against Cary greenways and parks and the Wake parks added before it.
+ * Returns { twin, distanceM } or undefined.
+ */
+export function findTrailTwin(name, lines, candidates) {
+  const wn = normalize(name)
+  let best
+  for (const c of candidates) {
+    if (!c.names.has(wn)) continue
+    let d = Infinity
+    for (const line of lines) for (const p of line) d = Math.min(d, haversineM(c.centroid, p))
+    if (d <= DEDUPE_M && (!best || d < best.distanceM)) best = { twin: c, distanceM: Math.round(d) }
+  }
+  return best
+}
+
 export function build({ write = true, outDir = OUT } = {}) {
   const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
   const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
@@ -330,6 +464,8 @@ export function build({ write = true, outDir = OUT } = {}) {
   const towns = readJson(join(SRC, 'census', 'places', 'data.geojson'))
   const wake = readJson(join(SRC, 'wake', 'parks', 'data.geojson'))
   const wakeMeta = readJson(join(SRC, 'wake', 'parks', 'meta.json'))
+  const wakeGreenData = readJson(join(SRC, 'wake', 'greenways', 'data.geojson'))
+  const wakeGreenMeta = readJson(join(SRC, 'wake', 'greenways', 'meta.json'))
   const entrancesData = readJson(join(SRC, 'wake', 'park-entrances', 'data.geojson'))
   const entrancesMeta = readJson(join(SRC, 'wake', 'park-entrances', 'meta.json'))
   const featuresMeta = readJson(join(cary('parks-and-recreation-feature-map'), 'meta.json'))
@@ -489,7 +625,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     wakeKeys.push({ key, prefix: 'wake-park', name })
     neighbours.push({ f, name: String(name).trim().replace(/\s+/g, ' '), pt })
   }
-  const allIds = assignIds(ids, wakeKeys)
+  let allIds = assignIds(ids, wakeKeys)
   const jurisdictionMismatches = []
   for (const n of neighbours) {
     const centroidPt = roundPos(n.pt, COORD_DECIMALS)
@@ -518,6 +654,53 @@ export function build({ write = true, outDir = OUT } = {}) {
     places.push(place)
     visitCtx.set(place.id, { wake: n.f.properties })
     relItems.push({ id: place.id, kind: 'park', points: [place.centroid] })
+  }
+
+  // Wake County greenways outside Cary: named systems become trail places, lines go to the greenways layer.
+  const wakeGw = groupWakeGreenways(wakeGreenData.features)
+  const trailCandidates = places.map((p) => ({
+    id: p.id,
+    centroid: p.centroid,
+    names: new Set([p.name, ...(p.aliases ?? []), ...(aliasMap[p.id] ?? [])].map(normalize).filter(Boolean)),
+  }))
+  const regionalTrails = []
+  const trailDedupeSkips = []
+  for (const g of wakeGw.kept) {
+    const { lines: clipped } = clipToLimit(g.lines, scope.crossing, scope.core)
+    const lines = clipped.map((l) => simplifyLine(l, WAKE_GREENWAY_SIMPLIFY_M)).filter((l) => l.length >= 2)
+    if (!lines.length || classifyLine(lines, scope) === 'outside') continue
+    const hit = findTrailTwin(g.name, lines, trailCandidates)
+    if (hit) {
+      trailDedupeSkips.push({ name: g.name, twinId: hit.twin.id, distanceM: hit.distanceM })
+      continue
+    }
+    regionalTrails.push({ g, lines })
+  }
+  allIds = assignIds(allIds, regionalTrails.map(({ g }) => ({ key: `wake-greenways:${g.key}`, prefix: 'wake-greenway', name: g.name })))
+  for (const { g, lines } of regionalTrails) {
+    const id = allIds[`wake-greenways:${g.key}`]
+    const c = vertexNearestBboxCentre(lines.flat())
+    const county = countyOf(c, counties)
+    const miles = fmtNumber(g.miles)
+    const owner = g.owners[0]
+    places.push({
+      id,
+      name: g.name,
+      aliases: [],
+      category: 'trail',
+      municipality: municipalityOf(c, towns, county),
+      county,
+      coverage: classifyLine(lines, scope),
+      centroid: c,
+      bbox: bboxOf(lines.flat()),
+      description:
+        `Greenway listed by Wake County${owner ? `, owned by ${owner}` : ''}, about ${miles} ${miles === '1' ? 'mile' : 'miles'} of existing trail` +
+        `${g.surface ? `, mostly ${g.surface}` : ''} (from Wake County's greenways layer).`,
+      sourceIds: ['wake-greenways'],
+    })
+    visitCtx.set(id, {})
+    greenFeatures.push(...greenwayFeatures(id, lines, g.proposedLines.map((l) => simplifyLine(l, WAKE_GREENWAY_SIMPLIFY_M)), scope))
+    relItems.push({ id, kind: 'trail', lines })
   }
 
   for (const p of places) {
@@ -561,6 +744,16 @@ export function build({ write = true, outDir = OUT } = {}) {
       url: 'https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0',
       license: 'CC BY 4.0',
       retrievedAt: wakeMeta.retrievedAt,
+    })
+  }
+
+  if (regionalTrails.length) {
+    sources.push({
+      id: 'wake-greenways',
+      name: 'Wake County',
+      url: wakeGreenMeta.url,
+      license: 'CC BY 4.0',
+      retrievedAt: wakeGreenMeta.retrievedAt,
     })
   }
 
@@ -626,6 +819,8 @@ export function build({ write = true, outDir = OUT } = {}) {
     neighbours: neighbours.length,
     skipped: { inCary: skippedInCary, outside: skippedOutside, duplicate: skippedDuplicate },
     dedupeSkips,
+    trailDedupeSkips,
+    wakeGreenways: { kept: wakeGw.kept, dropped: wakeGw.dropped, skipped: wakeGw.skipped, imported: regionalTrails.length },
     jurisdictionMismatches,
     ids: allIds,
   }
@@ -700,6 +895,8 @@ function main() {
   console.log(`places with >=1 link: ${r.catalog.places.length - none.length}/${r.catalog.places.length} (${(((r.catalog.places.length - none.length) / r.catalog.places.length) * 100).toFixed(1)}%), none: ${none.length}`)
   console.log(`nearest-fallback links: ${rl.filter((x) => x.basis === 'nearest').length}`)
   for (const d of r.dedupeSkips) console.log(`dedupe skip: Wake "${d.name}" == ${d.caryId} (${d.distanceM} m)`)
+  for (const d of r.trailDedupeSkips) console.log(`dedupe skip: Wake greenway "${d.name}" == ${d.twinId} (${d.distanceM} m)`)
+  console.log(`wake greenways imported ${r.wakeGreenways.imported}, kept groups ${r.wakeGreenways.kept.length}, dropped ${r.wakeGreenways.dropped.length}; skipped segments`, r.wakeGreenways.skipped)
   console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}; skipped`, r.skipped)
   console.log('by municipality:', tally('municipality'))
   console.log(`JURISDICTION mismatches: ${r.jurisdictionMismatches.length}`)

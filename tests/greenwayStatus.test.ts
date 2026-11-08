@@ -44,7 +44,9 @@ describe('built greenways', () => {
   it('creates no place or feature for proposed-only greenways, and ignores proposed in the bbox', () => {
     const trails = out.catalog.places.filter((p: any) => p.sourceIds.includes('cary-greenways'))
     const placeIds = new Set(trails.map((p: any) => p.id))
-    expect(features.every((f: any) => placeIds.has(f.properties.placeId))).toBe(true)
+    const layered = new Set(out.catalog.places.filter((p: any) => p.sourceIds.some((s: string) => s === 'cary-greenways' || s === 'wake-greenways')).map((p: any) => p.id))
+    expect(features.every((f: any) => layered.has(f.properties.placeId))).toBe(true)
+    expect(trails.every((p: any) => placeIds.has(p.id))).toBe(true)
     const names = new Set(trails.map((p: any) => normalize(p.name)))
     expect(names.size).toBe(trails.length)
     for (const p of trails) {

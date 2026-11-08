@@ -66,7 +66,7 @@ Updated 2026-11-08 after #67. "Trail places" counts named systems of at least 0.
 
 | Town | Parks | Trails | Trail places | Notes and what is pending |
 |---|---|---|---|---|
-| Cary | data (Cary CC0) | data (Cary CC0) | n/a (Cary's own 46 greenway places) | Complete for the town limits, all three county parts |
+| Cary | data (Cary CC0) | data (Cary CC0) | n/a (Cary's own 46 greenway places) | Town limits used for filtering; coverage shown as counts per theme |
 | Raleigh | data (Wake parks, 125 points) | data | 26 | Wake lists 271 Raleigh-owned segments. Raleigh's own layer (1,266 lines, parks as polygons) is pending licence |
 | Apex | data | data | 9 | Wake lists 195 Apex-owned segments. Apex layers (parks polygons, 847 bike/ped lines) are pending licence |
 | Wake Forest | data | data | 10 | 2021 town layer is stale and unlicensed; 2026 layer host returns 403 |
@@ -186,15 +186,17 @@ The Durham part is 0.08 sq km in three pieces. The Chatham part is 5.6 sq km. Ca
 
 Town filters default to the full town limits, all county parts. Several towns have parts outside Wake, and our sources are mostly Wake-only.
 
-| Town | Out-of-Wake part | Usable source for that part (open or clearable) | Coverage label |
-|---|---|---|---|
-| Cary | Chatham, Durham | Cary layers (CC0) cover both for parks and trails. Other themes region-wide only | "Complete: Wake, Chatham and Durham parts" is true for parks and trails only. Add per-theme notes for art and community |
-| Apex | Chatham | Wake layers do not reach it. Town of Apex layers cover the whole town but licences are unclear and not checked by location. Chatham layers: unlicensed or restricted. HPO, eBird, iNaturalist, USGS NHD cover it region-wide | "Wake portion complete. The Chatham portion shows nearby places only." |
-| Morrisville | Durham | No open source. Town of Morrisville layers (unclear). Durham layers unlicensed | Same wording with "Durham portion" |
-| Raleigh | Durham | No open source. Raleigh layers (unclear) are city-wide, Durham Bike & Hike is unlicensed | Same wording with "Durham portion" |
-| Wake Forest | Franklin | None found for Franklin County | "Wake portion complete. The Franklin portion shows nearby places only." |
+Labels are not typed per town. `src/features/towns/coverage.ts` derives them from catalog counts: `townNote` builds "Parks: N · Trails: N in this town's data", adds a count for each other theme with places, and adds the other-county sentence for the four towns below. A theme with no places in the town is a gap, shown as "[Theme] places for [Town] aren't in the app yet." Nothing is labelled "complete".
 
-The other seven towns lie wholly in Wake. Their label "Complete: whole town is in Wake County" is not enough, because Wake data has no trails, public art or history for several of them. Suggested rule: show the "Complete" label per theme, only where the matrix has a usable source. Otherwise show "No data yet for [theme]". The towns with a `gap` in a theme are:
+| Town | Out-of-Wake part | Usable source for that part (open or clearable) | Other-county sentence in the app |
+|---|---|---|---|
+| Cary | Chatham, Durham | Cary layers (CC0) cover both for parks and trails. Other themes region-wide only | None (counts only). Art and community still need per-theme sources |
+| Apex | Chatham | Wake layers do not reach it. Town of Apex layers cover the whole town but licences are unclear and not checked by location. Chatham layers: unlicensed or restricted. HPO, eBird, iNaturalist, USGS NHD cover it region-wide | "Part of Apex is in Chatham County; places there aren't counted here and show only if they're near Wake." |
+| Morrisville | Durham | No open source. Town of Morrisville layers (unclear). Durham layers unlicensed | "Part of Morrisville is in Durham County; places there aren't counted here and show only if they're near Wake." |
+| Raleigh | Durham | No open source. Raleigh layers (unclear) are city-wide, Durham Bike & Hike is unlicensed | "Part of Raleigh is in Durham County; places there aren't counted here and show only if they're near Wake." |
+| Wake Forest | Franklin | None found for Franklin County | "Part of Wake Forest is in Franklin County; places there aren't counted here and show only if they're near Wake." |
+
+The other seven towns lie wholly in Wake and show counts only. Unincorporated Wake adds "Wake County outside town limits". The counts do not claim completeness: for example, Wake data has no trails, public art or history for several of them. The towns with a `gap` in a theme are:
 
 - **Trails**: Wendell and Zebulon have none, and Knightdale one trail (the other nine towns have Wake greenways data after #67; see "Parks and trails status by town").
 - **Public art**: every row except Cary, Raleigh and Apex.

@@ -108,7 +108,7 @@ Use these to check the pipeline and the filters.
 | 8 | A stream crossing the Wake/Durham line inside the buffer | Whole stream kept; no break at the county line |
 | 9 | Buffer set to 12 mi in config | Clamped to 10 mi |
 | 10 | A park in unincorporated Wake | In scope, town = none, found under "Unincorporated Wake" |
-| 11 | A place in Morrisville's Durham part | Town = Morrisville; coverage label "Wake portion complete" with a note about the Durham part |
+| 11 | A place in Morrisville's Durham part | Town = Morrisville; coverage note is derived from catalog counts (for example "Parks: N · Trails: N in this town's data") and adds "Part of Morrisville is in Durham County; places there aren't counted here and show only if they're near Wake." |
 
 ## 6. Open questions for the owner
 

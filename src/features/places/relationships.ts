@@ -33,7 +33,7 @@ export function parseRelationships(payload: unknown): Relationship[] {
     if (typeof distanceM === 'number' && Number.isFinite(distanceM) && distanceM >= 0) {
       rel.distanceM = distanceM
     }
-    if (basis === 'within-400m' || basis === 'nearest') rel.basis = basis
+    if (basis === 'within-400m' || basis === 'nearest' || basis === 'watershed') rel.basis = basis
     out.push(rel)
   }
   return out
@@ -75,6 +75,10 @@ function formatMiles(distanceM: number): string {
 }
 
 function labelFor(rel: Relationship, placeId: string, other: Place): string {
+  if (rel.kind === 'contained' && rel.basis === 'watershed') {
+    // Boundary membership only; never a flow or downstream claim.
+    return rel.from === placeId ? `In the ${other.name.replace(/ watershed$/i, '')} watershed` : `${other.name} is in this watershed`
+  }
   if (rel.kind === 'contained') {
     return rel.from === placeId ? `Runs through ${other.name}` : `${other.name} runs through this park`
   }
@@ -83,6 +87,8 @@ function labelFor(rel: Relationship, placeId: string, other: Place): string {
     rel.distanceM === undefined ? 'Nearby (straight line)' : `About ${formatMiles(rel.distanceM)} away (straight line)`
   return rel.basis === 'nearest' ? `Closest place: ${away}` : away
 }
+
+const isWatershed = (r: Relationship) => r.kind === 'contained' && r.basis === 'watershed'
 
 const KIND_ORDER: Record<Relationship['kind'], number> = { contained: 0, curated: 1, nearby: 2 }
 
@@ -99,6 +105,7 @@ export function connectionsFor(
 ): Connection[] {
   const sorted = [...(index.get(placeId) ?? [])].sort(
     (a, b) =>
+      Number(isWatershed(b)) - Number(isWatershed(a)) ||
       KIND_ORDER[a.kind] - KIND_ORDER[b.kind] ||
       (a.distanceM ?? Infinity) - (b.distanceM ?? Infinity),
   )
@@ -138,4 +145,15 @@ export function useRelationships(): RelationshipIndex | null {
     }
   }, [release])
   return index
+}
+
+const COUNT_WORDS = ['', 'one', 'two', 'three', 'four']
+
+/** Explains a park that lies in more than one watershed; null for everything else. */
+export function divideNote(placeId: string, index: RelationshipIndex, placesById: ReadonlyMap<string, Place>): string | null {
+  if (placesById.get(placeId)?.category !== 'park') return null
+  const n = new Set(
+    (index.get(placeId) ?? []).filter((r) => isWatershed(r) && r.from === placeId && placesById.has(r.to)).map((r) => r.to),
+  ).size
+  return n >= 2 ? `This park sits on a divide between ${COUNT_WORDS[n] ?? n} watersheds.` : null
 }

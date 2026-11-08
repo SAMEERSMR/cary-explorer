@@ -7,10 +7,10 @@ export const BOUNDS = { lonMin: -80.0, lonMax: -77.8, latMin: 35.0, latMax: 36.6
 export const COUNT_CHANGE_LIMIT = 0.3
 const REQUIRED_COUNTY = 'Wake'
 const OPTIONAL_COUNTIES = ['Chatham', 'Durham']
-const LAYERED_CATEGORIES = new Set(['park', 'trail'])
+const LAYERED_CATEGORIES = new Set(['park', 'trail', 'water'])
 // Sources that publish layer geometry; their park/trail places need at least one layer feature.
 export const GREENWAY_STATUSES = new Set(['existing', 'proposed'])
-export const LAYER_SOURCES = new Set(['cary-parks', 'cary-greenways', 'wake-greenways'])
+export const LAYER_SOURCES = new Set(['cary-parks', 'cary-greenways', 'wake-greenways', 'usgs-wbd-huc12'])
 
 const inBounds = (p) =>
   Array.isArray(p) &&

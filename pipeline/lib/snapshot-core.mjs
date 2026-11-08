@@ -24,6 +24,7 @@ export function validateRegistry(sources) {
     if (!LICENCE_STATUS.has(s.licenceStatus)) errors.push(`${where}: bad licenceStatus ${s.licenceStatus}`)
     if (!CADENCE.has(s.cadence)) errors.push(`${where}: bad cadence ${s.cadence}`)
     if (s.where !== undefined && (typeof s.where !== 'string' || !s.where.trim())) errors.push(`${where}: where must be a non-empty string`)
+    if (s.bbox !== undefined && !(Array.isArray(s.bbox) && s.bbox.length === 4 && s.bbox.every((n) => Number.isFinite(n)) && s.bbox[0] < s.bbox[2] && s.bbox[1] < s.bbox[3])) errors.push(`${where}: bbox must be [west, south, east, north]`)
     if (s.type === 'arcgis-hub' && !/^[0-9a-f]{32}$/.test(String(s.hubItemId ?? ''))) errors.push(`${where}: arcgis-hub needs hubItemId (32 hex)`)
     if (!Array.isArray(s.fields)) errors.push(`${where}: fields must be an array`)
     if (typeof s.enabled !== 'boolean') errors.push(`${where}: enabled must be boolean`)

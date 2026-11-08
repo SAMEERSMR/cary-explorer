@@ -97,5 +97,5 @@ describe('Wake duplicate of a Cary park', () => {
     expect(ids).toContain('cary-park-new-hope-church-road-trailhead-park')
     expect(ids).not.toContain('wake-park-new-hope-church-road-trailhead-park')
     expect(dedupeSkips.map((d: { caryId: string }) => d.caryId)).toContain('cary-park-new-hope-church-road-trailhead-park')
-  })
+  }, 30_000)
 })

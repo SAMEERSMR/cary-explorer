@@ -2,9 +2,10 @@
 import { mkdir, readFile, rename, writeFile, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fetchArcgis } from './fetch-arcgis.mjs'
+import { fetchHub } from './fetch-hub.mjs'
 import { fetchOds } from './fetch-ods.mjs'
 
-const TYPES = new Set(['ods', 'arcgis'])
+const TYPES = new Set(['ods', 'arcgis', 'arcgis-hub'])
 const LICENCE_STATUS = new Set(['open', 'restricted', 'unclear'])
 const CADENCE = new Set(['weekly', 'monthly'])
 const REQUIRED = ['id', 'publisher', 'title', 'type', 'url', 'licence', 'licenceStatus', 'attribution', 'cadence', 'fields', 'dir', 'enabled']
@@ -23,6 +24,7 @@ export function validateRegistry(sources) {
     if (!LICENCE_STATUS.has(s.licenceStatus)) errors.push(`${where}: bad licenceStatus ${s.licenceStatus}`)
     if (!CADENCE.has(s.cadence)) errors.push(`${where}: bad cadence ${s.cadence}`)
     if (s.where !== undefined && (typeof s.where !== 'string' || !s.where.trim())) errors.push(`${where}: where must be a non-empty string`)
+    if (s.type === 'arcgis-hub' && !/^[0-9a-f]{32}$/.test(String(s.hubItemId ?? ''))) errors.push(`${where}: arcgis-hub needs hubItemId (32 hex)`)
     if (!Array.isArray(s.fields)) errors.push(`${where}: fields must be an array`)
     if (typeof s.enabled !== 'boolean') errors.push(`${where}: enabled must be boolean`)
     if (s.enabled && s.licenceStatus !== 'open') errors.push(`${where}: enabled source must have licenceStatus "open" (is "${s.licenceStatus}")`)
@@ -65,7 +67,7 @@ async function writeAtomic(path, text, tag) {
 
 /** Fetch one source, check the count, and only then replace data.geojson / meta.json. Throws on failure. */
 export async function snapshotSource(source, { fetch: fetchFn = globalThis.fetch, outRoot, now = () => new Date() } = {}) {
-  const adapter = source.type === 'arcgis' ? fetchArcgis : fetchOds
+  const adapter = source.type === 'arcgis' ? fetchArcgis : source.type === 'arcgis-hub' ? fetchHub : fetchOds
   const raw = await adapter(source, { fetch: fetchFn })
   const retrievedAt = now().toISOString()
   if (raw.features.length !== raw.expectedCount) {

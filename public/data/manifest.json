@@ -1,14 +1,14 @@
 {
- "version": "234281b2521fd5b1",
- "generatedFrom": "2026-11-07T17:40:46.521Z",
+ "version": "e2446972f2cf7b34",
+ "generatedFrom": "2026-11-07T21:09:55.268Z",
  "artifacts": {
-  "catalog": "catalog.7462e19b5925.json",
-  "relationships": "relationships.bbfba91afdb4.json",
+  "catalog": "catalog.3cf77ad1b30d.json",
+  "relationships": "relationships.fe1fb8e791c5.json",
   "layers": {
-   "greenways": "layers/greenways.a597a9cb7855.geojson",
+   "greenways": "layers/greenways.87e56a2d9f7f.geojson",
    "parks": "layers/parks.4aee84a0f2c8.geojson"
   },
-  "places": "places/013a6ae0fd06/"
+  "places": "places/8d1e917c20b8/"
  },
  "sources": [
   {
@@ -36,6 +36,15 @@
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:39.429Z",
+   "ok": true
+  },
+  {
+   "id": "wake-greenways",
+   "recordCount": 73,
+   "retrievedAt": "2026-11-07T21:09:55.268Z",
+   "licence": "CC BY 4.0",
+   "licenceStatus": "declared",
+   "lastSuccess": "2026-11-07T21:09:55.268Z",
    "ok": true
   },
   {

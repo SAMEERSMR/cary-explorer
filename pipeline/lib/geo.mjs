@@ -175,3 +175,40 @@ export function haversineM(a, b) {
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(a[1] * rad) * Math.cos(b[1] * rad) * Math.sin(dLon / 2) ** 2
   return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)))
 }
+
+/**
+ * Douglas-Peucker simplification of one line, tolerance in metres (local equirectangular projection, good to a few
+ * cm over a county). Always keeps both end points, so joined segments still meet. Iterative (no recursion limit).
+ */
+export function simplifyLine(line, toleranceM) {
+  if (line.length <= 2 || !(toleranceM > 0)) return line
+  const lat0 = (line[0][1] * Math.PI) / 180
+  const kx = 111320 * Math.cos(lat0)
+  const ky = 110574
+  const pts = line.map((p) => [p[0] * kx, p[1] * ky])
+  const keep = new Uint8Array(line.length)
+  keep[0] = keep[line.length - 1] = 1
+  const stack = [[0, line.length - 1]]
+  while (stack.length) {
+    const [a, b] = stack.pop()
+    let worst = -1
+    let worstD = toleranceM
+    const [ax, ay] = pts[a]
+    const dx = pts[b][0] - ax
+    const dy = pts[b][1] - ay
+    const len2 = dx * dx + dy * dy
+    for (let i = a + 1; i < b; i++) {
+      const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((pts[i][0] - ax) * dx + (pts[i][1] - ay) * dy) / len2))
+      const d = Math.hypot(pts[i][0] - (ax + t * dx), pts[i][1] - (ay + t * dy))
+      if (d > worstD) {
+        worstD = d
+        worst = i
+      }
+    }
+    if (worst !== -1) {
+      keep[worst] = 1
+      stack.push([a, worst], [worst, b])
+    }
+  }
+  return line.filter((_, i) => keep[i])
+}

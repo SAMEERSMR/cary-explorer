@@ -20,7 +20,9 @@ The same output comes from the same snapshots, so a re-run on unchanged snapshot
 
 `pipeline/sources.config.json` lists every source:
 
-`id`, `publisher`, `title`, `type` (`ods` or `arcgis`), `url`, `licence`, `licenceStatus` (`open`, `restricted` or `unclear`), `attribution`, `cadence` (`weekly` or `monthly`), `fields` (public field allowlist), `dir`, `enabled`.
+`id`, `publisher`, `title`, `type` (`ods`, `arcgis` or `arcgis-hub`), `url`, `licence`, `licenceStatus` (`open`, `restricted` or `unclear`), `attribution`, `cadence` (`weekly` or `monthly`), `fields` (public field allowlist), `dir`, `enabled`.
+
+An `arcgis-hub` source also needs `hubItemId` (the 32-character item id) and may set `hubLayer` and `where`. It downloads a fresh GeoJSON export from ArcGIS Hub for public items whose own REST host is unreachable (`pipeline/lib/fetch-hub.mjs`). The run fails unless the Hub dataset's `license` equals the registry `licence` and the export count equals the dataset's record count.
 
 Only `open` sources can be enabled. Sources that are `restricted` or `unclear` stay out of the pipeline until their terms are confirmed.
 
@@ -60,6 +62,10 @@ Code that reads published data resolves paths through `pipeline/lib/release.mjs`
 ## Greenways layer status
 
 Every feature in `layers/greenways.<h>.geojson` has `{ placeId, status, outsideCore }`, with `status` either `"existing"` or `"proposed"`. A greenway place gets its existing lines first, then its proposed lines (each split into core and outside-core parts). Proposed segments are included only when their normalized name matches a greenway that already became a place, so proposed-only greenways add no places or features. Place centroid, bbox and visit fields come from existing segments only.
+
+## Regional trails (Wake greenways)
+
+`wake/greenways` (Wake County, CC BY 4.0) feeds trail places outside Cary. `build-catalog.mjs` leaves out Cary-owned and private segments, groups the rest by `TRAIL_NAME` (else `CORRIDOR_NAME`), keeps groups of at least 0.5 mi that are not connectors, street-side paths or street names, and skips a trail whose name matches an existing place with a vertex within 1 km of it (logged as `dedupe skip: Wake greenway ...`). Kept trails become `wake-greenway-<slug>` places (category `trail`, town by Census place point-in-polygon) and `existing` features in the greenways layer, simplified to 5 m (`WAKE_GREENWAY_SIMPLIFY_M`) to stay inside the layer budget. Park entrances are not turned into places.
 
 ## Size budgets
 

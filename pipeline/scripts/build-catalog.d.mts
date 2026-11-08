@@ -51,6 +51,8 @@ export function build(options?: { write?: boolean; outDir?: string }): {
     relationships: { from: string; to: string; kind: string; distanceM?: number; basis?: string }[]
   }
   dedupeSkips: { name: string; caryId: string; distanceM: number }[]
+  trailDedupeSkips: { name: string; twinId: string; distanceM: number }[]
+  wakeGreenways: { kept: WakeGreenwayGroup[]; dropped: WakeGreenwayGroup[]; skipped: { cary: number; private: number; unnamed: number; notExisting: number }; imported: number }
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
   outputs: Record<string, string>
   details: Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[] }>
@@ -84,3 +86,28 @@ export function buildDetails(
   aliasMap: Record<string, string[]>,
   dates: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string },
 ): Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[] }>
+export const WAKE_GREENWAY_SIMPLIFY_M: number
+export function lineLengthM(lines: Position[][]): number
+export function wakeGreenwayStatus(raw: unknown): 'existing' | 'proposed' | undefined
+export function wakeOwnerLabel(owner: unknown): string | undefined
+export function dominantSurface(segments: { surface?: unknown; lengthM: number }[]): string | undefined
+export interface WakeGreenwayGroup {
+  key: string
+  name: string
+  miles: number
+  lines: Position[][]
+  proposedLines: Position[][]
+  segments: number
+  owners: string[]
+  surface: string | undefined
+}
+export function groupWakeGreenways(features: unknown[]): {
+  kept: WakeGreenwayGroup[]
+  dropped: WakeGreenwayGroup[]
+  skipped: { cary: number; private: number; unnamed: number; notExisting: number }
+}
+export function findTrailTwin(
+  name: unknown,
+  lines: Position[][],
+  candidates: { id: string; centroid: Position; names: Set<string> }[],
+): { twin: { id: string; centroid: Position; names: Set<string> }; distanceM: number } | undefined

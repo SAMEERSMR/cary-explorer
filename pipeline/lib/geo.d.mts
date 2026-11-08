@@ -29,3 +29,4 @@ export function clipToLimit(
 ): { lines: Position[][]; partsOutsideCore: boolean }
 export function splitByCore(lines: Position[][], core: Prepared): { inside: Position[][]; outside: Position[][] }
 export function haversineM(a: Position, b: Position): number
+export function simplifyLine(line: Position[], toleranceM: number): Position[]

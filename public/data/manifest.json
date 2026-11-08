@@ -20,7 +20,9 @@
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:42.606Z",
-   "ok": true
+   "ok": true,
+   "cadence": "weekly",
+   "cadenceDays": 7
   },
   {
    "id": "cary-park-features",
@@ -29,7 +31,9 @@
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:43.353Z",
-   "ok": true
+   "ok": true,
+   "cadence": "weekly",
+   "cadenceDays": 7
   },
   {
    "id": "cary-parks",
@@ -38,7 +42,9 @@
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:39.429Z",
-   "ok": true
+   "ok": true,
+   "cadence": "weekly",
+   "cadenceDays": 7
   },
   {
    "id": "usgs-wbd-huc12",
@@ -47,7 +53,9 @@
    "licence": "Public domain (USGS)",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-08T06:53:56.840Z",
-   "ok": true
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
   },
   {
    "id": "wake-greenways",
@@ -56,7 +64,9 @@
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T21:09:55.268Z",
-   "ok": true
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
   },
   {
    "id": "wake-park-entrances",
@@ -65,7 +75,9 @@
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:09.979Z",
-   "ok": true
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
   },
   {
    "id": "wake-parks",
@@ -74,7 +86,9 @@
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-07T17:40:46.521Z",
-   "ok": true
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
   }
  ]
 }

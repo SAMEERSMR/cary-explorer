@@ -4,7 +4,9 @@ import type { Source } from '../../types/place'
 
 export interface CreditsRow {
   id: string
-  /** Catalog source name, or the id when the catalog has no source with that id. */
+  /** Main label: the dataset title, else the publisher name, else the id. */
+  title: string
+  /** Publisher (catalog source name), or the id when the catalog has no source with that id. */
   name: string
   /** Catalog source url, when there is one. */
   url?: string
@@ -32,9 +34,11 @@ export function buildCreditsRows(manifestSources: ManifestSource[], catalogSourc
   return manifestSources.map((m) => {
     const cat = byId.get(m.id)
     const name = cat?.name.trim() || m.id
+    const title = cat?.title?.trim() || name
     const licence = m.licence?.trim() || cat?.license?.trim() || LICENCE_UNKNOWN
     return {
       id: m.id,
+      title,
       name,
       url: cat?.url,
       licence,

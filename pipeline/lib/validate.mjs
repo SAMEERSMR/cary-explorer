@@ -1,4 +1,4 @@
-import { validateDetail } from './visit.mjs'
+import { amenitiesOf, validateDetail } from './visit.mjs'
 
 // Release gates. validateRelease({ catalog, layers, relationships, previousManifest, lastRun, env, allowStale })
 //   layers: { [name]: FeatureCollection }; details: { [placeId]: parsed places/<id>.json } (null skips the check); returns { ok, errors[], warnings[] }.
@@ -53,6 +53,7 @@ export function validateRelease({
       errors.push(`source "${s.id}": retrievedAt missing or unparseable`)
     }
     if (typeof s.license !== 'string' || !s.license.trim()) errors.push(`source "${s.id}": licence missing`)
+    if (typeof s.title !== 'string' || !s.title.trim()) errors.push(`source "${s.id}": dataset title missing`)
   }
 
   // Unique ids + coordinates
@@ -104,6 +105,18 @@ export function validateRelease({
     for (const [id, d] of Object.entries(details)) {
       if (!ids.has(id)) errors.push(`places/${id}.json: id "${id}" is not in the catalog`)
       else errors.push(...validateDetail(d, id, sourceIds))
+    }
+    // Catalog amenities must equal the known amenity fields of the place's detail file (same order, nothing extra or missing).
+    for (const p of places) {
+      const d = details[p.id]
+      if (!d || !Array.isArray(d.fields)) continue
+      const expected = amenitiesOf(d.fields)
+      const actual = p.amenities ?? []
+      if (p.amenities !== undefined && (!Array.isArray(p.amenities) || p.amenities.length === 0)) {
+        errors.push(`place "${p.id}": amenities must be omitted when empty`)
+      } else if (actual.length !== expected.length || actual.some((k, i) => k !== expected[i])) {
+        errors.push(`place "${p.id}": amenities [${actual.join(', ')}] do not match known detail fields [${expected.join(', ')}]`)
+      }
     }
   }
 

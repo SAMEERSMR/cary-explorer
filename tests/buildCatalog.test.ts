@@ -12,6 +12,7 @@ import {
   groupParks,
   normalize,
   pointInPolygon,
+  registryTitle,
   slug,
   vertexNearestBboxCentre,
 } from '../pipeline/scripts/build-catalog.mjs'
@@ -211,5 +212,31 @@ describe('generated catalog', () => {
     expect(search('Bond park')[0].name).toBe('Fred G. Bond Metro Park')
     const att = places.find((p) => p.name === 'American Tobacco Trail')
     if (att) expect(search('ATT')[0].id).toBe(att.id)
+  })
+})
+
+describe('catalog source titles', () => {
+  const registry = JSON.parse(readFileSync(fileURLToPath(new URL('../pipeline/sources.config.json', import.meta.url)), 'utf8')) as {
+    id: string
+    title: string
+  }[]
+  const titleOf = (id: string) => registry.find((r) => r.id === id)?.title
+
+  it('maps catalog ids to the registry entry title', () => {
+    expect(registryTitle(registry, 'cary-parks')).toBe(titleOf('parks-and-recreation-feature-polygons'))
+    expect(registryTitle(registry, 'cary-greenways')).toBe(titleOf('proposed-greenway-trails'))
+    expect(registryTitle(registry, 'cary-park-features')).toBe(titleOf('parks-and-recreation-feature-map'))
+    expect(registryTitle(registry, 'wake-greenways')).toBe(titleOf('wake-greenways'))
+    expect(() => registryTitle(registry, 'nope')).toThrow()
+  })
+
+  it('the built catalog gives every source its registry title', () => {
+    const catalog = JSON.parse(readFileSync(fileURLToPath(new URL('../pipeline/.staging/catalog.json', import.meta.url)), 'utf8'))
+    const registryIds: Record<string, string> = {
+      'cary-parks': 'parks-and-recreation-feature-polygons',
+      'cary-greenways': 'proposed-greenway-trails',
+      'cary-park-features': 'parks-and-recreation-feature-map',
+    }
+    for (const s of catalog.sources) expect(s.title).toBe(titleOf(registryIds[s.id] ?? s.id))
   })
 })

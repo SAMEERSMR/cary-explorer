@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 // @ts-expect-error untyped .mjs pipeline modules
 import { validateRelease } from '../pipeline/lib/validate.mjs'
-import { buildVisitFields, validateDetail, VISIT_KEYS } from '../pipeline/lib/visit.mjs'
+import { AMENITY_KEYS, amenitiesOf, buildVisitFields, validateDetail, VISIT_KEYS } from '../pipeline/lib/visit.mjs'
 import { buildDetails, joinEntrances } from '../pipeline/scripts/build-catalog.mjs'
 
 const dates = { wake: '2026-09-01', entrances: '2026-09-02', caryFeatures: '2026-10-31', greenways: '2026-11-01' }
@@ -155,7 +155,7 @@ describe('validation', () => {
   })
 
   it('validateRelease requires a detail file per place and rejects orphans', () => {
-    const src = { id: 'wake-parks', name: 'W', url: 'https://example.org', license: 'CC0 1.0', retrievedAt: '2026-11-06T12:00:00.000Z' }
+    const src = { id: 'wake-parks', title: 'Parks in Wake County', name: 'W', url: 'https://example.org', license: 'CC0 1.0', retrievedAt: '2026-11-06T12:00:00.000Z' }
     const place = (id: string) => ({ id, name: id, aliases: [], category: 'park', county: 'Wake', centroid: [-78.8, 35.8], sourceIds: ['wake-parks'] })
     const catalog = { sources: [src], places: [place('a'), place('b')] }
     const res = validateRelease({ catalog, details: { a: { id: 'a', fields: fields() }, ghost: { id: 'ghost', fields: fields() } } })
@@ -163,3 +163,39 @@ describe('validation', () => {
     expect(res.errors.join('\n')).toContain('"ghost" is not in the catalog')
   })
 })
+
+describe('catalog amenities', () => {
+  const src = { id: 'wake-parks', title: 'Parks in Wake County', name: 'W', url: 'https://example.org', license: 'CC0 1.0', retrievedAt: '2026-11-06T12:00:00.000Z' }
+  const mk = (id: string, extra: Record<string, unknown> = {}) => ({ id, name: id, aliases: [], category: 'park', county: 'Wake', centroid: [-78.8, 35.8], sourceIds: ['wake-parks'], ...extra })
+  const det = (wake: Record<string, string>) => ({ id: 'a', fields: buildVisitFields({ wake, dates }) })
+  const check = (place: object, details: object) => validateRelease({ catalog: { sources: [src], places: [place] }, details: { a: details } })
+
+  it('lists known amenity keys in the fixed order and omits the list when empty', () => {
+    const fields = buildVisitFields({ wake: { WALKINGTRAILS: 'Yes', PLAYGROUND: 'Yes', RESTROOMS: 'Yes', DOGPARK: 'No' }, dates })
+    expect(amenitiesOf(fields)).toEqual(['restrooms', 'playground', 'walkingTrails'])
+    expect(amenitiesOf(buildVisitFields({ dates }))).toEqual([])
+    expect(AMENITY_KEYS).toEqual(['restrooms', 'parking', 'playground', 'picnicShelter', 'dogPark', 'walkingTrails', 'pavedSurface', 'wheelchair', 'water'])
+  })
+
+  it('passes when the catalog list equals the known detail fields', () => {
+    expect(check(mk('a', { amenities: ['restrooms', 'playground'] }), det({ RESTROOMS: 'Yes', PLAYGROUND: 'Yes' })).errors).toEqual([])
+    expect(check(mk('a'), det({})).errors).toEqual([])
+  })
+
+  it('fails when an amenity is listed but not known, missing, misordered or empty', () => {
+    const d = det({ RESTROOMS: 'Yes', PLAYGROUND: 'Yes' })
+    expect(check(mk('a', { amenities: ['restrooms', 'playground', 'dogPark'] }), d).errors.join()).toContain('do not match')
+    expect(check(mk('a', { amenities: ['restrooms'] }), d).errors.join()).toContain('do not match')
+    expect(check(mk('a'), d).errors.join()).toContain('do not match')
+    expect(check(mk('a', { amenities: ['playground', 'restrooms'] }), d).errors.join()).toContain('do not match')
+    expect(check(mk('a', { amenities: [] }), det({})).errors.join()).toContain('omitted when empty')
+  })
+
+  it('requires a dataset title on every catalog source', () => {
+    const { title: _t, ...untitled } = src
+    const res = validateRelease({ catalog: { sources: [untitled, { ...src, id: 'x', title: '  ' }], places: [mk('a')] } })
+    expect(res.errors.join('\n')).toContain('source "wake-parks": dataset title missing')
+    expect(res.errors.join('\n')).toContain('source "x": dataset title missing')
+  })
+})
+

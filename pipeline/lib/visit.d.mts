@@ -27,3 +27,5 @@ export function buildVisitFields(ctx?: {
   dates?: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string }
 }): VisitField[]
 export function validateDetail(detail: unknown, placeId: string, sourceIds?: Set<string>): string[]
+export const AMENITY_KEYS: VisitKey[]
+export function amenitiesOf(fields: Pick<VisitField, 'key' | 'status'>[] | undefined): VisitKey[]

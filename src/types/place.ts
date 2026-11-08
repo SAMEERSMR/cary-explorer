@@ -38,6 +38,9 @@ export interface Place {
 
 export interface Source {
   id: string
+  /** Dataset title (e.g. "Greenway Trails (existing and proposed)"). */
+  title?: string
+  /** Publisher. */
   name: string
   url: string
   license?: string

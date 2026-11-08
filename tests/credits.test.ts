@@ -35,6 +35,12 @@ const manifestSources = (...items: ReturnType<typeof man>[]) =>
   }).sources
 
 describe('buildCreditsRows', () => {
+  it('uses the dataset title as the label, falling back to the publisher name, then the id', () => {
+    const rows = buildCreditsRows(manifestSources(man('a'), man('b'), man('c')), [cat('a', { title: 'Greenways in Wake County, NC' }), cat('b')])
+    expect(rows.map((r) => r.title)).toEqual(['Greenways in Wake County, NC', 'Name b', 'c'])
+    expect(rows[0].name).toBe('Name a')
+  })
+
   it('joins manifest and catalog sources by id and keeps manifest order', () => {
     const rows = buildCreditsRows(manifestSources(man('b'), man('a')), [cat('a'), cat('b')])
     expect(rows.map((r) => r.id)).toEqual(['b', 'a'])

@@ -2,6 +2,7 @@
  "sources": [
   {
    "id": "cary-parks",
+   "title": "Parks and Recreation Feature Polygons",
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
    "license": "CC0 1.0",
@@ -9,6 +10,7 @@
   },
   {
    "id": "cary-greenways",
+   "title": "Greenway Trails (existing and proposed)",
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
    "license": "CC0 1.0",
@@ -16,13 +18,23 @@
   },
   {
    "id": "wake-parks",
+   "title": "Parks in Wake County",
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
    "license": "CC BY 4.0",
    "retrievedAt": "2026-11-07T17:40:46.521Z"
   },
   {
+   "id": "wake-greenways",
+   "title": "Greenways in Wake County, NC",
+   "name": "Wake County",
+   "url": "https://maps.wake.gov/arcgis/rest/services/OpenSpace/Greenways/MapServer/0",
+   "license": "CC BY 4.0",
+   "retrievedAt": "2026-11-07T21:09:55.268Z"
+  },
+  {
    "id": "wake-park-entrances",
+   "title": "Park Entrances in Wake County",
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Park_Entrances/FeatureServer/0",
    "license": "CC BY 4.0",
@@ -30,6 +42,7 @@
   },
   {
    "id": "cary-park-features",
+   "title": "Parks and Recreation Feature Map",
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/",
    "license": "CC0 1.0",
@@ -58,6 +71,10 @@
    "description": "Town of Cary greenway, about 0.8 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface",
+    "wheelchair"
    ]
   },
   {
@@ -83,6 +100,11 @@
    "description": "Town of Cary greenway, about 11 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "restrooms",
+    "walkingTrails",
+    "pavedSurface"
    ]
   },
   {
@@ -106,6 +128,9 @@
    "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -129,6 +154,9 @@
    "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -152,6 +180,9 @@
    "description": "Town of Cary greenway, about 1.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -175,6 +206,9 @@
    "description": "Town of Cary greenway, about 7.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -198,6 +232,9 @@
    "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -221,6 +258,9 @@
    "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -244,6 +284,9 @@
    "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -267,6 +310,9 @@
    "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -290,6 +336,9 @@
    "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -313,6 +362,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -336,6 +388,9 @@
    "description": "Town of Cary greenway, about 2.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -359,6 +414,9 @@
    "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -382,6 +440,9 @@
    "description": "Town of Cary greenway, about 1.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -405,6 +466,9 @@
    "description": "Town of Cary greenway, about 2.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -428,6 +492,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -451,6 +518,9 @@
    "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -474,6 +544,9 @@
    "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -497,6 +570,9 @@
    "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -520,6 +596,9 @@
    "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -543,6 +622,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -566,6 +648,9 @@
    "description": "Town of Cary greenway, about 1.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -589,6 +674,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -612,6 +700,9 @@
    "description": "Town of Cary greenway, about 1.2 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -635,6 +726,9 @@
    "description": "Town of Cary greenway, about 1.1 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -658,6 +752,9 @@
    "description": "Town of Cary greenway, about 2.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -681,6 +778,9 @@
    "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -704,6 +804,9 @@
    "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -727,6 +830,9 @@
    "description": "Town of Cary greenway, about 0.8 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -750,6 +856,9 @@
    "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -773,6 +882,9 @@
    "description": "Town of Cary greenway, about 1 mile of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -796,6 +908,9 @@
    "description": "Town of Cary greenway, about 3.3 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -819,6 +934,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -842,6 +960,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -865,6 +986,9 @@
    "description": "Town of Cary greenway, about 0.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -888,6 +1012,9 @@
    "description": "Town of Cary greenway, about 1.3 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -911,6 +1038,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -934,6 +1064,9 @@
    "description": "Town of Cary greenway, about 3.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -957,6 +1090,9 @@
    "description": "Town of Cary greenway, about 1.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -980,6 +1116,9 @@
    "description": "Town of Cary greenway, about 0.6 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1003,6 +1142,9 @@
    "description": "Town of Cary greenway, about 0.7 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1026,6 +1168,9 @@
    "description": "Town of Cary greenway, about 0.5 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1049,6 +1194,9 @@
    "description": "Town of Cary greenway, about 1.4 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1072,6 +1220,9 @@
    "description": "Town of Cary greenway, about 6.9 miles of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1095,6 +1246,9 @@
    "description": "Town of Cary greenway, about 1 mile of existing trail (from Cary's greenway dataset).",
    "sourceIds": [
     "cary-greenways"
+   ],
+   "amenities": [
+    "pavedSurface"
    ]
   },
   {
@@ -1144,6 +1298,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/annie-jones-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -1214,6 +1373,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/carpenter-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -1237,6 +1403,9 @@
    "description": "Town of Cary community facility, about 1.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -1260,6 +1429,9 @@
    "description": "Town of Cary park, about 1.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -1307,6 +1479,10 @@
    "url": "https://www.carync.gov/recreation-enjoyment/facilities/cary-tennis-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -1768,6 +1944,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/davis-drive-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -1791,6 +1974,10 @@
    "description": "Town of Cary park, about 5.7 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -1814,6 +2001,9 @@
    "description": "Town of Cary park, about 0.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -1863,6 +2053,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/fred-g-bond-metro-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -1886,6 +2083,9 @@
    "description": "Town of Cary park, about 30 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -1910,6 +2110,10 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/green-hope-elementary-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "playground"
    ]
   },
   {
@@ -1933,6 +2137,9 @@
    "description": "Town of Cary park, about 5.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -1957,6 +2164,12 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/harold-d-ritter-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -2003,6 +2216,10 @@
    "description": "Town of Cary park, about 1.5 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2030,6 +2247,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/stevens-nature-center-at-hemlock-bluffs-nature-preserve",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2053,6 +2275,9 @@
    "description": "Town of Cary community facility, about 2.7 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -2123,6 +2348,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/jack-smith-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark"
    ]
   },
   {
@@ -2169,6 +2401,11 @@
    "description": "Town of Cary park, about 14 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2192,6 +2429,10 @@
    "description": "Town of Cary park, about 2.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -2216,6 +2457,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/lions-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2240,6 +2486,10 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/macdonald-woods-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2264,6 +2514,12 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/marla-dorrel-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -2287,6 +2543,9 @@
    "description": "Town of Cary park, about 0.3 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "walkingTrails"
    ]
   },
   {
@@ -2310,6 +2569,13 @@
    "description": "Town of Cary park, about 109 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2334,6 +2600,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/mills-school-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2381,6 +2652,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/new-hope-church-road-trailhead-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -2405,6 +2681,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/north-cary-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2428,6 +2711,10 @@
    "description": "Town of Cary community facility, about 0.8 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2451,6 +2738,10 @@
    "description": "Town of Cary park, about 15 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2475,6 +2766,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/r-s-dunham-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2499,6 +2795,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/facilities/sk8-cary",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -2523,6 +2826,10 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/rose-street-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2547,6 +2854,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/sears-farm-road-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2593,6 +2907,10 @@
    "description": "Town of Cary park, about 39 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2617,6 +2935,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/thomas-brooks-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2663,6 +2988,10 @@
    "description": "Town of Cary park, about 1.1 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2686,6 +3015,9 @@
    "description": "Town of Cary park, about 12 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -2733,6 +3065,11 @@
    "url": "https://www.carync.gov/recreation-enjoyment/facilities/wakemed-soccer-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2757,6 +3094,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/walnut-street-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2804,6 +3148,13 @@
    "url": "https://www.carync.gov/recreation-enjoyment/parks-greenways-environment/parks/white-oak-park",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2827,6 +3178,1694 @@
    "description": "Town of Cary park, about 0.1 acres (from Cary's parks dataset).",
    "sourceIds": [
     "cary-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
+   ]
+  },
+  {
+   "id": "wake-greenway-abbotts-creek-trail",
+   "name": "Abbotts Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.576813,
+    35.911268
+   ],
+   "bbox": [
+    -78.593238,
+    35.904405,
+    -78.560439,
+    35.916522
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 3.3 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-activity-path",
+   "name": "Activity Path",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.515726,
+    35.995261
+   ],
+   "bbox": [
+    -78.517127,
+    35.994322,
+    -78.514298,
+    35.996047
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.8 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-avent-ferry-stephens-farm",
+   "name": "Avent Ferry Stephens Farm",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.842192,
+    35.638132
+   ],
+   "bbox": [
+    -78.843175,
+    35.634251,
+    -78.838535,
+    35.642451
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 0.8 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-baileywick-trail",
+   "name": "Baileywick Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.669323,
+    35.906063
+   ],
+   "bbox": [
+    -78.66972,
+    35.902204,
+    -78.668263,
+    35.910181
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 0.6 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-basil-creek-trail",
+   "name": "Basil Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.810724,
+    35.626639
+   ],
+   "bbox": [
+    -78.814798,
+    35.623323,
+    -78.809198,
+    35.628427
+   ],
+   "description": "Greenway listed by Wake County, owned by Fuquay-Varina, about 0.7 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-bass-lake-loop",
+   "name": "Bass Lake Loop",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.804995,
+    35.639115
+   ],
+   "bbox": [
+    -78.808793,
+    35.633738,
+    -78.800989,
+    35.643002
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 1.9 miles of existing trail, mostly natural (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-beaver-creek-greenway",
+   "name": "Beaver Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.886907,
+    35.73122
+   ],
+   "bbox": [
+    -78.905806,
+    35.717205,
+    -78.870752,
+    35.736313
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 3.3 miles of existing trail, mostly boardwalk/concrete (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-beaver-creek-south-trail",
+   "name": "Beaver Creek South Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.866441,
+    35.729362
+   ],
+   "bbox": [
+    -78.870752,
+    35.727385,
+    -78.862896,
+    35.730536
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 0.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-beaver-dam-trail",
+   "name": "Beaver Dam Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.674726,
+    35.804441
+   ],
+   "bbox": [
+    -78.67866,
+    35.798672,
+    -78.672817,
+    35.811838
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 1.2 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-carl-dean-greenway",
+   "name": "Carl Dean Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.816587,
+    35.635498
+   ],
+   "bbox": [
+    -78.825004,
+    35.634257,
+    -78.808221,
+    35.640681
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 1.3 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-cedar-ridge-trail",
+   "name": "Cedar Ridge Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.734306,
+    35.847664
+   ],
+   "bbox": [
+    -78.742874,
+    35.846162,
+    -78.724608,
+    35.848275
+   ],
+   "description": "Greenway listed by Wake County, owned by Umstead State Park, about 1.2 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-community-lake-trail",
+   "name": "Community Lake Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.820375,
+    35.750566
+   ],
+   "bbox": [
+    -78.825649,
+    35.746372,
+    -78.815442,
+    35.753806
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 2.3 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-company-mill-trail",
+   "name": "Company Mill Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.75698,
+    35.845082
+   ],
+   "bbox": [
+    -78.764091,
+    35.840213,
+    -78.747715,
+    35.856998
+   ],
+   "description": "Greenway listed by Wake County, about 4.3 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-crabtree-creek-trail",
+   "name": "Crabtree Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.621647,
+    35.814418
+   ],
+   "bbox": [
+    -78.705681,
+    35.771914,
+    -78.543365,
+    35.845774
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 16 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-depot-trail",
+   "name": "Depot Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.746465,
+    35.574129
+   ],
+   "bbox": [
+    -78.756226,
+    35.570709,
+    -78.735315,
+    35.57767
+   ],
+   "description": "Greenway listed by Wake County, owned by Fuquay-Varina, about 1.7 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-dunn-creek-greenway",
+   "name": "Dunn Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.50269,
+    35.96246
+   ],
+   "bbox": [
+    -78.504444,
+    35.954904,
+    -78.497952,
+    35.969536
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 1.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-dunn-creek-greenway-phase-4",
+   "name": "Dunn Creek Greenway Phase 4",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.485364,
+    35.989526
+   ],
+   "bbox": [
+    -78.489418,
+    35.988084,
+    -78.483899,
+    35.992859
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-east-fork-mine-creek-trail",
+   "name": "East Fork Mine Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.641809,
+    35.88253
+   ],
+   "bbox": [
+    -78.651941,
+    35.87128,
+    -78.633781,
+    35.894344
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 2.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-falls-lake-trail",
+   "name": "Falls Lake Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.641844,
+    35.971084
+   ],
+   "bbox": [
+    -78.70372,
+    35.928428,
+    -78.581018,
+    36.013962
+   ],
+   "description": "Greenway listed by Wake County, about 30 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-gardner-street-trail",
+   "name": "Gardner Street Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.668016,
+    35.796018
+   ],
+   "bbox": [
+    -78.670194,
+    35.791842,
+    -78.665467,
+    35.800176
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 0.8 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-haddon-hall-greenway",
+   "name": "Haddon Hall Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.868159,
+    35.743361
+   ],
+   "bbox": [
+    -78.868816,
+    35.741838,
+    -78.864818,
+    35.745471
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 0.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-hare-snipe-creek-trail",
+   "name": "Hare Snipe Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.698886,
+    35.875367
+   ],
+   "bbox": [
+    -78.70186,
+    35.862435,
+    -78.694795,
+    35.888648
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 3.7 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-hatcher-creek",
+   "name": "Hatcher Creek",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.839965,
+    35.816303
+   ],
+   "bbox": [
+    -78.84503,
+    35.815249,
+    -78.833016,
+    35.816941
+   ],
+   "description": "Greenway listed by Wake County, owned by Morrisville, about 0.8 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-heritage-high-soft-trail",
+   "name": "Heritage High Soft Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.510594,
+    35.945129
+   ],
+   "bbox": [
+    -78.512972,
+    35.942198,
+    -78.508057,
+    35.948583
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.8 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-hilltop-needmore-town-park-and-preserve-trail",
+   "name": "Hilltop Needmore Town Park & Preserve Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.737479,
+    35.632403
+   ],
+   "bbox": [
+    -78.742968,
+    35.625223,
+    -78.731588,
+    35.638779
+   ],
+   "description": "Greenway listed by Wake County, owned by Fuquay-Varina, about 4.9 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
+   ]
+  },
+  {
+   "id": "wake-greenway-honeycutt-creek-trail",
+   "name": "Honeycutt Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.620963,
+    35.909914
+   ],
+   "bbox": [
+    -78.633781,
+    35.89421,
+    -78.605952,
+    35.928034
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 3.8 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-horse-creek-soft-trail",
+   "name": "Horse Creek Soft Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.543275,
+    35.990649
+   ],
+   "bbox": [
+    -78.546565,
+    35.989154,
+    -78.539039,
+    35.991981
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.7 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-house-creek-trail",
+   "name": "House Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.685785,
+    35.821631
+   ],
+   "bbox": [
+    -78.693171,
+    35.802135,
+    -78.675681,
+    35.836682
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 3.2 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-indian-creek",
+   "name": "Indian Creek",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.841284,
+    35.831101
+   ],
+   "bbox": [
+    -78.84566,
+    35.821312,
+    -78.828853,
+    35.840511
+   ],
+   "description": "Greenway listed by Wake County, owned by Morrisville, about 1.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-jeff-wells-trail",
+   "name": "Jeff Wells Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Fuquay-Varina",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.806319,
+    35.570153
+   ],
+   "bbox": [
+    -78.810484,
+    35.565842,
+    -78.802023,
+    35.571877
+   ],
+   "description": "Greenway listed by Wake County, owned by Fuquay-Varina, about 0.8 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-jones-park-greenway",
+   "name": "Jones Park Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.828213,
+    35.657468
+   ],
+   "bbox": [
+    -78.829589,
+    35.654938,
+    -78.826118,
+    35.660703
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 0.6 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-kit-creek-extension",
+   "name": "Kit Creek Extension",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.872498,
+    35.847993
+   ],
+   "bbox": [
+    -78.888255,
+    35.844439,
+    -78.85708,
+    35.858874
+   ],
+   "description": "Greenway listed by Wake County, owned by RTP, about 2.7 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-little-beaver-creek-greenway",
+   "name": "Little Beaver Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.941511,
+    35.691167
+   ],
+   "bbox": [
+    -78.948742,
+    35.689501,
+    -78.934381,
+    35.693618
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 0.8 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-little-rock-trail",
+   "name": "Little Rock Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.631128,
+    35.769306
+   ],
+   "bbox": [
+    -78.631886,
+    35.760707,
+    -78.625392,
+    35.777955
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 1.8 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-loblolly-trail",
+   "name": "Loblolly Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.748089,
+    35.830942
+   ],
+   "bbox": [
+    -78.75931,
+    35.829987,
+    -78.738244,
+    35.836469
+   ],
+   "description": "Greenway listed by Wake County, about 1.9 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-mahlers-creek-greenway",
+   "name": "Mahlers Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Garner",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.597831,
+    35.67023
+   ],
+   "bbox": [
+    -78.598819,
+    35.666352,
+    -78.595773,
+    35.673452
+   ],
+   "description": "Greenway listed by Wake County, owned by Garner, about 0.7 miles of existing trail, mostly concrete (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-main-street-park",
+   "name": "Main Street Park",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Rolesville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.461922,
+    35.924034
+   ],
+   "bbox": [
+    -78.464428,
+    35.921269,
+    -78.459772,
+    35.926502
+   ],
+   "description": "Greenway listed by Wake County, owned by Rolesville, about 1.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-middle-creek-greenway",
+   "name": "Middle Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.824046,
+    35.683748
+   ],
+   "bbox": [
+    -78.825497,
+    35.663635,
+    -78.805205,
+    35.699424
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 3.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-mims-nature-park-trails",
+   "name": "Mims Nature Park Trails",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.836802,
+    35.652139
+   ],
+   "bbox": [
+    -78.838219,
+    35.650701,
+    -78.835298,
+    35.65316
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 1 mile of existing trail, mostly natural (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-mine-creek-trail",
+   "name": "Mine Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.659251,
+    35.860383
+   ],
+   "bbox": [
+    -78.666964,
+    35.838555,
+    -78.650717,
+    35.881703
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 6.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-mingo-creek-greenway",
+   "name": "Mingo Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Knightdale",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.515879,
+    35.781279
+   ],
+   "bbox": [
+    -78.536786,
+    35.773782,
+    -78.493854,
+    35.791671
+   ],
+   "description": "Greenway listed by Wake County, owned by Knightdale, about 3.5 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-n-turkey-creek-trail",
+   "name": "N Turkey Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.731378,
+    35.857144
+   ],
+   "bbox": [
+    -78.747565,
+    35.846529,
+    -78.724614,
+    35.866025
+   ],
+   "description": "Greenway listed by Wake County, owned by Umstead State Park, about 2.3 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-neighborhood-link",
+   "name": "Neighborhood Link",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.825975,
+    35.666206
+   ],
+   "bbox": [
+    -78.827678,
+    35.660705,
+    -78.823302,
+    35.671726
+   ],
+   "description": "Greenway listed by Wake County, about 0.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-neuse-river-trail",
+   "name": "Neuse River Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.531415,
+    35.830996
+   ],
+   "bbox": [
+    -78.580259,
+    35.701208,
+    -78.459817,
+    35.940092
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 32 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-oak-leaf-greenway",
+   "name": "Oak Leaf Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.875223,
+    35.660373
+   ],
+   "bbox": [
+    -78.886918,
+    35.659016,
+    -78.86439,
+    35.665524
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 2.1 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-oak-rock-trail",
+   "name": "Oak Rock Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.760135,
+    35.875729
+   ],
+   "bbox": [
+    -78.760927,
+    35.874393,
+    -78.759311,
+    35.877851
+   ],
+   "description": "Greenway listed by Wake County, about 0.6 miles of existing trail, mostly concrete (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-park-west-greenway",
+   "name": "Park West Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.818975,
+    35.804093
+   ],
+   "bbox": [
+    -78.824088,
+    35.803805,
+    -78.813473,
+    35.807689
+   ],
+   "description": "Greenway listed by Wake County, owned by Morrisville, about 0.8 miles of existing trail, mostly concrete (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-potts-branch-trail",
+   "name": "Pott's Branch Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.758922,
+    35.871983
+   ],
+   "bbox": [
+    -78.760579,
+    35.869591,
+    -78.757297,
+    35.875359
+   ],
+   "description": "Greenway listed by Wake County, about 1 mile of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-reedy-branch-greenway",
+   "name": "Reedy Branch Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.918015,
+    35.73482
+   ],
+   "bbox": [
+    -78.924675,
+    35.730533,
+    -78.911,
+    35.737887
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 1.1 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-reedy-creek-trail",
+   "name": "Reedy Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.732857,
+    35.826668
+   ],
+   "bbox": [
+    -78.777509,
+    35.793409,
+    -78.68448,
+    35.861316
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 10 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-reservoir-soft-trail",
+   "name": "Reservoir Soft Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.483715,
+    35.977397
+   ],
+   "bbox": [
+    -78.490071,
+    35.971078,
+    -78.477291,
+    35.982795
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 1.6 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-richland-creek-trail",
+   "name": "Richland Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.732021,
+    35.818589
+   ],
+   "bbox": [
+    -78.734415,
+    35.80111,
+    -78.724803,
+    35.832302
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 3 miles of existing trail, mostly native material (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-rocky-branch-trail",
+   "name": "Rocky Branch Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.664477,
+    35.778863
+   ],
+   "bbox": [
+    -78.686918,
+    35.763557,
+    -78.642458,
+    35.793409
+   ],
+   "description": "Greenway listed by Wake County, owned by NCSU, about 5.1 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-rocky-branch-trail-extension",
+   "name": "Rocky Branch Trail Extension",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.661595,
+    35.776814
+   ],
+   "bbox": [
+    -78.667412,
+    35.774667,
+    -78.656623,
+    35.778929
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 0.7 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-sals-branch-trail",
+   "name": "Sal's Branch Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.762459,
+    35.877551
+   ],
+   "bbox": [
+    -78.765954,
+    35.871096,
+    -78.758786,
+    35.884104
+   ],
+   "description": "Greenway listed by Wake County, about 2.5 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-sanford-creek-greenway",
+   "name": "Sanford Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Rolesville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.489696,
+    35.934082
+   ],
+   "bbox": [
+    -78.515261,
+    35.925361,
+    -78.465606,
+    35.939766
+   ],
+   "description": "Greenway listed by Wake County, owned by Rolesville, about 3.3 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-sanford-creek-greenway-at-heritage-south",
+   "name": "Sanford Creek Greenway at Heritage South",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.495242,
+    35.93611
+   ],
+   "bbox": [
+    -78.499377,
+    35.934076,
+    -78.489739,
+    35.937621
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.8 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-seagroves-neighborhood-farm-loop-trail",
+   "name": "Seagroves Neighborhood Farm Loop Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.829664,
+    35.728914
+   ],
+   "bbox": [
+    -78.830925,
+    35.727652,
+    -78.828353,
+    35.729697
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 0.6 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-shepherds-vineyard",
+   "name": "Shepherds Vineyard",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Apex",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.833323,
+    35.738609
+   ],
+   "bbox": [
+    -78.841205,
+    35.735949,
+    -78.826136,
+    35.741756
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 1.4 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-shiloh-greenway",
+   "name": "Shiloh Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.845116,
+    35.845459
+   ],
+   "bbox": [
+    -78.847425,
+    35.840765,
+    -78.844681,
+    35.850164
+   ],
+   "description": "Greenway listed by Wake County, owned by Morrisville, about 0.7 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-shiloh-north-greenway",
+   "name": "Shiloh North Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Morrisville",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.849383,
+    35.856641
+   ],
+   "bbox": [
+    -78.849967,
+    35.852187,
+    -78.846677,
+    35.860172
+   ],
+   "description": "Greenway listed by Wake County, owned by Morrisville, about 0.9 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-simms-branch-trail",
+   "name": "Simms Branch Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.58793,
+    35.899437
+   ],
+   "bbox": [
+    -78.59409,
+    35.894311,
+    -78.575815,
+    35.906042
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 1.7 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-smith-creek-greenway",
+   "name": "Smith Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.505415,
+    35.952367
+   ],
+   "bbox": [
+    -78.515416,
+    35.939574,
+    -78.488837,
+    35.969033
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 1.4 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-smith-creek-greenway-at-soccer-center",
+   "name": "Smith Creek Greenway at Soccer Center",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.505542,
+    35.952228
+   ],
+   "bbox": [
+    -78.508069,
+    35.949135,
+    -78.502343,
+    35.954871
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 0.5 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-smith-creek-greenway-burlington-mills-to-neuse",
+   "name": "Smith Creek Greenway, Burlington Mills to Neuse",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Wake Forest",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.535887,
+    35.911591
+   ],
+   "bbox": [
+    -78.539604,
+    35.906683,
+    -78.532761,
+    35.916773
+   ],
+   "description": "Greenway listed by Wake County, owned by Wake Forest, about 1 mile of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-snelling-branch-trail",
+   "name": "Snelling Branch Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.652478,
+    35.864016
+   ],
+   "bbox": [
+    -78.656981,
+    35.863079,
+    -78.646785,
+    35.865425
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 0.8 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-sycamore-trail",
+   "name": "Sycamore Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.74891,
+    35.864365
+   ],
+   "bbox": [
+    -78.757498,
+    35.853433,
+    -78.739719,
+    35.874769
+   ],
+   "description": "Greenway listed by Wake County, about 4.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-umstead-trails",
+   "name": "Umstead Trails",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.746969,
+    35.849567
+   ],
+   "bbox": [
+    -78.760018,
+    35.829566,
+    -78.723605,
+    35.870969
+   ],
+   "description": "Greenway listed by Wake County, owned by Umstead State Park, about 4.5 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-utley-creek-greenway",
+   "name": "Utley Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.843303,
+    35.648191
+   ],
+   "bbox": [
+    -78.846056,
+    35.646518,
+    -78.840178,
+    35.650466
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 0.6 miles of existing trail (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-wakefield-trail",
+   "name": "Wakefield Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.558619,
+    35.957407
+   ],
+   "bbox": [
+    -78.562426,
+    35.945967,
+    -78.556095,
+    35.964104
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 1.4 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-walnut-creek-trail",
+   "name": "Walnut Creek Trail",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Raleigh",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.628105,
+    35.759777
+   ],
+   "bbox": [
+    -78.723461,
+    35.747734,
+    -78.532205,
+    35.770419
+   ],
+   "description": "Greenway listed by Wake County, owned by Raleigh, about 21 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-white-oak-creek-greenway",
+   "name": "White Oak Creek Greenway",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Unincorporated Wake County",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.902713,
+    35.776256
+   ],
+   "bbox": [
+    -78.921885,
+    35.764095,
+    -78.824919,
+    35.782806
+   ],
+   "description": "Greenway listed by Wake County, owned by Apex, about 2.1 miles of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
+   ]
+  },
+  {
+   "id": "wake-greenway-womble-park-greenway-loop",
+   "name": "Womble Park Greenway Loop",
+   "aliases": [],
+   "category": "trail",
+   "municipality": "Holly Springs",
+   "county": "Wake",
+   "coverage": "core",
+   "centroid": [
+    -78.827104,
+    35.643436
+   ],
+   "bbox": [
+    -78.828692,
+    35.641018,
+    -78.8257,
+    35.645679
+   ],
+   "description": "Greenway listed by Wake County, owned by Holly Springs, about 1 mile of existing trail, mostly asphalt (from Wake County's greenways layer).",
+   "sourceIds": [
+    "wake-greenways"
    ]
   },
   {
@@ -2845,6 +4884,11 @@
    "url": "https://raleighnc.gov/places/abbotts-creek-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2862,6 +4906,11 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -2879,6 +4928,12 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -2896,6 +4951,12 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2914,6 +4975,11 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2932,6 +4998,11 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2950,6 +5021,10 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/american-tobacco-trail",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -2968,6 +5043,13 @@
    "url": "https://raleighnc.gov/places/anderson-point-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -2986,6 +5068,10 @@
    "url": "https://raleighnc.gov/places/anderson-point-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3004,6 +5090,12 @@
    "url": "https://raleighnc.gov/places/annie-louise-wilkerson-md-nature-preserve-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3022,6 +5114,11 @@
    "url": "https://www.apexnc.org/453/Community-Center-Programs",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3039,6 +5136,13 @@
    "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3057,6 +5161,11 @@
    "url": "https://www.apexnc.org/795/Apex-Community-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3075,6 +5184,12 @@
    "url": "https://www.apexnc.org/797/Apex-Jaycee-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3093,6 +5208,13 @@
    "url": "https://www.apexnc.org/800/Nature-Park-Seymour-Athletic-Fields",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -3111,6 +5233,13 @@
    "url": "https://www.apexnc.org/800/Nature-Park-Seymour-Athletic-Fields",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3129,6 +5258,11 @@
    "url": "https://raleighnc.gov/places/apollo-heights-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -3147,6 +5281,13 @@
    "url": "https://raleighnc.gov/places/baileywick-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3164,6 +5305,10 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -3181,6 +5326,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3199,6 +5347,9 @@
    "url": "https://raleighnc.gov/places/barwell-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3216,6 +5367,12 @@
    "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3252,6 +5409,10 @@
    "url": "https://raleighnc.gov/places/berkshire-downs-west-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3270,6 +5431,13 @@
    "url": "https://raleighnc.gov/places/biltmore-hills-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3288,6 +5456,13 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/blue-jay-point-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3306,6 +5481,10 @@
    "url": "https://raleighnc.gov/places/bragg-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3324,6 +5503,12 @@
    "url": "https://raleighnc.gov/places/brentwood-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3342,6 +5527,13 @@
    "url": "https://raleighnc.gov/places/brier-creek-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3360,6 +5552,10 @@
    "url": "https://raleighnc.gov/places/brookhaven-nature-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3378,6 +5574,12 @@
    "url": "https://raleighnc.gov/places/buffaloe-road-athletic-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -3396,6 +5598,9 @@
    "url": "https://raleighnc.gov/river-access",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3413,6 +5618,11 @@
    "description": "Park listed by Wake County, managed by Privately Owned (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3431,6 +5641,12 @@
    "url": "https://raleighnc.gov/places/durant-nature-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3449,6 +5665,9 @@
    "url": "https://raleighnc.gov/river-access",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3467,6 +5686,10 @@
    "url": "https://raleighnc.gov/places/caraleigh-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3485,6 +5708,12 @@
    "url": "https://raleighnc.gov/places/carolina-pines-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark"
    ]
   },
   {
@@ -3502,6 +5731,12 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3520,6 +5755,10 @@
    "url": "https://www.townofwendell.com/departments/parks-and-recreation/facilites/carver-fields",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3538,6 +5777,11 @@
    "url": "https://raleighnc.gov/places/cedar-hills-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -3555,6 +5799,13 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3573,6 +5824,10 @@
    "url": "https://raleighnc.gov/places/chamberlain-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3590,6 +5845,13 @@
    "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3608,6 +5870,11 @@
    "url": "https://www.apexnc.org/796/Neighborhood-Parks",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -3626,6 +5893,12 @@
    "url": "https://www.ncesf.org/clemmons.html",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3644,6 +5917,9 @@
    "url": "https://www.garnernc.gov/departments/economic-development/living-here/recreation-and-cultural-resources",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3662,6 +5938,9 @@
    "url": "https://raleighnc.gov/places/compiegne-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3679,6 +5958,9 @@
    "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3696,6 +5978,13 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3714,6 +6003,10 @@
    "url": "https://raleighnc.gov/places/dacian-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3732,6 +6025,11 @@
    "url": "https://raleighnc.gov/places/davie-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -3750,6 +6048,10 @@
    "url": "https://raleighnc.gov/places/dixon-drive-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -3768,6 +6070,9 @@
    "url": "https://raleighnc.gov/places/dorothea-dix-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3786,6 +6091,9 @@
    "url": "https://raleighnc.gov/places/dorothea-dix-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3804,6 +6112,9 @@
    "url": "https://raleighnc.gov/places/dorothea-dix-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3822,6 +6133,9 @@
    "url": "https://raleighnc.gov/places/dr-martin-luther-king-jr-memorial-gardens",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -3840,6 +6154,13 @@
    "url": "https://raleighnc.gov/places/durant-nature-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3857,6 +6178,12 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3875,6 +6202,13 @@
    "url": "https://raleighnc.gov/places/eastgate-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3893,6 +6227,10 @@
    "url": "https://raleighnc.gov/places/edna-metz-wells-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3910,6 +6248,13 @@
    "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3928,6 +6273,12 @@
    "url": "https://raleighnc.gov/places/eliza-pool-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3945,6 +6296,13 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3963,6 +6321,11 @@
    "url": "https://raleighnc.gov/places/fallon-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -3981,6 +6344,10 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -3999,6 +6366,13 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4017,6 +6391,13 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4035,6 +6416,12 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4053,6 +6440,13 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4071,6 +6465,11 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -4089,6 +6488,10 @@
    "url": "https://raleighnc.gov/places/fisher-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4107,6 +6510,9 @@
    "url": "https://raleighnc.gov/places/five-points-center-active-adults",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4124,6 +6530,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4142,6 +6551,13 @@
    "url": "https://raleighnc.gov/places/forest-ridge-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4159,6 +6575,10 @@
    "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4177,6 +6597,12 @@
    "url": "https://raleighnc.gov/places/fred-fletcher-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4194,6 +6620,10 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -4211,6 +6641,10 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "dogPark"
    ]
   },
   {
@@ -4228,6 +6662,10 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4245,6 +6683,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4262,6 +6703,11 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -4279,6 +6725,11 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4296,6 +6747,12 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -4314,6 +6771,10 @@
    "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4332,6 +6793,11 @@
    "url": "https://raleighnc.gov/places/glen-eden-pilot-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4350,6 +6816,13 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-open-space/all-parks-trails/green-hills-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4368,6 +6841,12 @@
    "url": "https://raleighnc.gov/places/green-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4385,6 +6864,11 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4403,6 +6887,11 @@
    "url": "https://raleighnc.gov/places/greystone-recreation-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4420,6 +6909,10 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -4438,6 +6931,11 @@
    "url": "https://raleighnc.gov/places/halifax-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4455,6 +6953,10 @@
    "description": "Park listed by Wake County, managed by Town of Apex (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -4472,6 +6974,12 @@
    "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4490,6 +6998,13 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/harris-lake-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4507,6 +7022,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4524,6 +7042,10 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -4542,6 +7064,10 @@
    "url": "https://raleighnc.gov/places/hertford-village-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4560,6 +7086,11 @@
    "url": "https://raleighnc.gov/places/hill-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4578,6 +7109,12 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/historic-oak-view-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4596,6 +7133,11 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/historic-yates-mill-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -4613,6 +7155,12 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4631,6 +7179,12 @@
    "url": "https://raleighnc.gov/places/honeycutt-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4648,6 +7202,12 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4666,6 +7226,9 @@
    "url": "https://raleighnc.gov/places/horseshoe-farm-nature-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4684,6 +7247,14 @@
    "url": "https://www.apexnc.org/798/Hunter-Street-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -4702,6 +7273,9 @@
    "url": "https://raleighnc.gov/places/hymettus-woods-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "walkingTrails"
    ]
   },
   {
@@ -4719,6 +7293,12 @@
    "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4737,6 +7317,12 @@
    "url": "https://raleighnc.gov/places/isabella-cannon-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4754,6 +7340,10 @@
    "description": "Park listed by Wake County, managed by Town of Wendell (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -4771,6 +7361,13 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -4788,6 +7385,12 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4806,6 +7409,12 @@
    "url": "https://raleighnc.gov/places/jaycee-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4824,6 +7433,12 @@
    "url": "https://raleighnc.gov/places/john-chavis-memorial-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4842,6 +7457,9 @@
    "url": "https://raleighnc.gov/places/john-p-top-greene-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4859,6 +7477,9 @@
    "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -4877,6 +7498,10 @@
    "url": "https://raleighnc.gov/places/junious-n-sorrell-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -4895,6 +7520,10 @@
    "url": "https://raleighnc.gov/places/kaplan-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -4913,6 +7542,10 @@
    "url": "https://www.apexnc.org/796/Neighborhood-Parks",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4931,6 +7564,12 @@
    "url": "https://www.apexnc.org/799/Kelly-Road-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -4949,6 +7588,12 @@
    "url": "https://raleighnc.gov/places/kentwood-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4967,6 +7612,11 @@
    "url": "https://raleighnc.gov/places/kingwood-forest-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -4984,6 +7634,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5002,6 +7655,11 @@
    "url": "https://raleighnc.gov/places/kiwanis-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5019,6 +7677,9 @@
    "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5037,6 +7698,10 @@
    "url": "https://www.knightdalenc.gov/departments/parks-recreation-and-cultural-programs/parks-greenways-and-facilities/knightdale-1",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -5055,6 +7720,10 @@
    "url": "https://www.knightdalenc.gov/departments/parks-recreation-and-cultural-programs/parks-greenways-and-facilities",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5072,6 +7741,11 @@
    "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -5089,6 +7763,13 @@
    "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -5106,6 +7787,14 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -5124,6 +7813,13 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/lake-crabtree-county-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -5142,6 +7838,10 @@
    "url": "https://raleighnc.gov/places/lake-johnson-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -5160,6 +7860,11 @@
    "url": "https://raleighnc.gov/places/lake-johnson-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -5178,6 +7883,10 @@
    "url": "https://raleighnc.gov/places/lake-johnson-pool",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -5196,6 +7905,10 @@
    "url": "https://raleighnc.gov/places/lake-lynn-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5214,6 +7927,10 @@
    "url": "https://raleighnc.gov/places/lake-lynn-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5232,6 +7949,13 @@
    "url": "https://raleighnc.gov/places/lake-wheeler-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -5249,6 +7973,9 @@
    "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5267,6 +7994,9 @@
    "url": "https://raleighnc.gov/places/latta-university-historic-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5285,6 +8015,12 @@
    "url": "https://raleighnc.gov/places/laurel-hills-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5303,6 +8039,11 @@
    "url": "https://raleighnc.gov/places/leesville-community-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5321,6 +8062,10 @@
    "url": "https://raleighnc.gov/places/lenoir-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5339,6 +8084,10 @@
    "url": "https://raleighnc.gov/places/levelle-moton-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5356,6 +8105,11 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5374,6 +8128,11 @@
    "url": "https://raleighnc.gov/places/lions-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5392,6 +8151,9 @@
    "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5410,6 +8172,10 @@
    "url": "https://raleighnc.gov/places/lockwood-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5428,6 +8194,10 @@
    "url": "https://raleighnc.gov/places/longstreet-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5446,6 +8216,9 @@
    "url": "https://raleighnc.gov/places/longview-pool",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5482,6 +8255,12 @@
    "url": "https://raleighnc.gov/places/marsh-creek-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5500,6 +8279,11 @@
    "url": "https://raleighnc.gov/places/mary-belle-pate-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5518,6 +8302,11 @@
    "url": "https://raleighnc.gov/places/method-community-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5535,6 +8324,9 @@
    "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5553,6 +8345,10 @@
    "url": "https://www.raleighnc.gov/parks/content/ParksRec/Articles/Greenways/NeuseRiverTrail.html",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -5570,6 +8366,10 @@
    "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -5588,6 +8388,13 @@
    "url": "https://raleighnc.gov/places/millbrook-exchange-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -5605,6 +8412,10 @@
    "description": "Park listed by Wake County, managed by Town of Knightdale (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -5623,6 +8434,9 @@
    "url": "https://www.ncparks.gov/falls-lake-state-recreation-area/history",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5641,6 +8455,9 @@
    "url": "https://raleighnc.gov/places/moore-square",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5659,6 +8476,10 @@
    "url": "https://raleighnc.gov/places/mordecai-historic-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -5677,6 +8498,10 @@
    "url": "https://raleighnc.gov/places/mordecai-mini-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5695,6 +8520,10 @@
    "url": "https://www.townofmorrisville.org/government/departments-services/parks-recreation-cultural-resources/morrisville-aquatics-and-fitness-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -5712,6 +8541,9 @@
    "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5729,6 +8561,10 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "dogPark"
    ]
   },
   {
@@ -5747,6 +8583,12 @@
    "url": "https://raleighnc.gov/places/north-hills-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5764,6 +8606,13 @@
    "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -5782,6 +8631,10 @@
    "url": "https://raleighnc.gov/places/oakwood-commons-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5800,6 +8653,12 @@
    "url": "https://raleighnc.gov/places/oakwood-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "picnicShelter",
+    "dogPark"
    ]
   },
   {
@@ -5818,6 +8677,12 @@
    "url": "https://raleighnc.gov/places/optimist-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -5835,6 +8700,12 @@
    "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5853,6 +8724,10 @@
    "url": "https://raleighnc.gov/places/peach-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5871,6 +8746,9 @@
    "url": "https://raleighnc.gov/john-stokes-memorial-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5889,6 +8767,12 @@
    "url": "https://raleighnc.gov/places/peter-williams-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -5924,6 +8808,11 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -5942,6 +8831,10 @@
    "url": "https://raleighnc.gov/places/pollock-place-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -5960,6 +8853,9 @@
    "url": "https://raleighnc.gov/river-access",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5978,6 +8874,9 @@
    "url": "https://raleighnc.gov/pope-house",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -5996,6 +8895,11 @@
    "url": "https://raleighnc.gov/places/powell-drive-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6014,6 +8918,10 @@
    "url": "https://raleighnc.gov/places/pullen-arts-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -6032,6 +8940,13 @@
    "url": "https://raleighnc.gov/places/pullen-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6050,6 +8965,10 @@
    "url": "https://raleighnc.gov/places/quarry-street-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -6068,6 +8987,9 @@
    "url": "https://raleighnc.gov/places/city-raleigh-museum",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6085,6 +9007,12 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6102,6 +9030,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6120,6 +9051,9 @@
    "url": "https://raleighnc.gov/places/ridge-road-pool",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6138,6 +9072,11 @@
    "url": "https://raleighnc.gov/places/river-bend-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -6156,6 +9095,11 @@
    "url": "https://raleighnc.gov/places/roanoke-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6174,6 +9118,11 @@
    "url": "https://raleighnc.gov/places/roberts-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6192,6 +9141,9 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/robertson-millpond-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6210,6 +9162,10 @@
    "url": "https://www.apexnc.org/485/Trackside-Skate-Plaza",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -6227,6 +9183,10 @@
    "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -6244,6 +9204,12 @@
    "description": "Park listed by Wake County, managed by Town of Rolesville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6262,6 +9228,10 @@
    "url": "https://raleighnc.gov/places/raleigh-little-theatre-and-rose-garden",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter"
    ]
   },
   {
@@ -6298,6 +9268,9 @@
    "url": "https://www.townofmorrisville.org/government/departments-services/parks-recreation-cultural-resources/parks-and-greenways",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6316,6 +9289,12 @@
    "url": "https://www.apexnc.org/1251/Salem-Pond-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6334,6 +9313,12 @@
    "url": "https://raleighnc.gov/places/sanderford-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6352,6 +9337,10 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-open-space/all-parks-trails/sandy-pines-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -6370,6 +9359,13 @@
    "url": "https://www.apexnc.org/796/Neighborhood-Parks",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6388,6 +9384,11 @@
    "url": "https://raleighnc.gov/places/sertoma-arts-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground"
    ]
   },
   {
@@ -6406,6 +9407,10 @@
    "url": "https://raleighnc.gov/places/shelley-lake-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -6423,6 +9428,13 @@
    "description": "Park listed by Wake County, managed by Town of Morrisville (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6440,6 +9452,11 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6457,6 +9474,12 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -6474,6 +9497,13 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6492,6 +9522,11 @@
    "url": "https://raleighnc.gov/places/southgate-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6510,6 +9545,12 @@
    "url": "https://raleighnc.gov/places/spring-forest-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6528,6 +9569,11 @@
    "url": "https://raleighnc.gov/places/spring-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6546,6 +9592,10 @@
    "url": "https://raleighnc.gov/places/strickland-road-neighborhood-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -6564,6 +9614,11 @@
    "url": "https://www.apexnc.org/796/Neighborhood-Parks",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6582,6 +9637,11 @@
    "url": "https://raleighnc.gov/places/tarboro-road-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6599,6 +9659,12 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6616,6 +9682,9 @@
    "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6634,6 +9703,9 @@
    "url": "https://raleighnc.gov/places/theatre-park-pullen-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6652,6 +9724,10 @@
    "url": "https://raleighnc.gov/places/thomas-g-crowder-woodland-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -6669,6 +9745,9 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6687,6 +9766,9 @@
    "url": "https://www.hollyspringsnc.us/607/Ting-Park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6705,6 +9787,9 @@
    "url": "https://raleighnc.gov/places/tucker-house",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6723,6 +9808,10 @@
    "url": "https://www.wakegov.com/departments-government/parks-recreation-and-open-space/all-parks-trails/turnipseed-nature-preserve",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -6740,6 +9829,11 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6758,6 +9852,9 @@
    "url": "https://raleighnc.gov/places/vallie-henderson-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6775,6 +9872,10 @@
    "description": "Park listed by Wake County, managed by Wake County Public School System (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -6793,6 +9894,9 @@
    "url": "https://raleighnc.gov/places/varnell-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6810,6 +9914,12 @@
    "description": "Park listed by Wake County, managed by Town of Holly Springs (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6827,6 +9937,11 @@
    "description": "Park listed by Wake County, managed by Town of Wake Forest (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6845,6 +9960,10 @@
    "url": "https://www.wakeforestnc.gov/parks-recreation-cultural-resources/greenways/trails/wake-forest-reservoir-soft-trails",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "walkingTrails"
    ]
   },
   {
@@ -6863,6 +9982,9 @@
    "url": "https://raleighnc.gov/places/walnut-creek-athletic-complex",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -6881,6 +10003,10 @@
    "url": "https://raleighnc.gov/places/walnut-creek-wetland-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -6899,6 +10025,10 @@
    "url": "https://raleighnc.gov/places/walnut-terrace-center",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking"
    ]
   },
   {
@@ -6916,6 +10046,14 @@
    "description": "Park listed by Wake County, managed by Town of Wendell (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "dogPark",
+    "walkingTrails"
    ]
   },
   {
@@ -6934,6 +10072,11 @@
    "url": "https://www.apexnc.org/796/Neighborhood-Parks",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6951,6 +10094,13 @@
    "description": "Park listed by Wake County, managed by Town of Garner (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -6969,6 +10119,11 @@
    "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "picnicShelter"
    ]
   },
   {
@@ -6986,6 +10141,10 @@
    "description": "Park listed by Wake County, managed by City of Raleigh (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -7003,6 +10162,11 @@
    "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -7020,6 +10184,11 @@
    "description": "Park listed by Wake County, managed by State of North Carolina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "picnicShelter",
+    "walkingTrails"
    ]
   },
   {
@@ -7037,6 +10206,9 @@
    "description": "Park listed by Wake County, managed by Town of Fuquay-Varina (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking"
    ]
   },
   {
@@ -7054,6 +10226,10 @@
    "description": "Park listed by Wake County, managed by Wake County Public School System (from Wake County's parks layer).",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -7072,6 +10248,11 @@
    "url": "https://raleighnc.gov/places/windemere-beaver-dam-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -7090,6 +10271,10 @@
    "url": "https://raleighnc.gov/places/wooten-meadow-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "parking",
+    "playground"
    ]
   },
   {
@@ -7108,6 +10293,12 @@
    "url": "https://raleighnc.gov/places/worthdale-park",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "playground",
+    "walkingTrails"
    ]
   },
   {
@@ -7126,6 +10317,11 @@
    "url": "https://www.townofzebulon.org/services/parks-and-recreation/parks-facilities",
    "sourceIds": [
     "wake-parks"
+   ],
+   "amenities": [
+    "restrooms",
+    "parking",
+    "walkingTrails"
    ]
   }
  ]

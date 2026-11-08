@@ -69,6 +69,15 @@ describe('catalog boundary', () => {
     expect(fetchMock).toHaveBeenCalledWith('/catalog.json', { signal: controller.signal })
   })
 
+  it('keeps an optional trimmed source title, capped at 200 chars, and drops blank or non-string ones', () => {
+    const titled = (title: unknown) => parseCatalog(catalog([], [{ ...source, title }])).sources[0].title
+    expect(titled('  Parks in Wake County ')).toBe('Parks in Wake County')
+    expect(titled('x'.repeat(300))).toHaveLength(200)
+    expect(titled('   ')).toBeUndefined()
+    expect(titled(5)).toBeUndefined()
+    expect(parseCatalog(catalog([])).sources[0].title).toBeUndefined()
+  })
+
   it('accepts optional coverage values and rejects any other', () => {
     const accepted = parseCatalog(catalog([place('one', 'Example Park', { coverage: 'nearby' })]))
     expect(accepted.places[0].coverage).toBe('nearby')

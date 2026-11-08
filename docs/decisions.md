@@ -312,6 +312,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/lib/relationships.mjs`, `pipeline/lib/watersheds.mjs`, `pipeline/lib/collections.mjs`, `src/features/places/relationships.ts`, `docs/collections.md`.
 
+## 30. Coordinate search
+
+**Context:** People paste coordinates from a map or a sign (#17). Address search needs a geocoder, and the provider choice waits on the owner and hosting (#17, #16, #3), so it is not built and no provider is called.
+
+**Decision:** `parseCoordinates` (`src/features/search/coordinates.ts`) reads lat, lon locally: decimals (`35.79, -78.78`), hemisphere letters before or after (`35.79N 78.78W`), degrees-minutes-seconds and degrees-decimal-minutes. It returns null when unsure: out-of-range values, a sign next to a letter, bare integers without a comma, and anything with extra words. It swaps order only when the first number cannot be a latitude (over 90) and the second can. A match is the first suggestion row, "Go to 35.79000, -78.78000"; choosing it moves the map there at zoom 16 through `cameraRequest` and drops a temporary pin (`droppedPin` in the store, its own non-pickable layer, never a place), cleared by Clear, Escape on an empty search, or selecting a place. A line shows "Showing a point at …", the 3 nearest catalog places by straight line, and, outside roughly lat 35.4–36.2, lon −79.2 to −78.2, "This point is outside the area this guide covers." No network request is made, and the coordinates get no URL parameter: the camera `map=` parameter already records the position.
+
+**Applies to:** `src/features/search/`, `src/features/map/MapView.tsx`, #17.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

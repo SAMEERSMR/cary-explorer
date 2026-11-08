@@ -1,5 +1,9 @@
 // Accessible list of places in the active themes: name order, or relevance order while searching.
+import { useMemo } from 'react'
 import { useAppStore } from '../../store/useAppStore'
+import { NearMeBar } from '../location/NearMeBar'
+import { formatStraightLine, sortByDistance } from '../location/distance'
+import { useLocationStore } from '../location/locationStore'
 import { useLayerSearch } from '../search/useLayerSearch'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { emptyLayersText } from '../themes/layerSelection'
@@ -27,6 +31,12 @@ export function ListView() {
 
   // Empty query yields name order; otherwise keep the search's relevance order. Same selection as the map.
   const { results: rows, hiddenLayers } = useLayerSearch(query, Infinity)
+  const coords = useLocationStore((s) => s.coords)
+  // With location on, nearest first (places without coordinates last); otherwise the search order as is.
+  const ordered = useMemo(
+    () => (coords ? sortByDistance(rows, coords) : rows.map((item) => ({ item, meters: null as number | null }))),
+    [rows, coords],
+  )
 
   if (rows.length === 0) {
     const noThemes = status === 'ready' && activeThemes.length === 0
@@ -48,6 +58,8 @@ export function ListView() {
                 ? 'No places match the selected themes in this town.'
                 : 'No places match the selected themes.'
     return (
+      <>
+      <NearMeBar />
       <div className="space-y-3 rounded-card border border-dashed border-placeholder-line p-5">
         {noThemes ? (
           <>
@@ -84,12 +96,15 @@ export function ListView() {
           </button>
         )}
       </div>
+      </>
     )
   }
 
   return (
+    <>
+    <NearMeBar />
     <ul aria-label="Places" className="flex flex-col">
-      {rows.map((place) => {
+      {ordered.map(({ item: place, meters }) => {
         const selected = place.id === selectedPlaceId
         return (
           <li key={place.id}>
@@ -119,6 +134,9 @@ export function ListView() {
                 <span className="block truncate text-[13px] text-ink-muted">
                   {categoryLabel[place.category]} · {place.municipality}
                 </span>
+                {coords && meters !== null && (
+                  <span className="block truncate text-[13px] text-ink-muted">{formatStraightLine(meters)}</span>
+                )}
                 <CoverageLabel coverage={place.coverage} className="mt-0.5" />
               </span>
               <svg
@@ -139,5 +157,6 @@ export function ListView() {
         )
       })}
     </ul>
+    </>
   )
 }

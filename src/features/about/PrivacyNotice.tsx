@@ -1,6 +1,6 @@
 // Privacy text for the Credits & privacy dialog. Hand-written on purpose: it must match what the app actually does.
 // Facts were checked by searching src/ for geolocation, localStorage, sessionStorage, cookie, analytics, fetch( and navigator.
-// If any of these change (a location feature, analytics, saved settings, a new third-party request), update this text.
+// If any of these change (analytics, saved settings, a new third-party request), update this text.
 export function PrivacyNotice({ headingId }: { headingId: string }) {
   return (
     <section aria-labelledby={headingId} className="space-y-3">
@@ -9,7 +9,11 @@ export function PrivacyNotice({ headingId }: { headingId: string }) {
       </h3>
       <ul className="list-disc space-y-2 pl-5 text-[14px] leading-relaxed text-ink-soft">
         <li>There are no accounts, no cookies and no analytics or advertising trackers. The app does not save settings or data of its own in your browser.</li>
-        <li>The app does not ask for or use your device&apos;s location.</li>
+        <li>
+          Location is optional and only requested when you press &quot;Near me&quot;. It is used in your browser to sort
+          places and measure straight-line distances. It is never sent to this site or anyone else, never stored, and never
+          put in the link. Turning &quot;Near me&quot; off forgets it.
+        </li>
         <li>
           Your browser loads this site&apos;s own data files (places, map layers and these credits) and map tiles from
           OpenStreetMap&apos;s tile servers. The tile servers can see your IP address and which map tiles you view, like any

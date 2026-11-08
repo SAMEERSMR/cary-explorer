@@ -4,7 +4,8 @@ import { useAppStore } from '../../store/useAppStore'
 import type { Place } from '../../types/place'
 import { CategoryBadge } from '../themes/CategoryIcon'
 import { categoryLabel, getTheme } from '../themes/themes'
-import { publicUrl } from './catalog'
+import { formatUtcLongDate } from '../../lib/dates'
+import { publicUrl } from '../../lib/guards'
 import {
   MAP_SELECTOR,
   SEARCH_SELECTOR,
@@ -27,14 +28,6 @@ interface PlaceCardProps {
   onClose: () => void
 }
 
-const longDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' })
-
-// Catalog dates are often day-only (e.g. 2026-11-02), so they are formatted in UTC to avoid a one-day shift.
-function formatRetrieved(value: string): string {
-  const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? value : longDate.format(date)
-}
-
 export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const theme = getTheme(place.theme)
   const { sources } = usePlaces()
@@ -42,8 +35,6 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
   const proposedPart = hasProposedPart(useGeometryLayers().index.get(place.id))
   const userCoords = useLocationStore((s) => s.coords)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  // Only places whose sources are the placeholder sample source get the "Sample data" badge.
-  const isSample = place.sourceIds.includes('sample')
   const isEbird = place.sourceIds.includes('ebird')
   const officialLinkLabel = isEbird ? 'eBird page' : 'Website'
   const showOfficialLink = Boolean(place.url) && publicUrl(place.url)
@@ -164,11 +155,6 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
               />
               {theme.label}
             </span>
-            {isSample && (
-              <span className="rounded-lg bg-sample-bg px-2 py-1 text-xs font-semibold text-sample-ink">
-                Sample data
-              </span>
-            )}
             {place.localOnly && (
               <span className="rounded-lg bg-subtle px-2 py-1 text-xs font-semibold text-ink-muted">
                 Local preview
@@ -307,7 +293,7 @@ export function PlaceCard({ place, onClose }: PlaceCardProps) {
                     {source.retrievedAt && (
                       <p>
                         {id === 'ebird' ? 'Snapshot ' : 'Retrieved '}
-                        <time dateTime={source.retrievedAt}>{formatRetrieved(source.retrievedAt)}</time>
+                        <time dateTime={source.retrievedAt}>{formatUtcLongDate(source.retrievedAt)}</time>
                       </p>
                     )}
                     {source.license && <p>Licence: {source.license}</p>}

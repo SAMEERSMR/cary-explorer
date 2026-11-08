@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { fetchArcgis } from '../pipeline/lib/fetch-arcgis.mjs'
-import { build, findCaryTwin, municipalityOf, pointInGeometry, TOWNS, UNINCORPORATED_WAKE } from '../pipeline/scripts/build-catalog.mjs'
+import { findCaryTwin, municipalityOf, pointInGeometry, TOWNS, UNINCORPORATED_WAKE } from '../pipeline/scripts/build-catalog.mjs'
 import { parseCatalog } from '../src/features/places/catalog'
+import { builtCatalog } from './helpers/builtCatalog'
 
 const read = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'))
 const towns = read('pipeline/sources/census/places/data.geojson')
@@ -31,7 +32,7 @@ describe('municipality by polygon', () => {
 })
 
 describe('built catalog', () => {
-  const { catalog } = build({ write: false })
+  const { catalog } = builtCatalog()
   const places = catalog.places as { id: string; municipality: string; county: string; centroid: [number, number]; sourceIds: string[] }[]
 
   it('gives every place a county and a municipality from the known set', () => {
@@ -92,10 +93,10 @@ describe('Wake duplicate of a Cary park', () => {
     expect(findCaryTwin('X Trailhead Park', [-78.8, 35.82], cary)).toBeUndefined()
   })
   it('drops the New Hope Church Road Trailhead duplicate from the real build', () => {
-    const { catalog, dedupeSkips } = build({ write: false })
+    const { catalog, dedupeSkips } = builtCatalog()
     const ids = catalog.places.map((p) => p.id as string)
     expect(ids).toContain('cary-park-new-hope-church-road-trailhead-park')
     expect(ids).not.toContain('wake-park-new-hope-church-road-trailhead-park')
     expect(dedupeSkips.map((d: { caryId: string }) => d.caryId)).toContain('cary-park-new-hope-church-road-trailhead-park')
-  }, 30_000)
+  })
 })

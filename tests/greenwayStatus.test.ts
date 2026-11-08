@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createScope } from '../pipeline/lib/geo.mjs'
-import { bboxOf, build, greenwayFeatures, normalize } from '../pipeline/scripts/build-catalog.mjs'
+import { bboxOf, greenwayFeatures, normalize } from '../pipeline/scripts/build-catalog.mjs'
+import { builtCatalog } from './helpers/builtCatalog'
 
 const rect = (x0: number, y0: number, x1: number, y1: number) => ({
   type: 'Polygon',
@@ -27,7 +28,7 @@ describe('greenwayFeatures', () => {
 })
 
 describe('built greenways', () => {
-  const out = build({ write: false })
+  const out = builtCatalog()
   const green = out.outputs['layers/greenways.geojson']
   const features = JSON.parse(green).features
 

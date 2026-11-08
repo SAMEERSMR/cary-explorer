@@ -1,6 +1,7 @@
 // Curated collections from the release (`artifacts.collections`): parse, load, and resolve to catalog places.
 import { useEffect, useMemo, useState } from 'react'
 import { fetchBoundedJson } from '../../lib/boundedJson'
+import { isRecord } from '../../lib/guards'
 import type { Place } from '../../types/place'
 import { getRelease } from '../places/release'
 import { usePlaces } from '../places/usePlaces'
@@ -17,7 +18,6 @@ export interface Collection {
 export const COLLECTION_ID = /^[a-z0-9-]{1,60}$/
 export const COLLECTIONS_MAX_BYTES = 64 * 1024
 
-const isRecord = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v)
 const text = (v: unknown) => (typeof v === 'string' && v.trim() ? v : null)
 
 /** Lenient parse: invalid collections are dropped, duplicates keep the first, never throws. */
@@ -74,10 +74,6 @@ export function getCollections(): Promise<Collection[]> {
       throw err
     })
   return shared
-}
-
-export function resetCollections() {
-  shared = null
 }
 
 export interface CollectionsResult {

@@ -9,7 +9,10 @@ const MAX_BYTES = 1_000_000
 const KINDS = ['contained', 'nearby', 'curated'] as const
 const METRES_PER_MILE = 1609.344
 
-export type RelationshipIndex = Map<string, Relationship[]>
+/** A relationship as released: trail-to-watershed links may carry `share` (0-1 of the trail's length in that watershed) when the trail crosses several. */
+export type ReleasedRelationship = Relationship & { share?: number }
+
+export type RelationshipIndex = Map<string, ReleasedRelationship[]>
 
 export interface Connection {
   place: Place
@@ -21,26 +24,27 @@ const isRecord = (v: unknown): v is Record<string, unknown> =>
 const nonEmpty = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0
 
 /** Keeps well-formed records only; anything malformed or of an unknown kind is dropped. */
-export function parseRelationships(payload: unknown): Relationship[] {
+export function parseRelationships(payload: unknown): ReleasedRelationship[] {
   if (!isRecord(payload) || !Array.isArray(payload.relationships)) return []
-  const out: Relationship[] = []
+  const out: ReleasedRelationship[] = []
   for (const item of payload.relationships) {
     if (!isRecord(item)) continue
-    const { from, to, kind, distanceM, basis } = item
+    const { from, to, kind, distanceM, basis, share } = item
     if (!nonEmpty(from) || !nonEmpty(to) || from === to) continue
     if (typeof kind !== 'string' || !(KINDS as readonly string[]).includes(kind)) continue
-    const rel: Relationship = { from, to, kind: kind as Relationship['kind'] }
+    const rel: ReleasedRelationship = { from, to, kind: kind as Relationship['kind'] }
     if (typeof distanceM === 'number' && Number.isFinite(distanceM) && distanceM >= 0) {
       rel.distanceM = distanceM
     }
     if (basis === 'within-400m' || basis === 'nearest' || basis === 'watershed') rel.basis = basis
+    if (typeof share === 'number' && share > 0 && share <= 1 && rel.basis === 'watershed') rel.share = share
     out.push(rel)
   }
   return out
 }
 
 /** Indexes each relationship under both of its place ids. */
-export function indexRelationships(rels: Relationship[]): RelationshipIndex {
+export function indexRelationships(rels: ReleasedRelationship[]): RelationshipIndex {
   const index: RelationshipIndex = new Map()
   for (const rel of rels) {
     for (const id of [rel.from, rel.to]) {
@@ -74,10 +78,13 @@ function formatMiles(distanceM: number): string {
   return `${miles.toFixed(1)} mi`
 }
 
-function labelFor(rel: Relationship, placeId: string, other: Place): string {
+function labelFor(rel: ReleasedRelationship, placeId: string, other: Place): string {
   if (rel.kind === 'contained' && rel.basis === 'watershed') {
     // Boundary membership only; never a flow or downstream claim.
-    return rel.from === placeId ? `In the ${other.name.replace(/ watershed$/i, '')} watershed` : `${other.name} is in this watershed`
+    // A trail that crosses several watersheds carries `share` on each link; one watershed keeps "In the".
+    const name = other.name.replace(/ watershed$/i, '')
+    if (rel.from === placeId) return rel.share === undefined ? `In the ${name} watershed` : `Passes through the ${name} watershed`
+    return other.category === 'trail' ? `${other.name} passes through this watershed` : `${other.name} is in this watershed`
   }
   if (rel.kind === 'contained') {
     return rel.from === placeId ? `Runs through ${other.name}` : `${other.name} runs through this park`
@@ -88,7 +95,7 @@ function labelFor(rel: Relationship, placeId: string, other: Place): string {
   return rel.basis === 'nearest' ? `Closest place: ${away}` : away
 }
 
-const isWatershed = (r: Relationship) => r.kind === 'contained' && r.basis === 'watershed'
+const isWatershed = (r: ReleasedRelationship) => r.kind === 'contained' && r.basis === 'watershed'
 
 const KIND_ORDER: Record<Relationship['kind'], number> = { contained: 0, curated: 1, nearby: 2 }
 

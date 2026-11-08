@@ -78,12 +78,12 @@ describe('relationships', () => {
     { id: 'park-a', kind: 'park', polygons: [sq(-78.8, 35.8)] },
     { id: 'park-b', kind: 'park', polygons: [sq(-78.8, 35.8035)] }, // ~150 m north of A
     { id: 'park-far', kind: 'park', polygons: [sq(-78.7, 35.9)] },
-    { id: 'trail-in', kind: 'trail', lines: [[[-78.7995, 35.8005], [-78.7995, 35.801]]] }, // inside park-a
+    { id: 'trail-in', kind: 'trail', lines: [[[-78.7995, 35.8002], [-78.7995, 35.8018]]] }, // ~178 m inside park-a
     { id: 'trail-near', kind: 'trail', lines: [[[-78.795, 35.8], [-78.795, 35.801]]] }, // ~300 m east of A
     { id: 'trail-far', kind: 'trail', lines: [[[-78.6, 35.7], [-78.6, 35.71]]] },
   ]
   const { relationships } = computeRelationships(items)
-  it('links a trail with a vertex inside a park as contained', () => {
+  it('links a trail with 100 m or more inside a park as contained', () => {
     expect(relationships).toContainEqual({ from: 'trail-in', to: 'park-a', kind: 'contained' })
   })
   it('links parks and trails within 400 m as nearby, and never trail to trail', () => {
@@ -134,5 +134,24 @@ describe('relationships: nearest fallback', () => {
   })
   it('is deterministic', () => {
     expect(JSON.stringify(computeRelationships([...items].reverse()))).toBe(JSON.stringify({ relationships }))
+  })
+})
+
+describe('relationships: trail must run 100 m through a park', () => {
+  // 0.001 degree of longitude at lat 35.8 is about 90 m.
+  const park: RelationshipItem = { id: 'park', kind: 'park', polygons: [[[[-78.8, 35.8], [-78.79, 35.8], [-78.79, 35.81], [-78.8, 35.81], [-78.8, 35.8]]]] }
+  const trail = (id: string, line: [number, number][]): RelationshipItem => ({ id, kind: 'trail', lines: [line] })
+  const kind = (t: RelationshipItem) => computeRelationships([park, t]).relationships.map((r) => [r.from, r.to, r.kind, r.distanceM])
+
+  it('links as contained when at least 100 m of the trail is inside', () => {
+    expect(kind(trail('long', [[-78.795, 35.805], [-78.793, 35.805], [-78.791, 35.805]]))).toEqual([['long', 'park', 'contained', undefined]])
+  })
+  it('counts the inside part of a segment that leaves the park', () => {
+    // 0.002 degree (about 180 m) inside, then out.
+    expect(kind(trail('leaves', [[-78.792, 35.805], [-78.78, 35.805]]))[0][2]).toBe('contained')
+  })
+  it('falls back to nearby (0 m) when only a short stretch or a single vertex is inside', () => {
+    expect(kind(trail('graze', [[-78.7905, 35.805], [-78.789, 35.805], [-78.78, 35.805]]))).toEqual([['park', 'graze', 'nearby', 0]])
+    expect(kind(trail('touch', [[-78.7899, 35.805], [-78.7895, 35.8], [-78.78, 35.79]]))[0][2]).toBe('nearby')
   })
 })

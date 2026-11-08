@@ -3,13 +3,9 @@
 
 const CHUNK_IDS = 200
 
-async function getJson(fetchFn, url) {
-  const res = await fetchFn(url)
-  if (!res.ok) throw new Error(`${res.status} ${url}`)
-  const json = await res.json()
-  if (json && json.error) throw new Error(`ArcGIS error ${json.error.code ?? ''} ${json.error.message ?? ''} for ${url}`)
-  return json
-}
+import { getJson as getRaw, isoFromEpoch } from './http.mjs'
+
+const getJson = (fetchFn, url) => getRaw(fetchFn, url, { arcgis: true })
 
 function qs(params) {
   return new URLSearchParams(params).toString()
@@ -26,7 +22,7 @@ export async function fetchArcgis(source, { fetch: fetchFn = globalThis.fetch } 
   const idField = info.objectIdField || 'OBJECTID'
   const pageSize = Math.max(1, Math.min(Number(info.maxRecordCount) || 1000, 2000))
   const edited = info.editingInfo?.dataLastEditDate ?? info.editingInfo?.lastEditDate
-  const sourceModified = typeof edited === 'number' ? new Date(edited).toISOString() : null
+  const sourceModified = isoFromEpoch(edited)
 
   const count = await getJson(fetchFn, `${base}/query?${qs({ where, ...spatial, returnCountOnly: 'true', f: 'json' })}`)
   const expectedCount = count.count

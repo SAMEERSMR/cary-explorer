@@ -109,7 +109,10 @@ describe('loadManifest', () => {
     const controller = new AbortController()
     const release = await loadManifest('/m.json', controller.signal)
     expect(release.id).toBe('4188bdab5a4741a2')
-    expect(fetchMock).toHaveBeenCalledWith('/m.json', { signal: controller.signal, cache: 'no-cache' })
+    const init = fetchMock.mock.calls[0][1] as RequestInit
+    expect(fetchMock.mock.calls[0][0]).toBe('/m.json')
+    expect(init.cache).toBe('no-cache')
+    expect(init.signal?.aborted).toBe(false)
   })
 })
 

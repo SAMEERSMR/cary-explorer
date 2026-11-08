@@ -1,6 +1,7 @@
 // Row of toggle chips, one per theme, that show or hide that theme on the map and list.
 // Desktop wraps the chips; below md they scroll horizontally (the mobile sheet).
 import { useState } from 'react'
+import { CHIP } from '../../lib/styles'
 import { useAppStore } from '../../store/useAppStore'
 import { AMENITY_PANEL_ID, AmenityFilters } from '../places/AmenityFilters'
 import { LAYER_PANEL_ID, LayerSwitches } from './LayerSwitches'
@@ -64,7 +65,7 @@ export function ThemeFilter() {
           aria-expanded={layersOpen}
           aria-controls={layersOpen ? LAYER_PANEL_ID : undefined}
           onClick={() => setLayersOpen((v) => !v)}
-          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-line bg-white px-3 text-sm font-medium whitespace-nowrap text-ink-muted hover:bg-ground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-1"
+          className={CHIP}
         >
           <svg
             aria-hidden="true"
@@ -91,7 +92,7 @@ export function ThemeFilter() {
           aria-expanded={amenitiesOpen}
           aria-controls={amenitiesOpen ? AMENITY_PANEL_ID : undefined}
           onClick={() => setAmenitiesOpen((v) => !v)}
-          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-line bg-white px-3 text-sm font-medium whitespace-nowrap text-ink-muted hover:bg-ground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-1"
+          className={CHIP}
         >
           <svg
             aria-hidden="true"

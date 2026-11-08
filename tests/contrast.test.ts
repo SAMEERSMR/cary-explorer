@@ -26,8 +26,8 @@ const T = {
   forest: '#1F6F5C',
   ground: '#F7F6F2',
   panel: '#FFFFFF',
-  sampleBg: '#FBEBC4',
-  sampleInk: '#6B4300',
+  warnBg: '#FBEBC4',
+  warnInk: '#6B4300',
   edge: '#8A938B',
 }
 
@@ -51,7 +51,7 @@ describe('WCAG contrast of panel colours', () => {
     ['unpressed chip / toggle', C.n700, C.white],
     ['pressed chip / toggle', C.white, C.n900],
     ['source link', C.blue700, C.white],
-    ['sample-data badge', C.amber900, C.amber100],
+    ['warning badge', C.amber900, C.amber100],
     ['selected row name', C.n900, C.blue50],
     ['selected row secondary', C.n600, C.blue50],
     ['default heading', C.black, C.white],
@@ -84,7 +84,7 @@ describe('WCAG contrast of panel colours', () => {
     ['forest text on panel', T.forest, T.panel],
     ['forest text on ground', T.forest, T.ground],
     ['white text on forest fill', C.white, T.forest],
-    ['sample-ink on sample-bg', T.sampleInk, T.sampleBg],
+    ['warn-ink on warn-bg', T.warnInk, T.warnBg],
   ]
   it.each(tokenText)('%s is at least 4.5:1', (_n, fg, bg) => {
     expect(ratio(fg, bg)).toBeGreaterThanOrEqual(4.5)

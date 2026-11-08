@@ -2,11 +2,7 @@
 // source.url is the dataset page (https://host/explore/dataset/<id>/); the API URL is derived from it.
 // Returns { features, expectedCount, sourceModified, idField, catalog }.
 
-async function getJson(fetchFn, url) {
-  const res = await fetchFn(url)
-  if (!res.ok) throw new Error(`${res.status} ${url}`)
-  return res.json()
-}
+import { getJson } from './http.mjs'
 
 export function odsApiUrl(pageUrl) {
   const u = new URL(pageUrl)

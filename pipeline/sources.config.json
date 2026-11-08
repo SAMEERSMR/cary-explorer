@@ -40,7 +40,8 @@
       "shape_stlength"
     ],
     "dir": "cary/greenway-trails",
-    "enabled": true
+    "enabled": false,
+    "note": "Not used by the build: it is a 30-segment natural-surface subset of the greenway system, and the catalog's trails come from proposed-greenway-trails. Kept as a licence record only; its snapshot folder was deleted."
   },
   {
     "id": "proposed-greenway-trails",

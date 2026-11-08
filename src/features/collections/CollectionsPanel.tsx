@@ -5,7 +5,7 @@ import { PlaceRow } from '../places/PlaceRow'
 import { usePlaces } from '../places/usePlaces'
 import { ReleaseLine } from '../places/ReleaseLine'
 import { useRelease } from '../places/release'
-import { publicUrl } from '../places/catalog'
+import { publicUrl } from '../../lib/guards'
 import { useCollections, useOpenCollection, resolveCollectionPlaces } from './collections'
 
 const BUTTON =

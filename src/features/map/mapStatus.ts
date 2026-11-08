@@ -6,8 +6,6 @@ export type MapStatus =
   | { state: 'ok' }
   | { state: 'unavailable'; reason: 'init' | 'tiles' }
 
-export const MAP_UNAVAILABLE_MESSAGE = 'Map unavailable — use search or the list to find places.'
-
 const OK: MapStatus = { state: 'ok' }
 const INIT_FAILED: MapStatus = { state: 'unavailable', reason: 'init' }
 const TILES_FAILED: MapStatus = { state: 'unavailable', reason: 'tiles' }

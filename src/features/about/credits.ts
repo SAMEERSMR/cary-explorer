@@ -1,4 +1,5 @@
 // Pure helpers for the Credits & privacy dialog: join manifest sources to catalog sources, format dates, decide which sections show.
+import { formatUtcLongDate } from '../../lib/dates'
 import type { ManifestSource } from '../places/release'
 import type { Source } from '../../types/place'
 
@@ -56,13 +57,7 @@ export function showEbirdSection(catalogSources: Source[]): boolean {
   return catalogSources.some((s) => s.id === 'ebird')
 }
 
-const longDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' })
-
-/** "November 7, 2026" in UTC (day-only dates would otherwise shift by a day), or the raw text if unparseable. */
-export function formatCreditDate(value: string): string {
-  const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? value : longDate.format(date)
-}
+export const formatCreditDate = formatUtcLongDate
 
 // Basemap credit. Keep in step with createBasemapLayer() in features/map/basemap.ts (OpenLayers' OSM source).
 export const BASEMAP_CREDIT = {

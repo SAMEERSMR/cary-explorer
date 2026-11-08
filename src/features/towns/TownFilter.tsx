@@ -1,13 +1,15 @@
 // Town dropdown plus the one-line coverage note for the chosen town.
 import { useId } from 'react'
 import { useAppStore } from '../../store/useAppStore'
-import { TOWNS, isTownSlug, townNote } from './coverage'
+import { TOWNS, isTownSlug } from './coverage'
+import { useTownNote } from './useTownNote'
 
 export function TownFilter({ compact = false }: { compact?: boolean }) {
   const town = useAppStore((s) => s.town)
   const setTown = useAppStore((s) => s.setTown)
   const id = useId()
-  const note = compact ? null : townNote(town)
+  const townNoteText = useTownNote()
+  const note = compact ? null : townNoteText
 
   return (
     <div className="flex flex-col gap-1.5">

@@ -206,7 +206,7 @@ The seven test files (76 tests) pass on these versions.
 
 Municipality is decided by point-in-polygon of a place's centroid against US Census TIGERweb incorporated places (public domain; registry source `census-places`, snapshot in `pipeline/sources/census/places/`, restricted to the 12 study towns by a `where` clause). A centroid in none of them is "Unincorporated Wake County" when it is inside Wake, otherwise "<County> County". `county` comes from the Census county polygons and is now required by the catalog parser. ZIP and other postal fields are never used, because they do not follow municipal limits.
 
-The full Wake County parks layer (`wake-parks`, CC BY 4.0) replaces the earlier sample. Per docs/source-matrix.md section 4, a Wake park whose point is inside Cary's corporate limits is skipped because Cary's CC0 data wins there; every other Wake park becomes a point-only `park` place. The layer's `JURISDICTION` field is shown in the description but does not decide municipality; disagreements with the polygons are reported by the build. Town portions outside Wake County follow source-matrix section 6. Because this raises the `wake-parks` place count from 1 to about 244, the refresh used `PIPELINE_ALLOW_COUNT_CHANGE=wake-parks` once.
+The full Wake County parks layer (`wake-parks`, CC BY 4.0) replaces the earlier sample. Per docs/source-matrix.md section 4, a Wake park whose point is inside Cary's corporate limits is skipped because Cary's CC0 data wins there; every other Wake park becomes a point-only `park` place. The layer's `JURISDICTION` field is shown in the description but does not decide municipality; disagreements with the polygons are reported by the build. Town portions outside Wake County follow source-matrix section 6. Because this raises the `wake-parks` place count from 1 to 243, the refresh used `PIPELINE_ALLOW_COUNT_CHANGE=wake-parks` once.
 
 ## 18. Visit information: known vs unknown
 
@@ -305,6 +305,12 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 **Decision:** The USGS Watershed Boundary Dataset HUC-12 layer (`hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/6`, snapshot `pipeline/sources/usgs/wbd-huc12/`, with HUC-8 and HUC-6 name tables) supplies the units. The service says "None. All data are open and non-proprietary", and we credit USGS as it asks. WBD is no longer maintained and 3DHP is its successor; we use WBD because it has a ready HUC-12 layer on a REST service we could snapshot with a count check, and we did not evaluate 3DHP's coverage (re-check in a refresh). Each HUC-12 that touches the nearby area and has ground in Wake, Chatham or Durham becomes a `water` place ("<name> watershed", pin inside the counties so it keeps a county and town), drawn from `layers/water` (25 m simplified, shown with the Water category switch, not park outlines). Each park and trail gets a `contained` relationship with `basis: 'watershed'` from its centroid; a park whose sample points put at least 10% in a second watershed lists both and the card says it sits on a divide. Copy states membership only: no flow, downstream, drinking-water or utility claims (#28).
 
 **Applies to:** `pipeline/lib/watersheds.mjs`, `pipeline/scripts/build-catalog.mjs`, `src/features/places/relationships.ts`, `src/features/map/layers.ts`, #22.
+
+## 29. Data accuracy rules (audit)
+
+**Decision:** A trail "runs through" a park (`contained`) only when at least 100 m of its length lies inside the park polygon (segments with both ends inside, plus the inside part of a segment that crosses the edge); below that the pair stays `nearby`. A trail links every watershed holding at least 15% of its length, or a single one when it holds 80% or more; trails with several carry `share` on each link and the card says "Passes through the X watershed" (parks are unchanged). Collections are titled by their data rule: "Parks with restrooms and mapped entrances" and "Paved trails" state the top 12 of N, and paved trails rank by the build's trail length, longest first. The unused Natural Surface Trails snapshot and the regional samples were removed.
+
+**Applies to:** `pipeline/lib/relationships.mjs`, `pipeline/lib/watersheds.mjs`, `pipeline/lib/collections.mjs`, `src/features/places/relationships.ts`, `docs/collections.md`.
 
 ## Spike outcomes
 

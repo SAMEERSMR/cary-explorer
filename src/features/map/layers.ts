@@ -8,6 +8,7 @@ import Polygon from 'ol/geom/Polygon'
 import type Geometry from 'ol/geom/Geometry'
 import { fromLonLat } from 'ol/proj'
 import { fetchBoundedJson } from '../../lib/boundedJson'
+import { isRecord } from '../../lib/guards'
 import { getRelease } from '../places/release'
 
 export type GeometryStatus = 'existing' | 'proposed'
@@ -16,8 +17,6 @@ export type LayerLoadStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 export const LAYER_NAMES = ['greenways', 'parks', 'water'] as const
 const LAYER_MAX_BYTES = 2 * 1024 * 1024
-
-const isRecord = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v)
 
 const isPosition = (v: unknown): v is number[] =>
   Array.isArray(v) &&

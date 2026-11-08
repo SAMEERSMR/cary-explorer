@@ -5,48 +5,48 @@
 
 export const COLLECTION_MAX_PLACES = 12
 
-const byName = (a, b) => a.name.localeCompare(b.name) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+const byName = (a, b) => a.name.localeCompare(b.name, 'en') || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
 
-/** Most confirmed amenities first, Cary on ties, then name; the first `max`, kept in that ranked order. */
-function pick(places, max = COLLECTION_MAX_PLACES) {
-  const count = (p) => (p.amenities ?? []).length
-  const cary = (p) => (p.municipality === 'Cary' ? 0 : 1)
-  return [...places]
-    .sort((a, b) => count(b) - count(a) || cary(a) - cary(b) || byName(a, b))
-    .slice(0, max)
-    .map((p) => p.id)
-}
+const count = (p) => (p.amenities ?? []).length
+const cary = (p) => (p.municipality === 'Cary' ? 0 : 1)
+
+/** Most confirmed amenities first, Cary on ties, then name. */
+const byFacilities = (a, b) => count(b) - count(a) || cary(a) - cary(b) || byName(a, b)
 
 const knownField = (detail, key) => (detail?.fields ?? []).some((f) => f?.key === key && f.status === 'known')
 
 /**
- * Pure builder. `places` are catalog places, `details` maps place id -> parsed places/<id>.json.
+ * Pure builder. `places` are catalog places, `details` maps place id -> parsed places/<id>.json,
+ * `trailMiles` maps trail place id -> miles as computed by the build (trails without a figure rank last).
  * Returns { collections } with only non-empty collections, in a fixed order.
  */
-export function buildCollections(places, details = {}) {
+export function buildCollections(places, details = {}, { trailMiles = new Map() } = {}) {
   const collections = []
 
   const withRestroom = places.filter(
     (p) => p.category === 'park' && (p.amenities ?? []).includes('restrooms') && knownField(details[p.id], 'entrances'),
   )
   if (withRestroom.length > 0) {
+    const shown = Math.min(COLLECTION_MAX_PLACES, withRestroom.length)
     collections.push({
       id: 'short-visit-restroom',
-      title: 'A short visit with a restroom nearby',
-      summary: 'Parks with a confirmed restroom and a recorded entrance, so you know where to arrive.',
-      placeIds: pick(withRestroom),
-      curation: `Parks with a recorded restroom and entrance (a park with either unknown is left out), most confirmed facilities first, Cary first on ties, then by name; up to ${COLLECTION_MAX_PLACES}.`,
+      title: 'Parks with restrooms and mapped entrances',
+      summary: `Parks with a confirmed restroom and a recorded entrance; the ${shown} with the most confirmed facilities, of ${withRestroom.length} that qualify.`,
+      placeIds: [...withRestroom].sort(byFacilities).slice(0, COLLECTION_MAX_PLACES).map((p) => p.id),
+      curation: `Parks with a recorded restroom and entrance (a park with either unknown is left out), most confirmed facilities first, Cary first on ties, then by name; top ${COLLECTION_MAX_PLACES} of ${withRestroom.length} qualifying parks.`,
     })
   }
 
   const paved = places.filter((p) => p.category === 'trail' && (p.amenities ?? []).includes('pavedSurface'))
   if (paved.length > 0) {
+    const miles = (p) => trailMiles.get(p.id) ?? -1
+    const shown = Math.min(COLLECTION_MAX_PLACES, paved.length)
     collections.push({
       id: 'paved-trails',
       title: 'Paved trails',
-      summary: 'Trails whose surface is recorded as paved.',
-      placeIds: pick(paved),
-      curation: `Trails with a confirmed paved surface (partly paved trails are left out), most confirmed facilities first (trail length is not in the data), Cary first on ties, then by name; up to ${COLLECTION_MAX_PLACES}. This says nothing about wheelchair access.`,
+      summary: `Trails whose surface is recorded as paved; the ${shown} longest, of ${paved.length} that qualify.`,
+      placeIds: [...paved].sort((a, b) => miles(b) - miles(a) || byName(a, b)).slice(0, COLLECTION_MAX_PLACES).map((p) => p.id),
+      curation: `Trails with a confirmed paved surface (partly paved trails are left out), longest first by the trail length computed from the greenway data, then by name; top ${COLLECTION_MAX_PLACES} of ${paved.length} qualifying trails. This says nothing about wheelchair access.`,
     })
   }
 

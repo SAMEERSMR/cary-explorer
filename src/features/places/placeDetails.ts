@@ -1,6 +1,7 @@
 // On-demand loader, defensive parser and hook for per-place visit details (the places folder named by the manifest).
-import { useEffect, useState } from 'react'
-import { fetchBoundedJson } from '../../lib/boundedJson'
+import { useCallback, useEffect, useState } from 'react'
+import { fetchBoundedJson, HttpError } from '../../lib/boundedJson'
+import { isRecord } from '../../lib/guards'
 import { useRelease } from './release'
 import {
   VISIT_FIELD_KEYS,
@@ -10,12 +11,10 @@ import {
 } from '../../types/data-model'
 
 export const MAX_DETAILS_BYTES = 64 * 1024
+const BUDGET_MESSAGE = 'Place details exceed the download budget.'
 const MAX_VALUE_LENGTH = 200
 const ID_PATTERN = /^[a-z0-9-]{1,120}$/
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  value !== null && typeof value === 'object' && !Array.isArray(value)
 
 export const isValidPlaceId = (id: unknown): id is string =>
   typeof id === 'string' && ID_PATTERN.test(id)
@@ -85,63 +84,92 @@ export function splitFields(fields: VisitField[]): SplitFields {
   return { known, unknown, wheelchairUnknown }
 }
 
-/** Fetches and parses details for one id; resolves null when absent, invalid or failed. Rejects only on abort. */
+/**
+ * Fetches and parses details for one id. Resolves null when the file is genuinely absent (404) or its content is
+ * invalid. Rejects on abort and on transient failures (network, timeout, HTTP errors other than 404) so they aren't cached.
+ */
 export async function loadPlaceDetails(
   base: string,
   id: string,
   signal: AbortSignal,
 ): Promise<PlaceDetails | null> {
   if (!isValidPlaceId(id)) return null
+  let raw: unknown
   try {
-    const raw = await fetchBoundedJson(placeDetailsUrl(base, id), {
+    raw = await fetchBoundedJson(placeDetailsUrl(base, id), {
       signal,
       maxBytes: MAX_DETAILS_BYTES,
       label: 'Place details',
-      budgetMessage: 'Place details exceed the download budget.',
+      budgetMessage: BUDGET_MESSAGE,
     })
-    return parsePlaceDetails(raw, id)
   } catch (err) {
-    if (signal.aborted) throw err
-    return null
+    if (err instanceof HttpError && err.status === 404) return null
+    // Bad JSON or an oversized file will not fix itself on retry, so it counts as missing.
+    if (err instanceof SyntaxError || (err instanceof Error && err.message === BUDGET_MESSAGE)) return null
+    throw err
   }
+  return parsePlaceDetails(raw, id)
 }
 
 const cache = new Map<string, PlaceDetails | null>()
 
-export interface PlaceDetailsResult {
-  status: 'loading' | 'ready' | 'missing'
-  details: PlaceDetails | null
+/** Cached details: undefined when not loaded yet, null when known to be missing. */
+export const getCachedPlaceDetails = (id: string) => cache.get(id)
+
+/** Loads through the per-id cache. Successes and genuine absences are cached; failures are not. */
+export async function loadPlaceDetailsCached(
+  base: string,
+  id: string,
+  signal: AbortSignal,
+): Promise<PlaceDetails | null> {
+  if (cache.has(id)) return cache.get(id) ?? null
+  const details = await loadPlaceDetails(base, id, signal)
+  cache.set(id, details)
+  return details
 }
 
-const MISSING: PlaceDetailsResult = { status: 'missing', details: null }
-const LOADING: PlaceDetailsResult = { status: 'loading', details: null }
+export interface PlaceDetailsResult {
+  status: 'loading' | 'ready' | 'missing' | 'error'
+  details: PlaceDetails | null
+  /** Re-requests after an 'error'. */
+  retry: () => void
+}
+
+const noop = () => {}
 
 export function usePlaceDetails(id: string | null): PlaceDetailsResult {
   const release = useRelease()
   const [loaded, setLoaded] = useState<{ id: string; details: PlaceDetails | null } | null>(null)
+  const [failedId, setFailedId] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  const retry = useCallback(() => {
+    setFailedId(null)
+    setAttempt((n) => n + 1)
+  }, [])
 
   useEffect(() => {
     if (!release || !id || !isValidPlaceId(id) || cache.has(id)) return
     const controller = new AbortController()
-    loadPlaceDetails(release.placesBaseUrl, id, controller.signal).then(
+    loadPlaceDetailsCached(release.placesBaseUrl, id, controller.signal).then(
       (details) => {
-        cache.set(id, details)
+        setFailedId(null)
         setLoaded({ id, details })
       },
       () => {
-        // Aborted: nothing to record.
+        if (!controller.signal.aborted) setFailedId(id)
       },
     )
     return () => controller.abort()
-  }, [id, release])
+  }, [id, release, attempt])
 
-  if (!id || !isValidPlaceId(id)) return MISSING
+  if (!id || !isValidPlaceId(id)) return { status: 'missing', details: null, retry: noop }
   const entry = cache.has(id) ? { id, details: cache.get(id) ?? null } : loaded?.id === id ? loaded : null
-  if (!entry) return LOADING
-  return entry.details ? { status: 'ready', details: entry.details } : MISSING
-}
-
-/** Test helper: clears the per-id cache. */
-export function clearPlaceDetailsCache() {
-  cache.clear()
+  if (entry) {
+    return entry.details
+      ? { status: 'ready', details: entry.details, retry: noop }
+      : { status: 'missing', details: null, retry: noop }
+  }
+  return failedId === id
+    ? { status: 'error', details: null, retry }
+    : { status: 'loading', details: null, retry: noop }
 }

@@ -7,7 +7,7 @@ import { categoryLabel } from '../themes/themes'
 import { SearchBox } from '../search/SearchBox'
 import { ThemeFilter } from '../themes/ThemeFilter'
 import { TownFilter } from '../towns/TownFilter'
-import { townNote } from '../towns/coverage'
+import { useTownNote } from '../towns/useTownNote'
 import { sheetHeightPx } from '../../lib/layout'
 import { PanelBody } from './PanelBody'
 import { ViewToggle } from './ViewToggle'
@@ -33,7 +33,7 @@ export function MobilePanel() {
   const sheetState = useAppStore((s) => s.sheetState)
   const setSheetState = useAppStore((s) => s.setSheetState)
   const selected = useSelectedPlace()
-  const note = townNote(useAppStore((s) => s.town))
+  const note = useTownNote()
   const sectionRef = useRef<HTMLElement>(null)
   const drag = useRef<{ id: number; startY: number; startHeight: number; startState: SheetState; inset: number; samples: PointerSample[]; moved: boolean } | null>(null)
   const suppressClick = useRef(false)

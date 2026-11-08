@@ -6,7 +6,11 @@
 // Output: [{ from, to, kind, distanceM?, basis? }] sorted by from, to, kind.
 //
 // Rules:
-//   contained: a trail with any vertex inside a park polygon -> { from: trailId, to: parkId, kind: 'contained' }.
+//   contained: a trail with at least CONTAINED_MIN_M (100 m) of its length inside a park polygon ->
+//              { from: trailId, to: parkId, kind: 'contained' }. Length inside = the sum of segment lengths with both
+//              ends inside, plus the inside part of each segment with one end inside (the crossing is found by
+//              bisection). A segment that enters and leaves between two outside vertices is not counted, so the
+//              figure can only be low. Below the threshold the pair is not 'contained'; it falls through to 'nearby'.
 //   nearby:    park-park and park-trail pairs whose geometries come within NEARBY_M (400 m). Trail-trail pairs
 //              are not linked. Distance is the smallest haversine distance between any vertex of one and any
 //              vertex of the other (cheap and slightly generous for parks with sparse vertices), or 0 when a
@@ -20,6 +24,8 @@
 import { extent, haversineM, pointInPolygon } from './geo.mjs'
 
 export const NEARBY_M = 400
+/** A trail 'runs through' a park only when at least this much of it lies inside the park polygon. */
+export const CONTAINED_MIN_M = 100
 export const NEAREST_MAX_M = 2000
 const M_PER_DEG_LAT = 111320
 
@@ -29,7 +35,7 @@ function prep(item) {
   const vertices = verts.filter((p) => Array.isArray(p) && typeof p[0] === 'number')
   const bbox = extent(vertices)
   const polyBoxes = polygons.map((polygon) => ({ polygon, bbox: extent(polygon[0] ?? []) }))
-  return { id: item.id, kind: item.kind, vertices, bbox, polyBoxes }
+  return { id: item.id, kind: item.kind, vertices, bbox, polyBoxes, lines: item.lines ?? [] }
 }
 
 const grow = (b, m) => {
@@ -43,6 +49,31 @@ const inBox = (p, b) => p[0] >= b[0] && p[0] <= b[2] && p[1] >= b[1] && p[1] <= 
 function insideAny(point, target) {
   for (const pb of target.polyBoxes) if (inBox(point, pb.bbox) && pointInPolygon(point, pb.polygon)) return true
   return false
+}
+
+/** Metres of the trail's lines inside the park's polygons (see the rules above). */
+export function lengthInsideM(lines, park) {
+  let total = 0
+  for (const line of lines) {
+    for (let i = 1; i < line.length; i++) {
+      const a = line[i - 1]
+      const b = line[i]
+      const aIn = insideAny(a, park)
+      const bIn = insideAny(b, park)
+      if (aIn && bIn) total += haversineM(a, b)
+      else if (aIn || bIn) {
+        let lo = aIn ? a : b
+        let hi = aIn ? b : a
+        for (let k = 0; k < 12; k++) {
+          const mid = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2]
+          if (insideAny(mid, park)) lo = mid
+          else hi = mid
+        }
+        total += haversineM(aIn ? a : b, lo)
+      }
+    }
+  }
+  return total
 }
 
 // Smallest distance in metres between two prepared items (0 when a vertex lies inside the other's polygon),
@@ -69,7 +100,7 @@ export function computeRelationships(items) {
       if (a.kind === 'trail' && b.kind === 'trail') continue
       if (!overlap(boxes[i], boxes[j])) continue
       const [park, other] = a.kind === 'park' ? [a, b] : [b, a]
-      if (other.kind === 'trail' && other.vertices.some((p) => insideAny(p, park))) {
+      if (other.kind === 'trail' && other.vertices.some((p) => insideAny(p, park)) && lengthInsideM(other.lines, park) >= CONTAINED_MIN_M) {
         out.push({ from: other.id, to: park.id, kind: 'contained' })
         continue
       }

@@ -16,8 +16,8 @@
   --color-line: #E6E3DC;
   --color-edge: #8A938B;
   --color-placeholder-line: #B9B3A5;
-  --color-sample-bg: #FBEBC4;
-  --color-sample-ink: #6B4300;
+  --color-warn-bg: #FBEBC4;
+  --color-warn-ink: #6B4300;
   --color-error-edge: #C9A99A;
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-display: "Fraunces Variable", Fraunces, Georgia, serif;

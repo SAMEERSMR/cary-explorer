@@ -2,6 +2,7 @@
 import type { CategoryId, Place, Source } from '../../types/place'
 import { fetchBoundedJson } from '../../lib/boundedJson'
 import { CATEGORY_THEME } from '../themes/themes'
+import { parseAmenities } from './amenities'
 
 const COVERAGE_VALUES = ['core', 'nearby', 'outside'] as const
 
@@ -141,6 +142,7 @@ function parsePlace(
     stationNumber: item.stationNumber as number | undefined,
     url: item.url as string | undefined,
     coverage: item.coverage as Place['coverage'],
+    amenities: parseAmenities(item.amenities),
     sourceIds: item.sourceIds as string[],
   }
 }

@@ -25,6 +25,7 @@ export function useUrlSync() {
         place: s.selectedPlaceId ?? pendingPlace ?? s.missingPlaceId,
         themes: s.activeThemes,
         layers: s.layerOverrides,
+        amenities: s.amenityFilters,
         view: s.view,
         q: s.searchQuery,
         town: s.town,
@@ -69,6 +70,7 @@ export function useUrlSync() {
     const fromStore = (st: ReturnType<typeof useAppStore.getState>, selected: string | null, missing: string | null) => ({
       themes: st.activeThemes,
       layers: st.layerOverrides,
+      amenities: st.amenityFilters,
       view: st.view,
       searchQuery: st.searchQuery,
       town: st.town,
@@ -103,6 +105,7 @@ export function useUrlSync() {
         st.applyUrlState({
           themes: parsed.themes,
           layers: parsed.layers,
+          amenities: parsed.amenities,
           view: parsed.view,
           searchQuery: parsed.q,
           town: parsed.town ?? null,
@@ -131,7 +134,7 @@ export function useUrlSync() {
       // A user action cancels a place still waiting for the catalog.
       if (s.selectedPlaceId !== before.selectedPlaceId) pendingPlace = null
       const placeChanged = s.selectedPlaceId !== before.selectedPlaceId || s.missingPlaceId !== before.missingPlaceId
-      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.layerOverrides !== before.layerOverrides || s.town !== before.town || s.aboutOpen !== before.aboutOpen
+      const structural = placeChanged || s.view !== before.view || s.activeThemes !== before.activeThemes || s.layerOverrides !== before.layerOverrides || s.amenityFilters !== before.amenityFilters || s.town !== before.town || s.aboutOpen !== before.aboutOpen
       if (structural) {
         const dismissed = before.missingPlaceId !== null && s.missingPlaceId === null && s.selectedPlaceId === before.selectedPlaceId
         // Flush a pending pan into the entry being left, so Back returns to where the user was.
@@ -142,6 +145,7 @@ export function useUrlSync() {
             place: before.selectedPlaceId ?? before.missingPlaceId,
             themes: before.activeThemes,
             layers: before.layerOverrides,
+            amenities: before.amenityFilters,
             view: before.view,
             q: before.searchQuery,
             town: before.town,

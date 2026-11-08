@@ -1,6 +1,8 @@
 // Pure parse/serialise of the shareable URL state (query string). No DOM access: safe to unit test in Node.
 import type { ThemeId } from '../types/place'
 import { isTownSlug } from '../features/towns/coverage'
+import { parseAmenitiesParam, serializeAmenities } from '../features/places/amenities'
+import type { AmenityKey } from '../types/place'
 import { parseLayers, serializeLayers, type LayerOverrides } from '../features/themes/layerSelection'
 
 export type UrlView = 'map' | 'list'
@@ -14,6 +16,8 @@ export interface UrlState {
   themes: ThemeId[]
   /** Layer switches that differ from the theme defaults; absent or empty means defaults. */
   layers?: LayerOverrides
+  /** Active amenity filters; absent or empty means none. */
+  amenities?: AmenityKey[]
   view: UrlView
   q: string
   town: string | null
@@ -26,6 +30,7 @@ export type ParsedUrlState = Partial<{
   place: string
   themes: ThemeId[]
   layers: LayerOverrides
+  amenities: AmenityKey[]
   view: UrlView
   q: string
   town: string
@@ -85,6 +90,13 @@ export function parseUrlState(search: string): ParsedUrlState {
       if (Object.keys(parsed).length > 0) out.layers = parsed
     }
 
+    // `amenities=restrooms,parking`: unknown values are dropped.
+    const amenities = params.get('amenities')
+    if (amenities !== null) {
+      const parsed = parseAmenitiesParam(amenities)
+      if (parsed.length > 0) out.amenities = parsed
+    }
+
     const view = params.get('view')
     if (view === 'map' || view === 'list') out.view = view
 
@@ -125,6 +137,8 @@ export function serializeUrlState(state: UrlState): string {
   else if (active.length < ALL_THEME_IDS.length) parts.push(`themes=${enc(active.join(','))}`)
   const layers = serializeLayers(active, state.layers ?? {})
   if (layers) parts.push(`layers=${enc(layers)}`)
+  const amenities = serializeAmenities(state.amenities ?? [])
+  if (amenities) parts.push(`amenities=${enc(amenities)}`)
   if (state.view === 'list') parts.push('view=list')
   const q = state.q.trim().slice(0, MAX_QUERY_LENGTH)
   if (q) parts.push(`q=${enc(q)}`)

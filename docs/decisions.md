@@ -250,6 +250,30 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/themes/`, `useFilteredPlaces.ts`, `src/features/search/useLayerSearch.ts`, `src/lib/urlState.ts`, `src/app/useUrlSync.ts`, #58.
 
+## 22. Privacy statement and licence gate
+
+**Context:** The brief asks for attribution and reuse terms for every source, but says nothing about a privacy statement or about enforcing licences in the pipeline (#19). Both are project decisions.
+
+**Decision:** The credits dialog (`?about=1`) carries a privacy statement that describes only what the code does today: no accounts, cookies, analytics or browser storage, no device location, the app's own data files plus basemap tiles (the tile host sees the visitor's IP), and what the page address holds. It must be re-checked whenever logging (#16), a production basemap (#3) or a location feature lands. The pipeline refuses to publish a source without a licence: the registry only allows enabled sources with `licenceStatus: "open"`, and `validateRelease` fails on a missing or blank `license`. The credits list is generated from the manifest and catalog, never hand-typed.
+
+**Applies to:** `src/features/about/`, `pipeline/lib/snapshot-core.mjs`, `pipeline/lib/validate.mjs`, #19.
+
+## 23. Size budgets checked in CI
+
+**Context:** The brief asks to measure startup and search speed on real data and lower-powered phones (#20). Device measurements need a person; file sizes can be checked on every change.
+
+**Decision:** `pipeline/budgets.json` sets gzipped limits (initial data 256 KB, catalog 200 KB, each layer 150 KB, each place file 4 KB, manifest 4 KB, largest JS chunk about 1.25× its size when set). `npm run check:budgets` resolves files through the manifest and runs in CI after the build; going over fails the build. Budgets are raised only on purpose, with a note in `docs/performance.md`; dense geometry that misses its budget is simplified or moved to PMTiles rather than given a bigger budget. Phone measurements stay a human test in #20.
+
+**Applies to:** `pipeline/budgets.json`, `pipeline/scripts/check-budgets.mjs`, `.github/workflows/ci.yml`, `docs/performance.md`, #20.
+
+## 24. Regional trails from Wake County greenways
+
+**Context:** Town trail layers have unclear licences, Chatham and Durham terms are pending, and `maps.wake.gov` times out from our build network (#67).
+
+**Decision:** Trails outside Cary come only from Wake County's "Greenways in Wake County" (CC BY 4.0), fetched through the `arcgis-hub` source type: it downloads the public ArcGIS Hub export, refuses to run unless the Hub licence equals the registry licence, and fails unless the export count equals the live record count (a fresh export is requested, because the cached download is stale). Cary-owned and private segments are dropped (Cary's own data wins inside Cary), segments are grouped into places by trail name, unnamed segments and named trails under 0.5 mi are not shown, and a trail with the same name as an existing place within 1 km is skipped. Lines are `status: "existing"` and simplified to 5 m to stay inside the greenways layer budget. Regional trail places have no visit fields yet; surface and accessibility from this source are a follow-up, and wheelchair access still comes only from a stated accessibility value.
+
+**Applies to:** `pipeline/lib/fetch-hub.mjs`, `pipeline/scripts/build-catalog.mjs`, `pipeline/sources.config.json`, `docs/source-matrix.md`, #67.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

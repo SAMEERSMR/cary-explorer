@@ -22,6 +22,7 @@ import {
 } from '../lib/geo.mjs'
 import { computeRelationships } from '../lib/relationships.mjs'
 import { buildCollections } from '../lib/collections.mjs'
+import { CREEK_MIN_M, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
@@ -761,12 +762,70 @@ export function build({ write = true, outDir = OUT } = {}) {
       geometry: { type: 'MultiPolygon', coordinates: w.polygons },
     })
   }
+  // Named USGS 3DHP stream channels become Water places too ("Creeks from USGS hydrography"): segments are grouped by GNIS name and
+  // chained when end points are within 200 m, so two far-apart streams with one name stay separate. A creek needs about a mile in the
+  // study area and a pin (the middle of its longest piece) inside Wake, Chatham or Durham; its lines go in the water layer.
+  const streamsMeta = readJson(join(SRC, 'usgs', '3dhp-streams', 'meta.json'))
+  const allCreeks = groupCreeks(readJson(join(SRC, 'usgs', '3dhp-streams', 'data.geojson')).features, scope)
+  const creeks = []
+  const creekStats = { grouped: allCreeks.length, tooShort: 0, noCountyArea: 0 }
+  for (const c of allCreeks) {
+    if (c.lengthM < CREEK_MIN_M) {
+      creekStats.tooShort++
+      continue
+    }
+    const lines = simplifyCreekLines(c.lines)
+    const pin = lines.length ? creekPin(lines, inCounties) : null
+    if (!pin) {
+      creekStats.noCountyArea++
+      continue
+    }
+    creeks.push({ ...c, lines, pin: [round(pin[0]), round(pin[1])] })
+  }
+  // Ids: "creek-<name>"; a second creek of the same name takes the GNIS id, then its first segment id, so ids never collide.
+  const takenIds = new Set(Object.values(allIds))
+  const creekEntries = creeks.map((c) => {
+    c.key = `usgs-3dhp-creek:${c.gnisid ?? 'x'}:${c.ids[0]}`
+    if (allIds[c.key] === undefined) {
+      const pick = [c.name, `${c.name} ${c.gnisid}`, `${c.name} ${c.gnisid} ${c.ids[0]}`].find((n) => !takenIds.has(`creek-${slug(n)}`))
+      allIds[c.key] = `creek-${slug(pick)}`
+    }
+    takenIds.add(allIds[c.key])
+    return { key: c.key, prefix: 'creek', name: c.name }
+  })
+  allIds = assignIds(allIds, creekEntries)
+  for (const c of creeks) {
+    c.id = allIds[c.key]
+    const county = countyOf(c.pin, counties)
+    const coverage = classifyLine(c.lines, scope)
+    places.push({
+      id: c.id,
+      name: c.name,
+      aliases: [],
+      category: 'water',
+      municipality: municipalityOf(c.pin, towns, county),
+      county,
+      coverage,
+      centroid: c.pin,
+      bbox: bboxOf(c.lines.flat()),
+      description: creekDescription(c.name, c.lengthM),
+      sourceIds: ['usgs-3dhp-streams'],
+    })
+    waterFeatures.push({
+      type: 'Feature',
+      properties: { placeId: c.id, outsideCore: coverage !== 'core' },
+      geometry: { type: 'MultiLineString', coordinates: c.lines },
+    })
+  }
   const centroidOf = new Map(places.map((p) => [p.id, p.centroid]))
   const watershedLinks = watershedRelationships(
-    relItems.filter((r) => centroidOf.has(r.id)).map((r) => ({ ...r, centroid: centroidOf.get(r.id) })),
+    [...relItems, ...creeks.map((c) => ({ id: c.id, kind: 'creek', lines: c.lines }))]
+      .filter((r) => centroidOf.has(r.id))
+      .map((r) => ({ ...r, centroid: centroidOf.get(r.id) })),
     watersheds,
     idByHuc12,
   )
+  const creekLinks = creekRelationships(creeks, relItems)
 
   for (const p of places) {
     const extra = aliasMap[p.id]
@@ -829,6 +888,17 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
 
+  if (creeks.length) {
+    sources.push({
+      id: 'usgs-3dhp-streams',
+      title: title('usgs-3dhp-streams'),
+      name: 'US Geological Survey',
+      url: streamsMeta.url,
+      license: 'Public domain (USGS)',
+      retrievedAt: streamsMeta.retrievedAt,
+    })
+  }
+
   if (watersheds.length) {
     sources.push({
       id: 'usgs-wbd-huc12',
@@ -870,7 +940,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
-  relationships.relationships.push(...watershedLinks.relationships)
+  relationships.relationships.push(...watershedLinks.relationships, ...creekLinks)
   relationships.relationships.sort((x, y) => cmp(x.from, y.from) || cmp(x.to, y.to) || cmp(x.kind, y.kind))
   for (const p of places) {
     const amenities = amenitiesOf(details[p.id].fields)
@@ -917,6 +987,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     wakeGreenways: { kept: wakeGw.kept, dropped: wakeGw.dropped, skipped: wakeGw.skipped, imported: regionalTrails.length },
     jurisdictionMismatches,
     ids: allIds,
+    creeks: { places: creeks, stats: creekStats, links: creekLinks },
     watersheds: { inScope: watersheds, noCountyArea: inScopeWatersheds.length - watersheds.length, notDetermined: watershedLinks.notDetermined, links: watershedLinks.relationships },
   }
 }
@@ -992,6 +1063,7 @@ function main() {
   for (const d of r.dedupeSkips) console.log(`dedupe skip: Wake "${d.name}" == ${d.caryId} (${d.distanceM} m)`)
   for (const d of r.trailDedupeSkips) console.log(`dedupe skip: Wake greenway "${d.name}" == ${d.twinId} (${d.distanceM} m)`)
   console.log(`watersheds in scope: ${r.watersheds.inScope.length} (${r.watersheds.noCountyArea} skipped: no area in the three counties); watershed links ${r.watersheds.links.length}; parks/trails not determined ${r.watersheds.notDetermined.length}`)
+  console.log(`creeks: ${r.creeks.places.length} places (${r.creeks.stats.grouped} grouped, ${r.creeks.stats.tooShort} under a mile dropped, ${r.creeks.stats.noCountyArea} with no county area); creek links ${r.creeks.links.length} (${r.creeks.links.filter((x) => x.basis === 'along').length} along, ${r.creeks.links.filter((x) => x.kind === 'contained').length} in parks)`)
   console.log(`wake greenways imported ${r.wakeGreenways.imported}, kept groups ${r.wakeGreenways.kept.length}, dropped ${r.wakeGreenways.dropped.length}; skipped segments`, r.wakeGreenways.skipped)
   console.log(`greenways kept ${r.kept.length}, dropped ${r.dropped.length}; neighbours ${r.neighbours}; skipped`, r.skipped)
   console.log('by municipality:', tally('municipality'))

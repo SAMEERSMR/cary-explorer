@@ -338,4 +338,15 @@ How the import works: `maps.wake.gov` still times out from this network, so the 
 | Status | WBD is no longer maintained; USGS 3DHP is the successor for hydrography. We use WBD because it has a ready HUC-12 layer we could snapshot with a count check (service data loaded 2024-08); 3DHP was not evaluated, so check its coverage at the next refresh |
 | Snapshot | `pipeline/sources/usgs/wbd-huc12/` (5-decimal geometry), `wbd-huc8/` and `wbd-huc6/` (names only), bbox -79.09,35.44,-78.16,36.15, count checked against the service count |
 | Basins | Neuse, Cape Fear and Pamlico (the Tar-Pamlico basin) |
-| Not used | The `tohuc` flow field is not snapshotted, so no flow or downstream claim can be made (#28). Creek places, a tap-a-point lookup and the Neuse / Cape Fear story text with Cary citations are still open on #22 |
+| Not used | The `tohuc` flow field is not snapshotted, so no flow or downstream claim can be made (#28). A tap-a-point lookup and the Neuse / Cape Fear story text with Cary citations are still open on #22 |
+
+### Named streams (3DHP flowlines, #22)
+
+| Item | Value |
+|------|-------|
+| Service | https://hydro.nationalmap.gov/arcgis/rest/services/3DHP_all/MapServer/50 (Flowline). Same bbox as above: 31,797 flowlines, 6,051 with a GNIS name, 4,231 named `Channel Line` features snapshotted (waterbody and surface connectors left out) |
+| Licence | The service's own text says: "Use Constraints: None. All data are open and non-proprietary." Registry licence: "Public domain (USGS)"; credit USGS |
+| Choice | 3DHP (the maintained successor) over the legacy NHD flowline layer (`nhd/MapServer/6`, which carries the same text and the same counts in our box). Fields kept: `id3dhp`, `gnisid`, `gnisidlabel`, `featuretypelabel`, `lengthkm`, `featuredate`; the network, level-path and flow-direction fields are not snapshotted |
+| Snapshot | `pipeline/sources/usgs/3dhp-streams/`, 5-decimal geometry, count checked against the service; query `gnisidlabel IS NOT NULL AND featuretypelabel = 'Channel Line'` |
+| Use | 172 creek `water` places (of 296 name groups: 76 under about a mile and 48 with no ground in Wake, Chatham or Durham dropped); lines in `layers/water`. Rule and links in decision 30 |
+| Known limits | A stream broken by a lake or a gap over 200 m appears as several places of one name. The name is the USGS (GNIS) name: Cary's Black Creek Greenway runs beside the stream USGS calls Coles Branch |

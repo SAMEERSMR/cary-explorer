@@ -1,14 +1,14 @@
 {
- "version": "d243cf66bd5b9e41",
+ "version": "58382c65269832a4",
  "generatedFrom": "2026-11-07T21:09:55.268Z",
  "artifacts": {
-  "catalog": "catalog.36bbc222393b.json",
+  "catalog": "catalog.b89ef523754f.json",
   "relationships": "relationships.fe1fb8e791c5.json",
   "layers": {
    "greenways": "layers/greenways.87e56a2d9f7f.geojson",
    "parks": "layers/parks.4aee84a0f2c8.geojson"
   },
-  "places": "places/8d1e917c20b8/"
+  "places": "places/7e4f6fe92c67/"
  },
  "sources": [
   {

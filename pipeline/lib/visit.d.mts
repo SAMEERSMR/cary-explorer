@@ -19,12 +19,16 @@ export function wakeAddress(props: Props | undefined): string
 export function describeEntrances(entrances: Props[]): string | undefined
 export function describeSurface(segments: Props[]): string | undefined
 export function describeAccessibility(segments: Props[]): string | undefined
+export function classifyWakeSurface(raw: unknown): { type: 'paved'; kinds: string[] } | { type: 'natural' } | undefined
+export function describeWakeSurface(segments: Props[]): string | undefined
+export function describeWakeAccessibility(segments: Props[]): string | undefined
 export function buildVisitFields(ctx?: {
   wake?: Props
   caryPoints?: Props[]
   entrances?: Props[]
   segments?: Props[]
-  dates?: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string }
+  wakeSegments?: Props[]
+  dates?: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string; wakeGreenways?: string }
 }): VisitField[]
 export function validateDetail(detail: unknown, placeId: string, sourceIds?: Set<string>): string[]
 export const AMENITY_KEYS: VisitKey[]

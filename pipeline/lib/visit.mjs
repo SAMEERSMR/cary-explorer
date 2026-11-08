@@ -33,19 +33,35 @@ export const AMENITY_KEYS = [
   'water',
 ]
 
-/** Amenity keys that are known in a place's computed visit fields, in AMENITY_KEYS order. Empty when none. */
+/**
+ * Amenity keys that are fully confirmed in a place's computed visit fields, in AMENITY_KEYS order. Empty when none.
+ * Partial values ("... on some segments") stay known facts on the card but never match a filter. `wheelchair` counts
+ * only for "Accessible (...)"; `pavedSurface` only for "Paved (...)" (not "Mostly paved", "Unpaved", "Not paved" or "Mixed").
+ */
 export function amenitiesOf(fields) {
-  const known = new Set((fields ?? []).filter((f) => f?.status === 'known').map((f) => f.key))
+  const partial = /on some segments/i
+  const known = new Set(
+    (fields ?? [])
+      .filter((f) => f?.status === 'known')
+      .filter((f) => {
+        const v = String(f.value ?? '')
+        if (f.key === 'wheelchair') return /^accessible\b/i.test(v) && !partial.test(v)
+        if (f.key === 'pavedSurface') return /^paved\b/i.test(v) && !partial.test(v)
+        return true
+      })
+      .map((f) => f.key),
+  )
   return AMENITY_KEYS.filter((k) => known.has(k))
 }
 
 /** Sources whose fields explicitly state accessibility. Only these may back a known `wheelchair` value. */
-export const ACCESSIBILITY_SOURCES = new Set(['cary-greenways'])
+export const ACCESSIBILITY_SOURCES = new Set(['cary-greenways', 'wake-greenways'])
 
 export const SRC_WAKE_PARKS = 'wake-parks'
 export const SRC_WAKE_ENTRANCES = 'wake-park-entrances'
 export const SRC_CARY_FEATURES = 'cary-park-features'
 export const SRC_CARY_GREENWAYS = 'cary-greenways'
+export const SRC_WAKE_GREENWAYS = 'wake-greenways'
 
 const PAVED = new Set(['asphalt', 'concrete'])
 
@@ -140,6 +156,49 @@ export function describeAccessibility(segments) {
     : 'Accessible on some segments (per Town of Cary greenway data)'
 }
 
+const WAKE_PAVED = new Set(['asphalt', 'concrete', 'boardwalk', 'boardwlk'])
+const WAKE_NATURAL = new Set(['natural', 'natural surface', 'native material', 'imported loose material', 'chunk wood', 'mulch', 'gravel', 'dirt'])
+
+/** One Wake TRAIL_SURFACE value -> 'paved' (with kinds), 'natural', or undefined (blank, "Other", unrecognised, mixed paved/natural text). */
+export function classifyWakeSurface(raw) {
+  const n = norm(raw)
+  if (!n || n === 'other') return undefined
+  if (WAKE_NATURAL.has(n)) return { type: 'natural' }
+  const parts = n.split('/').map((x) => x.trim())
+  if (parts.length && parts.every((x) => WAKE_PAVED.has(x))) {
+    return { type: 'paved', kinds: parts.map((x) => (x === 'boardwlk' ? 'boardwalk' : x)) }
+  }
+  return undefined
+}
+
+/**
+ * Surface from Wake County greenway segments ({ surface }: TRAIL_SURFACE). Known only when a segment clearly states
+ * a paved or natural surface. All segments paved -> "Paved (...)"; some paved -> "Paved on some segments"; only natural
+ * stated -> "Unpaved (natural surface)" (qualified "on some segments" when others state nothing). Otherwise undefined.
+ */
+export function describeWakeSurface(segments) {
+  const types = segments.map((s) => classifyWakeSurface(s?.surface))
+  const paved = types.filter((t) => t?.type === 'paved')
+  const natural = types.filter((t) => t?.type === 'natural').length
+  if (paved.length === segments.length && paved.length) {
+    return `Paved (${[...new Set(paved.flatMap((t) => t.kinds))].sort().join('/')})`
+  }
+  if (paved.length) return 'Paved on some segments'
+  if (natural === segments.length && natural) return 'Unpaved (natural surface)'
+  if (natural) return 'Unpaved (natural surface) on some segments'
+  return undefined
+}
+
+/** Wheelchair access from Wake ACCESSIBILITY_STATUS, only when it is exactly "Accessible". "Not accessible", "Not evaluated" and blanks never count. */
+export function describeWakeAccessibility(segments) {
+  if (!segments.length) return undefined
+  const yes = segments.filter((s) => norm(s?.access) === 'accessible').length
+  if (!yes) return undefined
+  return yes === segments.length
+    ? 'Accessible (per Wake County greenway data)'
+    : 'Accessible on some segments (per Wake County greenway data)'
+}
+
 /**
  * Build the 14 visit fields for one place.
  * ctx: {
@@ -151,7 +210,7 @@ export function describeAccessibility(segments) {
  * }
  */
 export function buildVisitFields(ctx = {}) {
-  const { wake, caryPoints = [], entrances = [], segments = [], dates = {} } = ctx
+  const { wake, caryPoints = [], entrances = [], segments = [], wakeSegments, dates = {} } = ctx
   const label = Object.fromEntries(VISIT_FIELDS)
   const out = {}
   const set = (key, value, sourceId, date) => {
@@ -191,8 +250,13 @@ export function buildVisitFields(ctx = {}) {
   else set('phone', consensus(entrances.map((e) => e.PHONE)), SRC_WAKE_ENTRANCES, dates.entrances)
 
   // trail surface and explicit accessibility (never inferred from the surface)
-  set('pavedSurface', describeSurface(segments), SRC_CARY_GREENWAYS, dates.greenways)
-  set('wheelchair', describeAccessibility(segments), SRC_CARY_GREENWAYS, dates.greenways)
+  if (wakeSegments) {
+    set('pavedSurface', describeWakeSurface(wakeSegments), SRC_WAKE_GREENWAYS, dates.wakeGreenways)
+    set('wheelchair', describeWakeAccessibility(wakeSegments), SRC_WAKE_GREENWAYS, dates.wakeGreenways)
+  } else {
+    set('pavedSurface', describeSurface(segments), SRC_CARY_GREENWAYS, dates.greenways)
+    set('wheelchair', describeAccessibility(segments), SRC_CARY_GREENWAYS, dates.greenways)
+  }
 
   // no source for these yet
   for (const key of ['stepsSlope', 'hours', 'water']) set(key, undefined)
@@ -228,6 +292,8 @@ export function validateDetail(detail, placeId, sourceIds) {
       }
       if (f.key === 'wheelchair' && !ACCESSIBILITY_SOURCES.has(f.sourceId)) {
         errors.push(`${w}: wheelchair access may only be known from an explicit accessibility source`)
+      } else if (f.key === 'wheelchair' && f.sourceId === SRC_WAKE_GREENWAYS && !/^Accessible\b/.test(f.value ?? '')) {
+        errors.push(`${w}: wake-greenways may back wheelchair access only with an affirmative "Accessible" value`)
       }
     } else errors.push(`${w}: status must be "known" or "unknown"`)
   }

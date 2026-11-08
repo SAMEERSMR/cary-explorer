@@ -11,7 +11,7 @@ export function PrivacyNotice({ headingId }: { headingId: string }) {
         <li>There are no accounts, no cookies and no analytics or advertising trackers. The app does not save settings or data of its own in your browser.</li>
         <li>
           Location is optional and only requested when you press &quot;Near me&quot;. It is used in your browser to sort
-          places and measure straight-line distances. It is never sent to this site or anyone else, never stored, and never
+          places, measure straight-line distances and show a &quot;you are here&quot; marker on the map. It is never sent to this site or anyone else, never stored, and never
           put in the link. Turning &quot;Near me&quot; off forgets it.
         </li>
         <li>

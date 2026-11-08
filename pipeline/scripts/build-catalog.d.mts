@@ -84,7 +84,7 @@ export function buildDetails(
   visitCtx: Map<string, Record<string, unknown>>,
   entrances: unknown[],
   aliasMap: Record<string, string[]>,
-  dates: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string },
+  dates: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string; wakeGreenways?: string },
 ): Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[] }>
 export const WAKE_GREENWAY_SIMPLIFY_M: number
 export function lineLengthM(lines: Position[][]): number

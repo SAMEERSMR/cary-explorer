@@ -4,7 +4,7 @@ import { validateRelease } from '../pipeline/lib/validate.mjs'
 import { AMENITY_KEYS, amenitiesOf, buildVisitFields, validateDetail, VISIT_KEYS } from '../pipeline/lib/visit.mjs'
 import { buildDetails, joinEntrances } from '../pipeline/scripts/build-catalog.mjs'
 
-const dates = { wake: '2026-09-01', entrances: '2026-09-02', caryFeatures: '2026-10-31', greenways: '2026-11-01' }
+const dates = { wake: '2026-09-01', entrances: '2026-09-02', caryFeatures: '2026-10-31', greenways: '2026-11-01', wakeGreenways: '2026-02-18' }
 const byKey = (fields: ReturnType<typeof buildVisitFields>) => Object.fromEntries(fields.map((f) => [f.key, f]))
 const ORDER = [
   'address', 'entrances', 'parking', 'restrooms', 'pavedSurface', 'stepsSlope', 'wheelchair',
@@ -100,6 +100,95 @@ describe('buildVisitFields', () => {
     const partial = byKey(buildVisitFields({ segments: [{ surftype: 'Asphalt' }, { surftype: null }], dates }))
     expect(partial.pavedSurface.value).toContain('surface not recorded for some segments')
     expect(byKey(buildVisitFields({ segments: [{ surftype: null }], dates })).pavedSurface.status).toBe('unknown')
+  })
+})
+
+describe('Wake regional trails (wake-greenways)', () => {
+  const wake = (wakeSegments: { surface?: string | null; access?: string | null }[]) => byKey(buildVisitFields({ wakeSegments, dates }))
+
+  it('maps paved values, including combined and misspelled ones, to a human value', () => {
+    for (const raw of ['ASPHALT', 'Asphalt', 'concrete', 'Boardwalk']) {
+      expect(wake([{ surface: raw }]).pavedSurface).toMatchObject({ status: 'known', sourceId: 'wake-greenways', verifiedAt: '2026-02-18' })
+    }
+    expect(wake([{ surface: 'ASPHALT' }, { surface: 'Concrete' }]).pavedSurface.value).toBe('Paved (asphalt/concrete)')
+    expect(wake([{ surface: 'Asphalt/Concrete/Boardwlk' }]).pavedSurface.value).toBe('Paved (asphalt/boardwalk/concrete)')
+    expect(wake([{ surface: 'Boardwalk/Concrete' }]).pavedSurface.value).toBe('Paved (boardwalk/concrete)')
+  })
+
+  it('maps natural surfaces to "Unpaved (natural surface)"', () => {
+    for (const raw of ['NATIVE MATERIAL', 'Natural', 'Natural Surface', 'IMPORTED LOOSE MATERIAL', 'CHUNK WOOD', 'Mulch', 'Gravel']) {
+      expect(wake([{ surface: raw }]).pavedSurface.value).toBe('Unpaved (natural surface)')
+    }
+  })
+
+  it('says "Paved on some segments" for mixed surfaces and when others are not recorded', () => {
+    expect(wake([{ surface: 'Asphalt' }, { surface: 'Natural' }]).pavedSurface.value).toBe('Paved on some segments')
+    expect(wake([{ surface: 'Asphalt' }, { surface: ' ' }]).pavedSurface.value).toBe('Paved on some segments')
+    expect(wake([{ surface: 'Natural' }, { surface: null }]).pavedSurface.value).toBe('Unpaved (natural surface) on some segments')
+  })
+
+  it('leaves blank, null, "Other" and unrecognised surfaces unknown', () => {
+    for (const raw of [' ', null, undefined, 'OTHER', 'Wooden Bridge']) {
+      const f = wake([{ surface: raw as string | null }]).pavedSurface
+      expect(f.status).toBe('unknown')
+      expect(f.value).toBeUndefined()
+    }
+  })
+
+  it('states wheelchair access only when ACCESSIBILITY_STATUS says Accessible', () => {
+    expect(wake([{ access: 'ACCESSIBLE' }, { access: 'Accessible' }]).wheelchair).toMatchObject({
+      status: 'known',
+      value: 'Accessible (per Wake County greenway data)',
+      sourceId: 'wake-greenways',
+      verifiedAt: '2026-02-18',
+    })
+    expect(wake([{ access: 'ACCESSIBLE' }, { access: 'NOT ACCESSIBLE' }]).wheelchair.value).toBe('Accessible on some segments (per Wake County greenway data)')
+    expect(wake([{ access: 'ACCESSIBLE' }, { access: null }]).wheelchair.value).toBe('Accessible on some segments (per Wake County greenway data)')
+  })
+
+  it('keeps negative, unknown and blank accessibility values unknown, never "no"', () => {
+    for (const raw of ['NOT ACCESSIBLE', 'NOT EVALUATED', ' ', null, undefined, 'Inaccessible']) {
+      const f = wake([{ access: raw as string | null }, { access: 'NOT ACCESSIBLE' }]).wheelchair
+      expect(f.status).toBe('unknown')
+      expect(f.value).toBeUndefined()
+    }
+  })
+
+  it('never infers wheelchair access from the surface', () => {
+    const f = wake([{ surface: 'Asphalt', access: 'NOT EVALUATED' }, { surface: 'Concrete', access: null }])
+    expect(f.pavedSurface.status).toBe('known')
+    expect(f.wheelchair.status).toBe('unknown')
+  })
+
+  it('lists pavedSurface and wheelchair amenities only when fully confirmed', () => {
+    expect(amenitiesOf(buildVisitFields({ wakeSegments: [{ surface: 'Asphalt', access: 'ACCESSIBLE' }], dates }))).toEqual(['pavedSurface', 'wheelchair'])
+    // partial values stay known on the card but do not match a filter
+    const partial = buildVisitFields({ wakeSegments: [{ surface: 'Asphalt', access: 'ACCESSIBLE' }, { surface: 'Natural', access: 'NOT ACCESSIBLE' }], dates })
+    expect(byKey(partial).pavedSurface.status).toBe('known')
+    expect(byKey(partial).wheelchair.status).toBe('known')
+    expect(amenitiesOf(partial)).toEqual([])
+    expect(amenitiesOf(buildVisitFields({ wakeSegments: [{ surface: 'Natural', access: 'NOT ACCESSIBLE' }], dates }))).toEqual([])
+  })
+
+  it('excludes Cary partial wheelchair and "Mostly paved" values from the filter too', () => {
+    const some = buildVisitFields({ segments: [{ surftype: 'Asphalt', ada: 'Y' }, { surftype: 'Asphalt', ada: null }], dates })
+    expect(amenitiesOf(some)).toEqual(['pavedSurface'])
+    const mostly = buildVisitFields({ segments: [{ surftype: 'Asphalt' }, { surftype: 'Asphalt' }, { surftype: 'Limestone' }], dates })
+    expect(byKey(mostly).pavedSurface.value).toMatch(/^Mostly paved/)
+    expect(amenitiesOf(mostly)).toEqual([])
+    expect(amenitiesOf(buildVisitFields({ segments: [{ surftype: 'Asphalt', ada: 'Y' }], dates }))).toEqual(['pavedSurface', 'wheelchair'])
+  })
+
+  it('validates wake-greenways wheelchair values only when affirmative', () => {
+    const ids = new Set(['wake-greenways'])
+    const detail = (value: string) => ({
+      id: 'a',
+      fields: buildVisitFields({ dates }).map((f) =>
+        f.key === 'wheelchair' ? { ...f, status: 'known', value, sourceId: 'wake-greenways', verifiedAt: '2026-02-18' } : f,
+      ),
+    })
+    expect(validateDetail(detail('Accessible on some segments (per Wake County greenway data)'), 'a', ids)).toEqual([])
+    expect(validateDetail(detail('Not accessible'), 'a', ids).join()).toContain('affirmative')
   })
 })
 

@@ -426,7 +426,7 @@ export function groupWakeGreenways(features) {
     g.segments++
     const label = wakeOwnerLabel(p.OWNER)
     if (label) g.owners.set(label, (g.owners.get(label) ?? 0) + lengthM)
-    g.parts.push({ surface: p.TRAIL_SURFACE, lengthM })
+    g.parts.push({ surface: p.TRAIL_SURFACE, access: p.ACCESSIBILITY_STATUS, lengthM })
   }
   const kept = []
   const dropped = []
@@ -442,6 +442,7 @@ export function groupWakeGreenways(features) {
       segments: g.segments,
       owners,
       surface: dominantSurface(g.parts),
+      visitSegments: g.parts.map(({ surface, access }) => ({ surface, access })),
     }
     ;(entry.miles >= GREENWAY_MIN_MILES && !WAKE_GREENWAY_EXCLUDE.test(g.key) ? kept : dropped).push(entry)
   }
@@ -711,7 +712,7 @@ export function build({ write = true, outDir = OUT } = {}) {
         `${g.surface ? `, mostly ${g.surface}` : ''} (from Wake County's greenways layer).`,
       sourceIds: ['wake-greenways'],
     })
-    visitCtx.set(id, {})
+    visitCtx.set(id, { wakeSegments: g.visitSegments })
     greenFeatures.push(...greenwayFeatures(id, lines, g.proposedLines.map((l) => simplifyLine(l, WAKE_GREENWAY_SIMPLIFY_M)), scope))
     relItems.push({ id, kind: 'trail', lines })
   }
@@ -782,6 +783,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     entrances: verifiedDate(entrancesMeta),
     caryFeatures: verifiedDate(featuresMeta),
     greenways: verifiedDate(greenMeta),
+    wakeGreenways: verifiedDate(wakeGreenMeta),
   })
   const usedSources = new Set(Object.values(details).flatMap((d) => d.fields.map((f) => f.sourceId)))
   if (usedSources.has('wake-park-entrances')) {

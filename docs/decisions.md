@@ -320,6 +320,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/search/`, `src/features/map/MapView.tsx`, #17.
 
+## 31. Creeks from USGS hydrography
+
+**Context:** Creek cards, "trails near <creek>" and the creek-to-watershed link (#22, #59) need named creek places.
+
+**Decision:** Named stream channels (`featuretypelabel = 'Channel Line'`, GNIS name present) from the USGS 3DHP flowline service (`3DHP_all/MapServer/50`; it holds the same 31,797 flowlines and 6,051 named ones in our box as the legacy NHD layer 6, and is the maintained successor; its text says "Use Constraints: None. All data are open and non-proprietary") are snapshotted to `pipeline/sources/usgs/3dhp-streams/` (4,231 channels). Segments are clipped to the nearby area, grouped by GNIS id and name, and chained when end points are within 200 m, so far-apart streams of one name stay separate (a lake or long gap also splits one stream into two places of the same name). Clusters under about one mile in the area are dropped; the rest become `water` places ("Stream, about N miles in this area (USGS hydrography)": length only, no flow or quality claim), pinned at the middle of the longest piece, with 12 m simplified lines in `layers/water`. Links: creek to watershed uses the 15% / 80% length rule (decision 29); a trail "follows" a creek (`nearby`, basis `along`, `alongM`) when at least 300 m of it lies within 50 m of the creek line; a creek is `contained` in a park when at least 100 m lies inside. The place card shows at most one watershed line plus "and N more watersheds", so nearby places keep the other slots.
+
+**Applies to:** `pipeline/lib/creeks.mjs`, `pipeline/scripts/build-catalog.mjs`, `src/features/places/relationships.ts`, `ConnectedPlaces.tsx`, #22.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

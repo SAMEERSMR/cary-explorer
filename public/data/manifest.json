@@ -1,25 +1,25 @@
 {
- "version": "de4c58ae5dd1fd69",
- "generatedFrom": "2026-11-08T15:40:24.853Z",
+ "version": "8e0f007f8569f0c1",
+ "generatedFrom": "2026-11-09T19:28:56.762Z",
  "artifacts": {
-  "catalog": "catalog.e210b3f340df.json",
+  "catalog": "catalog.8ae76bdc5aa1.json",
   "relationships": "relationships.686fe9f474cc.json",
   "layers": {
-   "greenways": "layers/greenways.87e56a2d9f7f.geojson",
+   "greenways": "layers/greenways.d515ae3cb59f.geojson",
    "parks": "layers/parks.4aee84a0f2c8.geojson",
    "water": "layers/water.acb6378cc0b1.geojson"
   },
-  "places": "places/b98077c7b83e/",
+  "places": "places/6897aa26f9a5/",
   "collections": "collections.29bdbc829600.json"
  },
  "sources": [
   {
    "id": "cary-greenways",
    "recordCount": 46,
-   "retrievedAt": "2026-11-07T17:40:42.606Z",
+   "retrievedAt": "2026-11-09T19:27:28.674Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:42.606Z",
+   "lastSuccess": "2026-11-09T19:27:28.674Z",
    "ok": true,
    "cadence": "weekly",
    "cadenceDays": 7
@@ -27,10 +27,10 @@
   {
    "id": "cary-park-features",
    "recordCount": 0,
-   "retrievedAt": "2026-11-07T17:40:43.353Z",
+   "retrievedAt": "2026-11-09T19:27:28.909Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:43.353Z",
+   "lastSuccess": "2026-11-09T19:27:28.909Z",
    "ok": true,
    "cadence": "weekly",
    "cadenceDays": 7
@@ -38,10 +38,10 @@
   {
    "id": "cary-parks",
    "recordCount": 74,
-   "retrievedAt": "2026-11-07T17:40:39.429Z",
+   "retrievedAt": "2026-11-09T19:27:28.175Z",
    "licence": "CC0 1.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:39.429Z",
+   "lastSuccess": "2026-11-09T19:27:28.175Z",
    "ok": true,
    "cadence": "weekly",
    "cadenceDays": 7
@@ -49,10 +49,10 @@
   {
    "id": "usgs-3dhp-streams",
    "recordCount": 172,
-   "retrievedAt": "2026-11-08T15:40:24.853Z",
+   "retrievedAt": "2026-11-09T19:28:56.762Z",
    "licence": "Public domain (USGS)",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-08T15:40:24.853Z",
+   "lastSuccess": "2026-11-09T19:28:56.762Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31
@@ -60,10 +60,10 @@
   {
    "id": "usgs-wbd-huc12",
    "recordCount": 57,
-   "retrievedAt": "2026-11-08T06:53:56.840Z",
+   "retrievedAt": "2026-11-09T19:27:40.553Z",
    "licence": "Public domain (USGS)",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-08T06:53:56.840Z",
+   "lastSuccess": "2026-11-09T19:27:40.553Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31
@@ -71,10 +71,10 @@
   {
    "id": "wake-greenways",
    "recordCount": 73,
-   "retrievedAt": "2026-11-07T21:09:55.268Z",
+   "retrievedAt": "2026-11-09T19:27:31.187Z",
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T21:09:55.268Z",
+   "lastSuccess": "2026-11-09T19:27:31.187Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31
@@ -82,10 +82,10 @@
   {
    "id": "wake-park-entrances",
    "recordCount": 0,
-   "retrievedAt": "2026-11-07T17:40:09.979Z",
+   "retrievedAt": "2026-11-09T19:27:30.021Z",
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:09.979Z",
+   "lastSuccess": "2026-11-09T19:27:30.021Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31
@@ -93,10 +93,10 @@
   {
    "id": "wake-parks",
    "recordCount": 243,
-   "retrievedAt": "2026-11-07T17:40:46.521Z",
+   "retrievedAt": "2026-11-09T19:27:29.488Z",
    "licence": "CC BY 4.0",
    "licenceStatus": "declared",
-   "lastSuccess": "2026-11-07T17:40:46.521Z",
+   "lastSuccess": "2026-11-09T19:27:29.488Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31

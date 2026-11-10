@@ -100,7 +100,8 @@ export function VisitInfo({ place, sources }: VisitInfoProps) {
         <p className="text-[14px] text-ink-muted">Visit details aren&apos;t available for this place.</p>
       )}
 
-      {split && (
+      {/* Park visit fields (parking, restrooms, wheelchair...) do not apply to a fire station: only its address shows. */}
+      {split && place.category !== 'fire-station' && (
         <div className="space-y-1 text-[13px] text-ink-muted">
           {split.known.length === 0 && <p className="text-[14px] text-ink">No visit details verified yet.</p>}
           {split.unknown.length > 0 && (

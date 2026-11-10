@@ -200,3 +200,10 @@ describe('fire station card safety note', () => {
     expect(src).toMatch(/place\.category === 'fire-station'[\s\S]*Not for emergencies\. In an emergency, call 911\./)
   })
 })
+
+describe('fire station visit block', () => {
+  const src = readFileSync(fileURLToPath(new URL('../src/features/places/VisitInfo.tsx', import.meta.url)), 'utf8')
+  it('hides the "Not verified" and wheelchair lines for fire stations only', () => {
+    expect(src).toMatch(/\{split && place\.category !== 'fire-station' && \([\s\S]*Not verified:[\s\S]*Wheelchair access: Not verified/)
+  })
+})

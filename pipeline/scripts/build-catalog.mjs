@@ -332,6 +332,54 @@ export function greenwayFeatures(placeId, existingLines, proposedLinesRaw, scope
   return out
 }
 
+// ---------- Wake County fire stations (issue #27) ----------
+
+/** What the AGENCY code is known to mean. Only CF and RF map 1:1 to the station labels ("Cary #n", "RFD #n"); FD covers many departments, so it says nothing. */
+export const FIRE_AGENCY = { CF: 'Cary Fire Department', RF: 'Raleigh Fire Department' }
+/** LABEL prefixes that are abbreviations. "RFD" is the Raleigh Fire Department (AGENCY RF on every such station). */
+const FIRE_LABEL_PREFIX = { RFD: 'Raleigh' }
+
+/**
+ * Name and number from a Wake FireStations LABEL (never invents a number):
+ *  - "<prefix> #N"            -> "<prefix> Fire Station N" with stationNumber N ("Cary #1" -> "Cary Fire Station 1"; "RFD #5" -> "Raleigh Fire Station 5")
+ *  - a label that already says "Fire" -> kept as written ("Durham Fire 17")
+ *  - any other label (no number) -> "<label> Fire Station" ("Hopkins" -> "Hopkins Fire Station")
+ * Returns undefined for an empty label.
+ */
+export function fireStationName(label) {
+  const clean = typeof label === 'string' ? label.trim().replace(/\s+/g, ' ') : ''
+  if (!clean) return undefined
+  const m = /^(.*?)\s*#\s*(\d+)$/.exec(clean)
+  if (m && m[1]) {
+    const prefix = FIRE_LABEL_PREFIX[m[1]] ?? m[1]
+    return { name: `${prefix} Fire Station ${Number(m[2])}`, stationNumber: Number(m[2]) }
+  }
+  return { name: /\bfire\b/i.test(clean) ? clean : `${clean} Fire Station` }
+}
+
+/** Fire stations from the Wake layer: one per STATIONID (ID has duplicates and nulls; the first record by OBJECTID wins), with a name, a LOCATION and a point. */
+export function groupFireStations(features) {
+  const seen = new Set()
+  const out = []
+  for (const f of features) {
+    const p = f.properties ?? {}
+    const stationId = typeof p.STATIONID === 'string' ? p.STATIONID.trim() : ''
+    const named = fireStationName(p.LABEL)
+    const pt = f.geometry?.coordinates
+    if (!stationId || !named || !Array.isArray(pt) || seen.has(stationId.toLowerCase())) continue
+    seen.add(stationId.toLowerCase())
+    const location = typeof p.LOCATION === 'string' ? p.LOCATION.trim().replace(/\s+/g, ' ') : ''
+    const city = typeof p.CITY === 'string' ? p.CITY.trim() : ''
+    out.push({ stationId, ...named, address: location ? (city ? `${location}, ${city}` : location) : undefined, agency: FIRE_AGENCY[String(p.AGENCY ?? '').trim()], pt })
+  }
+  return out
+}
+
+/** Card text from the data only: operator when the AGENCY code is known, the address, and the source. No service area, no response times. */
+export function fireStationDescription(s) {
+  return `Fire station${s.agency ? ` operated by ${s.agency}` : ''}${s.address ? `, at ${s.address}` : ''} (from Wake County's fire stations layer).`
+}
+
 // ---------- Wake County greenways (regional trails outside Cary) ----------
 
 /** Layer simplification for regional trails, in metres. Cary's own greenways are not simplified. */
@@ -477,6 +525,8 @@ export function build({ write = true, outDir = OUT } = {}) {
   const wakeMeta = readJson(join(SRC, 'wake', 'parks', 'meta.json'))
   const wakeGreenData = readJson(join(SRC, 'wake', 'greenways', 'data.geojson'))
   const wakeGreenMeta = readJson(join(SRC, 'wake', 'greenways', 'meta.json'))
+  const fireData = readJson(join(SRC, 'wake', 'fire-stations', 'data.geojson'))
+  const fireMeta = readJson(join(SRC, 'wake', 'fire-stations', 'meta.json'))
   const entrancesData = readJson(join(SRC, 'wake', 'park-entrances', 'data.geojson'))
   const entrancesMeta = readJson(join(SRC, 'wake', 'park-entrances', 'meta.json'))
   const featuresMeta = readJson(join(cary('parks-and-recreation-feature-map'), 'meta.json'))
@@ -667,6 +717,31 @@ export function build({ write = true, outDir = OUT } = {}) {
     places.push(place)
     visitCtx.set(place.id, { wake: n.f.properties })
     relItems.push({ id: place.id, kind: 'park', points: [place.centroid] })
+  }
+
+  // Wake County fire stations (decision 32): points inside the core or nearby area become `fire-station` places.
+  // They are not added to the relationship items, so no park or trail card links to a station.
+  const fireStations = groupFireStations(fireData.features).filter((s) => classify(s.pt, scope) !== 'outside')
+  allIds = assignIds(allIds, fireStations.map((s) => ({ key: `wake-fire-stations:${s.stationId.toLowerCase()}`, prefix: 'wake-fire', name: s.stationId })))
+  for (const s of fireStations) {
+    const pt = roundPos(s.pt, COORD_DECIMALS)
+    const county = countyOf(pt, counties) ?? 'Wake'
+    const place = {
+      id: allIds[`wake-fire-stations:${s.stationId.toLowerCase()}`],
+      name: s.name,
+      aliases: [],
+      category: 'fire-station',
+      municipality: municipalityOf(pt, towns, county),
+      county,
+      coverage: classify(s.pt, scope),
+      centroid: pt,
+      description: fireStationDescription(s),
+      sourceIds: ['wake-fire-stations'],
+    }
+    if (s.address) place.address = s.address
+    if (s.stationNumber !== undefined) place.stationNumber = s.stationNumber
+    places.push(place)
+    visitCtx.set(place.id, { fire: { address: s.address } })
   }
 
   // Wake County greenways outside Cary: named systems become trail places, lines go to the greenways layer.
@@ -877,6 +952,17 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
 
+  if (fireStations.length) {
+    sources.push({
+      id: 'wake-fire-stations',
+      title: title('wake-fire-stations'),
+      name: 'Wake County',
+      url: fireMeta.url,
+      license: 'CC BY 4.0',
+      retrievedAt: fireMeta.retrievedAt,
+    })
+  }
+
   if (regionalTrails.length) {
     sources.push({
       id: 'wake-greenways',
@@ -917,6 +1003,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     caryFeatures: verifiedDate(featuresMeta),
     greenways: verifiedDate(greenMeta),
     wakeGreenways: verifiedDate(wakeGreenMeta),
+    fire: verifiedDate(fireMeta),
   })
   const usedSources = new Set(Object.values(details).flatMap((d) => d.fields.map((f) => f.sourceId)))
   if (usedSources.has('wake-park-entrances')) {
@@ -1032,7 +1119,7 @@ export function buildDetails(places, visitCtx, entrances, aliasMap, dates) {
 
 function orderPlace(p) {
   const out = {}
-  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'url', 'sourceIds', 'amenities']) {
+  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'address', 'stationNumber', 'url', 'sourceIds', 'amenities']) {
     if (p[k] !== undefined) out[k] = p[k]
   }
   return out

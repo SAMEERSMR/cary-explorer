@@ -44,6 +44,8 @@ The manifest records each source's `lastSuccess`, `cadence` and `cadenceDays`. T
 
 Between the cadence and the end of the margin a source is "due" (not an alert). Past the margin it is "stale": the credits dialog shows "Older than expected" on that row and place cards that use it say "Some source data is older than expected." Manifests without `cadenceDays` (older releases) are never reported stale.
 
+Sources with a count check: `wake-fire-stations` (Wake County fire stations, monthly, snapshot in `pipeline/sources/wake/fire-stations/`, 89 places in the published catalog, shown as the "Community services" layer). The count gate stops a publish if the record count moves by more than 30% (see "Overrides"); check that Wake County has really added or closed stations before using `PIPELINE_ALLOW_COUNT_CHANGE=wake-fire-stations`.
+
 When it fires:
 
 1. Run `npm run check:freshness` (add `-- --now 2026-12-01` to check a date) to see which sources and how old.

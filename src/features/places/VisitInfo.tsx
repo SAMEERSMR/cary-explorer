@@ -110,6 +110,10 @@ export function VisitInfo({ place, sources }: VisitInfoProps) {
         </div>
       )}
 
+      {place.category === 'fire-station' && (
+        <p className="text-[13px] font-medium text-ink">Not for emergencies. In an emergency, call 911.</p>
+      )}
+
       <p className="text-[13px] text-ink-muted">
         A map pin is not permission to visit. Check the official page for access and hours.
       </p>

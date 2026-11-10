@@ -20,7 +20,7 @@ import {
   simplifyLine,
   splitByCore,
 } from '../lib/geo.mjs'
-import { computeRelationships } from '../lib/relationships.mjs'
+import { computeRelationships, computeStationLinks } from '../lib/relationships.mjs'
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
@@ -336,6 +336,12 @@ export function greenwayFeatures(placeId, existingLines, proposedLinesRaw, scope
 
 /** What the AGENCY code is known to mean. Only CF and RF map 1:1 to the station labels ("Cary #n", "RFD #n"); FD covers many departments, so it says nothing. */
 export const FIRE_AGENCY = { CF: 'Cary Fire Department', RF: 'Raleigh Fire Department' }
+/**
+ * Official department pages, shown as the card's "Website" link. Checked 2026-11-10 with curl (plain GET, redirects followed):
+ * raleighnc.gov/fire returns HTTP 200 on the town's own .gov domain. The Town of Cary site (carync.gov) answered HTTP 403 to
+ * every plain request, so no Cary page could be confirmed and Cary stations carry no website. Never guess a URL.
+ */
+export const FIRE_DEPARTMENT_URL = { 'Raleigh Fire Department': 'https://raleighnc.gov/fire' }
 /** LABEL prefixes that are abbreviations. "RFD" is the Raleigh Fire Department (AGENCY RF on every such station). */
 const FIRE_LABEL_PREFIX = { RFD: 'Raleigh' }
 
@@ -720,7 +726,8 @@ export function build({ write = true, outDir = OUT } = {}) {
   }
 
   // Wake County fire stations (decision 32): points inside the core or nearby area become `fire-station` places.
-  // They are not added to the relationship items, so no park or trail card links to a station.
+  // They are not relationship items (they never join the park/trail nearby rules); parks link to their nearest station
+  // separately, through computeStationLinks.
   const fireStations = groupFireStations(fireData.features).filter((s) => classify(s.pt, scope) !== 'outside')
   allIds = assignIds(allIds, fireStations.map((s) => ({ key: `wake-fire-stations:${s.stationId.toLowerCase()}`, prefix: 'wake-fire', name: s.stationId })))
   for (const s of fireStations) {
@@ -740,6 +747,10 @@ export function build({ write = true, outDir = OUT } = {}) {
     }
     if (s.address) place.address = s.address
     if (s.stationNumber !== undefined) place.stationNumber = s.stationNumber
+    if (s.agency) {
+      place.department = s.agency
+      if (FIRE_DEPARTMENT_URL[s.agency]) place.url = FIRE_DEPARTMENT_URL[s.agency]
+    }
     places.push(place)
     visitCtx.set(place.id, { fire: { address: s.address } })
   }
@@ -1027,7 +1038,12 @@ export function build({ write = true, outDir = OUT } = {}) {
     })
   }
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
-  relationships.relationships.push(...watershedLinks.relationships, ...creekLinks)
+  const parkIds = new Set(places.filter((p) => p.category === 'park').map((p) => p.id))
+  const stationLinks = computeStationLinks(
+    relItems.filter((r) => r.kind === 'park' && parkIds.has(r.id)),
+    places.filter((p) => p.category === 'fire-station').map((p) => ({ id: p.id, point: p.centroid })),
+  )
+  relationships.relationships.push(...watershedLinks.relationships, ...creekLinks, ...stationLinks)
   relationships.relationships.sort((x, y) => cmp(x.from, y.from) || cmp(x.to, y.to) || cmp(x.kind, y.kind))
   for (const p of places) {
     const amenities = amenitiesOf(details[p.id].fields)
@@ -1119,7 +1135,7 @@ export function buildDetails(places, visitCtx, entrances, aliasMap, dates) {
 
 function orderPlace(p) {
   const out = {}
-  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'address', 'stationNumber', 'url', 'sourceIds', 'amenities']) {
+  for (const k of ['id', 'name', 'aliases', 'category', 'municipality', 'county', 'coverage', 'centroid', 'bbox', 'description', 'address', 'stationNumber', 'department', 'url', 'sourceIds', 'amenities']) {
     if (p[k] !== undefined) out[k] = p[k]
   }
   return out

@@ -140,11 +140,12 @@ describe('spot check: linked watershed holds the place (WBD HUC-12 snapshot)', (
   const holds = (code: string, pt: number[]) => (polygons.get(code) ?? []).some((pg: number[][][]) => pointInPolygon(pt, pg))
   const codeOf = (placeId: string) => placeId.replace('watershed-', '')
   const lines = new Map<string, number[][]>()
-  for (const f of read(release.layerPaths.greenways).features as { properties: { placeId: string }; geometry: { coordinates: number[][][] } }[]) {
+  const layerFeatures = [...read(release.layerPaths.greenways).features, ...read(release.layerPaths.water).features]
+  for (const f of layerFeatures as { properties: { placeId: string }; geometry: { coordinates: number[][][] } }[]) {
     lines.set(f.properties.placeId, [...(lines.get(f.properties.placeId) ?? []), ...f.geometry.coordinates.flat()])
   }
 
-  // Wake (parks and greenways) plus the one Chatham park; the data holds no park or trail in Durham, and Chatham has only that park.
+  // Wake parks and greenways, the one Chatham park, and creeks in Chatham and Durham (the data holds no park or trail in Durham).
   const PICKS = [
     'cary-park-annie-l-jones-park',
     'cary-park-good-hope-farm',
@@ -156,18 +157,23 @@ describe('spot check: linked watershed holds the place (WBD HUC-12 snapshot)', (
     'cary-greenway-kit-creek-greenway',
     'cary-greenway-green-level-greenway',
     'wake-greenway-abbotts-creek-trail',
+    // Chatham and Durham hold no park or trail beyond the one above, so their checked places are creeks.
+    'creek-crooked-creek',
+    'creek-folkner-branch',
+    'creek-gulf-creek',
+    'creek-burdens-creek',
+    'creek-chunky-pipe-creek',
+    'creek-laurel-creek',
   ]
 
-  it('covers 10 places, at least 3 parks and 3 trails, and every county that has a park or trail up to 3 places', () => {
+  it('covers 16 places: 3+ parks, 3+ trails, and 3+ places in each of Wake, Chatham and Durham', () => {
     const picks = PICKS.map((id) => byId.get(id))
     expect(picks.every(Boolean)).toBe(true)
-    expect(new Set(PICKS).size).toBe(10)
+    expect(new Set(PICKS).size).toBe(16)
     expect(picks.filter((p) => p?.category === 'park').length).toBeGreaterThanOrEqual(3)
     expect(picks.filter((p) => p?.category === 'trail').length).toBeGreaterThanOrEqual(3)
-    const pool = catalog.places.filter((p) => p.category === 'park' || p.category === 'trail')
     for (const county of ['Wake', 'Chatham', 'Durham']) {
-      const available = pool.filter((p) => p.county === county).length
-      expect(picks.filter((p) => p?.county === county).length, county).toBeGreaterThanOrEqual(Math.min(3, available))
+      expect(picks.filter((p) => p?.county === county).length, county).toBeGreaterThanOrEqual(3)
     }
   })
   it('a park’s watershed holds its centroid', () => {
@@ -178,8 +184,8 @@ describe('spot check: linked watershed holds the place (WBD HUC-12 snapshot)', (
       expect(linked.some((c) => holds(c, p.centroid)), id).toBe(true)
     }
   })
-  it('every watershed a trail is linked to holds part of the trail line', () => {
-    for (const id of PICKS.filter((x) => byId.get(x)?.category === 'trail')) {
+  it('every watershed a trail or creek is linked to holds part of its line', () => {
+    for (const id of PICKS.filter((x) => byId.get(x)?.category !== 'park')) {
       const pts = lines.get(id) ?? []
       expect(pts.length, id).toBeGreaterThan(0)
       const linked = linksOf(id).map((r) => codeOf(r.to))

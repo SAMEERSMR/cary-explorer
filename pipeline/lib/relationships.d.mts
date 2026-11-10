@@ -21,4 +21,5 @@ export interface Relationship {
   /** Trail-to-watershed links only, when the trail crosses several watersheds: the share (0-1) of its length in this one. */
   share?: number
 }
+export function computeStationLinks(parks: RelationshipItem[], stations: { id: string; point: Position }[]): Relationship[]
 export function computeRelationships(items: RelationshipItem[]): { relationships: Relationship[] }

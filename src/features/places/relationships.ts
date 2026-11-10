@@ -82,7 +82,7 @@ function formatMiles(distanceM: number): string {
   return `${miles.toFixed(1)} mi`
 }
 
-function labelFor(rel: ReleasedRelationship, placeId: string, other: Place): string {
+function labelFor(rel: ReleasedRelationship, placeId: string, other: Place, self?: Place): string {
   if (rel.kind === 'contained' && rel.basis === 'watershed') {
     // Boundary membership only; never a flow or downstream claim.
     // A trail that crosses several watersheds carries `share` on each link; one watershed keeps "In the".
@@ -101,6 +101,11 @@ function labelFor(rel: ReleasedRelationship, placeId: string, other: Place): str
     return rel.from === placeId ? `Runs through ${other.name}` : `${other.name} runs through this park`
   }
   if (rel.kind === 'curated') return 'Connected (curated)'
+  if (rel.basis === 'nearest' && (other.category === 'fire-station' || self?.category === 'fire-station')) {
+    // Distance only; never says a station serves, covers or responds to the park.
+    const dist = rel.distanceM === undefined ? 'straight-line' : `${formatMiles(rel.distanceM)} straight-line`
+    return `${rel.from === placeId ? 'Nearest fire station' : 'Nearby park'} · ${dist}`
+  }
   const away =
     rel.distanceM === undefined ? 'Nearby (straight line)' : `About ${formatMiles(rel.distanceM)} away (straight line)`
   return rel.basis === 'nearest' ? `Closest place: ${away}` : away
@@ -163,13 +168,19 @@ export function connectionsFor(
     const ownName = sameNameKey(placesById.get(placeId)?.name)
     if (ownName && sameNameKey(other.name) === ownName) return
     seen.add(otherId)
-    out.push({ place: other, label: labelFor(rel, placeId, other) })
+    out.push({ place: other, label: labelFor(rel, placeId, other, placesById.get(placeId)) })
   }
   if (watersheds.length && limit > 0) take(watersheds[0])
+  // A park's nearest-fire-station link keeps its own slot so closer parks and trails cannot crowd it out.
+  const self = placesById.get(placeId)
+  const isStationLink = (r: ReleasedRelationship) =>
+    r.basis === 'nearest' && r.from === placeId && self?.category === 'park' && placesById.get(r.to)?.category === 'fire-station'
+  const stationLink = others.find(isStationLink)
   for (const rel of others) {
-    if (out.length >= limit) break
-    take(rel)
+    if (out.length >= limit - (stationLink ? 1 : 0)) break
+    if (rel !== stationLink) take(rel)
   }
+  if (stationLink && limit > 0) take(stationLink)
   return out
 }
 

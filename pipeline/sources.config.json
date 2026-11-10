@@ -349,16 +349,23 @@
   {
     "id": "wake-fire-stations",
     "publisher": "Wake County GIS",
-    "title": "Wake fire stations",
+    "title": "Fire stations in Wake County",
     "type": "arcgis",
     "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/FireStations/FeatureServer/0",
-    "licence": "unknown",
-    "licenceStatus": "unclear",
-    "attribution": "Wake County GIS",
+    "licence": "CC-BY-4.0",
+    "licenceStatus": "open",
+    "attribution": "Wake County GIS (CC BY 4.0)",
     "cadence": "monthly",
-    "fields": [],
+    "fields": [
+      "OBJECTID",
+      "STATIONID",
+      "LABEL",
+      "LOCATION",
+      "CITY",
+      "AGENCY"
+    ],
     "dir": "wake/fire-stations",
-    "enabled": false
+    "enabled": true
   },
   {
     "id": "nc-hpo-resources",

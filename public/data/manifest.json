@@ -1,15 +1,15 @@
 {
- "version": "de4c58ae5dd1fd69",
- "generatedFrom": "2026-11-08T15:40:24.853Z",
+ "version": "3d83b0c5ce65c411",
+ "generatedFrom": "2026-11-10T06:13:04.767Z",
  "artifacts": {
-  "catalog": "catalog.e210b3f340df.json",
+  "catalog": "catalog.792918c159cc.json",
   "relationships": "relationships.686fe9f474cc.json",
   "layers": {
    "greenways": "layers/greenways.87e56a2d9f7f.geojson",
    "parks": "layers/parks.4aee84a0f2c8.geojson",
    "water": "layers/water.acb6378cc0b1.geojson"
   },
-  "places": "places/b98077c7b83e/",
+  "places": "places/d899639f7a82/",
   "collections": "collections.29bdbc829600.json"
  },
  "sources": [
@@ -64,6 +64,17 @@
    "licence": "Public domain (USGS)",
    "licenceStatus": "declared",
    "lastSuccess": "2026-11-08T06:53:56.840Z",
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
+  },
+  {
+   "id": "wake-fire-stations",
+   "recordCount": 89,
+   "retrievedAt": "2026-11-10T06:13:04.767Z",
+   "licence": "CC BY 4.0",
+   "licenceStatus": "declared",
+   "lastSuccess": "2026-11-10T06:13:04.767Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31

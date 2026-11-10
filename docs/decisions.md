@@ -328,6 +328,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/lib/creeks.mjs`, `pipeline/scripts/build-catalog.mjs`, `src/features/places/relationships.ts`, `ConnectedPlaces.tsx`, #22.
 
+## 32. Fire stations from Wake County GIS
+
+**Context:** Fire stations are a Community services layer (#27). Cary's own fire layer has no licence; Wake County's "FireStations" item (`e4a6be505f644561865753e7f7caa112`) states CC BY 4.0 in `licenseInfo`.
+
+**Decision:** The 89 Wake stations in core or nearby become `fire-station` places (source `wake-fire-stations`, monthly, "Wake County GIS (CC BY 4.0)"), one per `STATIONID` (`ID` has duplicates), id `wake-fire-<stationid>`, town by Census point-in-polygon. The name comes from `LABEL`: "Cary #1" becomes "Cary Fire Station 1" (and stationNumber 1), "RFD #5" becomes "Raleigh Fire Station 5", a label with no number gets " Fire Station" added ("Hopkins Fire Station") and is never numbered. The card says only operator (AGENCY `CF` and `RF` only; `FD` is left out) and address; the address is the only known visit field, and no service area or response time is claimed (#51). Stations are not in the relationship items, so no park or trail card links to one. They stay off by default (decision 21) and show under Layers.
+
+**Applies to:** `pipeline/scripts/build-catalog.mjs`, `pipeline/lib/visit.mjs`, `pipeline/sources.config.json`, `docs/source-matrix.md`, #27.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

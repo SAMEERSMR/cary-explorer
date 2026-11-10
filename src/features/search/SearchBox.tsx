@@ -21,7 +21,7 @@ const ALL_CATEGORIES = Object.keys(CATEGORY_THEME) as CategoryId[]
 /** What "Undo" puts back after a "category in town" intent. */
 interface AppliedTown {
   text: string
-  town: string
+  town: string | null
   prevTown: string | null
   prevThemes: ThemeId[]
   prevLayers: LayerId[]
@@ -89,12 +89,12 @@ export function SearchBox() {
     const plan = planCategoryInTown(it, state.activeThemes, state.layerOverrides)
     setApplied({
       text: `${label ?? 'Showing'}`.replace(/^Show /, 'Showing '),
-      town: plan.town,
+      town: plan.town ?? state.town,
       prevTown: state.town,
       prevThemes: state.activeThemes,
       prevLayers: resolveLayers(state.activeThemes, state.layerOverrides),
     })
-    state.setTown(plan.town)
+    if (plan.town !== null) state.setTown(plan.town)
     if (plan.themesChanged) state.setActiveThemes(plan.themes)
     for (const c of plan.layerChanges) state.setLayer(c.id, c.on)
   }

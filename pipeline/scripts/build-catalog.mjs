@@ -24,6 +24,7 @@ import { computeRelationships, computeStationLinks } from '../lib/relationships.
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
+import { sourceRegistryFields } from '../lib/source-registry.mjs'
 import { formatRepairReport, newReport, repairFeatures } from '../lib/repair.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
@@ -1057,6 +1058,13 @@ export function build({ write = true, outDir = OUT } = {}) {
       retrievedAt: featuresMeta.retrievedAt,
     })
   }
+  // Registry fields for the release manifest (decision 19): credit string, publisher modified date, coverage.
+  const metaBySource = {
+    'cary-parks': parksMeta, 'cary-greenways': greenMeta, 'cary-park-features': featuresMeta, 'wake-parks': wakeMeta,
+    'wake-park-entrances': entrancesMeta, 'wake-fire-stations': fireMeta, 'wake-greenways': wakeGreenMeta,
+    'usgs-wbd-huc12': wbdMeta, 'usgs-3dhp-streams': streamsMeta,
+  }
+  for (const s of sources) Object.assign(s, sourceRegistryFields(s.id, metaBySource[s.id]))
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
   const parkIds = new Set(places.filter((p) => p.category === 'park').map((p) => p.id))
   const stationLinks = computeStationLinks(

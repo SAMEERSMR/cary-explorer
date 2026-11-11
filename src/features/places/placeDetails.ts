@@ -7,6 +7,7 @@ import { useRelease } from './release'
 import {
   VISIT_FIELD_KEYS,
   type PlaceDetails,
+  type PlaceSourceRecord,
   type VisitField,
   type VisitFieldKey,
 } from '../../types/data-model'
@@ -24,6 +25,28 @@ export const isValidPlaceId = (id: unknown): id is string =>
 export const placeDetailsUrl = (base: string, id: string) => `${base}${encodeURIComponent(id)}.json`
 
 const KEY_SET = new Set<string>(VISIT_FIELD_KEYS)
+
+const MAX_SOURCE_RECORDS = 1000
+const MAX_RECORD_ID_LENGTH = 80
+
+/** Keeps well-formed { sourceId, recordId } pairs (strings, no repeats); anything else is dropped. Absent or malformed input gives []. */
+export function parseSourceRecords(raw: unknown): PlaceSourceRecord[] {
+  if (!Array.isArray(raw)) return []
+  const seen = new Set<string>()
+  const out: PlaceSourceRecord[] = []
+  for (const item of raw) {
+    if (out.length >= MAX_SOURCE_RECORDS) break
+    if (!isRecord(item) || typeof item.sourceId !== 'string' || typeof item.recordId !== 'string') continue
+    const sourceId = item.sourceId.trim()
+    const recordId = item.recordId.trim()
+    if (!sourceId || !recordId || recordId.length > MAX_RECORD_ID_LENGTH) continue
+    const k = `${sourceId}\0${recordId}`
+    if (seen.has(k)) continue
+    seen.add(k)
+    out.push({ sourceId, recordId })
+  }
+  return out
+}
 
 /** Parses a details payload; unknown keys are dropped and unsourced "known" fields become unknown. */
 export function parsePlaceDetails(raw: unknown, id: string): PlaceDetails | null {
@@ -53,7 +76,8 @@ export function parsePlaceDetails(raw: unknown, id: string): PlaceDetails | null
     const f = byKey.get(k)
     return f ? [f] : []
   })
-  return { id, fields }
+  const sourceRecords = parseSourceRecords(raw.sourceRecords)
+  return sourceRecords.length ? { id, fields, sourceRecords } : { id, fields }
 }
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {

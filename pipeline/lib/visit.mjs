@@ -300,5 +300,23 @@ export function validateDetail(detail, placeId, sourceIds) {
       }
     } else errors.push(`${w}: status must be "known" or "unknown"`)
   }
+  // Optional list of contributing source records: { sourceId, recordId } pairs, each a catalog source, no repeats.
+  if (detail.sourceRecords !== undefined) {
+    if (!Array.isArray(detail.sourceRecords) || detail.sourceRecords.length === 0) {
+      errors.push(`${at}: sourceRecords must be a non-empty array when present`)
+    } else {
+      const seen = new Set()
+      for (const r of detail.sourceRecords) {
+        if (!r || typeof r.sourceId !== 'string' || !r.sourceId || typeof r.recordId !== 'string' || !r.recordId.trim()) {
+          errors.push(`${at}: sourceRecords entries need a sourceId and a recordId (strings)`)
+          continue
+        }
+        if (sourceIds && !sourceIds.has(r.sourceId)) errors.push(`${at}: sourceRecords sourceId "${r.sourceId}" is not a catalog source`)
+        const k = `${r.sourceId}\0${r.recordId}`
+        if (seen.has(k)) errors.push(`${at}: sourceRecords repeats ${r.sourceId} ${r.recordId}`)
+        seen.add(k)
+      }
+    }
+  }
   return errors
 }

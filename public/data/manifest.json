@@ -1,5 +1,5 @@
 {
- "version": "a77317364c25e198",
+ "version": "9514257368293fe8",
  "generatedFrom": "2026-11-10T06:13:04.767Z",
  "artifacts": {
   "catalog": "catalog.18f157bace53.json",
@@ -9,7 +9,7 @@
    "parks": "layers/parks.d1eed74e5cda.geojson",
    "water": "layers/water.acb6378cc0b1.geojson"
   },
-  "places": "places/d899639f7a82/",
+  "places": "places/f519f659f58b/",
   "collections": "collections.29bdbc829600.json"
  },
  "sources": [

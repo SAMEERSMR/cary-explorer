@@ -216,7 +216,7 @@ From the research notes, to retry from another network:
 - Cary NaturalResources/Hydro layers 0 and 6: count query returned "invalid parameters".
 - Holly Springs Stream Buffers: tiles only, no feature query.
 - StoryMaps and web apps with no REST layer: Knightdale Public Art, Wendell Mural Trail, Wake Forest Public Art, Wake Forest Local Historic District, Holly Springs Black History Tour.
-- NC HPO zip (27 MB) not downloaded; NC DEQ basin page not reached; USGS 3DHP terms page empty.
+- NC HPO zip (27 MB) not downloaded; NC DEQ basin page not reached; USGS 3DHP landing page empty (the service is reached via its MapServer and used since; see decision 31).
 - Not probed for time: Garner proposed greenways, Raleigh drainage basins and stormwater, Wake restrictive covenants layer, Chatham Places for history content, DCHC MPO Durham trails copy, Cary stream gages (275,737 rows may be readings), Cary grade crossings.
 - Cary count fields were not clipped by location for public art, hydro, stormwater and facilities (section 5).
 
@@ -348,5 +348,5 @@ How the import works: `maps.wake.gov` still times out from this network, so the 
 | Licence | The service's own text says: "Use Constraints: None. All data are open and non-proprietary." Registry licence: "Public domain (USGS)"; credit USGS |
 | Choice | 3DHP (the maintained successor) over the legacy NHD flowline layer (`nhd/MapServer/6`, which carries the same text and the same counts in our box). Fields kept: `id3dhp`, `gnisid`, `gnisidlabel`, `featuretypelabel`, `lengthkm`, `featuredate`; the network, level-path and flow-direction fields are not snapshotted |
 | Snapshot | `pipeline/sources/usgs/3dhp-streams/`, 5-decimal geometry, count checked against the service; query `gnisidlabel IS NOT NULL AND featuretypelabel = 'Channel Line'` |
-| Use | 172 creek `water` places (of 296 name groups: 76 under about a mile and 48 with no ground in Wake, Chatham or Durham dropped); lines in `layers/water`. Rule and links in decision 30 |
+| Use | 172 creek `water` places (of 296 name groups: 76 under about a mile and 48 with no ground in Wake, Chatham or Durham dropped); lines in `layers/water`. Rule and links in decision 29 |
 | Known limits | A stream broken by a lake or a gap over 200 m appears as several places of one name. The name is the USGS (GNIS) name: Cary's Black Creek Greenway runs beside the stream USGS calls Coles Branch |

@@ -22,6 +22,12 @@ interface Collection {
   features: { properties: Record<string, unknown>; geometry: unknown }[]
 }
 export function watershedPlaceName(huc12Name: string): string
+export function cityBasins(
+  cityIds: Iterable<string>,
+  links: { from: string; to: string }[],
+  basinById: ReadonlyMap<string, string>,
+): { basin: string; links: number; watersheds: string[] }[]
+export function cityBasinLine(city: string, basins: { basin: string }[]): string | null
 export function watershedDescription(w: Pick<Watershed, 'huc12' | 'huc6Name' | 'huc8Name'>): string
 export function mapWatersheds(input: { huc12: Collection; huc8: Collection; huc6: Collection }): Watershed[]
 export function prepareWatershed(w: Watershed): PreparedWatershed

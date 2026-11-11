@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import type { Place, Source } from '../../types/place'
 import type { VisitFieldKey } from '../../types/data-model'
 import { ACTION_BUTTON } from '../../lib/styles'
-import { formatVerifiedDate, splitFields, usePlaceDetails } from './placeDetails'
+import { formatVerifiedDate, showsParkVisitFields, splitFields, usePlaceDetails } from './placeDetails'
 
 const ICON_PROPS = {
   'aria-hidden': true,
@@ -100,8 +100,8 @@ export function VisitInfo({ place, sources }: VisitInfoProps) {
         <p className="text-[14px] text-ink-muted">Visit details aren&apos;t available for this place.</p>
       )}
 
-      {/* Park visit fields (parking, restrooms, wheelchair...) do not apply to a fire station: only its address shows. */}
-      {split && place.category !== 'fire-station' && (
+      {/* Park visit fields (parking, restrooms, wheelchair...) do not apply to a fire station, watershed or creek: only a known address shows. */}
+      {split && showsParkVisitFields(place.category) && (
         <div className="space-y-1 text-[13px] text-ink-muted">
           {split.known.length === 0 && <p className="text-[14px] text-ink">No visit details verified yet.</p>}
           {split.unknown.length > 0 && (

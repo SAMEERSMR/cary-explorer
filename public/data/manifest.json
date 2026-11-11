@@ -1,8 +1,8 @@
 {
- "version": "542e36ebd2e45cbf",
+ "version": "b2a1541c82bf94ee",
  "generatedFrom": "2026-11-10T06:13:04.767Z",
  "artifacts": {
-  "catalog": "catalog.ed0f0dd99c91.json",
+  "catalog": "catalog.1e50c0051381.json",
   "relationships": "relationships.dda84234074c.json",
   "layers": {
    "greenways": "layers/greenways.87e56a2d9f7f.geojson",

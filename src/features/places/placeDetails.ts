@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { fetchBoundedJson, HttpError } from '../../lib/boundedJson'
 import { isRecord } from '../../lib/guards'
+import type { CategoryId } from '../../types/place'
 import { useRelease } from './release'
 import {
   VISIT_FIELD_KEYS,
@@ -173,3 +174,8 @@ export function usePlaceDetails(id: string | null): PlaceDetailsResult {
     ? { status: 'error', details: null, retry }
     : { status: 'loading', details: null, retry: noop }
 }
+
+/** Categories the park visit fields (parking, restrooms, wheelchair...) do not apply to: their cards show no "not verified" block. */
+const NO_PARK_VISIT_FIELDS: ReadonlySet<CategoryId> = new Set(['fire-station', 'water'])
+
+export const showsParkVisitFields = (category: CategoryId): boolean => !NO_PARK_VISIT_FIELDS.has(category)

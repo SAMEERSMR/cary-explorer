@@ -22,8 +22,8 @@ import {
 } from '../lib/geo.mjs'
 import { computeRelationships, computeStationLinks } from '../lib/relationships.mjs'
 import { buildCollections } from '../lib/collections.mjs'
-import { CREEK_MIN_M, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
-import { intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
+import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
+import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
@@ -912,6 +912,25 @@ export function build({ write = true, outDir = OUT } = {}) {
     idByHuc12,
   )
   const creekLinks = creekRelationships(creeks, relItems)
+
+  // Basin story (#22): the river basin of each watershed, then creek copy from the links, then the Cary two-basin line.
+  const basinById = new Map(watersheds.filter((w) => w.huc6Name).map((w) => [idByHuc12.get(w.huc12), w.huc6Name]))
+  const placeById = new Map(places.map((p) => [p.id, p]))
+  for (const c of creeks) {
+    const own = watershedLinks.relationships.filter((r) => r.from === c.id).sort((a, b) => (b.share ?? 1) - (a.share ?? 1))
+    const greenways = creekLinks.filter((r) => r.basis === 'along' && r.to === c.id).map((r) => placeById.get(r.from)?.name).filter(Boolean)
+    placeById.get(c.id).description = creekCardDescription(c.name, c.lengthM, {
+      watersheds: own.map((r) => ({ name: placeById.get(r.to).name, basin: basinById.get(r.to) })),
+      greenways,
+    })
+  }
+  const caryIds = places.filter((p) => p.municipality === 'Cary' && (p.category === 'park' || p.category === 'trail')).map((p) => p.id)
+  const caryBasinList = cityBasins(caryIds, watershedLinks.relationships, basinById)
+  const caryLine = cityBasinLine('Cary', caryBasinList)
+  if (caryLine) {
+    for (const id of new Set(caryBasinList.flatMap((b) => b.watersheds))) placeById.get(id).description += ` ${caryLine}`
+  }
+  console.log(`Cary basins: ${caryBasinList.map((b) => `${b.basin} ${b.links} links in ${b.watersheds.length} watersheds`).join('; ') || 'none'}${caryLine ? '' : ' (no two-basin line)'}`)
 
   for (const p of places) {
     const extra = aliasMap[p.id]

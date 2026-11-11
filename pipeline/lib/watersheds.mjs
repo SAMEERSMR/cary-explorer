@@ -29,6 +29,34 @@ export function watershedDescription(w) {
   return `USGS subwatershed ${w.huc12}.`
 }
 
+/**
+ * River basins (HUC-6 names) that the watersheds linked from a city's parks and trails belong to.
+ * `cityIds`: ids of the city's places; `links`: watershed relationships; `basinById`: watershed place id -> basin name.
+ * Returns [{ basin, links, watersheds: [ids] }], most links first (ties by name). Membership counts only.
+ */
+export function cityBasins(cityIds, links, basinById) {
+  const ids = new Set(cityIds)
+  const byBasin = new Map()
+  for (const l of links) {
+    if (!ids.has(l.from)) continue
+    const basin = basinById.get(l.to)
+    if (!basin) continue
+    const e = byBasin.get(basin) ?? { basin, links: 0, watersheds: new Set() }
+    e.links++
+    e.watersheds.add(l.to)
+    byBasin.set(basin, e)
+  }
+  return [...byBasin.values()]
+    .map((e) => ({ ...e, watersheds: [...e.watersheds].sort() }))
+    .sort((a, b) => b.links - a.links || (a.basin < b.basin ? -1 : 1))
+}
+
+/** "Cary lies in two river basins, Neuse and Cape Fear." Only when the data shows exactly two basins; otherwise null. */
+export function cityBasinLine(city, basins) {
+  if (basins.length !== 2) return null
+  return `${city} lies in two river basins, ${basins[0].basin} and ${basins[1].basin}.`
+}
+
 /** Joins HUC-12 features with the HUC-8 and HUC-6 name tables. Sorted by huc12. */
 export function mapWatersheds({ huc12, huc8, huc6 }) {
   const names8 = new Map(huc8.features.map((f) => [f.properties.huc8, f.properties.name]))

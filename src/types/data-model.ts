@@ -99,8 +99,13 @@ export interface VisitField {
   verifiedAt?: string
 }
 
+/** A source record a canonical place was built from: the source and the publisher's own id for the record. */
+export type PlaceSourceRecord = Pick<SourceRecord, 'sourceId' | 'recordId'>
+
 /** Contents of `/data/places/<id>.json`. */
 export interface PlaceDetails {
   id: string
   fields: VisitField[]
+  /** Every source record that contributed to this place, ordered by source then id; absent when none is recorded. */
+  sourceRecords?: PlaceSourceRecord[]
 }

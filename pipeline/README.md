@@ -50,6 +50,10 @@ Publish stops if any gate fails:
 
 `pipeline/overrides.json` holds curated descriptions, corrections and amenity or access evidence. A refresh never rewrites it, so curated text survives re-runs.
 
+## Source records
+
+Each `places/<id>.json` has `sourceRecords`: `{ sourceId, recordId }` for every source record behind the place (Cary parcel `realid`, Cary greenway `segmentid`, Wake `OBJECTID`, fire `STATIONID`, watershed `huc12`, stream `id3dhp`). A Wake park is merged into a Cary park only when the names match and the Wake point is inside, or within 50 m of, the Cary polygon. See decision 29.
+
 ## Staging and publish
 
 `data:build` writes to `pipeline/.staging/`. `data:publish` validates, then writes into `public/data/`:

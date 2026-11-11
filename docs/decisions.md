@@ -340,6 +340,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/scripts/build-catalog.mjs`, `pipeline/lib/visit.mjs`, `pipeline/sources.config.json`, `docs/source-matrix.md`, #27.
 
+## 33. "Which watershed am I in?" is a local point-in-polygon
+
+**Context:** Issue #22 asks which watershed a point is in. The published HUC-12 polygons (decision 28) are already in the browser for the map.
+
+**Decision:** `watershedAt` (`src/features/watersheds/watershedAt.ts`) tests a point against the water layer's Polygon and MultiPolygon features (holes respected) and returns the watershed `placeId`, or null. It runs in the browser on the layer the map already loads at startup with the other layers (`useGeometryLayers`, bounded fetch); nothing extra is downloaded, and if the layers did not load, no line is shown rather than a wrong "not in a watershed". The answer is one line, "In the <name> watershed" (a link that opens that watershed's card) or "Not in a mapped watershed", with the source name. It appears in the coordinate panel (decision 30), under Near me when the location is on, and after the search phrases "which watershed am I in", "what watershed am I in" or "what watershed is this point in" (case and punctuation ignored), offered as the suggestion "Find my watershed (uses your location)", which starts the same Near me permission prompt. The location stays in memory (decision 22): no URL, storage or request carries it. The line states membership only; it says nothing about where water goes.
+
+**Applies to:** `src/features/watersheds/`, `src/features/search/`, `src/features/location/NearMeBar.tsx`, #22.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

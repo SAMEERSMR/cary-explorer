@@ -62,6 +62,7 @@ export function build(options?: { write?: boolean; outDir?: string }): {
   neighbours: number
   skipped: { inCary: number; outside: number; duplicate: number }
   jurisdictionMismatches: { name: string; jurisdiction: string; municipality: string }[]
+  geometryRepair: import('../lib/repair.mjs').RepairReport
   ids: Record<string, string>
 }
 export function carynUrl(url: unknown): unknown

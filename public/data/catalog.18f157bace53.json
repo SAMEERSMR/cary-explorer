@@ -6,7 +6,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:39.429Z"
+   "retrievedAt": "2026-11-07T17:40:39.429Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-10-31T23:00:59+00:00",
+   "coverage": "Town of Cary"
   },
   {
    "id": "cary-greenways",
@@ -14,7 +17,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:42.606Z"
+   "retrievedAt": "2026-11-07T17:40:42.606Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-11-01T23:01:20+00:00",
+   "coverage": "Town of Cary"
   },
   {
    "id": "wake-parks",
@@ -22,7 +28,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T17:40:46.521Z"
+   "retrievedAt": "2026-11-07T17:40:46.521Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-09-01T14:36:42.334Z",
+   "coverage": "Wake County"
   },
   {
    "id": "wake-fire-stations",
@@ -30,7 +39,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/FireStations/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-10T06:13:04.767Z"
+   "retrievedAt": "2026-11-10T06:13:04.767Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-10-15T20:55:55.063Z",
+   "coverage": "Wake County"
   },
   {
    "id": "wake-greenways",
@@ -38,7 +50,10 @@
    "name": "Wake County",
    "url": "https://maps.wake.gov/arcgis/rest/services/OpenSpace/Greenways/MapServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T21:09:55.268Z"
+   "retrievedAt": "2026-11-07T21:09:55.268Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-02-18T20:29:07.000Z",
+   "coverage": "Wake County"
   },
   {
    "id": "usgs-3dhp-streams",
@@ -46,7 +61,9 @@
    "name": "US Geological Survey",
    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/3DHP_all/MapServer/50",
    "license": "Public domain (USGS)",
-   "retrievedAt": "2026-11-08T15:40:24.853Z"
+   "retrievedAt": "2026-11-08T15:40:24.853Z",
+   "attribution": "US Geological Survey, 3D Hydrography Program (public domain)",
+   "coverage": "Wake, Chatham and Durham counties (in scope)"
   },
   {
    "id": "usgs-wbd-huc12",
@@ -54,7 +71,9 @@
    "name": "US Geological Survey",
    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/6",
    "license": "Public domain (USGS)",
-   "retrievedAt": "2026-11-08T06:53:56.840Z"
+   "retrievedAt": "2026-11-08T06:53:56.840Z",
+   "attribution": "US Geological Survey, Watershed Boundary Dataset (public domain)",
+   "coverage": "Wake, Chatham and Durham counties (in scope)"
   },
   {
    "id": "wake-park-entrances",
@@ -62,7 +81,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Park_Entrances/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T17:40:09.979Z"
+   "retrievedAt": "2026-11-07T17:40:09.979Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-09-01T14:36:42.334Z",
+   "coverage": "Wake County"
   },
   {
    "id": "cary-park-features",
@@ -70,7 +92,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:43.353Z"
+   "retrievedAt": "2026-11-07T17:40:43.353Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-10-31T23:01:30+00:00",
+   "coverage": "Town of Cary"
   }
  ],
  "places": [

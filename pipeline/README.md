@@ -86,7 +86,18 @@ Every feature in `layers/greenways.<h>.geojson` has `{ placeId, status, outsideC
 
 ## Manifest
 
-`public/data/manifest.json` records the release version, what it was built from, an `artifacts` block (`catalog`, `relationships`, `layers`, `places` paths relative to `public/data/`), and for each source: record count, `retrievedAt`, licence, licence status, last successful refresh and `ok`. Each source also has `cadence` and `cadenceDays` (from the registry; 7 weekly, 31 monthly) so staleness is worked out at view time from `lastSuccess`, never at publish. Older manifests without them still load and are never reported stale.
+`public/data/manifest.json` records the release version, what it was built from, an `artifacts` block (`catalog`, `relationships`, `layers`, `places` paths relative to `public/data/`), and one `sources` entry per source used in the catalog. Each entry has:
+
+- `id` and `title` (the registry's dataset title)
+- `attribution` (the snapshot's credit string) and `licence`
+- `licenceStatus` (the configured status from `pipeline/sources.config.json`; every published source is `open`)
+- `sourceModified` (the publisher's modified date, when the snapshot has one)
+- `retrievedAt`, `lastSuccess` and `ok`
+- `coverage` (a short factual line, such as "Town of Cary")
+- `recordCount` (the places the source lists or supplies; see decision 34)
+- `cadence` and `cadenceDays` (from the registry; 7 weekly, 31 monthly), so staleness is worked out at view time from `lastSuccess`, never at publish. Older manifests without them still load and are never reported stale.
+
+The registry fields and the geometry repair log are explained in `docs/decisions.md` 34.
 
 ## Weekly workflow
 

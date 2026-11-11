@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { readRelease } from '../pipeline/lib/release.mjs'
+// @ts-expect-error untyped .mjs pipeline modules
+import { countBySource } from '../pipeline/lib/validate.mjs'
 import { parseCatalog } from '../src/features/places/catalog'
 import { createPlaceSearch } from '../src/features/search/searchIndex'
 import {
@@ -12,6 +14,7 @@ import {
   groupParks,
   normalize,
   pointInPolygon,
+  registryLicenceStatus,
   registryTitle,
   slug,
   vertexNearestBboxCentre,
@@ -244,5 +247,34 @@ describe('catalog source titles', () => {
       'cary-park-features': 'parks-and-recreation-feature-map',
     }
     for (const s of catalog.sources) expect(s.title).toBe(titleOf(registryIds[s.id] ?? s.id))
+  })
+
+  it('maps catalog ids to the registry licence status, and fails when there is none', () => {
+    expect(registryLicenceStatus(registry, 'cary-greenways')).toBe('open')
+    expect(() => registryLicenceStatus([{ id: 'x' }], 'x')).toThrow(/No registry licenceStatus/)
+    expect(() => registryLicenceStatus(registry, 'nope')).toThrow()
+  })
+
+  it('every manifest source carries the configured licence status "open"', () => {
+    // The published release, not pipeline/.staging (git-ignored, absent in CI).
+    const manifest = release.manifest as { sources: { id: string; licenceStatus?: string }[] }
+    expect(manifest.sources.length).toBeGreaterThan(0)
+    for (const s of manifest.sources) expect(s.licenceStatus, s.id).toBe('open')
+  })
+
+  it('counts a place once per source it lists or cites in its details', () => {
+    const catalog = {
+      sources: [{ id: 'a' }, { id: 'b' }, { id: 'c' }],
+      places: [
+        { id: 'p1', sourceIds: ['a'] },
+        { id: 'p2', sourceIds: ['a'] },
+      ],
+    }
+    const details = {
+      p1: { fields: [{ sourceId: 'b' }, { sourceId: 'b' }, { status: 'unknown' }], sourceRecords: [{ sourceId: 'a' }] },
+      p2: { fields: [{ sourceId: 'c' }] },
+    }
+    expect(countBySource(catalog, details)).toEqual({ a: 2, b: 1, c: 1 })
+    expect(countBySource(catalog)).toEqual({ a: 2, b: 0, c: 0 })
   })
 })

@@ -138,7 +138,7 @@ export function publish({
   if (collTexts !== undefined) hash.update(`\0collections\0${collTexts}`)
   const failed = new Map((lastRun?.sources ?? []).filter((s) => !s.ok).map((s) => [s.id, s]))
   const prevById = new Map((previousManifest?.sources ?? []).map((s) => [s.id, s]))
-  const counts = countBySource(catalog)
+  const counts = countBySource(catalog, details)
   let registry = []
   try {
     registry = readJson(registryPath)
@@ -154,7 +154,7 @@ export function publish({
       recordCount: counts[s.id] ?? 0,
       retrievedAt: s.retrievedAt,
       licence: s.license,
-      licenceStatus: s.licenceStatus ?? 'declared',
+      licenceStatus: s.licenceStatus,
       ...(s.sourceModified && { sourceModified: s.sourceModified }),
       ...(s.coverage && { coverage: s.coverage }),
       lastSuccess: failed.has(s.id) ? (prevById.get(s.id)?.lastSuccess ?? s.retrievedAt) : s.retrievedAt,

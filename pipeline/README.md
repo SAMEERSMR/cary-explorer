@@ -50,6 +50,10 @@ Publish stops if any gate fails:
 
 `pipeline/overrides.json` holds curated descriptions, corrections and amenity or access evidence. A refresh never rewrites it, so curated text survives re-runs.
 
+## Curated relationships
+
+`pipeline/relationships.curated.json` is a hand-maintained array of `{ "from", "to", "note", "source" }`. To add a link, use two place ids from the catalog, one plain sentence in `note`, and an https `source` (a page or document that supports the link). The build emits it as a `curated` relationship and fails with a message naming the entry if an id is unknown, `from` equals `to`, a pair appears twice (either order), or `source` is missing or not https. The file ships as `[]`; do not add a link without a source. See decision 29.
+
 ## Source records
 
 Each `places/<id>.json` has `sourceRecords`: `{ sourceId, recordId }` for every source record behind the place (Cary parcel `realid`, Cary greenway `segmentid`, Wake `OBJECTID`, fire `STATIONID`, watershed `huc12`, stream `id3dhp`). A Wake park is merged into a Cary park only when the names match and the Wake point is inside, or within 50 m of, the Cary polygon. See decision 29.

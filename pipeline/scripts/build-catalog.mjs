@@ -22,6 +22,7 @@ import {
 } from '../lib/geo.mjs'
 import { computeRelationships, computeStationLinks } from '../lib/relationships.mjs'
 import { findContainedTwin } from '../lib/twins.mjs'
+import { curatedRelationships, loadCurated } from '../lib/curated.mjs'
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
@@ -32,6 +33,7 @@ export { pointInGeometry, pointInPolygon }
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const SRC = join(ROOT, 'pipeline', 'sources')
 const OUT = join(ROOT, 'pipeline', '.staging')
+const CURATED = join(ROOT, 'pipeline', 'relationships.curated.json')
 
 // Catalog source id -> registry id (pipeline/sources.config.json), where they differ. The title comes from the registry.
 const REGISTRY_ID = {
@@ -531,7 +533,7 @@ export function findTrailTwin(name, lines, candidates) {
   return best
 }
 
-export function build({ write = true, outDir = OUT } = {}) {
+export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}) {
   const parksData = readJson(join(cary('parks-and-recreation-feature-polygons'), 'data.geojson'))
   const pointsData = readJson(join(cary('parks-and-recreation-feature-map'), 'data.geojson'))
   const greenData = readJson(join(cary('proposed-greenway-trails'), 'data.geojson'))
@@ -1094,7 +1096,8 @@ export function build({ write = true, outDir = OUT } = {}) {
     relItems.filter((r) => r.kind === 'park' && parkIds.has(r.id)),
     places.filter((p) => p.category === 'fire-station').map((p) => ({ id: p.id, point: p.centroid })),
   )
-  relationships.relationships.push(...watershedLinks.relationships, ...creekLinks, ...stationLinks)
+  const curatedLinks = curatedRelationships(loadCurated(curatedPath), placeIds)
+  relationships.relationships.push(...watershedLinks.relationships, ...creekLinks, ...stationLinks, ...curatedLinks)
   relationships.relationships.sort((x, y) => cmp(x.from, y.from) || cmp(x.to, y.to) || cmp(x.kind, y.kind))
   for (const p of places) {
     const amenities = amenitiesOf(details[p.id].fields)

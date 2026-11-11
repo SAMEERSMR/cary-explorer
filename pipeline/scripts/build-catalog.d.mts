@@ -53,7 +53,7 @@ export function municipalityOf(
   county: string | undefined,
 ): string
 export function stripJurisdiction(jurisdiction: unknown): string
-export function build(options?: { write?: boolean; outDir?: string }): {
+export function build(options?: { write?: boolean; outDir?: string; curatedPath?: string }): {
   relationships: {
     relationships: { from: string; to: string; kind: string; distanceM?: number; basis?: string }[]
   }

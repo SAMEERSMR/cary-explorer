@@ -137,7 +137,7 @@ Duplicate and stale layers that lost to a better one are listed in section 4.
 | chat-bound | [Chatham park boundaries][chat-bound] | Chatham County GIS | [REST][chat-bound] | Polygon | 166 (14 centroids in Cary) | 2026-10-31 | restricted ("Any resale of this data is strictly prohibited"). Excluded | point-in-polygon |
 | dur-hb | [Durham Bike & Hike (HikeBike2026)][dur-hb] | City of Durham GIS | [REST][dur-hb] | Point / line | 20 featured POIs, 45 trailheads, 268 trails, others | 2026-09-01 | unclear (no licence string). Not used until licensed | point-in-polygon |
 
-Other candidates seen but not placed in the matrix (all region-wide, no town field): USGS WBD HUC12 (layer 6, open; now used for watershed places, see decisions 26), USGS 3DHP (open, lowest priority), NC DWR major basins (unclear), NC Highway Historical Markers (1,658 statewide, unclear, geometry split only), Wake hydrolines (113,281, last edit 2016), Wake primary, critical and water-supply watersheds, Wake National Register districts (183, 2018, unclear), Wake police stations (29), Wake park facilities (418 points, 423 lines, 375 polygons).
+Other candidates seen but not placed in the matrix (all region-wide, no town field): USGS WBD HUC12 (layer 6, open; now used for watershed places, see decision 28), USGS 3DHP (open; now used for creek places, see decision 31), NC DWR major basins (unclear), NC Highway Historical Markers (1,658 statewide, unclear, geometry split only), Wake hydrolines (113,281, last edit 2016), Wake primary, critical and water-supply watersheds, Wake National Register districts (183, 2018, unclear), Wake police stations (29), Wake park facilities (418 points, 423 lines, 375 polygons).
 
 ## 4. Overlaps and precedence
 

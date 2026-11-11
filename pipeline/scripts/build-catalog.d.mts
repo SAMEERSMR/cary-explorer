@@ -133,3 +133,4 @@ export function findTrailTwin(
   candidates: { id: string; centroid: Position; names: Set<string> }[],
 ): { twin: { id: string; centroid: Position; names: Set<string> }; distanceM: number } | undefined
 export function registryTitle(registry: { id: string; title?: string }[], catalogId: string): string
+export function registryLicenceStatus(registry: { id: string; licenceStatus?: string }[], catalogId: string): string

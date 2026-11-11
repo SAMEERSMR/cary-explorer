@@ -27,6 +27,7 @@ import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
 import { sourceRegistryFields } from '../lib/source-registry.mjs'
+import { registryEntry } from '../lib/health.mjs'
 import { formatRepairReport, newReport, repairFeatures } from '../lib/repair.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
@@ -37,17 +38,19 @@ const SRC = join(ROOT, 'pipeline', 'sources')
 const OUT = join(ROOT, 'pipeline', '.staging')
 const CURATED = join(ROOT, 'pipeline', 'relationships.curated.json')
 
-// Catalog source id -> registry id (pipeline/sources.config.json), where they differ. The title comes from the registry.
-const REGISTRY_ID = {
-  'cary-parks': 'parks-and-recreation-feature-polygons',
-  'cary-greenways': 'proposed-greenway-trails',
-  'cary-park-features': 'parks-and-recreation-feature-map',
-}
 /** The registry's dataset title for a catalog source id. Throws when the registry has none. */
 export function registryTitle(registry, catalogId) {
-  const entry = registry.find((r) => r.id === (REGISTRY_ID[catalogId] ?? catalogId))
+  const entry = registryEntry(registry, catalogId)
   if (typeof entry?.title !== 'string' || !entry.title.trim()) throw new Error(`No registry title for catalog source "${catalogId}"`)
   return entry.title.trim()
+}
+/** The registry's configured licence status (e.g. "open") for a catalog source id. Throws when the registry has none. */
+export function registryLicenceStatus(registry, catalogId) {
+  const entry = registryEntry(registry, catalogId)
+  if (typeof entry?.licenceStatus !== 'string' || !entry.licenceStatus.trim()) {
+    throw new Error(`No registry licenceStatus for catalog source "${catalogId}" (pipeline/sources.config.json)`)
+  }
+  return entry.licenceStatus.trim()
 }
 
 const PARK_LEVELS = new Set(['Existing Park', 'Natural Area', 'Community Use Facility'])
@@ -1098,7 +1101,7 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     'wake-park-entrances': entrancesMeta, 'wake-fire-stations': fireMeta, 'wake-greenways': wakeGreenMeta,
     'usgs-wbd-huc12': wbdMeta, 'usgs-3dhp-streams': streamsMeta,
   }
-  for (const s of sources) Object.assign(s, sourceRegistryFields(s.id, metaBySource[s.id]))
+  for (const s of sources) Object.assign(s, sourceRegistryFields(s.id, metaBySource[s.id]), { licenceStatus: registryLicenceStatus(registry, s.id) })
   const relationships = computeRelationships(relItems.filter((r) => placeIds.has(r.id)))
   const parkIds = new Set(places.filter((p) => p.category === 'park').map((p) => p.id))
   const stationLinks = computeStationLinks(

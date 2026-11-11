@@ -364,6 +364,14 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `pipeline/lib/repair.mjs`, `pipeline/lib/source-registry.mjs`, `pipeline/scripts/build-catalog.mjs`, `pipeline/scripts/publish.mjs`, `src/features/places/release.ts`, #80, #19.
 
+## 35. Discover on the place card
+
+**Context:** The card's "Connected" list showed the three strongest links, so a park could show three nearby trails and no creek or watershed (#46).
+
+**Decision:** The section is now "Discover": up to three discoveries, at most one per theme, picked in this order where data exists: (a) "Meet this creek" (a creek the place contains, or a creek a trail follows), (b) "Your watershed" (today's wording with basin; the divide and "and N more watersheds" notes stay), (c) a trail or park ("Walk on", "Nearby trail", "Nearby park", "Park it runs through", "A park on the way"): contained first, then within 400 m, closest first, (d) a curated link, which only fills a free slot. Each shows a heading, the linked place, one sentence built from the relationship, and its kind in decision 29's three words: "Inside", "Nearby · 0.3 mi straight-line" (a trail along a creek reads "Nearby · alongside the creek"), "Curated". Creek and watershed discoveries add the source vintage ("USGS, retrieved Nov 2026") only when the loaded catalog source has a retrieval date. Weak links are not padded; a place with no discovery, no fire-station line and no note renders no section. The nearest fire station (decision 32) is no longer a discovery: park cards show one line under the list, "Nearest fire station: <name> · 0.9 mi straight-line", linked; copy stays distance only. Choosing a discovery is an ordinary selection, so it pushes a history entry and Back returns to the previous place and camera (decision on URL state). Birds (#8) and nearby history (#24) are not built; they add a theme to `discoverFor` (`src/features/places/discover.ts`) when their data exists. `connectionsFor` stays for its tests and the label wording it defines.
+
+**Applies to:** `src/features/places/discover.ts`, `src/features/places/ConnectedPlaces.tsx`, `tests/discover.test.ts`, #46.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

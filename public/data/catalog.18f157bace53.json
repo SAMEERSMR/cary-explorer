@@ -6,7 +6,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-polygons/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:39.429Z"
+   "retrievedAt": "2026-11-07T17:40:39.429Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-10-31T23:00:59+00:00",
+   "coverage": "Town of Cary"
   },
   {
    "id": "cary-greenways",
@@ -14,7 +17,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/proposed-greenway-trails/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:42.606Z"
+   "retrievedAt": "2026-11-07T17:40:42.606Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-11-01T23:01:20+00:00",
+   "coverage": "Town of Cary"
   },
   {
    "id": "wake-parks",
@@ -22,7 +28,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Parks_Public/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T17:40:46.521Z"
+   "retrievedAt": "2026-11-07T17:40:46.521Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-09-01T14:36:42.334Z",
+   "coverage": "Wake County"
   },
   {
    "id": "wake-fire-stations",
@@ -30,7 +39,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/FireStations/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-10T06:13:04.767Z"
+   "retrievedAt": "2026-11-10T06:13:04.767Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-10-15T20:55:55.063Z",
+   "coverage": "Wake County"
   },
   {
    "id": "wake-greenways",
@@ -38,7 +50,10 @@
    "name": "Wake County",
    "url": "https://maps.wake.gov/arcgis/rest/services/OpenSpace/Greenways/MapServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T21:09:55.268Z"
+   "retrievedAt": "2026-11-07T21:09:55.268Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-02-18T20:29:07.000Z",
+   "coverage": "Wake County"
   },
   {
    "id": "usgs-3dhp-streams",
@@ -46,7 +61,9 @@
    "name": "US Geological Survey",
    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/3DHP_all/MapServer/50",
    "license": "Public domain (USGS)",
-   "retrievedAt": "2026-11-08T15:40:24.853Z"
+   "retrievedAt": "2026-11-08T15:40:24.853Z",
+   "attribution": "US Geological Survey, 3D Hydrography Program (public domain)",
+   "coverage": "Wake, Chatham and Durham counties (in scope)"
   },
   {
    "id": "usgs-wbd-huc12",
@@ -54,7 +71,9 @@
    "name": "US Geological Survey",
    "url": "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/6",
    "license": "Public domain (USGS)",
-   "retrievedAt": "2026-11-08T06:53:56.840Z"
+   "retrievedAt": "2026-11-08T06:53:56.840Z",
+   "attribution": "US Geological Survey, Watershed Boundary Dataset (public domain)",
+   "coverage": "Wake, Chatham and Durham counties (in scope)"
   },
   {
    "id": "wake-park-entrances",
@@ -62,7 +81,10 @@
    "name": "Wake County",
    "url": "https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/Wake_Park_Entrances/FeatureServer/0",
    "license": "CC BY 4.0",
-   "retrievedAt": "2026-11-07T17:40:09.979Z"
+   "retrievedAt": "2026-11-07T17:40:09.979Z",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "sourceModified": "2026-09-01T14:36:42.334Z",
+   "coverage": "Wake County"
   },
   {
    "id": "cary-park-features",
@@ -70,7 +92,10 @@
    "name": "Town of Cary",
    "url": "https://data.townofcary.org/explore/dataset/parks-and-recreation-feature-map/",
    "license": "CC0 1.0",
-   "retrievedAt": "2026-11-07T17:40:43.353Z"
+   "retrievedAt": "2026-11-07T17:40:43.353Z",
+   "attribution": "Town of Cary Open Data (CC0 1.0)",
+   "sourceModified": "2026-10-31T23:01:30+00:00",
+   "coverage": "Town of Cary"
   }
  ],
  "places": [
@@ -3215,7 +3240,7 @@
     -78.45853,
     35.97651
    ],
-   "description": "Stream, about 2.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.4 miles in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3238,7 +3263,7 @@
     -78.44202,
     35.97867
    ],
-   "description": "Stream, about 1 mile in this area (USGS hydrography).",
+   "description": "Stream, about 1 mile in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3261,7 +3286,7 @@
     -78.85867,
     35.79401
    ],
-   "description": "Stream, about 3.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.5 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Batchelor Branch Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3284,7 +3309,7 @@
     -78.80828,
     35.63912
    ],
-   "description": "Stream, about 2.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.9 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin. Greenways that follow it: Basil Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3307,7 +3332,7 @@
     -78.85293,
     35.75548
    ],
-   "description": "Stream, about 8.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 8.1 miles in this area (USGS hydrography). In the Beaver Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Beaver Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3330,7 +3355,7 @@
     -78.26835,
     35.85288
    ],
-   "description": "Stream, about 4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4 miles in this area (USGS hydrography). In the Upper Moccasin Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3353,7 +3378,7 @@
     -78.64759,
     35.82439
    ],
-   "description": "Stream, about 1.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.1 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3376,7 +3401,7 @@
     -78.53593,
     35.84349
    ],
-   "description": "Stream, about 2.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.9 miles in this area (USGS hydrography). In the Mingo Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3399,7 +3424,7 @@
     -78.46428,
     35.82823
    ],
-   "description": "Stream, about 3.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.8 miles in this area (USGS hydrography). In the Mingo Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3422,7 +3447,7 @@
     -78.85959,
     35.72108
    ],
-   "description": "Stream, about 4.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.6 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3445,7 +3470,7 @@
     -78.9307,
     35.67379
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3468,7 +3493,7 @@
     -78.56125,
     35.74684
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3491,7 +3516,7 @@
     -78.62325,
     35.85349
    ],
-   "description": "Stream, about 2.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.8 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3514,7 +3539,7 @@
     -78.35006,
     35.88346
    ],
-   "description": "Stream, about 1.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.6 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3537,7 +3562,7 @@
     -78.613426,
     35.56875
    ],
-   "description": "Stream, about 8.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 8.4 miles in this area (USGS hydrography). In the Little Black Creek-Black Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3560,7 +3585,7 @@
     -78.70528,
     35.58667
    ],
-   "description": "Stream, about 2.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.7 miles in this area (USGS hydrography). In the Little Black Creek-Black Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3583,7 +3608,7 @@
     -78.60811,
     35.80333
    ],
-   "description": "Stream, about 1.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.3 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3606,7 +3631,7 @@
     -78.80375,
     35.86729
    ],
-   "description": "Stream, about 2.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.1 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3629,7 +3654,7 @@
     -78.8068,
     35.90823
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3652,7 +3677,7 @@
     -78.629,
     35.71538
    ],
-   "description": "Stream, about 2.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.9 miles in this area (USGS hydrography). In the Lake Benson-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3675,7 +3700,7 @@
     -78.84775,
     35.62491
    ],
-   "description": "Stream, about 6.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.4 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3698,7 +3723,7 @@
     -78.59804,
     36.06793
    ],
-   "description": "Stream, about 3.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.4 miles in this area (USGS hydrography). In the New Light Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3721,7 +3746,7 @@
     -78.9624,
     35.56685
    ],
-   "description": "Stream, about 2.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.7 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3744,7 +3769,7 @@
     -78.36002,
     35.81737
    ],
-   "description": "Stream, about 7.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.9 miles in this area (USGS hydrography). In the Upper Buffalo Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3767,7 +3792,7 @@
     -78.58409,
     35.62749
    ],
-   "description": "Stream, about 4.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.7 miles in this area (USGS hydrography). In the Lower Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3790,7 +3815,7 @@
     -78.42753,
     35.90673
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the Upper Buffalo Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3813,7 +3838,7 @@
     -78.42278,
     35.8613
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Upper Buffalo Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3836,7 +3861,7 @@
     -78.85456,
     35.9031
    ],
-   "description": "Stream, about 3.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.1 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3859,7 +3884,7 @@
     -78.76785,
     35.70116
    ],
-   "description": "Stream, about 4.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.1 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3882,7 +3907,7 @@
     -78.8712,
     35.621
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3905,7 +3930,7 @@
     -78.61682,
     35.94752
    ],
-   "description": "Stream, about 1.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.2 miles in this area (USGS hydrography). In the Honeycutt Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3928,7 +3953,7 @@
     -78.38961,
     35.92135
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3951,7 +3976,7 @@
     -78.62223,
     35.80231
    ],
-   "description": "Stream, about 1.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.4 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3974,7 +3999,7 @@
     -78.79109,
     36.00968
    ],
-   "description": "Stream, about 2.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.7 miles in this area (USGS hydrography). In the Little Lick Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -3997,7 +4022,7 @@
     -78.88793,
     35.76934
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4020,7 +4045,7 @@
     -78.80494,
     35.79868
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Black Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4043,7 +4068,7 @@
     -78.69597,
     35.84711
    ],
-   "description": "Stream, about 7.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.6 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Company Mill Trail and Crabtree Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4066,7 +4091,7 @@
     -78.81029,
     35.83103
    ],
-   "description": "Stream, about 4.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.1 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Crabtree Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4089,7 +4114,7 @@
     -78.82796,
     35.77413
    ],
-   "description": "Stream, about 1.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.4 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Bishops Gate Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4112,7 +4137,7 @@
     -78.91357,
     35.93132
    ],
-   "description": "Stream, about 7.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.1 miles in this area (USGS hydrography). In the New Hope Creek-B Everett Jordan Lake watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4135,7 +4160,7 @@
     -78.72708,
     35.71383
    ],
-   "description": "Stream, about 5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4158,7 +4183,7 @@
     -78.96362,
     35.79224
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the New Hope River-B Everett Jordan Lake watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4181,7 +4206,7 @@
     -78.38145,
     35.8996
    ],
-   "description": "Stream, about 1.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.2 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4204,7 +4229,7 @@
     -78.4063,
     35.90246
    ],
-   "description": "Stream, about 1.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.1 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4227,7 +4252,7 @@
     -78.62325,
     35.63868
    ],
-   "description": "Stream, about 4.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.3 miles in this area (USGS hydrography). In the Middle Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4250,7 +4275,7 @@
     -78.99021,
     35.59841
    ],
-   "description": "Stream, about 3.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.9 miles in this area (USGS hydrography). In the Gulf Creek-Cape Fear River watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4273,7 +4298,7 @@
     -78.774,
     35.86519
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4296,7 +4321,7 @@
     -78.688,
     35.87296
    ],
-   "description": "Stream, about 2.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.5 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Hare Snipe Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4319,7 +4344,7 @@
     -78.69993,
     35.90587
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4342,7 +4367,7 @@
     -78.45313,
     35.9135
    ],
-   "description": "Stream, about 3.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.6 miles in this area (USGS hydrography). In the Harris Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4365,7 +4390,7 @@
     -78.50342,
     35.87229
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the Harris Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4388,7 +4413,7 @@
     -78.48196,
     35.99433
    ],
-   "description": "Stream, about 3.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.2 miles in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin. Greenways that follow it: Dunn Creek Greenway and Dunn Creek Greenway Phase 4.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4411,7 +4436,7 @@
     -78.44381,
     35.85913
    ],
-   "description": "Stream, about 4.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.9 miles in this area (USGS hydrography). In the Harris Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4434,7 +4459,7 @@
     -78.36857,
     35.87603
    ],
-   "description": "Stream, about 3.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.7 miles in this area (USGS hydrography). In the Cattail Creek-Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4457,7 +4482,7 @@
     -78.6068,
     35.92959
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the Honeycutt Creek-Neuse River watershed, part of the Neuse River Basin. Greenways that follow it: Honeycutt Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4480,7 +4505,7 @@
     -78.88045,
     35.59045
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4503,7 +4528,7 @@
     -78.51826,
     36.06317
    ],
-   "description": "Stream, about 9.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 9.2 miles in this area (USGS hydrography). In the Horse Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4526,7 +4551,7 @@
     -78.67621,
     35.8367
    ],
-   "description": "Stream, about 3.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.1 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: House Creek Trail and Reedy Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4549,7 +4574,7 @@
     -78.91778,
     35.81937
    ],
-   "description": "Stream, about 4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4 miles in this area (USGS hydrography). In the New Hope River-B Everett Jordan Lake watershed, part of the Cape Fear River Basin. Greenways that follow it: Montvale Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4572,7 +4597,7 @@
     -78.87347,
     35.77639
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4595,7 +4620,7 @@
     -78.88261,
     35.61088
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4618,7 +4643,7 @@
     -78.64604,
     35.64982
    ],
-   "description": "Stream, about 3.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.6 miles in this area (USGS hydrography). In the Middle Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4641,7 +4666,7 @@
     -78.77725,
     35.57361
    ],
-   "description": "Stream, about 6.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.6 miles in this area (USGS hydrography). In the Neills Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4664,7 +4689,7 @@
     -78.77702,
     35.59002
    ],
-   "description": "Stream, about 1.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.3 miles in this area (USGS hydrography). In the Neills Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4687,7 +4712,7 @@
     -78.84587,
     35.86243
    ],
-   "description": "Stream, about 6.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.4 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4710,7 +4735,7 @@
     -78.71698,
     35.98899
    ],
-   "description": "Stream, about 4.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.2 miles in this area (USGS hydrography). In the Lick Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4733,7 +4758,7 @@
     -78.94858,
     35.80349
    ],
-   "description": "Stream, about 1.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.9 miles in this area (USGS hydrography). In the New Hope River-B Everett Jordan Lake watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4756,7 +4781,7 @@
     -78.74182,
     35.98084
    ],
-   "description": "Stream, about 7.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.2 miles in this area (USGS hydrography). In the Lick Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4779,7 +4804,7 @@
     -78.90289,
     35.69878
    ],
-   "description": "Stream, about 4.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.4 miles in this area (USGS hydrography). In the Beaver Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4802,7 +4827,7 @@
     -78.61078,
     36.06812
    ],
-   "description": "Stream, about 3.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.8 miles in this area (USGS hydrography). In the Beaverdam Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4825,7 +4850,7 @@
     -78.65044,
     35.55882
    ],
-   "description": "Stream, about 7.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.1 miles in this area (USGS hydrography). In the Little Black Creek-Black Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4848,7 +4873,7 @@
     -78.83695,
     35.67541
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4871,7 +4896,7 @@
     -78.78847,
     35.93937
    ],
-   "description": "Stream, about 5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4894,7 +4919,7 @@
     -78.60993,
     35.64845
    ],
-   "description": "Stream, about 7.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.4 miles in this area (USGS hydrography). In the Middle Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4917,7 +4942,7 @@
     -78.25751,
     35.83518
    ],
-   "description": "Stream, about 4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4 miles in this area (USGS hydrography). In the Upper Moccasin Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4940,7 +4965,7 @@
     -78.458216,
     35.68075
    ],
-   "description": "Stream, about 7.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.1 miles in this area (USGS hydrography). In the Little Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4963,7 +4988,7 @@
     -78.97705,
     35.896399
    ],
-   "description": "Stream, about 2.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.4 miles in this area (USGS hydrography). In the Little Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -4986,7 +5011,7 @@
     -78.72022,
     36.1343
    ],
-   "description": "Stream, about 5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5 miles in this area (USGS hydrography). In the Ledge Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5009,7 +5034,7 @@
     -78.78291,
     36.00666
    ],
-   "description": "Stream, about 7.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.8 miles in this area (USGS hydrography). In the Little Lick Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5032,7 +5057,7 @@
     -78.27415,
     35.9146
    ],
-   "description": "River, about 18.7 miles in this area (USGS hydrography).",
+   "description": "River, about 18.7 miles in this area (USGS hydrography). In the Cattail Creek-Little River and Headwaters Little River watersheds, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5055,7 +5080,7 @@
     -78.38879,
     35.97886
    ],
-   "description": "River, about 5.7 miles in this area (USGS hydrography).",
+   "description": "River, about 5.7 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5078,7 +5103,7 @@
     -78.89705,
     35.6965
    ],
-   "description": "Stream, about 4.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.4 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5101,7 +5126,7 @@
     -78.77433,
     35.75985
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5124,7 +5149,7 @@
     -78.88166,
     35.8735
    ],
-   "description": "Stream, about 1.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.7 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5147,7 +5172,7 @@
     -78.6568,
     35.95132
    ],
-   "description": "Stream, about 6.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.8 miles in this area (USGS hydrography). In the Upper Barton Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5170,7 +5195,7 @@
     -78.56874,
     36.01968
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the Horse Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5193,7 +5218,7 @@
     -78.76349,
     35.77258
    ],
-   "description": "Stream, about 2.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.9 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin. Greenways that follow it: Hinshaw Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5216,7 +5241,7 @@
     -78.59523,
     35.69815
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the Mahlers Creek-Swift Creek watershed, part of the Neuse River Basin. Greenways that follow it: Mahlers Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5239,7 +5264,7 @@
     -78.42146,
     35.75301
    ],
-   "description": "Stream, about 5.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.2 miles in this area (USGS hydrography). In the Marks Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5262,7 +5287,7 @@
     -78.43679,
     35.82524
    ],
-   "description": "Stream, about 5.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.1 miles in this area (USGS hydrography). In the Marks Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5285,7 +5310,7 @@
     -78.59051,
     35.87055
    ],
-   "description": "Stream, about 6.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.2 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5308,7 +5333,7 @@
     -78.63629,
     35.65474
    ],
-   "description": "Stream, about 13 miles in this area (USGS hydrography).",
+   "description": "Stream, about 13 miles in this area (USGS hydrography). In the Upper Middle Creek and Middle Middle Creek watersheds, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5331,7 +5356,7 @@
     -78.79897,
     35.71703
    ],
-   "description": "Stream, about 5.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.6 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin. Greenways that follow it: Middle Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5354,7 +5379,7 @@
     -78.96293,
     35.78033
    ],
-   "description": "Stream, about 1.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.6 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5377,7 +5402,7 @@
     -78.70586,
     35.65718
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5400,7 +5425,7 @@
     -78.65053,
     35.87822
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Mine Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5423,7 +5448,7 @@
     -78.66093,
     35.85664
    ],
-   "description": "Stream, about 1.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.6 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Mine Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5446,7 +5471,7 @@
     -78.47983,
     35.79696
    ],
-   "description": "Stream, about 4.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.1 miles in this area (USGS hydrography). In the Mingo Creek-Neuse River watershed, part of the Neuse River Basin. Greenways that follow it: Mingo Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5469,7 +5494,7 @@
     -78.24388,
     35.85162
    ],
-   "description": "Stream, about 6.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.2 miles in this area (USGS hydrography). In the Upper Moccasin Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5492,7 +5517,7 @@
     -78.27866,
     35.8974
    ],
-   "description": "Stream, about 4.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.1 miles in this area (USGS hydrography). In the Upper Moccasin Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5515,7 +5540,7 @@
     -78.33347,
     35.9084
    ],
-   "description": "Stream, about 1 mile in this area (USGS hydrography).",
+   "description": "Stream, about 1 mile in this area (USGS hydrography). In the Upper Moccasin Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5538,7 +5563,7 @@
     -79.00437,
     35.8711
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Morgan Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5561,7 +5586,7 @@
     -78.87304,
     35.82673
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Morris Branch Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5584,7 +5609,7 @@
     -78.5679,
     35.99623
    ],
-   "description": "Stream, about 1.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.2 miles in this area (USGS hydrography). In the Horse Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5607,7 +5632,7 @@
     -78.88158,
     35.8384
    ],
-   "description": "Stream, about 3.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.2 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Nancy Branch Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5630,7 +5655,7 @@
     -78.763,
     35.55368
    ],
-   "description": "Stream, about 7.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.3 miles in this area (USGS hydrography). In the Neills Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5653,7 +5678,7 @@
     -78.76716,
     35.56902
    ],
-   "description": "Stream, about 1 mile in this area (USGS hydrography).",
+   "description": "Stream, about 1 mile in this area (USGS hydrography). In the Neills Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5676,7 +5701,7 @@
     -78.96135,
     35.918425
    ],
-   "description": "Stream, about 5.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.8 miles in this area (USGS hydrography). In the New Hope Creek-B Everett Jordan Lake watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5699,7 +5724,7 @@
     -78.541,
     36.06822
    ],
-   "description": "Stream, about 5.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.9 miles in this area (USGS hydrography). In the New Light Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5722,7 +5747,7 @@
     -78.86465,
     35.64048
    ],
-   "description": "Stream, about 3.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.1 miles in this area (USGS hydrography). In the Buckhorn Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5745,7 +5770,7 @@
     -78.85865,
     35.9619
    ],
-   "description": "Stream, about 16 miles in this area (USGS hydrography).",
+   "description": "Stream, about 16 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5768,7 +5793,7 @@
     -78.66811,
     35.65477
    ],
-   "description": "Stream, about 3.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.9 miles in this area (USGS hydrography). In the Middle Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5791,7 +5816,7 @@
     -78.78584,
     36.04454
    ],
-   "description": "Stream, about 4.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.4 miles in this area (USGS hydrography). In the Panther Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5814,7 +5839,7 @@
     -78.9123,
     35.83861
    ],
-   "description": "Stream, about 2.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.8 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5837,7 +5862,7 @@
     -78.87358,
     35.81712
    ],
-   "description": "Stream, about 1.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.9 miles in this area (USGS hydrography). In the Northeast Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Green Hope School Greenway and Panther Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5860,7 +5885,7 @@
     -78.39602,
     35.94211
    ],
-   "description": "Stream, about 2.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.7 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5883,7 +5908,7 @@
     -78.43966,
     35.96701
    ],
-   "description": "Stream, about 1.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.9 miles in this area (USGS hydrography). In the Headwaters Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5906,7 +5931,7 @@
     -78.54161,
     35.88378
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the Perry Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5929,7 +5954,7 @@
     -78.58301,
     35.88006
    ],
-   "description": "Stream, about 1.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.3 miles in this area (USGS hydrography). In the Perry Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5952,7 +5977,7 @@
     -78.59133,
     35.99415
    ],
-   "description": "Stream, about 1.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.1 miles in this area (USGS hydrography). In the Horse Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5975,7 +6000,7 @@
     -78.60865,
     35.80726
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -5998,7 +6023,7 @@
     -78.46568,
     35.794
    ],
-   "description": "Stream, about 5.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.6 miles in this area (USGS hydrography). In the Poplar Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6021,7 +6046,7 @@
     -78.74501,
     35.89239
    ],
-   "description": "Stream, about 2.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.1 miles in this area (USGS hydrography). In the Turkey Creek watershed, part of the Neuse River Basin. Greenways that follow it: Pott's Branch Trail and Sycamore Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6044,7 +6069,7 @@
     -78.89281,
     35.75123
    ],
-   "description": "Stream, about 3.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.4 miles in this area (USGS hydrography). In the Beaver Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Reedy Branch Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6067,7 +6092,7 @@
     -78.75274,
     35.81628
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6090,7 +6115,7 @@
     -78.74481,
     35.833
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Loblolly Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6113,7 +6138,7 @@
     -78.4944,
     36.03605
    ],
-   "description": "Stream, about 8.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 8.9 miles in this area (USGS hydrography). In the Richland Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6136,7 +6161,7 @@
     -78.71712,
     35.82259
    ],
-   "description": "Stream, about 2.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.8 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Richland Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6159,7 +6184,7 @@
     -78.71846,
     35.84525
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Middle Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6182,7 +6207,7 @@
     -78.74758,
     35.97835
    ],
-   "description": "Stream, about 3.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.4 miles in this area (USGS hydrography). In the Lick Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6205,7 +6230,7 @@
     -78.77964,
     35.69109
    ],
-   "description": "Stream, about 2.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.9 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6228,7 +6253,7 @@
     -78.63853,
     35.77926
    ],
-   "description": "Stream, about 2.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.6 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin. Greenways that follow it: Rocky Branch Trail, Rocky Branch Trail Extension and Walnut Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6251,7 +6276,7 @@
     -78.66597,
     35.79193
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin. Greenways that follow it: Rocky Branch Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6274,7 +6299,7 @@
     -78.54254,
     35.82816
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the Mingo Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6297,7 +6322,7 @@
     -78.94283,
     35.7923
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6320,7 +6345,7 @@
     -78.47667,
     35.94567
    ],
-   "description": "Stream, about 2.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.6 miles in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin. Greenways that follow it: Sanford Creek Greenway and Sanford Creek Greenway at Heritage South.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6343,7 +6368,7 @@
     -78.99236,
     35.65442
    ],
-   "description": "Stream, about 8.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 8.2 miles in this area (USGS hydrography). In the Shaddox Creek-Haw River watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6366,7 +6391,7 @@
     -78.48753,
     35.97036
    ],
-   "description": "Stream, about 5.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.8 miles in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin. Greenways that follow it: Heritage High Soft Trail, Smith Creek Greenway and Smith Creek Greenway at Soccer Center.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6389,7 +6414,7 @@
     -78.46677,
     36.01159
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the Smith Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6412,7 +6437,7 @@
     -78.27454,
     35.80265
    ],
-   "description": "Stream, about 5.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.6 miles in this area (USGS hydrography). In the Cattail Creek-Little River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6435,7 +6460,7 @@
     -78.66101,
     35.81638
    ],
-   "description": "Stream, about 1.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.8 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Gardner Street Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6458,7 +6483,7 @@
     -78.66103,
     35.81638
    ],
-   "description": "Stream, about 2.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.1 miles in this area (USGS hydrography). In the Lower Crabtree Creek watershed, part of the Neuse River Basin. Greenways that follow it: Beaver Dam Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6481,7 +6506,7 @@
     -78.75011,
     35.74651
    ],
-   "description": "Stream, about 2.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.1 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin. Greenways that follow it: Speight Branch Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6504,7 +6529,7 @@
     -78.83122,
     35.92517
    ],
-   "description": "Stream, about 3.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.6 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6527,7 +6552,7 @@
     -78.80623,
     35.8686
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6550,7 +6575,7 @@
     -78.73372,
     35.74176
    ],
-   "description": "Stream, about 4.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.8 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin. Greenways that follow it: Swift Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6573,7 +6598,7 @@
     -78.6534,
     35.69428
    ],
-   "description": "Stream, about 3.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.6 miles in this area (USGS hydrography). In the Lake Benson-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6596,7 +6621,7 @@
     -78.80142,
     35.77745
    ],
-   "description": "Stream, about 1.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.3 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6619,7 +6644,7 @@
     -78.74847,
     35.93722
    ],
-   "description": "Stream, about 4.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.7 miles in this area (USGS hydrography). In the Turkey Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6642,7 +6667,7 @@
     -78.72585,
     35.86704
    ],
-   "description": "Stream, about 3.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.7 miles in this area (USGS hydrography). In the Turkey Creek watershed, part of the Neuse River Basin. Greenways that follow it: Sycamore Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6665,7 +6690,7 @@
     -78.69597,
     35.61654
    ],
-   "description": "Stream, about 3.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.8 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6688,7 +6713,7 @@
     -78.76095,
     35.61035
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the Upper Middle Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6711,7 +6736,7 @@
     -78.94207,
     35.934189
    ],
-   "description": "Stream, about 3.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.3 miles in this area (USGS hydrography). In the Third Fork Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6734,7 +6759,7 @@
     -78.95245,
     35.67014
    ],
-   "description": "Stream, about 1.9 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.9 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6757,7 +6782,7 @@
     -78.51419,
     35.91418
    ],
-   "description": "Stream, about 1.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.6 miles in this area (USGS hydrography). In the Perry Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6780,7 +6805,7 @@
     -78.48606,
     35.91615
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the Perry Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6803,7 +6828,7 @@
     -78.7227,
     35.8699
    ],
-   "description": "Stream, about 2.3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.3 miles in this area (USGS hydrography). In the Turkey Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6826,7 +6851,7 @@
     -78.83363,
     35.80217
    ],
-   "description": "Stream, about 2.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2.2 miles in this area (USGS hydrography). In the Upper Crabtree Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6849,7 +6874,7 @@
     -78.67586,
     35.96076
    ],
-   "description": "Stream, about 5.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 5.6 miles in this area (USGS hydrography). In the Upper Barton Creek-Neuse River watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6872,7 +6897,7 @@
     -78.87135,
     35.64634
    ],
-   "description": "Stream, about 1.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.7 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6895,7 +6920,7 @@
     -78.83903,
     35.65093
    ],
-   "description": "Stream, about 1.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.6 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Utley Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6918,7 +6943,7 @@
     -78.57976,
     35.76526
    ],
-   "description": "Stream, about 7.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 7.1 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin. Greenways that follow it: Walnut Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6941,7 +6966,7 @@
     -78.72174,
     35.78785
    ],
-   "description": "Stream, about 4.2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 4.2 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6964,7 +6989,7 @@
     -78.53176,
     35.75346
    ],
-   "description": "Stream, about 3 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin. Greenways that follow it: Walnut Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -6987,7 +7012,7 @@
     -78.6858,
     35.76964
    ],
-   "description": "Stream, about 1.4 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.4 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin. Greenways that follow it: Walnut Creek Trail.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7010,7 +7035,7 @@
     -78.5909,
     36.00433
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the Horse Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7033,7 +7058,7 @@
     -78.9862,
     35.67717
    ],
-   "description": "Stream, about 2 miles in this area (USGS hydrography).",
+   "description": "Stream, about 2 miles in this area (USGS hydrography). In the Beaver Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7056,7 +7081,7 @@
     -78.84666,
     35.78126
    ],
-   "description": "Stream, about 9.6 miles in this area (USGS hydrography).",
+   "description": "Stream, about 9.6 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin. Greenways that follow it: Park Village Greenway and White Oak Creek Greenway.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7079,7 +7104,7 @@
     -78.88458,
     35.69163
    ],
-   "description": "Stream, about 3.8 miles in this area (USGS hydrography).",
+   "description": "Stream, about 3.8 miles in this area (USGS hydrography). In the White Oak Creek watershed, part of the Cape Fear River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7102,7 +7127,7 @@
     -78.51875,
     35.69335
    ],
-   "description": "Stream, about 6.1 miles in this area (USGS hydrography).",
+   "description": "Stream, about 6.1 miles in this area (USGS hydrography). In the Whiteoak Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7125,7 +7150,7 @@
     -78.63367,
     35.74361
    ],
-   "description": "Stream, about 1.5 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.5 miles in this area (USGS hydrography). In the Walnut Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -7148,7 +7173,7 @@
     -78.82515,
     35.75383
    ],
-   "description": "Stream, about 1.7 miles in this area (USGS hydrography).",
+   "description": "Stream, about 1.7 miles in this area (USGS hydrography). In the Lake Wheeler-Swift Creek watershed, part of the Neuse River Basin.",
    "sourceIds": [
     "usgs-3dhp-streams"
    ]
@@ -16552,7 +16577,7 @@
     -78.76175,
     35.94398
    ],
-   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse).",
+   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -16644,7 +16669,7 @@
     -78.68377,
     35.73447
    ],
-   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse).",
+   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -16713,7 +16738,7 @@
     -78.68899,
     35.78739
    ],
-   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse).",
+   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -16828,7 +16853,7 @@
     -78.53189,
     35.80009
    ],
-   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse).",
+   "description": "Part of the Neuse River Basin (HUC-8 Upper Neuse). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -17081,7 +17106,7 @@
     -78.83716,
     35.96935
    ],
-   "description": "Part of the Cape Fear River Basin (HUC-8 Haw).",
+   "description": "Part of the Cape Fear River Basin (HUC-8 Haw). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -17127,7 +17152,7 @@
     -78.84095,
     35.80605
    ],
-   "description": "Part of the Cape Fear River Basin (HUC-8 Haw).",
+   "description": "Part of the Cape Fear River Basin (HUC-8 Haw). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]
@@ -17173,7 +17198,7 @@
     -78.91375,
     35.84613
    ],
-   "description": "Part of the Cape Fear River Basin (HUC-8 Haw).",
+   "description": "Part of the Cape Fear River Basin (HUC-8 Haw). Cary lies in two river basins, Neuse and Cape Fear.",
    "sourceIds": [
     "usgs-wbd-huc12"
    ]

@@ -54,7 +54,7 @@ describe('release determinism', () => {
   it('the manifest carries one registry entry per catalog source, with no invented dates', () => {
     const built = builtCatalog()
     const manifest = JSON.parse(readFileSync(join(stageAndPublish(built.outputs, 'registry'), 'manifest.json'), 'utf8'))
-    expect(manifest.sources.map((s: { id: string }) => s.id)).toEqual(built.catalog.sources.map((s: { id: string }) => s.id).sort())
+    expect(manifest.sources.map((s: { id: string }) => s.id)).toEqual((built.catalog.sources as { id: string }[]).map((s) => s.id).sort())
     for (const s of manifest.sources) {
       expect(s.title, s.id).toBeTruthy()
       expect(s.attribution, s.id).toBeTruthy()

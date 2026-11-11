@@ -5,7 +5,6 @@ import {
   repairFeatures,
   repairGeometry,
   ringSelfIntersections,
-  // @ts-expect-error untyped
 } from '../pipeline/lib/repair.mjs'
 
 const sq = [[0, 0], [4, 0], [4, 4], [0, 4], [0, 0]] // counter-clockwise

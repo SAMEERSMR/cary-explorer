@@ -76,8 +76,8 @@ export const DEDUPE_M: number
 export function findCaryTwin(
   name: unknown,
   pt: Position,
-  caryNames: { id: string; centroid: Position; names: Set<string> }[],
-): { id: string; centroid: Position; names: Set<string> } | undefined
+  caryNames: { id: string; centroid: Position; names: Set<string>; polygons?: Polygon[] }[],
+): { candidate: { id: string; centroid: Position; names: Set<string>; polygons?: Polygon[] }; distanceM: number } | undefined
 export const ENTRANCE_NAME_MAX_M: number
 export function joinEntrances(
   place: { name: string; aliases?: string[]; centroid: Position },

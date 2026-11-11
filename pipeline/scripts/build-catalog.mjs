@@ -24,6 +24,7 @@ import { computeRelationships, computeStationLinks } from '../lib/relationships.
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
+import { formatRepairReport, newReport, repairFeatures } from '../lib/repair.mjs'
 import { amenitiesOf, buildVisitFields, verifiedDate } from '../lib/visit.mjs'
 
 export { pointInGeometry, pointInPolygon }
@@ -1069,10 +1070,17 @@ export function build({ write = true, outDir = OUT } = {}) {
     if (amenities.length) p.amenities = amenities
   }
   const catalog = { sources, places: places.map(orderPlace) }
+  // Every geometry that reaches a published layer is repaired (after rounding, so rounding collapses are caught too).
+  const sourceOfPlace = new Map(places.map((p) => [p.id, p.sourceIds?.[0]]))
+  const geometryRepair = newReport()
   const layer = (features, decimals) =>
     ({
       type: 'FeatureCollection',
-      features: features.map((f) => ({ ...f, geometry: roundGeometry(f.geometry, decimals) })),
+      features: repairFeatures(
+        features.map((f) => ({ ...f, geometry: roundGeometry(f.geometry, decimals) })),
+        (f) => sourceOfPlace.get(f.properties.placeId),
+        { into: geometryRepair },
+      ).features,
     })
 
   const outputs = {
@@ -1108,6 +1116,7 @@ export function build({ write = true, outDir = OUT } = {}) {
     trailDedupeSkips,
     wakeGreenways: { kept: wakeGw.kept, dropped: wakeGw.dropped, skipped: wakeGw.skipped, imported: regionalTrails.length },
     jurisdictionMismatches,
+    geometryRepair,
     ids: allIds,
     creeks: { places: creeks, stats: creekStats, links: creekLinks },
     watersheds: { inScope: watersheds, noCountyArea: inScopeWatersheds.length - watersheds.length, notDetermined: watershedLinks.notDetermined, links: watershedLinks.relationships },
@@ -1170,6 +1179,7 @@ function main() {
     return t
   }
   const dropByMiles = [...r.dropped].sort((a, b) => b.miles - a.miles).slice(0, 10)
+  for (const line of formatRepairReport(r.geometryRepair)) console.log(line)
   console.log(`places: ${r.catalog.places.length}`)
   console.log('by category:', tally('category'))
   console.log('by county:', tally('county'))

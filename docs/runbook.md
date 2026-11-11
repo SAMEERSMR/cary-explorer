@@ -10,6 +10,10 @@ What to do when the data pipeline or the app misbehaves. Background: `docs/decis
 | Hosting, CDN, deployment, server logs, transfer cost | The hosting team (not this repo) |
 | Remote error reporting and any backend | Waits on #16 and the hosting team |
 
+## Geometry repairs in the build log
+
+The build log lists geometry repairs and self-intersections per source (`docs/decisions.md` 34). `cary-park-thomas-e-brooks-park` has a known sub-square-metre sliver that is kept as published, so any NEW self-intersection in the log should be checked before publishing.
+
 ## A refresh failed
 
 The weekly `Data refresh` workflow (Mondays 09:00 UTC) opens a GitHub issue titled **Data refresh failed** (label `data-refresh`). If one is already open it adds a comment instead, so there is never more than one. The issue gives the run URL, the failed step and a pointer here. A failed run publishes nothing: the last good release stays live.

@@ -14,6 +14,17 @@ What to do when the data pipeline or the app misbehaves. Background: `docs/decis
 
 The build log lists geometry repairs and self-intersections per source (`docs/decisions.md` 34). `cary-park-thomas-e-brooks-park` has a known sub-square-metre sliver that is kept as published, so any NEW self-intersection in the log should be checked before publishing.
 
+## Re-checking the Cary "Learn more" links
+
+The 7 Cary watershed cards show two Town of Cary links. The URLs are set in `CARY_BASIN_REFERENCES` in `pipeline/lib/watersheds.mjs` (background: `docs/decisions.md` 28, #22). The build cannot check these links, because `carync.gov` refuses scripted requests (HTTP 403). Check them by hand in a normal browser before each public release, and whenever someone reports a dead link.
+
+1. Open both URLs from `CARY_BASIN_REFERENCES` in a browser.
+2. Confirm the stormwater education page still says Cary lies in the Neuse and Cape Fear basins, and that the PDF is still the riparian and urban transition buffer factsheet.
+3. If a link moved, update the URL in `CARY_BASIN_REFERENCES`, run `npm run data:build` and then `npm run data:publish`, and note the new check date in the decisions entry.
+4. If a page is gone with no replacement, remove that entry so the card stops linking to it.
+
+Do not paste the full URLs here. Point to the constant instead, so the URLs live in one place.
+
 ## A refresh failed
 
 The weekly `Data refresh` workflow (Mondays 09:00 UTC) opens a GitHub issue titled **Data refresh failed** (label `data-refresh`). If one is already open it adds a comment instead, so there is never more than one. The issue gives the run URL, the failed step and a pointer here. A failed run publishes nothing: the last good release stays live.

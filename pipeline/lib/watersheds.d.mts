@@ -27,6 +27,8 @@ export function cityBasins(
   links: { from: string; to: string }[],
   basinById: ReadonlyMap<string, string>,
 ): { basin: string; links: number; watersheds: string[] }[]
+export const CARY_BASIN_REFERENCES: readonly { readonly title: string; readonly url: string; readonly publisher: string }[]
+export function caryLineWatershedIds(caryLine: string | null, basins: { watersheds: string[] }[]): string[]
 export function cityBasinLine(city: string, basins: { basin: string }[]): string | null
 export function watershedDescription(w: Pick<Watershed, 'huc12' | 'huc6Name' | 'huc8Name'>): string
 export function mapWatersheds(input: { huc12: Collection; huc8: Collection; huc6: Collection }): Watershed[]

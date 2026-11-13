@@ -25,7 +25,7 @@ import { findContainedTwin } from '../lib/twins.mjs'
 import { curatedRelationships, loadCurated } from '../lib/curated.mjs'
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
-import { cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
+import { CARY_BASIN_REFERENCES, caryLineWatershedIds, cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
 import { sourceRegistryFields } from '../lib/source-registry.mjs'
 import { registryEntry } from '../lib/health.mjs'
 import { formatRepairReport, newReport, repairFeatures } from '../lib/repair.mjs'
@@ -966,9 +966,8 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
   const caryIds = places.filter((p) => p.municipality === 'Cary' && (p.category === 'park' || p.category === 'trail')).map((p) => p.id)
   const caryBasinList = cityBasins(caryIds, watershedLinks.relationships, basinById)
   const caryLine = cityBasinLine('Cary', caryBasinList)
-  if (caryLine) {
-    for (const id of new Set(caryBasinList.flatMap((b) => b.watersheds))) placeById.get(id).description += ` ${caryLine}`
-  }
+  const caryLineIds = caryLineWatershedIds(caryLine, caryBasinList)
+  for (const id of caryLineIds) placeById.get(id).description += ` ${caryLine}`
   console.log(`Cary basins: ${caryBasinList.map((b) => `${b.basin} ${b.links} links in ${b.watersheds.length} watersheds`).join('; ') || 'none'}${caryLine ? '' : ' (no two-basin line)'}`)
 
   for (const p of places) {
@@ -1074,6 +1073,8 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     wakeGreenways: verifiedDate(wakeGreenMeta),
     fire: verifiedDate(fireMeta),
   }, records)
+  // The same watersheds that carry the Cary line get the Town of Cary learn-more links (detail files only).
+  for (const id of caryLineIds) details[id].references = CARY_BASIN_REFERENCES.map((r) => ({ ...r }))
   const usedSources = new Set(Object.values(details).flatMap((d) => [...d.fields.map((f) => f.sourceId), ...(d.sourceRecords ?? []).map((r) => r.sourceId)]))
   if (usedSources.has('wake-park-entrances')) {
     sources.push({

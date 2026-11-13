@@ -318,5 +318,30 @@ export function validateDetail(detail, placeId, sourceIds) {
       }
     }
   }
+  // Optional learn-more links: { title, url, publisher }, https only, no repeats.
+  if (detail.references !== undefined) {
+    if (!Array.isArray(detail.references) || detail.references.length === 0) {
+      errors.push(`${at}: references must be a non-empty array when present`)
+    } else {
+      const seen = new Set()
+      for (const r of detail.references) {
+        const title = typeof r?.title === 'string' ? r.title.trim() : ''
+        const publisher = typeof r?.publisher === 'string' ? r.publisher.trim() : ''
+        if (!title || !publisher) {
+          errors.push(`${at}: references entries need a title and a publisher (strings)`)
+          continue
+        }
+        let ok = false
+        try {
+          ok = typeof r.url === 'string' && new URL(r.url).protocol === 'https:'
+        } catch {
+          ok = false
+        }
+        if (!ok) errors.push(`${at}: reference "${title}" needs an https url`)
+        else if (seen.has(r.url)) errors.push(`${at}: references repeats ${r.url}`)
+        else seen.add(r.url)
+      }
+    }
+  }
   return errors
 }

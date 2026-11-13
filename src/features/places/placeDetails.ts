@@ -7,6 +7,7 @@ import { useRelease } from './release'
 import {
   VISIT_FIELD_KEYS,
   type PlaceDetails,
+  type PlaceReference,
   type PlaceSourceRecord,
   type VisitField,
   type VisitFieldKey,
@@ -48,6 +49,35 @@ export function parseSourceRecords(raw: unknown): PlaceSourceRecord[] {
   return out
 }
 
+const MAX_REFERENCES = 10
+const MAX_REFERENCE_TEXT = 120
+const MAX_REFERENCE_URL = 500
+
+/** Keeps references with a non-empty title and publisher and a valid https URL (no repeats); anything else is dropped. Absent or malformed input gives []. */
+export function parseReferences(raw: unknown): PlaceReference[] {
+  if (!Array.isArray(raw)) return []
+  const seen = new Set<string>()
+  const out: PlaceReference[] = []
+  for (const item of raw) {
+    if (out.length >= MAX_REFERENCES) break
+    if (!isRecord(item) || typeof item.title !== 'string' || typeof item.url !== 'string' || typeof item.publisher !== 'string') continue
+    const title = item.title.trim().slice(0, MAX_REFERENCE_TEXT)
+    const publisher = item.publisher.trim().slice(0, MAX_REFERENCE_TEXT)
+    const url = item.url.trim()
+    if (!title || !publisher || url.length > MAX_REFERENCE_URL) continue
+    let parsed: URL
+    try {
+      parsed = new URL(url)
+    } catch {
+      continue
+    }
+    if (parsed.protocol !== 'https:' || seen.has(url)) continue
+    seen.add(url)
+    out.push({ title, url, publisher })
+  }
+  return out
+}
+
 /** Parses a details payload; unknown keys are dropped and unsourced "known" fields become unknown. */
 export function parsePlaceDetails(raw: unknown, id: string): PlaceDetails | null {
   if (!isRecord(raw) || !Array.isArray(raw.fields)) return null
@@ -77,7 +107,13 @@ export function parsePlaceDetails(raw: unknown, id: string): PlaceDetails | null
     return f ? [f] : []
   })
   const sourceRecords = parseSourceRecords(raw.sourceRecords)
-  return sourceRecords.length ? { id, fields, sourceRecords } : { id, fields }
+  const references = parseReferences(raw.references)
+  return {
+    id,
+    fields,
+    ...(sourceRecords.length ? { sourceRecords } : {}),
+    ...(references.length ? { references } : {}),
+  }
 }
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {

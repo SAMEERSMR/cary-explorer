@@ -62,7 +62,7 @@ export function build(options?: { write?: boolean; outDir?: string; curatedPath?
   wakeGreenways: { kept: WakeGreenwayGroup[]; dropped: WakeGreenwayGroup[]; skipped: { cary: number; private: number; unnamed: number; notExisting: number }; imported: number }
   catalog: { sources: unknown[]; places: Record<string, unknown>[] }
   outputs: Record<string, string>
-  details: Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[]; sourceRecords?: SourceRecordRef[] }>
+  details: Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[]; sourceRecords?: SourceRecordRef[]; references?: { title: string; url: string; publisher: string }[] }>
   parks: ParkGroup[]
   kept: GreenwayGroup[]
   dropped: GreenwayGroup[]
@@ -94,7 +94,7 @@ export function buildDetails(
   aliasMap: Record<string, string[]>,
   dates: { wake?: string; entrances?: string; caryFeatures?: string; greenways?: string; wakeGreenways?: string; fire?: string },
   records?: Map<string, SourceRecordRef[]>,
-): Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[]; sourceRecords?: SourceRecordRef[] }>
+): Record<string, { id: string; fields: import('../lib/visit.mjs').VisitField[]; sourceRecords?: SourceRecordRef[]; references?: { title: string; url: string; publisher: string }[] }>
 export const WAKE_GREENWAY_SIMPLIFY_M: number
 export function lineLengthM(lines: Position[][]): number
 export function fireStationName(label: unknown): { name: string; stationNumber?: number } | undefined

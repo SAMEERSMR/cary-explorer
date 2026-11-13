@@ -51,6 +51,29 @@ export function cityBasins(cityIds, links, basinById) {
     .sort((a, b) => b.links - a.links || (a.basin < b.basin ? -1 : 1))
 }
 
+/**
+ * Learn-more links shown on the watershed cards that carry the Cary two-basin line (decision 28).
+ * Both Town of Cary pages were checked by hand in a real browser on 2026-11-13 (the town site blocks automated requests).
+ * Titles are our own; no page text is copied.
+ */
+export const CARY_BASIN_REFERENCES = Object.freeze([
+  Object.freeze({
+    title: "Cary's watersheds and river basins",
+    url: 'https://www.carync.gov/services-publications/water-sewer/stormwater-management/education',
+    publisher: 'Town of Cary',
+  }),
+  Object.freeze({
+    title: 'Stream buffer factsheet (PDF)',
+    url: 'https://www.carync.gov/home/showpublisheddocument/29665/638175019926530000',
+    publisher: 'Town of Cary',
+  }),
+])
+
+/** Ids of the watershed places that get the Cary two-basin line (and so the references); empty when there is no line. */
+export function caryLineWatershedIds(caryLine, basins) {
+  return caryLine ? [...new Set(basins.flatMap((b) => b.watersheds))].sort() : []
+}
+
 /** "Cary lies in two river basins, Neuse and Cape Fear." Only when the data shows exactly two basins; otherwise null. */
 export function cityBasinLine(city, basins) {
   if (basins.length !== 2) return null

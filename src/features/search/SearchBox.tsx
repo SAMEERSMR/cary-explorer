@@ -140,8 +140,7 @@ export function SearchBox() {
     setNear(null)
     setApplied(null)
     setAsksWatershed(false)
-    state.setDroppedPin(p)
-    state.requestCamera([p.lon, p.lat], COORDINATE_ZOOM)
+    state.showPoint(p, true, COORDINATE_ZOOM)
     setView('map')
   }
 

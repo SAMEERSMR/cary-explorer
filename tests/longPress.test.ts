@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { isOnPlace } from '../src/features/map/picking'
 import { LONG_PRESS_MS, LONG_PRESS_TOLERANCE_PX, createLongPress, exceedsTolerance } from '../src/features/map/longPress'
 import { useAppStore } from '../src/store/useAppStore'
 
@@ -77,5 +78,20 @@ describe('picked point shows like a typed coordinate', () => {
     expect(useAppStore.getState().cameraRequest).toMatchObject({ center: [-78.78, 35.79], zoom: 16 })
     useAppStore.getState().setDroppedPin(null)
     expect(useAppStore.getState().droppedPin).toBeNull()
+  })
+})
+
+describe('isOnPlace (what counts as a place under a picked spot)', () => {
+  const cat = (id: string) => ({ ws: 'water', creek: 'water', park: 'park' })[id as 'ws']
+  it('a watershed area alone is not a place', () => {
+    expect(isOnPlace([{ kind: 'area', placeId: 'ws' }], cat)).toBe(false)
+    expect(isOnPlace([], cat)).toBe(false)
+  })
+  it('a creek line or pin inside a watershed counts', () => {
+    expect(isOnPlace([{ kind: 'area', placeId: 'ws' }, { kind: 'line', placeId: 'creek' }], cat)).toBe(true)
+    expect(isOnPlace([{ kind: 'area', placeId: 'ws' }, { kind: 'pin' }], cat)).toBe(true)
+  })
+  it('a park outline counts', () => {
+    expect(isOnPlace([{ kind: 'area', placeId: 'ws' }, { kind: 'area', placeId: 'park' }], cat)).toBe(true)
   })
 })

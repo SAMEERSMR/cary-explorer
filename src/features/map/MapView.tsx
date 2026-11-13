@@ -35,7 +35,7 @@ import { LAYER_Z, AREA_LAYER_MIN_ZOOM, geometryStyleFor } from './geometryStyles
 import { useGeometryLayers } from './layers'
 import { isGeometryShown } from '../themes/layerSelection'
 import type { GeometryKind, GeometryStatus } from './layers'
-import { pickBest } from './picking'
+import { isOnPlace, pickBest } from './picking'
 import { createLongPress } from './longPress'
 import type { PickKind } from './picking'
 import { FRAME_MAX_ZOOM, planFrame, selectedGeometryFeatures, shouldFrame } from './framing'
@@ -163,6 +163,8 @@ export function MapView() {
   // Inputs seen by the last framing pass, to tell what changed.
   const prevFrameRef = useRef<{ sheetState: SheetState; panelCollapsed: boolean; isDesktop: boolean; index: unknown } | null>(null)
   const hoveredIdRef = useRef<string | null>(null)
+  // Category by place id, for map handlers created once (to tell watershed areas from places when picking a spot).
+  const categoryByIdRef = useRef(new Map<string, string>())
   // Latest framing inputs for map event handlers created once in the init effect.
   const framingRef = useRef({ isDesktop: true, sheetState: 'peek' as SheetState })
   // Last selection the view flew to, so the fly-to runs only when the selection changes.
@@ -180,6 +182,10 @@ export function MapView() {
   useEffect(() => {
     framingRef.current = { isDesktop, sheetState }
   }, [isDesktop, sheetState])
+
+  useEffect(() => {
+    categoryByIdRef.current = new Map(allPlaces.map((p) => [p.id, p.category]))
+  }, [allPlaces])
 
   useEffect(() => {
     const container = containerRef.current
@@ -405,7 +411,17 @@ export function MapView() {
     // Not on a pin, line or area (those select), and not on the map's own controls. The point is never sent anywhere.
     const onMapControl = (t: EventTarget | null) => t instanceof Element && t.closest('.ol-control') !== null
     const pickSpot = (pixel: number[]) => {
-      if (pickAt(pixel)) return false
+      const hits: { kind: PickKind; placeId?: string }[] = []
+      map.forEachFeatureAtPixel(
+        pixel,
+        (feature, layer) => {
+          const kind = layer ? kindOf.get(layer) : undefined
+          const placeId = feature.get('placeId') as unknown
+          if (kind) hits.push({ kind, placeId: typeof placeId === 'string' ? placeId : undefined })
+        },
+        pickOptions,
+      )
+      if (isOnPlace(hits, (id) => categoryByIdRef.current.get(id))) return false
       const coord = map.getCoordinateFromPixel(pixel)
       if (!coord) return false
       const [lon, lat] = toLonLat(coord)

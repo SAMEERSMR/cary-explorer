@@ -336,6 +336,12 @@ How the import works: `maps.wake.gov` still times out from this network, so the 
 [wake-soils]: https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/WebSoilSurvey/FeatureServer/0
 [wake-geo]: https://services2.arcgis.com/kCu40SDxsCGcuUWO/arcgis/rest/services/WakeCounty_GeologicMap/FeatureServer
 [nconemap-ortho]: https://services.nconemap.gov/secure/rest/services/Imagery/Orthoimagery_Latest_cached/ImageServer
+[wake-ems]: https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/EMSStations/FeatureServer/0
+[wake-police]: https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/PoliceDepartments/FeatureServer/0
+[wake-chs]: https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/County_Facilities_HS/FeatureServer/0
+[wake-muni]: https://services1.arcgis.com/a7CWfuGP5ZnLYE7I/arcgis/rest/services/EasternWakeMunicipalBuildings/FeatureServer/0
+[cary-facpts]: https://maps-apis.carync.gov/server/rest/services/Facilities/Facilities/FeatureServer/0
+[nc-hist]: https://services.nconemap.gov/secure/rest/services/Imagery/Orthoimagery_2010/ImageServer
 [ncnhp-managed]: https://ncnhde.natureserve.org/arcgis/rest/services/NC_Public/Managed_Areas/MapServer/0
 
 ## 10. USGS Watershed Boundary Dataset (#22)
@@ -387,18 +393,27 @@ Checked on 2026-11-16. This is research only and nothing was imported. Go means 
 | PAD-US public access | USGS | feature service | disclaimer only (unclear) | conservation | Licence request |
 | Wake SWCD conservation easements | Wake SWCD | web map only | none (unclear) | n/a | No-go: private land |
 | JC Raulston Arboretum; Triangle Land Conservancy preserves | NC State; TLC | n/a | no public dataset found | n/a | No source |
+| [Wake EMS stations][wake-ems] | Wake County GIS | 56 points (Cary 5 fixed stations, shared with fire) | CC BY 4.0 in item licenseInfo (open) | civic services | Go. Filter to fixed stations; drop "post" parking spots and offices |
+| [Wake police departments][wake-police] | Wake County GIS | 29 points (Cary 4: main plus 3 substations) | CC BY 4.0 in item licenseInfo (open) | civic services | Go. Covers police and the sheriff's main office only; Cary's own layer is richer but unlicensed |
+| [Cary facility site points][cary-facpts] | Town of Cary | 89 points: 5 community or senior centres, Town Hall A and B, Council Chambers, police Substation 3 | none stated; the item is not readable (unclear) | civic services | Licence request. Best source for Cary community centres and town hall |
+| [Wake human-services facilities][wake-chs] | Wake County | 34 points (Cary 2) | none stated (unclear) | civic services | No-go: county offices, not community centres. No Wake-wide community-centre layer found |
+| [Eastern Wake municipal buildings][wake-muni] | Wake County GIS | 13 points, towns outside Cary | licence text without a named licence (unclear) | civic services | No-go: not Cary |
+| [NC OneMap historical orthoimagery][nc-hist] (1993, 1995 to 2010, 2012 to 2015, 2016 to 2019) | NC OneMap | uncached image services, 0.5 m pixels; export-image works, no XYZ tiles | links to the same unreadable terms page (unclear) | history, optional layer | Licence request (add to the aerial ask). Usable as a dynamic layer; needs a tile proxy or cache to scale |
+| USGS historical aerial photos (EarthExplorer) | USGS EROS | single scanned frames, no tile service | federal; the policy page returned 403 (not verified) | history | No-go: frames need manual georeferencing |
+| Wake County historic imagery | Wake County | no keyless service found | n/a | history | No source |
 
 ### Best next imports (when scheduled)
 
 1. Wake open space, with the access filter.
 2. NWI wetlands plus Wake soils.
 3. Wake libraries.
+4. Wake EMS stations and police departments (CC BY 4.0, filtered to Cary).
 
 ### Licence requests to add
 
-- Town of Cary: GoCary GTFS, public trees, easements and river buffers.
+- Town of Cary: GoCary GTFS, public trees, easements and river buffers, facility site points.
 - GoTriangle: GTFS.
 - Wake County GIS: community gardens.
 - NC Geological Survey: geologic map.
-- NC OneMap: orthoimagery tiles.
+- NC OneMap: orthoimagery tiles and the historical image services.
 - NC Natural Heritage Program: managed areas.

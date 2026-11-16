@@ -376,6 +376,16 @@ Sources by field: Wake parks layer for `wake-park-*` places (flags, ADDRESS plus
 
 **Applies to:** `src/features/places/discover.ts`, `src/features/places/ConnectedPlaces.tsx`, `tests/discover.test.ts`, #46.
 
+## 36. Libraries (#125)
+
+**Context:** Wake County Public Libraries are places people visit, and the Wake County GIS Libraries layer (`wake-libraries`, item licence CC BY 4.0, confirmed 2026-11-16) lists each branch with its address and posted hours.
+
+**Decision:** Each of the 23 branches in the core or nearby area becomes a `library` place with id `wake-library-<CODE>` (for example `wake-library-cry`, Cary Regional Library), alias "<LABEL> library" ("Cary library"), town by Census point-in-polygon, and description "<TYPE> branch of Wake County Public Libraries." Any feature with a non-empty `STATUS` is skipped and counted in the build log (none today). The card shows the address and the hours as posted in the layer (Mon–Thu, Fri, Sat, Sun). Both are known fields with source `wake-libraries`, and the date shown is the layer's last edit date, not the retrieval date, the same rule as fire stations (decision 32). No relationships are built. In the app, `library` is a category under Art & community with a "Libraries" layer switch, on by default because there are only 23 pins. Searches for "library", "libraries" and "public library" turn it on.
+
+**Consequence:** Hours come from the layer and may lag the library's own site, so a person should check them against each branch's page before launch. A branch whose status is set disappears from the map until the layer clears it.
+
+**Applies to:** `pipeline/lib/libraries.mjs`, `pipeline/scripts/build-catalog.mjs`, `docs/sources.md`, `docs/source-matrix.md`, #125.
+
 ## Spike outcomes
 
 Each spike issue adds its outcome here when it closes.

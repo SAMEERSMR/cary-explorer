@@ -26,6 +26,7 @@ import { curatedRelationships, loadCurated } from '../lib/curated.mjs'
 import { buildCollections } from '../lib/collections.mjs'
 import { CREEK_MIN_M, creekCardDescription, creekDescription, creekPin, creekRelationships, groupCreeks, simplifyCreekLines } from '../lib/creeks.mjs'
 import { CARY_BASIN_REFERENCES, caryLineWatershedIds, cityBasinLine, cityBasins, intersectsScope, mapWatersheds, prepareWatershed, representativePoint, simplifyPolygons, watershedDescription, watershedRelationships } from '../lib/watersheds.mjs'
+import { groupLibraries } from '../lib/libraries.mjs'
 import { sourceRegistryFields } from '../lib/source-registry.mjs'
 import { registryEntry } from '../lib/health.mjs'
 import { formatRepairReport, newReport, repairFeatures } from '../lib/repair.mjs'
@@ -551,6 +552,8 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
   const wakeGreenMeta = readJson(join(SRC, 'wake', 'greenways', 'meta.json'))
   const fireData = readJson(join(SRC, 'wake', 'fire-stations', 'data.geojson'))
   const fireMeta = readJson(join(SRC, 'wake', 'fire-stations', 'meta.json'))
+  const libData = readJson(join(SRC, 'wake', 'libraries', 'data.geojson'))
+  const libMeta = readJson(join(SRC, 'wake', 'libraries', 'meta.json'))
   const entrancesData = readJson(join(SRC, 'wake', 'park-entrances', 'data.geojson'))
   const entrancesMeta = readJson(join(SRC, 'wake', 'park-entrances', 'meta.json'))
   const featuresMeta = readJson(join(cary('parks-and-recreation-feature-map'), 'meta.json'))
@@ -790,6 +793,33 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     visitCtx.set(place.id, { fire: { address: s.address } })
     addRecord(place.id, 'wake-fire-stations', s.stationId)
   }
+
+  // Wake County Public Libraries (#125): branches inside the core or nearby area become `library` places; a non-empty STATUS is skipped.
+  const libGroup = groupLibraries(libData.features)
+  const libraries = libGroup.libraries.filter((l) => classify(l.pt, scope) !== 'outside')
+  allIds = assignIds(allIds, libraries.map((l) => ({ key: `wake-libraries:${l.code.toLowerCase()}`, prefix: 'wake-library', name: l.code })))
+  for (const l of libraries) {
+    const pt = roundPos(l.pt, COORD_DECIMALS)
+    const county = countyOf(pt, counties) ?? 'Wake'
+    const place = {
+      id: allIds[`wake-libraries:${l.code.toLowerCase()}`],
+      name: l.name,
+      aliases: l.aliases,
+      category: 'library',
+      municipality: municipalityOf(pt, towns, county),
+      county,
+      coverage: classify(l.pt, scope),
+      centroid: pt,
+      description: l.description,
+      sourceIds: ['wake-libraries'],
+    }
+    if (l.address) place.address = l.address
+    places.push(place)
+    visitCtx.set(place.id, { library: { address: l.address, hours: l.hours } })
+    addRecord(place.id, 'wake-libraries', l.code)
+  }
+  const libraryStats = { published: libraries.length, skipped: libGroup.skipped, outside: libGroup.libraries.length - libraries.length }
+  console.log(`libraries: ${libraryStats.published} published, ${libraryStats.skipped} skipped (non-empty STATUS), ${libraryStats.outside} outside coverage`)
 
   // Wake County greenways outside Cary: named systems become trail places, lines go to the greenways layer.
   const wakeGw = groupWakeGreenways(wakeGreenData.features)
@@ -1031,6 +1061,17 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     })
   }
 
+  if (libraries.length) {
+    sources.push({
+      id: 'wake-libraries',
+      title: title('wake-libraries'),
+      name: 'Wake County GIS',
+      url: libMeta.url,
+      license: 'CC BY 4.0',
+      retrievedAt: libMeta.retrievedAt,
+    })
+  }
+
   if (regionalTrails.length) {
     sources.push({
       id: 'wake-greenways',
@@ -1072,6 +1113,7 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     greenways: verifiedDate(greenMeta),
     wakeGreenways: verifiedDate(wakeGreenMeta),
     fire: verifiedDate(fireMeta),
+    library: verifiedDate(libMeta),
   }, records)
   // The same watersheds that carry the Cary line get the Town of Cary learn-more links (detail files only).
   for (const id of caryLineIds) details[id].references = CARY_BASIN_REFERENCES.map((r) => ({ ...r }))
@@ -1099,7 +1141,7 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
   // Registry fields for the release manifest (decision 19): credit string, publisher modified date, coverage.
   const metaBySource = {
     'cary-parks': parksMeta, 'cary-greenways': greenMeta, 'cary-park-features': featuresMeta, 'wake-parks': wakeMeta,
-    'wake-park-entrances': entrancesMeta, 'wake-fire-stations': fireMeta, 'wake-greenways': wakeGreenMeta,
+    'wake-park-entrances': entrancesMeta, 'wake-fire-stations': fireMeta, 'wake-libraries': libMeta, 'wake-greenways': wakeGreenMeta,
     'usgs-wbd-huc12': wbdMeta, 'usgs-3dhp-streams': streamsMeta,
   }
   for (const s of sources) Object.assign(s, sourceRegistryFields(s.id, metaBySource[s.id]), { licenceStatus: registryLicenceStatus(registry, s.id) })
@@ -1161,6 +1203,7 @@ export function build({ write = true, outDir = OUT, curatedPath = CURATED } = {}
     skipped: { inCary: skippedInCary, outside: skippedOutside, duplicate: skippedDuplicate },
     dedupeSkips,
     trailDedupeSkips,
+    libraries: libraryStats,
     wakeGreenways: { kept: wakeGw.kept, dropped: wakeGw.dropped, skipped: wakeGw.skipped, imported: regionalTrails.length },
     jurisdictionMismatches,
     geometryRepair,

@@ -53,6 +53,10 @@ const CATEGORY_WORDS: Readonly<Record<string, CategoryId>> = {
   'fire stations': 'fire-station',
   firehouse: 'fire-station',
   firehouses: 'fire-station',
+  library: 'library',
+  libraries: 'library',
+  'public library': 'library',
+  'public libraries': 'library',
 }
 
 /** Words that may sit between "near this" and the place name ("near this park Bond Park"). */

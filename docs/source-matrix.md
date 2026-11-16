@@ -31,7 +31,7 @@ Short names used in cells: **Wake parks** = Parks in Wake County (292 points, `J
 | Zebulon | [Wake parks][wake-parks] (open). Trails `gap` (no Zebulon-owned segment in [Wake greenways][wake-gw]) | [NC HPO][hpo] (unclear). Town layer `gap` | Birds, region-wide | Wake water | [Wake parks][wake-parks] flags (open). Public art `gap` |
 | Wake Forest | [Wake Forest greenways, 2021][wf-gw] (unclear, stale) · [Wake parks][wake-parks] (open) · [Wake greenways][wake-gw] (open, imported). 2026 town greenways: not inspected (host unreachable, 403) | [Historic Wake Forest sites][wf-hist] (unclear) · [NC HPO][hpo] (unclear) | Birds, region-wide | Wake water | [Wake parks][wake-parks] flags (open). Public art is a web app only, no data layer (`gap`) |
 | Rolesville | [Rolesville trails][rv-trails] (unclear) · [Rolesville park parcels][rv-parcels] (unclear) · [Wake parks][wake-parks] (open) · [Wake greenways][wake-gw] (open, imported) | [NC HPO][hpo] (unclear). Town layer `gap` | Birds, region-wide | Wake water | [Wake parks][wake-parks] flags (open). Public art `gap` |
-| Unincorporated Wake | [Wake parks][wake-parks] (open; 14 with `JURISDICTION` Wake) · [Wake county parks][wake-county] (open) · [Wake entrances][wake-ent] (open) · [Wake greenways][wake-gw] (open, imported: Neuse River Trail, Falls Lake Trail and others). Wake open space: Hub export works and the item is CC BY 4.0, not imported (section 11) [^wakegw] | [NC HPO][hpo] (unclear). County layer `gap` | Birds, region-wide | Wake water (open) | [Wake parks][wake-parks] flags (open) · [Wake libraries][wake-lib] (open). Public art `gap` |
+| Unincorporated Wake | [Wake parks][wake-parks] (open; 14 with `JURISDICTION` Wake) · [Wake county parks][wake-county] (open) · [Wake entrances][wake-ent] (open) · [Wake greenways][wake-gw] (open, imported: Neuse River Trail, Falls Lake Trail and others). Wake open space: Hub export works and the item is CC BY 4.0, not imported (section 11) [^wakegw] | [NC HPO][hpo] (unclear). County layer `gap` | Birds, region-wide | Wake water (open) | [Wake parks][wake-parks] flags (open) · [Wake libraries][wake-lib] (open; imported #125). Public art `gap` |
 | Cary's Chatham part | [Cary greenways][cary-gw] (open; 65 segments mostly here) · [Cary park points][cary-pts] (open; 1 park) · [Cary park polygons][cary-poly] (unclear). Chatham parks layers excluded (section 4) | [NC HPO][hpo] (unclear, Chatham county filter) | Birds, region-wide (Chatham hotspots) | [Chatham hydro lines][chat-hydro] (unclear) · [Cary hydro][cary-hydro] Chatham creeks (unclear) · [USGS NHD][nhd] (open) | `gap` |
 | Cary's Durham part | [Cary greenways][cary-gw] (open; only 4 edge segments touch it). No park feature inside. [Durham Bike & Hike][dur-hb] (unclear): 0 sites inside | [NC HPO][hpo] (unclear, Durham county filter) | Birds, region-wide (Durham hotspots) | [USGS NHD][nhd] (open). Durham hydrology: not inspected (host unreachable) | `gap` |
 
@@ -96,7 +96,7 @@ Duplicate and stale layers that lost to a better one are listed in section 4.
 | wake-county | [County-owned parks][wake-county] | Wake County GIS | [REST][wake-county] | Point | 13 | 2026-09-01 | open (CC BY 4.0) | county-owned only |
 | wake-water | [Water bodies][wake-water] | Wake County GIS | [REST][wake-water] | Polygon | 15,103 | 2020-05-07 | open (CC BY 4.0) | point-in-polygon |
 | wake-blue | [USGS blue-line streams][wake-blue] | Wake County GIS | [REST][wake-blue] | Line | 14,864 | 2026-10-28 | open (CC BY 4.0) | point-in-polygon |
-| wake-lib | [Libraries][wake-lib] | Wake County GIS | [REST][wake-lib] | Point | 23 | 2025 | open (CC BY 4.0 in item licenseInfo, checked 2026-11-16) | point-in-polygon |
+| wake-lib | [Libraries][wake-lib] | Wake County GIS | [REST][wake-lib] | Point | 23 | 2025 | open (CC BY 4.0 in item licenseInfo, checked 2026-11-16) | point-in-polygon. **Imported (#125)** as `library` places (decision 36). Used: `CODE` (id), `LABEL` (name and alias), `TYPE` (description), `STATUS` (skipped when set), `FAC_ADDRESS` and `M_T`, `FRI`, `SAT`, `SUN` (visit info). Kept in the snapshot, not used for the town: `OBJECTID`, `NAME`, `CITY` |
 | wake-fire | [Fire stations][wake-fire] | Wake County GIS | [REST][wake-fire] | Point | 89 (Cary 9) | 2026-10-15 | open (CC BY 4.0 in item `licenseInfo`; copyright text "Wake County GIS") | point-in-polygon (Census places); `CITY` is only the mailing city |
 | hpo | [NC HPO surveyed resources, layer 14][hpo] | NC Dept of Natural and Cultural Resources, HPO | [REST][hpo] | Point | Wake 8,976 / Chatham 888 / Durham 4,020 | monthly (2026-11-03 zip) | unclear (NC.gov disclaimer, no open licence) | `County` field, then point-in-polygon |
 | ebird | [eBird hotspots][ebird] | Cornell Lab of Ornithology | [API][ebird] | Point | Wake 196 / Chatham 63 / Durham 94 | snapshot 2026-11-07 | restricted (non-commercial API terms, key required; see [ebird.md](ebird.md)) | point-in-polygon |
@@ -372,7 +372,7 @@ Checked on 2026-11-16. This is research only and nothing was imported. Go means 
 
 | Candidate | Publisher | Type, size | Licence (status) | Fits | Verdict |
 |-----------|-----------|------------|------------------|------|---------|
-| Wake libraries | Wake County GIS | 23 points | CC BY 4.0 in item licenseInfo (open) | civic services | Go. Registry entry exists (`wake-libraries`, disabled); licence now confirmed |
+| Wake libraries | Wake County GIS | 23 points | CC BY 4.0 in item licenseInfo (open) | civic services | Imported (#125) |
 | [Wake community gardens][wake-gardens] (Jan 2021) | Wake County GIS | 53 points (Cary 9) | none stated (unclear) | nature, food | Licence request. Data is dated 2021 |
 | [GoCary GTFS][gocary-gtfs] | Town of Cary | about 303 stops, 0.5 MB zip | GoTriangle developer page says CC BY 3.0 unless noted, with click-through terms; no licence file in the feed (unclear) | getting around | Licence request (one email to confirm the feed is covered) |
 | [GoTriangle GTFS][gotriangle-gtfs] | GoTriangle | about 496 stops, 1.2 MB | same (unclear) | getting around | Licence request, same ask |
@@ -406,8 +406,7 @@ Checked on 2026-11-16. This is research only and nothing was imported. Go means 
 
 1. Wake open space, with the access filter.
 2. NWI wetlands plus Wake soils.
-3. Wake libraries.
-4. Wake EMS stations and police departments (CC BY 4.0, filtered to Cary).
+3. Wake EMS stations and police departments (CC BY 4.0, filtered to Cary).
 
 ### Licence requests to add
 

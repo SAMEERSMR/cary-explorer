@@ -63,6 +63,7 @@ export const SRC_CARY_FEATURES = 'cary-park-features'
 export const SRC_CARY_GREENWAYS = 'cary-greenways'
 export const SRC_WAKE_GREENWAYS = 'wake-greenways'
 export const SRC_WAKE_FIRE = 'wake-fire-stations'
+export const SRC_WAKE_LIBRARIES = 'wake-libraries'
 
 const PAVED = new Set(['asphalt', 'concrete'])
 
@@ -204,6 +205,7 @@ export function describeWakeAccessibility(segments) {
  * Build the 14 visit fields for one place.
  * ctx: {
  *   wake?: Wake parks properties (wake-park-* places),
+ *   library?: { address, hours } for wake-library-* places,
  *   fire?: { address } for wake-fire-* places (the only visit field a fire station has),
  *   caryPoints?: Cary park feature-map properties inside the park (cary-park-* places),
  *   entrances?: joined Wake park-entrance properties,
@@ -212,7 +214,7 @@ export function describeWakeAccessibility(segments) {
  * }
  */
 export function buildVisitFields(ctx = {}) {
-  const { wake, fire, caryPoints = [], entrances = [], segments = [], wakeSegments, dates = {} } = ctx
+  const { wake, fire, library, caryPoints = [], entrances = [], segments = [], wakeSegments, dates = {} } = ctx
   const label = Object.fromEntries(VISIT_FIELDS)
   const out = {}
   const set = (key, value, sourceId, date) => {
@@ -221,6 +223,7 @@ export function buildVisitFields(ctx = {}) {
 
   // address
   if (fire) set('address', text(fire.address), SRC_WAKE_FIRE, dates.fire)
+  else if (library) set('address', text(library.address), SRC_WAKE_LIBRARIES, dates.library)
   else if (wake) set('address', wakeAddress(wake), SRC_WAKE_PARKS, dates.wake)
   else set('address', consensus(entrances.map((e) => wakeAddress(e))), SRC_WAKE_ENTRANCES, dates.entrances)
 
@@ -263,6 +266,7 @@ export function buildVisitFields(ctx = {}) {
 
   // no source for these yet
   for (const key of ['stepsSlope', 'hours', 'water']) set(key, undefined)
+  if (library) set('hours', text(library.hours), SRC_WAKE_LIBRARIES, dates.library)
 
   return VISIT_KEYS.map((k) => out[k])
 }

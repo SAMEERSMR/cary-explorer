@@ -1,15 +1,15 @@
 {
- "version": "14d82db56697ba68",
- "generatedFrom": "2026-11-10T06:13:04.767Z",
+ "version": "a98ba33d8b5786ff",
+ "generatedFrom": "2026-11-16T17:22:58.207Z",
  "artifacts": {
-  "catalog": "catalog.281e560c7aeb.json",
+  "catalog": "catalog.a4e075a67556.json",
   "relationships": "relationships.dda84234074c.json",
   "layers": {
    "greenways": "layers/greenways.6bbe11db4e90.geojson",
    "parks": "layers/parks.d1eed74e5cda.geojson",
    "water": "layers/water.acb6378cc0b1.geojson"
   },
-  "places": "places/d6a647134461/",
+  "places": "places/d551c9e5ec66/",
   "collections": "collections.29bdbc829600.json"
  },
  "sources": [
@@ -112,6 +112,21 @@
    "sourceModified": "2026-02-18T20:29:07.000Z",
    "coverage": "Wake County",
    "lastSuccess": "2026-11-07T21:09:55.268Z",
+   "ok": true,
+   "cadence": "monthly",
+   "cadenceDays": 31
+  },
+  {
+   "id": "wake-libraries",
+   "title": "Wake libraries",
+   "attribution": "Wake County GIS (CC BY 4.0)",
+   "recordCount": 23,
+   "retrievedAt": "2026-11-16T17:22:58.207Z",
+   "licence": "CC BY 4.0",
+   "licenceStatus": "open",
+   "sourceModified": "2025-03-03T14:23:21.972Z",
+   "coverage": "Wake County",
+   "lastSuccess": "2026-11-16T17:22:58.207Z",
    "ok": true,
    "cadence": "monthly",
    "cadenceDays": 31

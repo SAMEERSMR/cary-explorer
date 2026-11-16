@@ -76,6 +76,10 @@ Every feature in `layers/greenways.<h>.geojson` has `{ placeId, status, outsideC
 
 `wake/greenways` (Wake County, CC BY 4.0) feeds trail places outside Cary. `build-catalog.mjs` leaves out Cary-owned and private segments, groups the rest by `TRAIL_NAME` (else `CORRIDOR_NAME`), keeps groups of at least 0.5 mi that are not connectors, street-side paths or street names, and skips a trail whose name matches an existing place with a vertex within 1 km of it (logged as `dedupe skip: Wake greenway ...`). Kept trails become `wake-greenway-<slug>` places (category `trail`, town by Census place point-in-polygon) and `existing` features in the greenways layer, simplified to 5 m (`WAKE_GREENWAY_SIMPLIFY_M`) to stay inside the layer budget. Park entrances are not turned into places.
 
+## Wake libraries
+
+`wake/libraries` (Wake County GIS, CC BY 4.0) feeds one `library` place per branch in the core or nearby area (id `wake-library-<CODE>`, decision 36). Any feature with a non-empty `STATUS` is skipped and counted in the build log. The card shows address and posted hours only; no relationships are built.
+
 ## Size budgets
 
 `pipeline/budgets.json` holds gzipped byte limits (manifest, catalog, relationships, each layer, each place file, initial data, largest JS bundle). `npm run check:budgets` prints a table and fails when anything is over; CI runs it after the build. See `docs/performance.md`.

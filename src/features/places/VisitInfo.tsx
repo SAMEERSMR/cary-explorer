@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import type { Place, Source } from '../../types/place'
 import type { VisitFieldKey } from '../../types/data-model'
 import { ACTION_BUTTON, TEXT_LINK } from '../../lib/styles'
-import { formatVerifiedDate, showsParkVisitFields, splitFields, usePlaceDetails } from './placeDetails'
+import { formatVerifiedDate, selectCardFields, showsParkVisitFields, usePlaceDetails } from './placeDetails'
 
 const ICON_PROPS = {
   'aria-hidden': true,
@@ -48,7 +48,7 @@ interface VisitInfoProps {
 
 export function VisitInfo({ place, sources }: VisitInfoProps) {
   const { status, details, retry } = usePlaceDetails(place.id)
-  const split = details ? splitFields(details.fields) : null
+  const split = details ? selectCardFields(place.category, details.fields) : null
   const hasKnownAddress = split?.known.some((f) => f.key === 'address') ?? false
   const headingId = `place-${place.id}-visit`
 
@@ -103,7 +103,7 @@ export function VisitInfo({ place, sources }: VisitInfoProps) {
           <p className="text-[14px] text-ink-muted">Visit details aren&apos;t available for this place.</p>
         )}
 
-        {/* Park visit fields (parking, restrooms, wheelchair...) do not apply to a fire station, watershed or creek: only a known address shows. */}
+        {/* Park visit fields (parking, restrooms, wheelchair...) do not apply to a fire station, watershed, creek or library: only the category's own known fields show. */}
         {split && showsParkVisitFields(place.category) && (
           <div className="space-y-1 text-[13px] text-ink-muted">
             {split.known.length === 0 && <p className="text-[14px] text-ink">No visit details verified yet.</p>}

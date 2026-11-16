@@ -235,7 +235,30 @@ export function usePlaceDetails(id: string | null): PlaceDetailsResult {
     : { status: 'loading', details: null, retry: noop }
 }
 
-/** Categories the park visit fields (parking, restrooms, wheelchair...) do not apply to: their cards show no "not verified" block. */
-const NO_PARK_VISIT_FIELDS: ReadonlySet<CategoryId> = new Set(['fire-station', 'water'])
+/**
+ * Which visit fields a category's card shows. `keys: 'all'` shows every known field; a list shows only those keys.
+ * `notVerified` adds the "Not verified" list and the wheelchair line, which only make sense for park-like places.
+ */
+interface CardFieldRule {
+  keys: 'all' | readonly VisitFieldKey[]
+  notVerified: boolean
+}
 
-export const showsParkVisitFields = (category: CategoryId): boolean => !NO_PARK_VISIT_FIELDS.has(category)
+const PARK_RULE: CardFieldRule = { keys: 'all', notVerified: true }
+const CARD_FIELD_RULES: Partial<Record<CategoryId, CardFieldRule>> = {
+  'fire-station': { keys: 'all', notVerified: false },
+  water: { keys: 'all', notVerified: false },
+  library: { keys: ['address', 'hours'], notVerified: false },
+}
+
+const ruleFor = (category: CategoryId): CardFieldRule => CARD_FIELD_RULES[category] ?? PARK_RULE
+
+export const showsParkVisitFields = (category: CategoryId): boolean => ruleFor(category).notVerified
+
+/** The visit fields a card shows for a category: known ones limited to the category's keys, plus the not-verified lists when they apply. */
+export function selectCardFields(category: CategoryId, fields: VisitField[]): SplitFields {
+  const rule = ruleFor(category)
+  const shown = rule.keys === 'all' ? fields : fields.filter((f) => (rule.keys as readonly VisitFieldKey[]).includes(f.key))
+  const split = splitFields(shown)
+  return rule.notVerified ? split : { known: split.known, unknown: [], wheelchairUnknown: false }
+}

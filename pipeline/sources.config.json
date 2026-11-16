@@ -342,9 +342,9 @@
     "licenceStatus": "open",
     "attribution": "Wake County GIS (CC BY 4.0)",
     "cadence": "monthly",
-    "fields": [],
+    "fields": ["OBJECTID","CODE","NAME","LABEL","FAC_ADDRESS","CITY","TYPE","STATUS","M_T","FRI","SAT","SUN"],
     "dir": "wake/libraries",
-    "enabled": false
+    "enabled": true
   },
   {
     "id": "wake-fire-stations",

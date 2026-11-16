@@ -13,6 +13,7 @@ export const COVERAGE = {
   'wake-parks': 'Wake County',
   'wake-park-entrances': 'Wake County',
   'wake-fire-stations': 'Wake County',
+  'wake-libraries': 'Wake County',
   'wake-greenways': 'Wake County',
   'usgs-wbd-huc12': COUNTIES,
   'usgs-3dhp-streams': COUNTIES,

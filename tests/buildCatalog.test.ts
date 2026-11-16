@@ -182,7 +182,10 @@ describe('generated catalog', () => {
   })
 
   it('gives every place a coverage and drops outside ones', () => {
-    for (const p of catalog.places) expect(['core', 'nearby']).toContain(p.coverage)
+    expect(catalog.places.length).toBeGreaterThan(0)
+    for (const p of catalog.places) expect(['core', 'nearby'], p.id).toContain(p.coverage)
+    expect(catalog.places.some((p: Place) => p.coverage === 'core')).toBe(true)
+    expect(catalog.places.some((p: Place) => p.coverage === 'nearby')).toBe(true)
   })
 
   it('writes relationships that point at catalog places', () => {

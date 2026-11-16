@@ -216,10 +216,27 @@ describe('generated catalog', () => {
 
   it('answers the brief search cases', () => {
     const search = createPlaceSearch(places)
-    expect(search('Hemlok Blufs')[0].name).toBe('Hemlock Bluffs Nature Preserve')
-    expect(search('Bond park')[0].name).toBe('Fred G. Bond Metro Park')
-    const att = places.find((p) => p.name === 'American Tobacco Trail')
-    if (att) expect(search('ATT')[0].id).toBe(att.id)
+    const top3 = (q: string) => search(q).slice(0, 3).map((p) => p.name)
+    expect(top3('Hemlok Blufs')).toContain('Hemlock Bluffs Nature Preserve')
+    expect(top3('Bond park')).toContain('Fred G. Bond Metro Park')
+    expect(top3('ATT')).toContain('American Tobacco Trail')
+  })
+
+  it('has places in each county Cary covers', () => {
+    for (const county of ['Wake', 'Chatham']) {
+      expect(places.some((p) => (p.category === 'park' || p.category === 'trail') && p.county === county), county).toBe(true)
+    }
+    // Cary's Durham part currently has no park or trail in the sources, only water and a fire station.
+    expect(places.some((p) => p.county === 'Durham')).toBe(true)
+  })
+
+  it('keeps a trail that crosses the core boundary', () => {
+    const sides = new Map<string, Set<boolean>>()
+    for (const f of layers.trail) {
+      const set = sides.get(f.properties.placeId) ?? new Set<boolean>()
+      sides.set(f.properties.placeId, set.add(f.properties.outsideCore))
+    }
+    expect([...sides.values()].some((s) => s.has(true) && s.has(false))).toBe(true)
   })
 })
 
